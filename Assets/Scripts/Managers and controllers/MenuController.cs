@@ -31,7 +31,7 @@ public struct MenuStackItem
 public class MenuController : MonoBehaviour
 {
 	private static MenuController m_Instance;
-	private MenuState m_State;
+	public MenuState m_State;
 
 	// States for the game
 

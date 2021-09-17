@@ -47,6 +47,13 @@ public class SoundManager : MonoBehaviour
 	private SliderInput m_Music;
 	private SliderInput m_SFX;
 
+	public Slider m_S1 = null;
+	public float m_S1Value;
+	public GameObject m_In1 = null;
+	public InputField m_InText;
+	public string text;
+	public int m_InInt;
+
 	// Singleton instance
 	public static SoundManager Instance
 	{
@@ -61,6 +68,8 @@ public class SoundManager : MonoBehaviour
 			Destroy(this.gameObject);
 		else
 			m_Instance = this;
+
+			m_InText = m_In1.GetComponent<InputField>();
 	}
 
 	// On start 
@@ -69,6 +78,17 @@ public class SoundManager : MonoBehaviour
 		m_Main = new SliderInput(m_MainVolumeSlider, m_MainVolumeInput);
 		m_Music = new SliderInput(m_MusicVolumeSlider, m_MusicVolumeInput);
 		m_SFX = new SliderInput(m_SFXVolumeSlider, m_SFXVolumeInput);
+	}
+
+	// Updates every frame
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			m_S1Value = m_S1.value;
+			text = m_InText.text;
+			m_InInt = int.Parse(m_InText.text);
+		}
 	}
 
 	// Sets the main volume

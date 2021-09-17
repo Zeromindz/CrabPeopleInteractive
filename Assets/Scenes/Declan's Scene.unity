@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 304344139}
   - component: {fileID: 304344138}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MainVolumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1082,6 +1082,12 @@ MonoBehaviour:
   m_MainVolumeInput: {fileID: 1481500155}
   m_MusicVolumeInput: {fileID: 1853981554}
   m_SFXVolumeInput: {fileID: 1559597421}
+  m_S1: {fileID: 1740315186}
+  m_S1Value: 0
+  m_In1: {fileID: 1481500155}
+  m_InText: {fileID: 0}
+  text: 
+  m_InInt: 0
 --- !u!114 &423062852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,6 +1100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd040296820caf14588a516bcac8ae69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_State: 0
   m_MenuUI: {fileID: 1026182326}
   m_GameUI: {fileID: 1491841898}
   m_GamePausedUI: {fileID: 1889997463}
@@ -1967,7 +1974,7 @@ GameObject:
   - component: {fileID: 645458500}
   - component: {fileID: 645458499}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SFXVolumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3177,7 +3184,7 @@ GameObject:
   - component: {fileID: 949210452}
   - component: {fileID: 949210451}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MusicVolumeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5269,14 +5276,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
