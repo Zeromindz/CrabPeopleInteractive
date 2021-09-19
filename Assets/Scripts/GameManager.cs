@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_Canvas;
     [SerializeField] private TextMeshProUGUI m_TimerUI;
     [SerializeField] private TextMeshProUGUI m_SpeedUI;
+    [SerializeField] private TextMeshProUGUI m_PassengerUI;
     private BoatController m_Boat;
 
     public float m_TimeLimit = 50.0f;
@@ -47,5 +48,8 @@ public class GameManager : MonoBehaviour
 
         string speedText = "Speed: " + m_Boat.GetSpeed();
         m_SpeedUI.text = speedText;
+
+        string passengerText = "Passengers: " + m_Boat.GetPassengers();
+        m_PassengerUI.text = passengerText;
     }
 }

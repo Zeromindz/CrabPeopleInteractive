@@ -158,6 +158,7 @@ public class WaveManager : MonoBehaviour
     //
     //
     //}
+
     public float GetWaveHeight(Vector3 _position)
     {
         // Scale factor and positition in local space
