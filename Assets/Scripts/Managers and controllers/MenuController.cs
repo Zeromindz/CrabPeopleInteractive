@@ -43,15 +43,22 @@ public class MenuController : MonoBehaviour
 	public GameObject m_MenuUI = null;
 	public GameObject m_GameUI = null;
 	public GameObject m_GamePausedUI = null;
-	public GameObject m_SettingsUI = null;
 	public GameObject m_EndScreenUI = null;
 	private GameObject m_CurrentUI = null;
 	Stack<MenuStackItem> m_UIStack = new Stack<MenuStackItem>();
-
 	public bool IsGamePaused
 	{
 		get { return m_State == MenuState.GAMEPAUSED; }
 	}
+
+	[Header("Settings UI")]
+	// -----Public----- 
+	public GameObject m_SettingsUI = null;
+
+	// -----Private-----
+	private bool m_FullScreen = true;
+	Vector2 m_ScreenSize;
+
 
 	// Called when script is being loaded
 	void Awake()
@@ -67,9 +74,10 @@ public class MenuController : MonoBehaviour
 		//m_State = MenuState.MAINMENU;
 	}
 
+	// Runs everyframe
 	private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Escape) && m_State == MenuState.GAME)
+		if (Input.GetKeyDown(KeyCode.Escape) && m_State == MenuState.GAME)
 		{
 			PauseGame();
 		}
@@ -80,13 +88,13 @@ public class MenuController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-		
+
 		}
 	}
 
 	public void ReturnToPreviousUI()
 	{
-		if(m_UIStack.Count >= 2)
+		if (m_UIStack.Count >= 2)
 		{
 			m_UIStack.Pop();
 			MenuStackItem menu = m_UIStack.Peek();
@@ -101,7 +109,6 @@ public class MenuController : MonoBehaviour
 			UpdateState();
 		}
 	}
-
 
 	// Pauses the game
 	public void PauseGame()
@@ -168,7 +175,7 @@ public class MenuController : MonoBehaviour
 	{
 		m_CurrentUI.SetActive(false);
 
-		if(m_State == MenuState.MAINMENU)
+		if (m_State == MenuState.MAINMENU)
 		{
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
@@ -201,11 +208,32 @@ public class MenuController : MonoBehaviour
 
 	// Cause Jayden wanted to be apart
 	public void JaydenWasHere()
-	{}
+	{ }
 
 	// Toggles pause
 	public void TogglePause()
 	{
 		SetState(IsGamePaused ? MenuState.GAMEPAUSED : MenuState.GAME);
+	}
+
+	// -----SettingsUI-----
+	public void ToggleFullScreen()
+	{
+		if(m_FullScreen)
+		{
+			m_FullScreen = false;
+		}
+
+		else
+		{
+			m_FullScreen = true;
+		}
+
+		SetScreenSize();
+	}
+
+	private void SetScreenSize()
+	{
+		Screen.SetResolution((int)m_ScreenSize.x, (int)m_ScreenSize.y, m_FullScreen);
 	}
 }
