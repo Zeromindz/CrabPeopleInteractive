@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 // Worked on by:
 //	Declan Doller
@@ -54,9 +56,13 @@ public class MenuController : MonoBehaviour
 	[Header("Settings UI")]
 	// -----Public----- 
 	public GameObject m_SettingsUI = null;
+	public GameObject m_ResultionDropDown = null;
 
+	[Header("Screen Resolutions")]
+	public bool m_FullScreen = true;
+	public List<Vector2> m_ScreenSizes = new List<Vector2>();
+	public int m_DropDownValue;
 	// -----Private-----
-	private bool m_FullScreen = true;
 	Vector2 m_ScreenSize;
 
 
@@ -74,6 +80,20 @@ public class MenuController : MonoBehaviour
 		//m_State = MenuState.MAINMENU;
 	}
 
+	private void Start()
+	{
+		TMP_Dropdown drop = m_ResultionDropDown.GetComponent<TMP_Dropdown>();
+
+		List<string> options = new List<string>();
+
+		for (int i = 0; i < m_ScreenSizes.Count; i++)
+		{
+			options.Add("" + m_ScreenSizes[i].x + " X " + m_ScreenSizes[i].y);
+		}
+
+		drop.AddOptions(options);
+	}
+
 	// Runs everyframe
 	private void Update()
 	{
@@ -85,10 +105,6 @@ public class MenuController : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			ReturnToPreviousUI();
-		}
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-
 		}
 	}
 
@@ -207,8 +223,7 @@ public class MenuController : MonoBehaviour
 	}
 
 	// Cause Jayden wanted to be apart
-	public void JaydenWasHere()
-	{ }
+	public void JaydenWasHere(){ }
 
 	// Toggles pause
 	public void TogglePause()
@@ -217,6 +232,8 @@ public class MenuController : MonoBehaviour
 	}
 
 	// -----SettingsUI-----
+
+	// Toggles fullscreen
 	public void ToggleFullScreen()
 	{
 		if(m_FullScreen)
@@ -228,12 +245,19 @@ public class MenuController : MonoBehaviour
 		{
 			m_FullScreen = true;
 		}
-
-		SetScreenSize();
 	}
 
-	private void SetScreenSize()
+	// Sets the index of the dropdown
+	public void SetDropDownValue(int value)
 	{
-		Screen.SetResolution((int)m_ScreenSize.x, (int)m_ScreenSize.y, m_FullScreen);
+		m_DropDownValue = value;
+	}
+
+	// Sets the screen resolution
+	public void SetScreenSize()
+	{
+		Vector2 size = m_ScreenSizes[m_DropDownValue];
+		Debug.Log("Screen set: " + size.x + " X " + size.y + "  Fullscreen: " + m_FullScreen);
+		Screen.SetResolution((int)size.x, (int)size.y, m_FullScreen);
 	}
 }
