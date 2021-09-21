@@ -56,6 +56,11 @@ public class MenuController : MonoBehaviour
 	[Header("Settings UI")]
 	// -----Public----- 
 	public GameObject m_SettingsUI = null;
+
+	public GameObject m_GeneralSettings = null;		// The Canvas holding the volume and resolution settings
+	public GameObject m_KeybindSettings = null;		// The Canvas holding the keybind settings
+
+	[Header("General Settings")]
 	public GameObject m_ResultionDropDown = null;
 
 	[Header("Screen Resolutions")]
@@ -94,7 +99,7 @@ public class MenuController : MonoBehaviour
 		drop.AddOptions(options);
 	}
 
-	// Runs everyframe
+	// Runs every frame
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape) && m_State == MenuState.GAME)
@@ -108,6 +113,7 @@ public class MenuController : MonoBehaviour
 		}
 	}
 
+	// Returns the the previous UI
 	public void ReturnToPreviousUI()
 	{
 		if (m_UIStack.Count >= 2)
@@ -231,6 +237,9 @@ public class MenuController : MonoBehaviour
 		SetState(IsGamePaused ? MenuState.GAMEPAUSED : MenuState.GAME);
 	}
 
+
+
+
 	// -----SettingsUI-----
 
 	// Toggles fullscreen
@@ -259,5 +268,19 @@ public class MenuController : MonoBehaviour
 		Vector2 size = m_ScreenSizes[m_DropDownValue];
 		Debug.Log("Screen set: " + size.x + " X " + size.y + "  Fullscreen: " + m_FullScreen);
 		Screen.SetResolution((int)size.x, (int)size.y, m_FullScreen);
+	}
+
+	// Toggles the general settings UI
+	public void SetGeneralUI()
+	{
+		m_GeneralSettings.SetActive(true);
+		m_KeybindSettings.SetActive(false);
+	}
+
+	// Toggles the Keybind settings UI
+	public void SetKeyBindUI()
+	{
+		m_KeybindSettings.SetActive(true);
+		m_GeneralSettings.SetActive(false);
 	}
 }
