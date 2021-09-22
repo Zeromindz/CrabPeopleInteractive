@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 // Worked on by:
 //	Declan Doller
@@ -58,15 +59,19 @@ public class MenuController : MonoBehaviour
 	public GameObject m_SettingsUI = null;
 
 	public GameObject m_GeneralSettings = null;		// The Canvas holding the volume and resolution settings
-	public GameObject m_KeybindSettings = null;		// The Canvas holding the keybind settings
+	public GameObject m_KeybindSettings = null;     // The Canvas holding the keybind settings
 
 	[Header("General Settings")]
 	public GameObject m_ResultionDropDown = null;
+	public GameObject m_GeneralButton = null;
 
 	[Header("Screen Resolutions")]
 	public bool m_FullScreen = true;
 	public List<Vector2> m_ScreenSizes = new List<Vector2>();
 	public int m_DropDownValue;
+
+	[Header("Keybind Settings")]
+	public GameObject m_KeybindButton = null;
 	// -----Private-----
 	Vector2 m_ScreenSize;
 
@@ -176,6 +181,7 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.SETTINGS;
 		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
+		SetGeneralUI();
 	}
 
 	// Exits the application
@@ -273,6 +279,7 @@ public class MenuController : MonoBehaviour
 	// Toggles the general settings UI
 	public void SetGeneralUI()
 	{
+		EventSystem.current.SetSelectedGameObject(m_GeneralButton);
 		m_GeneralSettings.SetActive(true);
 		m_KeybindSettings.SetActive(false);
 	}
@@ -280,6 +287,7 @@ public class MenuController : MonoBehaviour
 	// Toggles the Keybind settings UI
 	public void SetKeyBindUI()
 	{
+		EventSystem.current.SetSelectedGameObject(m_KeybindButton);
 		m_KeybindSettings.SetActive(true);
 		m_GeneralSettings.SetActive(false);
 	}
