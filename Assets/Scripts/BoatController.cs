@@ -5,10 +5,12 @@
 public class BoatController : MonoBehaviour
 {
     private Rigidbody m_RigidBody; // Rigidbody attached to the boat
+    [SerializeField] private int m_LayerMask;
     [SerializeField] private Camera m_Cam;
     [SerializeField] private float m_FovMin = 60.0f;
     [SerializeField] private float m_FovMax = 75.0f;
     [SerializeField] private float m_FovSmoothTime = 0.5f;
+
     [Header("Player")]
     private int m_Passengers = 0;
 
@@ -29,8 +31,6 @@ public class BoatController : MonoBehaviour
     public float GetSpeed() { return m_CurrentSpeed; }
     public float GetPassengers() { return m_Passengers; }
 
-    //[SerializeField] private LayerMask m_LayerMask;
-
     // Other movement
     private float m_Throttle;
     private float m_SteerFactor;
@@ -46,6 +46,9 @@ public class BoatController : MonoBehaviour
     private void Start()
     {
         m_RigidBody = GetComponent<Rigidbody>();
+
+        m_LayerMask = 1 << LayerMask.NameToLayer("Characters");
+        m_LayerMask = ~m_LayerMask;
         
     }
 
@@ -77,21 +80,22 @@ public class BoatController : MonoBehaviour
     // Controls the acceleration of the boat
     public void Accelerate(float _input)
     {
-        Vector3 forward = m_RigidBody.transform.forward;
-        forward.y = 0.0f;
-        forward.Normalize();
+        //Vector3 forward = m_RigidBody.transform.forward;
+        //forward.y = 0.0f;
+        //forward.Normalize();
 
         // Only add the force if the engine is submerged
         if (m_InWater)
         {
-            m_RigidBody.AddForce(m_HorsePower * _input * forward, ForceMode.Acceleration); // Add force forward based on input and horsepower
+            m_RigidBody.AddForce(m_HorsePower * _input * transform.forward, ForceMode.Acceleration); // Add force forward based on input and horsepower
         }
 
     }
 
     public void Turn(float _input)
     {
-        m_RigidBody.AddRelativeTorque(new Vector3(0f, m_SteeringTorque, 0) * _input, ForceMode.Acceleration);
+        //m_RigidBody.AddRelativeTorque(new Vector3(0f, m_SteeringTorque, 0) * _input, ForceMode.Acceleration);
+        m_RigidBody.AddRelativeTorque(Vector3.up * m_SteeringTorque * _input, ForceMode.Acceleration);
     }
 
     private void CalculateSpeed()
@@ -101,7 +105,7 @@ public class BoatController : MonoBehaviour
         //Save the position for the next update
         m_LastPosition = transform.position;
 
-        Debug.Log("Current speed: " + (int)m_CurrentSpeed);
+        Debug.Log("Current speed: " + m_CurrentSpeed);
     }
 
     private bool EngineSubmerged()
