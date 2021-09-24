@@ -29,7 +29,7 @@ public static class SaveKeybind
 	public static void SaveKeybinds(KeyCode forwardKey, KeyCode turnLeftKey, KeyCode turnRightKey, KeyCode backwardOrStopKey)
 	{
 		BinaryFormatter formatter = new BinaryFormatter();
-		string path = Application.persistentDataPath + "/DefaultKeyBinds.dat";
+		string path = Application.persistentDataPath + "/CustomKeybinds.dat";
 		FileStream stream = new FileStream(path, FileMode.Create);
 		KeybindData data = new KeybindData(forwardKey, turnLeftKey, turnRightKey, backwardOrStopKey);
 
@@ -81,6 +81,7 @@ public class KeybindManager : MonoBehaviour
 {
 
 	[Header("Default keybinds")]
+
 	public KeyCode Forward;
 	public KeyCode TurnLeft;
 	public KeyCode TurnRight;
@@ -89,6 +90,9 @@ public class KeybindManager : MonoBehaviour
 	[Header("Labels")]
 	public GameObject[] m_Actions = new GameObject[4];
 	public GameObject[] m_Keybind = new GameObject[4];
+
+	private bool m_LookingForKey = false;
+	private int m_KeybindIndex;
 
 	private static KeybindManager m_Instance;
 	public static KeybindManager Instance
@@ -126,7 +130,20 @@ public class KeybindManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+		if (m_LookingForKey)
+		{
+			foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
+			{
+				if (Input.GetKey(vkey))
+				{
+					if (vkey != KeyCode.Return && vkey != KeyCode.Backspace && vkey != KeyCode.Escape)
+					{
+						m_LookingForKey = false;
+						Changingkeybind(vkey);
+					}
+				}
+			}
+		}
     }
 
     /// <summary>
@@ -152,14 +169,66 @@ public class KeybindManager : MonoBehaviour
 		m_Actions[2].GetComponent<TextMeshProUGUI>().text = "Turn Right";
 		m_Actions[3].GetComponent<TextMeshProUGUI>().text = "Backwards / Stop";
 
-		m_Keybind[0].GetComponent<TMP_InputField>().text = "" + data.forward;
-		m_Keybind[1].GetComponent<TMP_InputField>().text = "" + data.turnLeft;
-		m_Keybind[2].GetComponent<TMP_InputField>().text = "" + data.turnRight;
-		m_Keybind[3].GetComponent<TMP_InputField>().text = "" + data.backwardOrStop;
+		m_Keybind[0].GetComponentInChildren<TextMeshProUGUI>().text = "" + data.forward;
+		m_Keybind[1].GetComponentInChildren<TextMeshProUGUI>().text = "" + data.turnLeft;
+		m_Keybind[2].GetComponentInChildren<TextMeshProUGUI>().text = "" + data.turnRight;
+		m_Keybind[3].GetComponentInChildren<TextMeshProUGUI>().text = "" + data.backwardOrStop;
 
 		Forward = data.forward;
 		TurnLeft = data.turnLeft;
 		TurnRight = data.turnRight;
 		BackwardOrStop = data.backwardOrStop;
+	}
+
+	public void ChangeKeyBind(int index)
+	{
+		m_LookingForKey = true;
+		m_KeybindIndex = index;
+	} 
+
+	private void Changingkeybind(KeyCode key)
+	{
+		
+		switch (m_KeybindIndex)
+		{
+			case 0:
+				Forward = key;
+				break;
+
+			case 1:
+				TurnLeft = key;
+				break;
+
+			case 2:
+				TurnRight = key;
+				break;
+
+			case 3:
+				BackwardOrStop = key;
+				break;
+		}
+
+		UpdateText();
+	}
+
+	public void UpdateText()
+	{
+		m_Keybind[0].GetComponentInChildren<TextMeshProUGUI>().text = "" + Forward;
+		m_Keybind[1].GetComponentInChildren<TextMeshProUGUI>().text = "" + TurnLeft;
+		m_Keybind[2].GetComponentInChildren<TextMeshProUGUI>().text = "" + TurnRight;
+		m_Keybind[3].GetComponentInChildren<TextMeshProUGUI>().text = "" + BackwardOrStop;
+	} 
+
+	public void LoadCustomBinds()
+	{
+		KeybindData data = SaveKeybind.LoadKeybinds(LoadType.Custom);
+		UpdateKeybinds(data);
+
+	}
+
+	public void LoadDefaultBinds()
+	{
+		KeybindData data = SaveKeybind.LoadKeybinds(LoadType.Default);
+		UpdateKeybinds(data);
 	}
 }
