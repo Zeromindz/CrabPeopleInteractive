@@ -9,6 +9,9 @@ using TMPro;
 //
 //
 
+/// <summary>
+/// A struct pairing the a slider to it's respective inputbox and visa versa
+/// </summary>
 public struct SliderInput
 {
 	public Slider Sliders;
@@ -21,8 +24,12 @@ public struct SliderInput
 	}
 }
 
+/// <summary>
+/// The manager class used for all sound related things
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
+	#region Variables/Properties
 	[Header("Current volumes")]
 	public float m_MainVolume = 1.0f;									// Current volume for Main
 	public float m_MusicVolume = 1.0f;									// Current volume for the Music
@@ -47,8 +54,9 @@ public class SoundManager : MonoBehaviour
 	public GameObject m_SFXVolumeInput = null;							// The inputbox for SFX volume
 
 	private SliderInput m_Main;											// Slider and Inputboxz for Main sounds
-	private SliderInput m_Music;										// Slider and Inputbox
-	private SliderInput m_SFX;
+	private SliderInput m_Music;										// Slider and Inputbox for Music sounds
+	private SliderInput m_SFX;                                          // Slider and Inputbox for SFX sounds
+	#endregion
 
 	#region Singleton
 	// Singleton instance
@@ -97,6 +105,7 @@ public class SoundManager : MonoBehaviour
 	}
 	#endregion
 
+	#region Functions
 	/// <summary>
 	/// Called when the Main slider value has been changed.
 	/// Calls to update the inputbox value
@@ -301,5 +310,6 @@ public class SoundManager : MonoBehaviour
 		TMP_InputField text = sliderInput.Input.GetComponent<TMP_InputField>();
 		text.text = "" + num;
 	}
+	#endregion
 }
 
