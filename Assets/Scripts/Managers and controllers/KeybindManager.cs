@@ -117,13 +117,13 @@ public class KeybindManager : MonoBehaviour
 		{
 			KeybindData data = SaveKeybind.LoadKeybinds(LoadType.Custom);
 			UpdateKeybinds(data);
-			Debug.Log("No custom keybind found");
+			Debug.Log("Using Custom Keybind");
 		}
 		else
 		{
 			KeybindData data = SaveKeybind.LoadKeybinds(LoadType.Default);
 			UpdateKeybinds(data);
-			Debug.Log("Using Custom Keybind");
+			Debug.Log("No custom keybind found");
 		}
 	}
 
@@ -154,6 +154,7 @@ public class KeybindManager : MonoBehaviour
 	{
 		KeybindData data = SaveKeybind.LoadKeybinds(LoadType.Default);
 		UpdateKeybinds(data);
+		SetKeybinds();
 	}
 
 	// Sets the keybinds

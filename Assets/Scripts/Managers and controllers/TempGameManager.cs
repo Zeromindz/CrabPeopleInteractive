@@ -8,7 +8,6 @@ public class TempGameManager : MonoBehaviour
     void Start()
     {
         MenuController.Instance.LoadMenu();
-        KeybindManager.Instance.ResetKeybinds();
     }
 
     // Update is called once per frame

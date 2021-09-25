@@ -10,6 +10,9 @@ using UnityEngine.EventSystems;
 //
 //
 
+/// <summary>
+/// The states of UI 
+/// </summary>
 public enum MenuState
 {
 	MAINMENU,
@@ -19,6 +22,9 @@ public enum MenuState
 	ENDSCREEN,
 }
 
+/// <summary>
+/// Pairs the canvas with a state, used in the stack
+/// </summary>
 public struct MenuStackItem
 {
 	public GameObject UI;
@@ -31,52 +37,63 @@ public struct MenuStackItem
 	}
 }
 
+/// <summary>
+/// Controlling all the menus in the game
+/// </summary>
 public class MenuController : MonoBehaviour
 {
-	private static MenuController m_Instance;
-	public MenuState m_State;
+	#region Variables/Properties
+	// --- Public ---
+	public MenuState m_State;										// Displays the current state of the menu
 
-	// States for the game
+	[Header("UIs")]
+	public GameObject m_MenuUI = null;								// The canvas holding the Main Menu UI
+	public GameObject m_GameUI = null;								// The canvas holding the Game Ui
+	public GameObject m_GamePausedUI = null;						// The canvas holding the Game Paused UI
+	public GameObject m_EndScreenUI = null;							// The canvas holding the endscreen UI
+	public GameObject m_SettingsUI = null;							// The canvas holding The settings  UI
 
-	// Singleton instance
-	public static MenuController Instance
-	{
-		get { return m_Instance; }
-	}
-	public GameObject m_MenuUI = null;
-	public GameObject m_GameUI = null;
-	public GameObject m_GamePausedUI = null;
-	public GameObject m_EndScreenUI = null;
-	private GameObject m_CurrentUI = null;
-	Stack<MenuStackItem> m_UIStack = new Stack<MenuStackItem>();
-	public bool IsGamePaused
+	[Header("Settings UI")]
+	public GameObject m_GeneralSettings = null;						// The Canvas holding the volume and resolution settings
+	public GameObject m_KeybindSettings = null;						// The Canvas holding the keybind settings
+
+	[Header("General Settings")]
+	public GameObject m_ResultionDropDown = null;					// The resolution drop down box
+	public GameObject m_GeneralButton = null;						// The button that brings up the general settings
+
+	[Header("Keybind Settings")]
+	public GameObject m_KeybindButton = null;						// The button that brings up the keybind settings
+
+	[Header("Screen Resolutions")]
+	public bool m_FullScreen = true;								// If the game is fullscreen or not
+	public List<Vector2> m_ScreenSizes = new List<Vector2>();		// The posible screen resolutions
+	public int m_DropDownValue;										// The current index shown by the drop down box
+
+
+	// -----Private-----
+	Vector2 m_ScreenSize;
+	private GameObject m_CurrentUI = null;                          // The current Ui that is being displayed
+	private Stack<MenuStackItem> m_UIStack;							// The stack holding information when travelling between UIs
+	private bool IsGamePaused										// Displayed if the Game is currently paused
 	{
 		get { return m_State == MenuState.GAMEPAUSED; }
 	}
+	#endregion
 
-	[Header("Settings UI")]
-	// -----Public----- 
-	public GameObject m_SettingsUI = null;
+	#region Singleton instances
+	// Singleton instance
+	private static MenuController m_Instance;						// The current instance of MenuController
+	public static MenuController Instance							// The public current instance of MenuController
+	{
+		get { return m_Instance; }
+	}
+	#endregion
 
-	public GameObject m_GeneralSettings = null;		// The Canvas holding the volume and resolution settings
-	public GameObject m_KeybindSettings = null;     // The Canvas holding the keybind settings
-
-	[Header("General Settings")]
-	public GameObject m_ResultionDropDown = null;
-	public GameObject m_GeneralButton = null;
-
-	[Header("Screen Resolutions")]
-	public bool m_FullScreen = true;
-	public List<Vector2> m_ScreenSizes = new List<Vector2>();
-	public int m_DropDownValue;
-
-	[Header("Keybind Settings")]
-	public GameObject m_KeybindButton = null;
-	// -----Private-----
-	Vector2 m_ScreenSize;
-
-
-	// Called when script is being loaded
+	#region Unity Functions
+	/// <summary>
+	/// Called when the script is being loaded.
+	/// Creates an instance and sets the UI
+	/// </summary>
 	void Awake()
 	{
 		// Initialize Singleton
@@ -86,10 +103,14 @@ public class MenuController : MonoBehaviour
 			m_Instance = this;
 
 		m_CurrentUI = m_MenuUI;
+		m_UIStack = new Stack<MenuStackItem>();
 		LoadMenu();
-		//m_State = MenuState.MAINMENU;
 	}
 
+	/// <summary>
+	/// Runs on first frame.
+	/// Initializes everything 
+	/// </summary>
 	private void Start()
 	{
 		TMP_Dropdown drop = m_ResultionDropDown.GetComponent<TMP_Dropdown>();
@@ -104,21 +125,30 @@ public class MenuController : MonoBehaviour
 		drop.AddOptions(options);
 	}
 
-	// Runs every frame
+	/// <summary>
+	/// Runs every frame.
+	/// Checks for key presses 
+	/// </summary>
 	private void Update()
 	{
+		// Pauses the game
 		if (Input.GetKeyDown(KeyCode.Escape) && m_State == MenuState.GAME)
 		{
 			PauseGame();
 		}
 
+		// Returns to the previous UI
 		else if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			ReturnToPreviousUI();
 		}
 	}
+	#endregion
 
-	// Returns the the previous UI
+	#region Functions
+	/// <summary>
+	/// Using the stack returns to the previous UI
+	/// </summary>
 	public void ReturnToPreviousUI()
 	{
 		if (m_UIStack.Count >= 2)
@@ -137,7 +167,9 @@ public class MenuController : MonoBehaviour
 		}
 	}
 
-	// Pauses the game
+	/// <summary>
+	///  Pauses the game and loads the Pause Menu UI
+	/// </summary>
 	public void PauseGame()
 	{
 		Debug.Log("Pausing Game");
@@ -146,7 +178,9 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_GamePausedUI, MenuState.GAMEPAUSED));
 	}
 
-	// Unpauses the game
+	/// <summary>
+	/// Un pauses the game and loads the game UI
+	/// </summary>
 	public void UnPauseGame()
 	{
 		Debug.Log("Un-Pausing Game");
@@ -154,7 +188,9 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 	}
 
-	// Loads the main menu
+	/// <summary>
+	/// Loads the main menu UI
+	/// </summary>
 	public void LoadMenu()
 	{
 		Debug.Log("Loading Menu");
@@ -164,7 +200,9 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
 	}
 
-	// Starts the game
+	/// <summary>
+	/// Loads the game UI
+	/// </summary>
 	public void LoadGame()
 	{
 		Debug.Log("Loading: Game");
@@ -174,7 +212,9 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
 	}
 
-	// Loads the settings UI
+	/// <summary>
+	/// Loads the settings UI
+	/// </summary>
 	public void LoadSettings()
 	{
 		Debug.Log("Loading: Settings");
@@ -184,21 +224,20 @@ public class MenuController : MonoBehaviour
 		SetGeneralUI();
 	}
 
-	// Exits the application
+	/// <summary>
+	/// Called when Exit to windows button is pressed
+	/// Exis the application
+	/// </summary>
 	public void ExitGame()
 	{
 		Debug.Log("Closing App");
 		Application.Quit();
 	}
 
-	// Sets the game state
-	public void SetState(MenuState state)
-	{
-		m_State = state;
-		UpdateState();
-	}
-
-	// Updates the states by activating the state
+	/// <summary>
+	///  Called whenever a state is changed.
+	///  Updates the states 
+	/// </summary>
 	private void UpdateState()
 	{
 		m_CurrentUI.SetActive(false);
@@ -234,21 +273,12 @@ public class MenuController : MonoBehaviour
 		}
 	}
 
-	// Cause Jayden wanted to be apart
-	public void JaydenWasHere(){ }
-
-	// Toggles pause
-	public void TogglePause()
-	{
-		SetState(IsGamePaused ? MenuState.GAMEPAUSED : MenuState.GAME);
-	}
-
-
-
-
 	// -----SettingsUI-----
 
-	// Toggles fullscreen
+	/// <summary>
+	/// Called when a tickbox is pressed.
+	/// Togles fullscreen
+	/// </summary>
 	public void ToggleFullScreen()
 	{
 		if(m_FullScreen)
@@ -262,21 +292,28 @@ public class MenuController : MonoBehaviour
 		}
 	}
 
-	// Sets the index of the dropdown
+	/// <summary>
+	/// Sets the index of the drop down box
+	/// </summary>
+	/// <param name="value"> The index of the chosen drop down box  </param>
 	public void SetDropDownValue(int value)
 	{
 		m_DropDownValue = value;
 	}
 
-	// Sets the screen resolution
+	/// <summary>
+	/// Sets the Size of the screen
+	/// </summary>
 	public void SetScreenSize()
 	{
 		Vector2 size = m_ScreenSizes[m_DropDownValue];
-		Debug.Log("Screen set: " + size.x + " X " + size.y + "  Fullscreen: " + m_FullScreen);
 		Screen.SetResolution((int)size.x, (int)size.y, m_FullScreen);
+		Debug.Log("Screen set: " + size.x + " X " + size.y + "  Fullscreen: " + m_FullScreen);
 	}
-
-	// Toggles the general settings UI
+		
+	/// <summary>
+	/// Displays the General UI within the Settings UI
+	/// </summary>
 	public void SetGeneralUI()
 	{
 		EventSystem.current.SetSelectedGameObject(m_GeneralButton);
@@ -284,11 +321,21 @@ public class MenuController : MonoBehaviour
 		m_KeybindSettings.SetActive(false);
 	}
 
-	// Toggles the Keybind settings UI
+	/// <summary>
+	/// Displays the keybind UI within the Settings UI
+	/// </summary>
 	public void SetKeyBindUI()
 	{
 		EventSystem.current.SetSelectedGameObject(m_KeybindButton);
 		m_KeybindSettings.SetActive(true);
 		m_GeneralSettings.SetActive(false);
 	}
+	#endregion
+
+	#region Extras
+	/// <summary>
+	/// Cause Jayden wanted to be apart
+	/// </summary>
+	public void JaydenWasHere(){ }
+	#endregion
 }
