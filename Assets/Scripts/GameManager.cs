@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject m_Canvas;
-    [SerializeField] private TextMeshProUGUI m_TimerUI;
-    [SerializeField] private TextMeshProUGUI m_SpeedUI;
-    [SerializeField] private TextMeshProUGUI m_PassengerUI;
-    private BoatController m_Boat;
+    
+    [Header("Player Stats")]
+    private PlayerController m_Player;
+    public float m_BoatSpeed;
+    public int m_Passengers;
 
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
+    public float GetCurrentTime() { return m_CurrentTime; }
 
     void Start()
     {
-        m_Boat = GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<BoatController>();
+        m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         m_CurrentTime = m_TimeLimit; 
     }
 
@@ -37,19 +39,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Times up");
         }
+
+        m_BoatSpeed = m_Player.playerMovement.GetSpeed();
+        m_Passengers = m_Player.GetPassengers();
         
-        UpdateUI();
     }
 
-    void UpdateUI()
-    {
-        string timerText = "Time: " + m_CurrentTime;
-        m_TimerUI.text = timerText;
-
-        string speedText = "Speed: " + m_Boat.GetSpeed();
-        m_SpeedUI.text = speedText;
-
-        string passengerText = "Passengers: " + m_Boat.GetPassengers();
-        m_PassengerUI.text = passengerText;
-    }
+    
 }
