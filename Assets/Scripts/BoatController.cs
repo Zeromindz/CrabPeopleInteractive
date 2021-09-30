@@ -18,6 +18,7 @@ public class BoatController : MonoBehaviour
     [SerializeField] private float m_HoverHeight = 2.0f;
 
     [SerializeField] private Transform m_EngineTransform;
+
     public GameObject[] m_HoverPoints;
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentTurn = 0.0f;
@@ -35,13 +36,13 @@ public class BoatController : MonoBehaviour
 
     public float GetSpeed() { return m_CurrentSpeed; }
     public float GetPassengers() { return m_Passengers; }
+
     private float m_DeadZone = 0.1f;
 
     private void Start()
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-
 
         m_LayerMask = 1 << LayerMask.NameToLayer("Character");
         m_LayerMask = ~m_LayerMask;
@@ -52,17 +53,16 @@ public class BoatController : MonoBehaviour
         GetInput();
 
         CalculateSpeed();
+
         //m_InWater = EngineSubmerged();
     }
 
     void FixedUpdate()
     {
-        //Hover();
+        Hover();
 
         Accelerate();
-        Turn();
-
-        
+        Steer();
     }
 
    private void LateUpdate()
@@ -83,10 +83,6 @@ public class BoatController : MonoBehaviour
         {
             m_CurrentThrust = verticalInput;
         }
-        else if (verticalInput < -m_DeadZone)
-        {
-            m_CurrentThrust = -verticalInput;
-        }
 
         // Turning
         m_CurrentTurn = 0.0f;
@@ -95,6 +91,7 @@ public class BoatController : MonoBehaviour
         {
             m_CurrentTurn = horizontalInput;
         }
+
     }
 
     public void Hover()
@@ -136,12 +133,12 @@ public class BoatController : MonoBehaviour
 
         if (Mathf.Abs(m_CurrentThrust) > 0)
         {
-            m_RigidBody.AddForce(forward * m_CurrentThrust *  m_HorsePower);
+            m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower);
         }
     }
 
     // Controls turning
-    public void Turn()
+    public void Steer()
     {
         m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentTurn * m_SteeringTorque);
     }
