@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class Floater : MonoBehaviour
 {
     [Header("Floater Settings")]
-    public Rigidbody m_RigidBody;
+    private Rigidbody m_RigidBody;
     public float m_DepthBeforeSubmerged = 1.0f;
     public float m_DisplacementAmount = 3.0f;
     public int m_FloaterCount = 1;
     public float m_WaterDrag = 0.99f;
     public float m_WaterAngularDrag = 0.5f;
+
+    private void Start()
+    {
+        m_RigidBody = GetComponent<Rigidbody>();
+    }
 
     private void FixedUpdate()
     {
@@ -28,6 +35,14 @@ public class Floater : MonoBehaviour
             m_RigidBody.AddForce(displacementMultiplier * -m_RigidBody.velocity * m_WaterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
             m_RigidBody.AddTorque(displacementMultiplier * -m_RigidBody.angularVelocity * m_WaterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, WaveManager.m_Instance.GetWaveHeight(transform.position), transform.position.z), 0.2f); // Draw sphere at the wave hight at the players position
+
+        //Gizmos.DrawWireSphere(new Vector3(transform.position.x, m_Waves.GetWaveHeight(transform.position), transform.position.z), 0.2f);
     }
 
 }

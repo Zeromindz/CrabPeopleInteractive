@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Late update since we're using physics and our calculations should be after everything else
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         // Set the target position above the player of the camera
         m_TargetPosition = m_Player.position + (Vector3.up * m_Offset.y) - (m_Player.forward * m_Offset.x);

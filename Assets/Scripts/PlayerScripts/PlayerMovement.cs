@@ -11,40 +11,43 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    internal PlayerController m_PlayerController;
-    
-    private Rigidbody m_RigidBody; // Rigidbody attached to the boat
 
-    [SerializeField] internal bool m_InWater = false;
+    internal PlayerController m_PlayerController;
+    private Rigidbody m_RigidBody; // Rigidbody attached to the boat
+    
+
+    [Header("Boat Settings")]
+    [SerializeField] internal bool m_Airbourne = false;
     [SerializeField] internal float m_HorsePower = 30.0f;
     [SerializeField] internal float m_SteeringTorque = 8.0f;
     [SerializeField] internal float m_LevelingForce = 2.0f;
+    [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
     [SerializeField] internal float m_Gravity = -9.81f;
+    private int m_LayerMask;
+    private float m_CurrentThrust = 0.0f;
+    private float m_CurrentSteer = 0.0f;
+    private float m_CurrentSpeed;
+    public float GetSpeed() { return m_CurrentSpeed; }
+    private Vector3 m_LastPosition;
+
+    // Floating behaviour works in two ways, one which occurs when solid gound is hit below the player, and one when submerged in water
+    // Each hoverpoint calculates an upwards force based on either a raycast hit dist or a rigidbody submerged percentage
+    [Space(10)]
+    [SerializeField] private GameObject[] m_HoverPoints;
+    [SerializeField] private Transform m_EngineTransform;
 
     [Space(10)]
-    [Header("Hover Settings")]
-    [SerializeField] internal float m_HoverForce = 9.0f;
-    [SerializeField] internal float m_HoverHeight = 4.0f;
+    [Header("Grounded Behaviour Settings")]
+    [SerializeField] internal float m_GroundHoverForce = 9.0f;
+    [SerializeField] internal float m_GroundHoverHeight = 4.0f;
 
     [Space(10)]
-    [Header("Float Settings")]
-    public float m_DepthBeforeSubmerged = 1.0f;
+    [Header("Floating Behaviour Settings")]
+    public float m_DepthBeforeSubmerged = 1.0f; // Broken
     public float m_DisplacementAmount = 3.0f;
-    public int m_FloaterCount = 1;
     public float m_WaterDrag = 0.99f;
     public float m_WaterAngularDrag = 0.5f;
 
-    [SerializeField] private GameObject[] m_HoverPoints;
-    [SerializeField] private Transform m_EngineTransform;
-    private int m_LayerMask;
-
-    private float m_CurrentThrust = 0.0f;
-    private float m_CurrentSteer = 0.0f;
-
-    private Vector3 m_LastPosition;
-    private float m_CurrentSpeed;
-
-    public float GetSpeed() { return m_CurrentSpeed; }
 
     void Start()
     {
@@ -71,8 +74,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
-
-        CheckIfSubmerged();
+        if (m_PlayerController.playerInput.GetVertical() < 0.01f)
+        {
+            m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
+        }
+        ApplyForcetoPoints();
 
         Accelerate();
         Steer();
@@ -104,32 +110,32 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Only works with wave manager active
-    private void CheckIfSubmerged()
+    private void ApplyForcetoPoints()
     {
         // Raycast down from each floater
         RaycastHit hit;
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
             var hoverPoint = m_HoverPoints[i];
-            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_HoverHeight, m_LayerMask))
+            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_GroundHoverHeight, m_LayerMask))
             {
                 //======================================
                 // Hovering
                 //____________________________________/
-                m_RigidBody.AddForceAtPosition(Vector3.up * m_HoverForce * (1.0f - (hit.distance / m_HoverHeight)), hoverPoint.transform.position);
+                m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
 
                  // level out hoverpoints
         
                 if (transform.position.y > hoverPoint.transform.position.y)
                 {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position);
+                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
                 }
                 else
                 {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position);
+                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
                 }
-                
 
+                m_Airbourne = false;
                 Debug.Log("Hovering");
             }
             else
@@ -138,73 +144,34 @@ public class PlayerMovement : MonoBehaviour
                 // Floating
                 //____________________________________/
                 float waveHeight = WaveManager.m_Instance.GetWaveHeight(transform.position);
-                // Check if the floaters y position is below the waveheight
+                // Check if the floaters y position is below the waveheight, in which case we consider it underwater
                 if (hoverPoint.transform.position.y < waveHeight)
                 {
                     // How much is the rigidbody submerged
-                    float displacementMultiplier = Mathf.Clamp01((waveHeight - hoverPoint.transform.position.y) / m_DepthBeforeSubmerged) * m_DisplacementAmount;
+                    float displacementMultiplier = Mathf.Clamp01(-hoverPoint.transform.position.y / m_DepthBeforeSubmerged) * m_DisplacementAmount; // clamped between 0-1 because bouyancy force remains the same regardless of how submerged the object is
                     // Add a force equal to gravity multiplied by the displacement multiplier, using the acceleration forcemode.
                     m_RigidBody.AddForceAtPosition(new Vector3(0f, Mathf.Abs(m_Gravity) * displacementMultiplier, 0f), hoverPoint.transform.position, ForceMode.Acceleration);
                     m_RigidBody.AddForce(displacementMultiplier * -m_RigidBody.velocity * m_WaterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
                     m_RigidBody.AddTorque(displacementMultiplier * -m_RigidBody.angularVelocity * m_WaterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
-                    
+
+                    m_Airbourne = false;
                     Debug.Log("Floating");
-                }
-            }
-
-        }
-    }
-
-    public void Float()
-    {
-        for (int i = 0; i < m_HoverPoints.Length; i++)
-        {
-            float waveHeight = WaveManager.m_Instance.GetWaveHeight(transform.position);
-            // Check if the floaters y position is below the waveheight
-            if (m_HoverPoints[i].transform.position.y < waveHeight)
-            {
-                // How much is the rigidbody submerged
-                float displacementMultiplier = Mathf.Clamp01((waveHeight - m_HoverPoints[i].transform.position.y) / m_DepthBeforeSubmerged) * m_DisplacementAmount;
-                // Add a force equal to gravity multiplied by the displacement multiplier, using the acceleration forcemode.
-                m_RigidBody.AddForceAtPosition(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMultiplier, 0f), m_HoverPoints[i].transform.position, ForceMode.Acceleration);
-                m_RigidBody.AddForce(displacementMultiplier * -m_RigidBody.velocity * m_WaterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
-                m_RigidBody.AddTorque(displacementMultiplier * -m_RigidBody.angularVelocity * m_WaterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            }
-        }
-    }
-
-    public void Hover()
-    {
-        RaycastHit hit;
-        for (int i = 0; i < m_HoverPoints.Length; i++)
-        {
-            Debug.Log(m_HoverPoints[i].name + " hovering");
-            // If a raycast down hits, apply an upqwards hoverforce based on the distance to the hit
-            var hoverPoint = m_HoverPoints[i];
-            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_HoverHeight, m_LayerMask))
-            {
-                m_RigidBody.AddForceAtPosition(Vector3.up * m_HoverForce * (1.0f - (hit.distance / m_HoverHeight)), hoverPoint.transform.position);
-
-            }
-            // Otherwise, level out hoverpoints
-            else
-            {
-                if (transform.position.y > hoverPoint.transform.position.y)
-                {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position);
                 }
                 else
                 {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position);
+                    m_Airbourne = true;
                 }
             }
+
         }
     }
 
     private void CalculateSpeed()
     {
         // Calculate speed in meters per second
-        m_CurrentSpeed = (transform.position - m_LastPosition).magnitude / Time.deltaTime;
+        Vector3 yRemoved = transform.position - m_LastPosition;
+        yRemoved.y = 0;
+        m_CurrentSpeed = yRemoved.magnitude / Time.deltaTime;
         //Save the position for the next update
         m_LastPosition = transform.position;
     }
@@ -216,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
             var hoverPoint = m_HoverPoints[i];
-            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_HoverHeight, m_LayerMask))
+            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_GroundHoverHeight, m_LayerMask))
             {
                 // Line from hoverpoint to hit and draws a sphere
                 Gizmos.color = Color.blue;
@@ -227,17 +194,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Line from hoverpoint to max distance down from RB
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(hoverPoint.transform.position, hoverPoint.transform.position - Vector3.up * m_HoverHeight);
+                Gizmos.DrawLine(hoverPoint.transform.position, hoverPoint.transform.position - Vector3.up * m_GroundHoverHeight);
             }
         }
 
-        float waveYPos = WaveManager.m_Instance.GetWaveHeight(m_EngineTransform.position);
-        if (m_EngineTransform.position.y < waveYPos)
+        Gizmos.color = Color.cyan;
+        for (int i = 0; i < m_HoverPoints.Length; i++)
         {
-            
-                
+            var hoverPoint = m_HoverPoints[i];
+            Gizmos.DrawWireSphere(hoverPoint.transform.position, 0.3f);
+           
         }
-
 
     }
 }

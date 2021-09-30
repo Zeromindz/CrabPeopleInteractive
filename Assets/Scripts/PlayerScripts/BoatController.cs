@@ -35,7 +35,7 @@ public class BoatController : MonoBehaviour
     private float m_CamFOVVel;
 
     public float GetSpeed() { return m_CurrentSpeed; }
-    public float GetPassengers() { return m_Passengers; }
+    public int GetPassengers() { return m_Passengers; }
 
     private float m_DeadZone = 0.1f;
 

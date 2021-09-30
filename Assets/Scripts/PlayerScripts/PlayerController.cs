@@ -21,13 +21,14 @@ public class PlayerController : MonoBehaviour
 
     private PlayerState currentState;
 
+    private int m_Passengers = 0;
+    public int GetPassengers() { return m_Passengers; }
+    public void AddPassenger() { m_Passengers++; }
+    public void ClearPassengers() { m_Passengers = 0; }
+
     void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
-        playerMovement = GetComponent<PlayerMovement>(); ;
-        playerCollision = GetComponent<PlayerCollision>(); ;
-
-        currentState = PlayerState.Idle;
+        Initialization();
     }
 
     void ChangeState(PlayerState newState)
@@ -52,5 +53,14 @@ public class PlayerController : MonoBehaviour
         Vector3 spawnPoint = transform.position + (Vector3.up * 10.0f);
         transform.position = spawnPoint;
         transform.SetPositionAndRotation(spawnPoint, Quaternion.Euler(0f, 0f, 0f));
+    }
+
+    void Initialization()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        playerMovement = GetComponent<PlayerMovement>(); ;
+        playerCollision = GetComponent<PlayerCollision>(); ;
+
+        currentState = PlayerState.Idle;
     }
 }
