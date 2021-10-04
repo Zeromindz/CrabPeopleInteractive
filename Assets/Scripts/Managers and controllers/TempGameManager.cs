@@ -37,6 +37,11 @@ public class TempGameManager : MonoBehaviour
             {
                 Debug.Log("Pressed: BackwardOrStop");
             }
+
+			if (Input.GetKeyDown(KeyCode.Space))
+            {
+                MenuController.Instance.LoadEndScreen();
+			}
         }
     }
 }

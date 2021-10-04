@@ -20,6 +20,7 @@ public enum MenuState
 	GAMEPAUSED,
 	SETTINGS,
 	ENDSCREEN,
+	LEADERBOARD,
 }
 
 /// <summary>
@@ -51,7 +52,8 @@ public class MenuController : MonoBehaviour
 	public GameObject m_GameUI = null;								// The canvas holding the Game Ui
 	public GameObject m_GamePausedUI = null;						// The canvas holding the Game Paused UI
 	public GameObject m_EndScreenUI = null;							// The canvas holding the endscreen UI
-	public GameObject m_SettingsUI = null;							// The canvas holding The settings  UI
+	public GameObject m_SettingsUI = null;                          // The canvas holding The settings  UI
+	public GameObject m_LeaderboardUI = null;						// The canvas holding the leaderboard UI
 
 	[Header("Settings UI")]
 	public GameObject m_GeneralSettings = null;						// The Canvas holding the volume and resolution settings
@@ -224,6 +226,30 @@ public class MenuController : MonoBehaviour
 		SetGeneralUI();
 	}
 
+
+	/// <summary>
+	/// Loads the leaderboard UI
+	/// </summary>
+	public void LoadEndScreen()
+	{
+		Debug.Log("Loading: EndScreen");
+		m_State = MenuState.ENDSCREEN;
+		UpdateState();
+		m_UIStack.Clear();
+		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
+	}
+
+	/// <summary>
+	/// Loads the leaderboard UI
+	/// </summary>
+	public void LoadLearderboard()
+	{
+		Debug.Log("Loading: Leaderboard");
+		m_State = MenuState.LEADERBOARD;
+		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
+		UpdateState();
+	}
+
 	/// <summary>
 	/// Called when Exit to windows button is pressed
 	/// Exis the application
@@ -270,6 +296,12 @@ public class MenuController : MonoBehaviour
 		{
 			m_EndScreenUI.SetActive(true);
 			m_CurrentUI = m_EndScreenUI;
+		}
+
+		if (m_State == MenuState.LEADERBOARD)
+		{
+			m_LeaderboardUI.SetActive(true);
+			m_CurrentUI = m_LeaderboardUI;
 		}
 	}
 
