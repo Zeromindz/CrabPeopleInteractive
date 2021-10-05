@@ -21,6 +21,7 @@ public class WaveManager : MonoBehaviour
     public int m_Dimension = 10;
     public Octave[] m_Octaves;
     protected MeshFilter m_MeshFilter;
+    protected MeshCollider m_Collider;
     protected Mesh m_Mesh;
 
     public float m_UVScale;
@@ -56,7 +57,10 @@ public class WaveManager : MonoBehaviour
         m_Mesh.RecalculateNormals();
 
         m_MeshFilter = gameObject.AddComponent<MeshFilter>();
+        //m_Collider = gameObject.AddComponent<MeshCollider>();
+        //m_Collider.sharedMesh = m_Mesh;
         m_MeshFilter.mesh = m_Mesh;
+        
     }
 
     
@@ -200,5 +204,10 @@ public class WaveManager : MonoBehaviour
         return height * transform.lossyScale.y / dist;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireMesh(m_Mesh);
+    }
 
 }
