@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
     private int m_Passengers = 0;
     public int GetPassengers() { return m_Passengers; }
-    public void AddPassenger() { m_Passengers++; }
     public void ClearPassengers() { m_Passengers = 0; }
 
     void Start()
@@ -46,6 +45,12 @@ public class PlayerController : MonoBehaviour
         {
             ResetBoat();
         }
+    }
+    public void AddPassenger() 
+    { 
+        m_Passengers++; 
+        playerMovement.m_MaxSpeed *= 1.1f;
+        playerMovement.m_HorsePower *= 1.01f;
     }
 
     private void ResetBoat()
