@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_LevelingForce = 2.0f;
     [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
     [SerializeField] internal float m_Gravity = -9.81f;
-    private Transform m_CenterOfMass;
+    [SerializeField] private Transform m_CenterOfMass;
     private int m_LayerMask;
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentSteer = 0.0f;
@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
         m_LayerMask = 1 << LayerMask.NameToLayer("Character");
         m_LayerMask = ~m_LayerMask;
 
-        m_CenterOfMass = GameObject.Find("CoM").transform;
     }
 
     void Update()
@@ -253,8 +252,12 @@ public class PlayerMovement : MonoBehaviour
            
         }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(m_CenterOfMass.position, 0.5f);
+        if(m_CenterOfMass)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(m_CenterOfMass.position, 0.5f);
+
+        }
  
     }
 }
