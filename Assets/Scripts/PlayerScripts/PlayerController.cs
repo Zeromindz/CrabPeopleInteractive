@@ -11,6 +11,7 @@ enum PlayerState
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerCollision))]
+[RequireComponent(typeof(TrickManager))]
 
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     internal PlayerInput playerInput;
     internal PlayerMovement playerMovement;
     internal PlayerCollision playerCollision;
+    internal TrickManager trickManager;
 
     private PlayerState currentState;
 
@@ -63,8 +65,9 @@ public class PlayerController : MonoBehaviour
     void Initialization()
     {
         playerInput = GetComponent<PlayerInput>();
-        playerMovement = GetComponent<PlayerMovement>(); ;
-        playerCollision = GetComponent<PlayerCollision>(); ;
+        playerMovement = GetComponent<PlayerMovement>();
+        playerCollision = GetComponent<PlayerCollision>();
+        trickManager = GetComponent<TrickManager>();
 
         currentState = PlayerState.Idle;
     }

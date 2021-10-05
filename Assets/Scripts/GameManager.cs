@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Player Stats")]
     private PlayerController m_Player;
     public float m_BoatSpeed;
+    public float m_CurrentTrickRotation;
     public int m_Passengers;
 
     public float m_TimeLimit = 50.0f;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         }
 
         m_BoatSpeed = m_Player.playerMovement.GetSpeed();
+        m_CurrentTrickRotation = m_Player.trickManager.currentRotation;
         m_Passengers = m_Player.GetPassengers();
         
     }

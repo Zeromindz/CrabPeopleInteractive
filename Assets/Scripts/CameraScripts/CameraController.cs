@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
 
 
         transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_SmoothTime);
-        transform.LookAt(m_Player.position + (Vector3.up * m_Angle));
+        transform.LookAt(m_Player.position + (Vector3.up * m_Angle), Vector3.up);
         
         // Debug line drawing;
         Debug.DrawRay(m_Player.position, Vector3.up * m_Offset.y, Color.green); // Line for offset on the y Axis
