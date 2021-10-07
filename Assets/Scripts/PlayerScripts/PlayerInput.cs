@@ -14,10 +14,11 @@ public class PlayerInput : MonoBehaviour
 
     private float verticalInput;
     private float horizontalInput;
+    private bool shiftPressed;
 
     public float GetVertical() { return verticalInput; }
     public float GetHorizontal() { return horizontalInput; }
-
+    public bool ShiftPressed() { return shiftPressed;  }
     private float m_DeadZone = 0.1f;
 
     private void Start()
@@ -49,6 +50,15 @@ public class PlayerInput : MonoBehaviour
         {
             // steer
             horizontalInput = x;
+        }
+        
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            shiftPressed = true;
+        }
+        else
+        {
+            shiftPressed = false;
         }
 
     }

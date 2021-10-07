@@ -18,45 +18,45 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Boat Settings")]
     [SerializeField] internal bool m_Grounded = false;
+    [Space(10)]
     [SerializeField] internal float m_HorsePower = 30.0f;
     [SerializeField] internal float m_MaxSpeed = 50.0f;
+    [SerializeField] internal float m_BoostSpeed = 100.0f;
     [SerializeField] internal float m_SteeringTorque = 8.0f;
+    private bool m_Boosting = false;
+    [Space(10)]
+    [SerializeField] internal float m_Gravity = -9.81f;
     [SerializeField] internal float m_LevelingForce = 2.0f;
     [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
-    [SerializeField] internal float m_Gravity = -9.81f;
-    [SerializeField] private Transform m_CenterOfMass;
-    [SerializeField] private float m_GroundedDrag = 3.0f;
+    internal Vector3 m_CoM;
+    internal float m_PlayerHeight;
+
+    [Header("Physics")]
+    [SerializeField] internal bool m_AtTrickHeight;
+    [SerializeField] internal float m_GroundHoverForce = 9.0f;
+    [SerializeField] internal float m_GroundHoverHeight = 4.0f;
+    [SerializeField] internal float m_InAirTorque = 20.0f; // May need to split to vert and hori
+    [SerializeField] internal float m_TrickHeightCheck = 10.0f;
     private int m_LayerMask;
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentSteer = 0.0f;
     private float m_CurrentSpeed = 0f;
     public float GetSpeed() { return m_CurrentSpeed; }
-    private Vector3 m_LastPosition;
 
-    // Floating behaviour works in two ways, one which occurs when solid gound is hit below the player, and one when submerged in water
-    // Each hoverpoint calculates an upwards force based on either a raycast hit dist or a rigidbody submerged percentage
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
-    [SerializeField] private Transform m_EngineTransform;
 
-    [Space(10)]
-    [Header("Grounded Behaviour Settings")]
-    [SerializeField] internal float m_GroundHoverForce = 9.0f;
-    [SerializeField] internal float m_GroundHoverHeight = 4.0f;
-
-    [Space(10)]
-    [Header("Floating Behaviour Settings")]
-    public float m_DepthBeforeSubmerged = 1.0f; // Broken
-    public float m_DisplacementAmount = 3.0f;
-    public float m_WaterDrag = 0.99f;
-    public float m_WaterAngularDrag = 0.5f;
-
+    [Header("GFX")]
+    [SerializeField] private ParticleSystem m_RocketTrail;
+    [SerializeField] private ParticleSystem m_GroundedTrail;
 
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
         m_RigidBody = GetComponent<Rigidbody>();
 
+        m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
+        m_RigidBody.centerOfMass = m_CoM;
         m_LayerMask = 1 << LayerMask.NameToLayer("Character");
         m_LayerMask = ~m_LayerMask;
 
@@ -64,18 +64,40 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
         //Check the input manager for current input
         m_CurrentThrust = m_PlayerController.playerInput.GetVertical();
         m_CurrentSteer = m_PlayerController.playerInput.GetHorizontal();
 
         CalculateSpeed();
 
-        Debug.Log("Current thrust = " + m_CurrentThrust);
+
+        // Set vfx emissions
+        int rocketEmissionRate = 0;
+        if(m_Boosting)
+        {
+            rocketEmissionRate = 10;
+
+        }
+        var rocketEmission = m_RocketTrail.emission;
+        rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+
+        int groundEmissionRate = 0;
+        if(m_Grounded)
+        {
+            groundEmissionRate = 10;
+
+        }
+        var groundEmission = m_GroundedTrail.emission;
+        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+
     }
 
     void FixedUpdate()
     {
-        m_RigidBody.centerOfMass = m_CenterOfMass.localPosition;
+
+        //debug
+        m_AtTrickHeight = AtTrickHeight();
 
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
@@ -90,7 +112,16 @@ public class PlayerMovement : MonoBehaviour
         {
             m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
         }
-        
+
+        if (m_PlayerController.playerInput.ShiftPressed())
+        {
+            Boost();
+            m_Boosting = true;
+        }
+        else
+        {
+            m_Boosting = false;
+        }
         ApplyForcetoPoints();
        
         Accelerate();
@@ -104,21 +135,62 @@ public class PlayerMovement : MonoBehaviour
         forward.y = 0.0f;
         forward.Normalize();
 
-        if (Mathf.Abs(m_CurrentThrust) > 0)
+        if (m_Grounded)
         {
             m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower, ForceMode.Acceleration);
-            
         }
-       
+        else
+        {
+            if(m_AtTrickHeight)
+            {
+                AirFlip(m_CurrentThrust);
+
+            }
+        }
+        
     }
 
     // Controls turning
     public void Steer()
     {
-        m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque);
-        Debug.Log(m_CurrentSteer);
+
+        if (m_Grounded)
+        {
+            m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
+        }
+        else
+        {
+            if (m_AtTrickHeight)
+            {
+                AirRoll(m_CurrentSteer);
+
+            }
+        }
+       
     }
 
+    public bool AtTrickHeight()
+    {
+        return !Physics.Raycast(transform.position, -transform.up, m_TrickHeightCheck, m_LayerMask);
+    }
+
+    public void AirFlip(float _currentThrust)
+    {
+        m_RigidBody.AddRelativeTorque(Vector3.right * _currentThrust * m_InAirTorque, ForceMode.Acceleration);
+    }
+
+    public void AirRoll(float _currentSteer)
+    {
+        m_RigidBody.AddRelativeTorque(Vector3.back * _currentSteer * m_InAirTorque, ForceMode.Acceleration);
+    }
+
+    public void Boost()
+    {
+        Vector3 forward = m_RigidBody.transform.forward;
+
+        m_RigidBody.AddForce(forward * m_BoostSpeed, ForceMode.Acceleration);
+    }
+    
     // Only works with wave manager active
     private void ApplyForcetoPoints()
     {
@@ -127,7 +199,6 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
             var hoverPoint = m_HoverPoints[i];
-            bool pointSubmerged = hoverPoint.GetComponent<Floater>().GetSubmerged();
             if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask))
             {
                 //======================================
@@ -135,37 +206,38 @@ public class PlayerMovement : MonoBehaviour
                 //____________________________________/
                 m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
 
-                
                 m_Grounded = true;
-                Debug.Log("Hovering");
             }
             else
             {
                 m_Grounded = false;
 
-                // level out hoverpoints
-                if (transform.position.y > hoverPoint.transform.position.y)
+                // If below trick height
+                if(!m_AtTrickHeight)
                 {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position);
-                }
-                else
-                {
-                    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position);
+                    // level out hoverpoints
+                    if (m_CoM.y > hoverPoint.transform.position.y)
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
+                    else
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
                 }
             }
-
         }
     }
 
-
+    // Return rb vel mag
     private void CalculateSpeed()
     {
         m_CurrentSpeed = m_RigidBody.velocity.magnitude;
-
     }
 
     void OnDrawGizmos()
     {
+        // Hoverpoint Drawing
         // Copying racast conditions from hover method to draw gizmos
         RaycastHit hit;
         for (int i = 0; i < m_HoverPoints.Length; i++)
@@ -184,22 +256,21 @@ public class PlayerMovement : MonoBehaviour
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(hoverPoint.transform.position, hoverPoint.transform.position - Vector3.up * m_GroundHoverHeight);
             }
-        }
-
-        Gizmos.color = Color.cyan;
-        for (int i = 0; i < m_HoverPoints.Length; i++)
-        {
-            var hoverPoint = m_HoverPoints[i];
+            // Hoverpoints
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(hoverPoint.transform.position, 0.3f);
-           
         }
 
-        if(m_CenterOfMass)
+        // CoM
+        if(m_RigidBody)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(m_CenterOfMass.position, 0.5f);
-
+            Gizmos.DrawWireSphere(m_CoM, 0.5f);
         }
- 
+
+        // Trick height
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(transform.position, (transform.position  + (-Vector3.up * m_TrickHeightCheck)));
+
     }
 }
