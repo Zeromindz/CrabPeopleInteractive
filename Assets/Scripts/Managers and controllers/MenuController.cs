@@ -55,27 +55,10 @@ public class MenuController : MonoBehaviour
 	public GameObject m_SettingsUI = null;                          // The canvas holding The settings  UI
 	public GameObject m_LeaderboardUI = null;						// The canvas holding the leaderboard UI
 
-	[Header("Settings UI")]
-	public GameObject m_GeneralSettings = null;						// The Canvas holding the volume and resolution settings
-	public GameObject m_KeybindSettings = null;						// The Canvas holding the keybind settings
-
-	[Header("General Settings")]
-	public GameObject m_ResultionDropDown = null;					// The resolution drop down box
-	public GameObject m_GeneralButton = null;						// The button that brings up the general settings
-
-	[Header("Keybind Settings")]
-	public GameObject m_KeybindButton = null;						// The button that brings up the keybind settings
-
-	[Header("Screen Resolutions")]
-	public bool m_FullScreen = true;								// If the game is fullscreen or not
-	public List<Vector2> m_ScreenSizes = new List<Vector2>();		// The posible screen resolutions
-	public int m_DropDownValue;										// The current index shown by the drop down box
-
-
 	// -----Private-----
 	Vector2 m_ScreenSize;
 	private GameObject m_CurrentUI = null;                          // The current Ui that is being displayed
-	private Stack<MenuStackItem> m_UIStack;							// The stack holding information when travelling between UIs
+	private Stack<MenuStackItem> m_UIStack;                         // The stack holding information when travelling between UIs
 	private bool IsGamePaused										// Displayed if the Game is currently paused
 	{
 		get { return m_State == MenuState.GAMEPAUSED; }
@@ -109,23 +92,7 @@ public class MenuController : MonoBehaviour
 		LoadMenu();
 	}
 
-	/// <summary>
-	/// Runs on first frame.
-	/// Initializes everything 
-	/// </summary>
-	private void Start()
-	{
-		TMP_Dropdown drop = m_ResultionDropDown.GetComponent<TMP_Dropdown>();
 
-		List<string> options = new List<string>();
-
-		for (int i = 0; i < m_ScreenSizes.Count; i++)
-		{
-			options.Add("" + m_ScreenSizes[i].x + " X " + m_ScreenSizes[i].y);
-		}
-
-		drop.AddOptions(options);
-	}
 
 	/// <summary>
 	/// Runs every frame.
@@ -178,6 +145,7 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.GAMEPAUSED;
 		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_GamePausedUI, MenuState.GAMEPAUSED));
+		Time.timeScale = 0;
 	}
 
 	/// <summary>
@@ -200,6 +168,7 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
+		Time.timeScale = 0;
 	}
 
 	/// <summary>
@@ -223,7 +192,6 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.SETTINGS;
 		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
-		SetGeneralUI();
 	}
 
 
@@ -234,9 +202,9 @@ public class MenuController : MonoBehaviour
 	{
 		Debug.Log("Loading: EndScreen");
 		m_State = MenuState.ENDSCREEN;
-		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
+		UpdateState();
 	}
 
 	/// <summary>
@@ -249,6 +217,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
 		UpdateState();
 	}
+
 
 	/// <summary>
 	/// Called when Exit to windows button is pressed
@@ -278,6 +247,7 @@ public class MenuController : MonoBehaviour
 		{
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
+			m_GameUI.GetComponent<GameUI>().StartCountDown();
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)
@@ -303,64 +273,6 @@ public class MenuController : MonoBehaviour
 			m_LeaderboardUI.SetActive(true);
 			m_CurrentUI = m_LeaderboardUI;
 		}
-	}
-
-	// -----SettingsUI-----
-
-	/// <summary>
-	/// Called when a tickbox is pressed.
-	/// Togles fullscreen
-	/// </summary>
-	public void ToggleFullScreen()
-	{
-		if(m_FullScreen)
-		{
-			m_FullScreen = false;
-		}
-
-		else
-		{
-			m_FullScreen = true;
-		}
-	}
-
-	/// <summary>
-	/// Sets the index of the drop down box
-	/// </summary>
-	/// <param name="value"> The index of the chosen drop down box  </param>
-	public void SetDropDownValue(int value)
-	{
-		m_DropDownValue = value;
-	}
-
-	/// <summary>
-	/// Sets the Size of the screen
-	/// </summary>
-	public void SetScreenSize()
-	{
-		Vector2 size = m_ScreenSizes[m_DropDownValue];
-		Screen.SetResolution((int)size.x, (int)size.y, m_FullScreen);
-		Debug.Log("Screen set: " + size.x + " X " + size.y + "  Fullscreen: " + m_FullScreen);
-	}
-		
-	/// <summary>
-	/// Displays the General UI within the Settings UI
-	/// </summary>
-	public void SetGeneralUI()
-	{
-		EventSystem.current.SetSelectedGameObject(m_GeneralButton);
-		m_GeneralSettings.SetActive(true);
-		m_KeybindSettings.SetActive(false);
-	}
-
-	/// <summary>
-	/// Displays the keybind UI within the Settings UI
-	/// </summary>
-	public void SetKeyBindUI()
-	{
-		EventSystem.current.SetSelectedGameObject(m_KeybindButton);
-		m_KeybindSettings.SetActive(true);
-		m_GeneralSettings.SetActive(false);
 	}
 	#endregion
 
