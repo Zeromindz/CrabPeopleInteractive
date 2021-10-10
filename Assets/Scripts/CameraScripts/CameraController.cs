@@ -11,6 +11,21 @@ public class CameraController : MonoBehaviour
     private Transform m_Player;
     private Vector3 m_TargetPosition;
 
+    private static CameraController m_Instance;               // Current Private instance
+    public static CameraController Instance                   // Current public instance
+    {
+        get { return m_Instance; }
+    }
+
+    private void Awake()
+    {
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+    }
+
     private void Start()
     {
         m_Player = GameObject.FindWithTag("Player").transform;
@@ -33,6 +48,10 @@ public class CameraController : MonoBehaviour
         
     }
 
+    public void WatchGhost()
+	{
+        m_Player = GameObject.FindGameObjectWithTag("Ghost").transform;
+	}
 }
 
 

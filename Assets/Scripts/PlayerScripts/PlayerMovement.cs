@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
         CalculateSpeed();
 
-        Debug.Log("Current thrust = " + m_CurrentThrust);
+       // Debug.Log("Current thrust = " + m_CurrentThrust);
     }
 
     void FixedUpdate()
@@ -112,14 +112,14 @@ public class PlayerMovement : MonoBehaviour
                 m_CurrentThrust = 0f;
             }
         }
-        Debug.Log(m_CurrentThrust);
+        //Debug.Log(m_CurrentThrust);
     }
 
     // Controls turning
     public void Steer()
     {
         m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque);
-        Debug.Log(m_CurrentSteer);
+        //Debug.Log(m_CurrentSteer);
     }
 
     // Only works with wave manager active
@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 m_Airbourne = false;
-                Debug.Log("Hovering");
+              //  Debug.Log("Hovering");
             }
             else
             {

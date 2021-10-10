@@ -38,6 +38,28 @@ public class TempGameManager : MonoBehaviour
                 Debug.Log("Pressed: BackwardOrStop");
             }
 
+            if (Input.GetKeyDown(KeyCode.R))
+			{
+                if(!GhostRecorder.Instance.IsRecording())
+				{
+                    Debug.Log("Recording started");
+                    GhostRecorder.Instance.StartRecording();
+				}
+				else
+				{
+                    GhostRecorder.Instance.SaveRecording();
+                    Debug.Log("Recording stopped");
+				}
+			}
+
+            if (Input.GetKeyDown(KeyCode.P))
+			{
+                GhostPlayer.Instance.LoadGhost();
+                GhostPlayer.Instance.Play();
+                CameraController.Instance.WatchGhost();
+                Debug.Log("Playing recording");
+			}
+
 			if (Input.GetKeyDown(KeyCode.Space))
             {
                 MenuController.Instance.LoadEndScreen();
