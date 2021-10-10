@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_HorsePower = 30.0f;
     [SerializeField] internal float m_MaxSpeed = 50.0f;
     [SerializeField] internal float m_BoostSpeed = 100.0f;
+    [SerializeField] internal float m_MaxBoostSpeed = 50.0f;
     [SerializeField] internal float m_SteeringTorque = 8.0f;
     private bool m_Boosting = false;
     [Space(10)]
@@ -41,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentSteer = 0.0f;
     private float m_CurrentSpeed = 0f;
-    public float GetSpeed() { return m_CurrentSpeed; }
+    public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
 
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
@@ -68,10 +69,7 @@ public class PlayerMovement : MonoBehaviour
         //Check the input manager for current input
         m_CurrentThrust = m_PlayerController.playerInput.GetVertical();
         m_CurrentSteer = m_PlayerController.playerInput.GetHorizontal();
-
-        CalculateSpeed();
-
-
+        m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
         if(m_Boosting)
@@ -101,15 +99,30 @@ public class PlayerMovement : MonoBehaviour
 
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
-     
-        // Clamp Speed
-        if(m_RigidBody.velocity.magnitude > m_MaxSpeed)
+
+        if(m_Boosting)
         {
-            m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxSpeed;
+            if(GetSpeed() > m_MaxBoostSpeed)
+            {
+                m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxBoostSpeed;
+            }
         }
+        else
+        {
+            // Clamp Speed
+            if (GetSpeed() > m_MaxSpeed)
+            {
+                m_RigidBody.velocity -= m_RigidBody.velocity.normalized;
+                
+            }
+        }
+            
+       
 
         if (m_PlayerController.playerInput.GetVertical() < 0.01f)
         {
+            //Vector3 newVel = m_RigidBody.velocity * m_VelocitySlowFactor;
+            //newVel.y = m_Gravity;
             m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
         }
 
@@ -127,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
         Accelerate();
         Steer();
     }
+
 
     // Controls the acceleration of the boat
     public void Accelerate()
@@ -227,12 +241,6 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-    }
-
-    // Return rb vel mag
-    private void CalculateSpeed()
-    {
-        m_CurrentSpeed = m_RigidBody.velocity.magnitude;
     }
 
     void OnDrawGizmos()
