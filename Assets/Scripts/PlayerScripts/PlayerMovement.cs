@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask m_LayerMask;
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentSteer = 0.0f;
+    private float m_CurrentPitch = 0.0f;
+    private float m_CurrentRoll = 0.0f;
     private float m_CurrentSpeed = 0f;
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
 
@@ -69,8 +71,10 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //Check the input manager for current input
-        m_CurrentThrust = m_PlayerController.playerInput.GetVertical();
-        m_CurrentSteer = m_PlayerController.playerInput.GetHorizontal();
+        m_CurrentThrust = m_PlayerController.playerInput.GetWASDVertical();
+        m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
+        m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
+        m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
         m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
@@ -121,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
             
        
 
-        if (m_PlayerController.playerInput.GetVertical() < 0.01f)
+        if (m_CurrentThrust < 0.01f)
         {
             //Vector3 newVel = m_RigidBody.velocity * m_VelocitySlowFactor;
             //newVel.y = m_Gravity;
@@ -153,10 +157,10 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower, ForceMode.Acceleration);
         if (m_AtTrickHeight)
         {
-            AirFlip(m_CurrentThrust);
+            AirFlip(m_CurrentPitch);
 
         }
-
+        Debug.Log(m_CurrentThrust);
     }
 
     // Controls turning
@@ -165,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_AtTrickHeight)
         {
-            AirRoll(m_CurrentSteer);
+            AirRoll(m_CurrentRoll);
 
         }
         else
