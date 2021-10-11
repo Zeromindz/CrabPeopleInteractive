@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TempGameManager : MonoBehaviour
 {
+    private KeybindManager m_Keybinds;
+
+    void Awake()
+	{
+        m_Keybinds = KeybindManager.Instance;
+	}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,22 +25,22 @@ public class TempGameManager : MonoBehaviour
         if(MenuController.Instance.m_State == MenuState.GAME)
 		{
 
-            if (Input.GetKeyDown(KeybindManager.Instance.Forward))
+            if (Input.GetKeyDown(m_Keybinds.Forward))
             {
                 Debug.Log("Pressed: Forward");
             }
 
-            if (Input.GetKeyDown(KeybindManager.Instance.TurnLeft))
+            if (Input.GetKeyDown(m_Keybinds.TurnLeft))
             {
                 Debug.Log("Pressed: TurnLeft");
             }
 
-            if (Input.GetKeyDown(KeybindManager.Instance.TurnRight))
+            if (Input.GetKeyDown(m_Keybinds.TurnRight))
             {
                 Debug.Log("Pressed: TurnRight");
             }
 
-            if (Input.GetKeyDown(KeybindManager.Instance.BackwardOrStop))
+            if (Input.GetKeyDown(m_Keybinds.BackwardOrStop))
             {
                 Debug.Log("Pressed: BackwardOrStop");
             }
