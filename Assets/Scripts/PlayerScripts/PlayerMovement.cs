@@ -160,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
             AirFlip(m_CurrentPitch);
 
         }
-        Debug.Log(m_CurrentThrust);
+        
     }
 
     // Controls turning

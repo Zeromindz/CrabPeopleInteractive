@@ -46,10 +46,6 @@ public class PlayerInput : MonoBehaviour
             wasdVertical = y;
         }
 
-
-        Debug.Log("wasd vert = " + wasdVertical);
-
-
         wasdHorizontal = 0;
         float x = Input.GetAxis("WASDHorizontal");
         if (x > m_DeadZone)
@@ -63,8 +59,6 @@ public class PlayerInput : MonoBehaviour
             wasdHorizontal = x;
         }
 
-        Debug.Log("wasd horiz = " + wasdHorizontal);
-
         arrowsVertical = 0;
         float u = Input.GetAxis("ArrowsVertical");
         if (u > m_DeadZone)
@@ -76,8 +70,6 @@ public class PlayerInput : MonoBehaviour
             // steer
             arrowsVertical = u;
         }
-
-        Debug.Log("arrows vert = " + arrowsVertical);
 
         arrowsHorizontal = 0;
         float v = Input.GetAxis("ArrowsHorizontal");
@@ -91,8 +83,6 @@ public class PlayerInput : MonoBehaviour
             // steer
             arrowsHorizontal = v;
         }
-
-        Debug.Log("arrows horiz = " + arrowsHorizontal);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
