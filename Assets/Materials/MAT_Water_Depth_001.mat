@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Shader_Water_Stylised
-  m_Shader: {fileID: -6465566751694194690, guid: 7bb84e85f7e0a7f4f9824d696a7bf201, type: 3}
+  m_Name: MAT_Water_Depth_001
+  m_Shader: {fileID: -6465566751694194690, guid: 746db51fed9e88142b3128d4a6935fda, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,12 +24,12 @@ Material:
     - _FoamCutOff: 1
     - _FoamScale: 100
     - _FoamSpeed: 1
-    - _Gradient: 0
     - _RefractionSpeed: 0.5
     - _RefractionStrength: 0
     - _Refraction_Scale: 1
+    - _WaterDepth: 95.13
     m_Colors:
-    - _FoamColour: {r: 1, g: 1, b: 1, a: 1}
-    - _WaterDeep: {r: 0, g: 0, b: 0.6745098, a: 1}
-    - _WaterShallow: {r: 0.07186716, g: 0.68297595, b: 0.8018868, a: 1}
+    - _FoamColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _WaterDeep: {r: 0.3764706, g: 0, b: 0.36110857, a: 1}
+    - _WaterShallow: {r: 0.1826598, g: 0, b: 0.3018868, a: 1}
   m_BuildTextureStacks: []

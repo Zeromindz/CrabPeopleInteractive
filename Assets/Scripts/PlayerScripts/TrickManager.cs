@@ -20,7 +20,7 @@ public class TrickManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        inAir = controller.playerMovement.m_Airbourne;
+        inAir = controller.playerMovement.m_Grounded;
 
         Vector3 dir = transform.forward;
         angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
