@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
     {
         m_GameManager = FindObjectOfType<GameManager>();
     }
-
     
     void Update()
     {
