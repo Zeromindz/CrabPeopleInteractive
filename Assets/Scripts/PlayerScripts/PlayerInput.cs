@@ -14,6 +14,8 @@ public class PlayerInput : MonoBehaviour
 
     private float verticalInput;
     private float horizontalInput;
+    private float verticalArrows;
+    private float horizontalArrows;
     private bool shiftPressed;
 
     public float GetVertical() { return verticalInput; }
@@ -60,8 +62,5 @@ public class PlayerInput : MonoBehaviour
         {
             shiftPressed = false;
         }
-
     }
-
-   
 }

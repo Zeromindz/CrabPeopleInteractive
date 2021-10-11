@@ -38,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_GroundHoverHeight = 4.0f;
     [SerializeField] internal float m_InAirTorque = 20.0f; // May need to split to vert and hori
     [SerializeField] internal float m_TrickHeightCheck = 10.0f;
-    private int m_LayerMask;
+    //private int m_LayerMask;
+    public LayerMask m_LayerMask;
     private float m_CurrentThrust = 0.0f;
     private float m_CurrentSteer = 0.0f;
     private float m_CurrentSpeed = 0f;
@@ -58,8 +59,9 @@ public class PlayerMovement : MonoBehaviour
 
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
-        m_LayerMask = 1 << LayerMask.NameToLayer("Character");
-        m_LayerMask = ~m_LayerMask;
+
+        //m_LayerMask = 1 << LayerMask.NameToLayer("Character");
+        //m_LayerMask = ~m_LayerMask;
 
     }
 
@@ -148,40 +150,32 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = m_RigidBody.transform.forward;
         forward.y = 0.0f;
         forward.Normalize();
-
-        if (m_Grounded)
+        m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower, ForceMode.Acceleration);
+        if (m_AtTrickHeight)
         {
-            m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower, ForceMode.Acceleration);
-        }
-        else
-        {
-            if(m_AtTrickHeight)
-            {
-                AirFlip(m_CurrentThrust);
+            AirFlip(m_CurrentThrust);
 
-            }
         }
-        
+
     }
 
     // Controls turning
     public void Steer()
     {
 
-        if (m_Grounded)
+        if (m_AtTrickHeight)
         {
-            m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
+            AirRoll(m_CurrentSteer);
+
         }
         else
         {
-            if (m_AtTrickHeight)
-            {
-                AirRoll(m_CurrentSteer);
 
-            }
+            m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
         }
-       
+
     }
+  
 
     public bool AtTrickHeight()
     {

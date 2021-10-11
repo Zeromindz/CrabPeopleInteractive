@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         string passengerText = "Passengers: " + m_GameManager.m_Passengers;
         m_PassengerUI.text = passengerText;
 
-        string trickText = "Trick: " + m_GameManager.m_CurrentTrickRotation;
-        m_TrickUI.text = trickText;
+        //string trickText = "Trick: " + m_GameManager.m_CurrentTrickRotation;
+        //m_TrickUI.text = trickText;
     }
 }

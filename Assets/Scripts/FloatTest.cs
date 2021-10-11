@@ -29,30 +29,20 @@ public class FloatTest : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("helloWorld");
-        RaycastHit hit;
-        Physics.Raycast(transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask);
-        Debug.DrawRay(transform.position, -transform.up, Color.green);
-        /*
+        
+
         RaycastHit hit;
         if(Physics.Raycast(transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask))
-        m_RigidBody.AddForce(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), ForceMode.Acceleration);
-        Debug.DrawRay(transform.position, -Vector3.up, Color.green);
-        if (hit.distance >  m_GroundHoverHeight)
         {
-            // Hovering
-            m_RigidBody.AddForce(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), ForceMode.Acceleration);
-            floating = true;
-
+            m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), transform.position, ForceMode.Acceleration);
         }
         else
         {
             // Apply gravity
             m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
-
-            floating = false;
         }
-        */
+        Debug.DrawRay(transform.position, -transform.up, Color.green);
+       
     }
 
     private void OnDrawGizmos()
