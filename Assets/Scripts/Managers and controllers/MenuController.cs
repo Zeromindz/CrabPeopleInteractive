@@ -54,6 +54,10 @@ public class MenuController : MonoBehaviour
 	public GameObject m_EndScreenUI = null;							// The canvas holding the endscreen UI
 	public GameObject m_SettingsUI = null;                          // The canvas holding The settings  UI
 	public GameObject m_LeaderboardUI = null;						// The canvas holding the leaderboard UI
+	public bool IsInGame 
+	{ 
+		get { 	return m_State == MenuState.GAME; } 
+	}
 
 	// -----Private-----
 	Vector2 m_ScreenSize;
@@ -90,27 +94,6 @@ public class MenuController : MonoBehaviour
 		m_CurrentUI = m_MenuUI;
 		m_UIStack = new Stack<MenuStackItem>();
 		LoadMenu();
-	}
-
-
-
-	/// <summary>
-	/// Runs every frame.
-	/// Checks for key presses 
-	/// </summary>
-	private void Update()
-	{
-		// Pauses the game
-		if (Input.GetKeyDown(KeyCode.Escape) && m_State == MenuState.GAME)
-		{
-			PauseGame();
-		}
-
-		// Returns to the previous UI
-		else if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			ReturnToPreviousUI();
-		}
 	}
 	#endregion
 

@@ -1,13 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TempGameManager : MonoBehaviour
 {
+    public GameObject m_Player;
+    private Transform m_StartPoint;
+    private Transform m_EndPoint;
     private KeybindManager m_Keybinds;
+    private static TempGameManager m_Instance;                       // The current instance of MenuController
+    public static TempGameManager Instance                           // The public current instance of MenuController
+    {
+        get { return m_Instance; }
+    }
 
     void Awake()
 	{
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+        m_StartPoint = GameObject.FindGameObjectWithTag("Start").transform;
+        m_StartPoint = GameObject.FindGameObjectWithTag("End").transform;
         m_Keybinds = KeybindManager.Instance;
 	}
 
@@ -73,4 +89,10 @@ public class TempGameManager : MonoBehaviour
 			}
         }
     }
+
+    public void RestartGame()
+	{
+        m_Player.transform.position = m_StartPoint.position;
+        m_Player.transform.rotation = m_StartPoint.rotation;
+	}
 }

@@ -181,7 +181,7 @@ public class KeybindManager : MonoBehaviour
     void Update()
     {
 		if (m_LookingForKey)
-		{
+		{ 
 			foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
 			{
 				if (Input.GetKey(vkey))
