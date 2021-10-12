@@ -28,10 +28,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Time limit
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            m_CurrentTime = m_TimeLimit;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    m_CurrentTime = m_TimeLimit;
+        //}
+
         if(m_CurrentTime > 0)
         {
             m_CurrentTime -= Time.deltaTime;

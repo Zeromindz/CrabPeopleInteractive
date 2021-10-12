@@ -8652,17 +8652,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4629130818476053259, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
   m_PrefabInstance: {fileID: 1532418512}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &707379240 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4629130818476053251, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-  m_PrefabInstance: {fileID: 1532418512}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 707379237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f88cbf544d32b343bdc5dbc88d4f8bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &707379245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8689,72 +8678,16 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 707379240}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: Accelerate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f9520a39-f4e9-49f0-bdb8-809d75e64a6c
-    m_ActionName: Grounded/Accelerate[/Keyboard/w]
+      m_Calls: []
+    m_ActionId: 6c728e1e-0cab-42a9-89a0-774d3af89e93
+    m_ActionName: Player/Pause/Previous UI[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9c2f6022-c19b-4626-b304-3025da171132
-    m_ActionName: Grounded/Decelerate[/Keyboard/s]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f6410997-ba77-4da1-82fc-86727d9cd918
-    m_ActionName: Grounded/Steer left[/Keyboard/a]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8903c5f8-8ac4-4d1f-90dd-471181191475
-    m_ActionName: Grounded/Steer Right[/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 490be5f4-2a58-4f68-9f3f-be1dec443312
-    m_ActionName: Grounded/Pause/Previous UI[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 48a3171f-4d99-4158-be47-3cb8ef2a1063
-    m_ActionName: InAir/Pitch Down[/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: eda3e510-ef42-4819-a161-e6c680f2a770
-    m_ActionName: InAir/Pitch Up[/Keyboard/s]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 95778ecf-69a4-4e80-9b6d-b81785c755f1
-    m_ActionName: InAir/Roll Left[/Keyboard/a]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7920c2ca-69b7-48d5-a374-bf54bd025ec1
-    m_ActionName: InAir/Roll Right[/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 29dfe6ad-7963-4863-9e21-a281e4b4b631
-    m_ActionName: InAir/Pause/Previous UI[/Keyboard/escape]
+    m_ActionId: d986a886-a3cd-47b9-8776-734edfb47cc3
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: Grounded
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1001 &710888592
@@ -24302,7 +24235,6 @@ GameObject:
   - component: {fileID: 2143429780}
   - component: {fileID: 2143429779}
   - component: {fileID: 2143429778}
-  - component: {fileID: 2143429777}
   m_Layer: 5
   m_Name: MainMenuUI
   m_TagString: Untagged
@@ -24330,18 +24262,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2143429777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143429775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f88568e1fff2045a8d838b8ec710fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2143429778
 MonoBehaviour:
   m_ObjectHideFlags: 0

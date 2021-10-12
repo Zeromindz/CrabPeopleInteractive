@@ -247,13 +247,13 @@ public class ConsoleGUI : MonoBehaviour
 		//	stackTraceScrollPos.y += scroll.y;
 		//}
 
-		if (Input.GetKeyDown(showConsoleKey))
-		{
-			if (showConsole)
-				Hide();
-			else
-				Show();
-		}
+		//if (Input.GetKeyDown(showConsoleKey))
+		//{
+		//	if (showConsole)
+		//		Hide();
+		//	else
+		//		Show();
+		//}
 	}
 
 	private void OnGUI()
