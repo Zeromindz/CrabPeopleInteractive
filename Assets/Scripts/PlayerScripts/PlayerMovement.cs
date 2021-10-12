@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(Rigidbody))]
 
 //==================================================
 // Handles moving the player through the rigidbody
@@ -46,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private float m_CurrentRoll = 0.0f;
     private float m_CurrentSpeed = 0f;
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
+    public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
 
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
@@ -166,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
+        m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
 
         if (m_AtTrickHeight)
         {
@@ -175,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
 
-            m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
+           
         }
 
     }
