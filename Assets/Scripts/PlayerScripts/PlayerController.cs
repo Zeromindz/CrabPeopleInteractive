@@ -38,11 +38,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Testing
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            ResetBoat();
-        }
+        //if(Input.GetKeyDown(KeyCode.R))
+        //{
+        //    ResetBoat();
+        //}
     }
+
     public void AddPassenger() 
     { 
         m_Passengers++; 

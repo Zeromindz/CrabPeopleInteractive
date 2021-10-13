@@ -70,7 +70,8 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //Check the input manager for current input
-        m_CurrentThrust = m_PlayerController.playerInput.GetWASDVertical();
+        //m_CurrentThrust = m_PlayerController.playerInput.GetWASDVertical();
+        m_CurrentThrust = m_PlayerController.playerInput.GetAcceleration();
         m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
         m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
         m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
