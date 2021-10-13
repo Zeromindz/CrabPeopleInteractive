@@ -56,8 +56,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
-        m_RigidBody = GetComponent<Rigidbody>();
 
+        m_RigidBody = GetComponent<Rigidbody>();
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
 
@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
         m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
         m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
+
         m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
@@ -124,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
             
        
 
-        if (m_CurrentThrust < 0.01f)
+        if (m_CurrentThrust < 0.01f && m_Grounded)
         {
             //Vector3 newVel = m_RigidBody.velocity * m_VelocitySlowFactor;
             //newVel.y = m_Gravity;
