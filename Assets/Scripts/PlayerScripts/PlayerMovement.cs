@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(Rigidbody))]
 
 //==================================================
 // Handles moving the player through the rigidbody
@@ -40,12 +38,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_TrickHeightCheck = 10.0f;
     //private int m_LayerMask;
     public LayerMask m_LayerMask;
-    private float m_CurrentThrust = 0.0f;
-    private float m_CurrentSteer = 0.0f;
+
+    private Vector2 m_MovementInput;
+
+    //private float m_CurrentThrust = 0.0f;
+    //private float m_CurrentSteer = 0.0f;
     private float m_CurrentPitch = 0.0f;
     private float m_CurrentRoll = 0.0f;
     private float m_CurrentSpeed = 0f;
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
+    public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
 
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
@@ -57,10 +59,10 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
-        m_RigidBody = GetComponent<Rigidbody>();
 
-		m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
-		m_RigidBody.centerOfMass = m_CoM;
+        m_RigidBody = GetComponent<Rigidbody>();
+        m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
+        m_RigidBody.centerOfMass = m_CoM;
 
 		//m_LayerMask = 1 << LayerMask.NameToLayer("Character");
 		//m_LayerMask = ~m_LayerMask;
@@ -70,12 +72,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        //Check the input manager for current input
-        //m_CurrentThrust = m_PlayerController.playerInput.GetWASDVertical();
-        //m_CurrentThrust = m_PlayerController.playerInput.GetAcceleration();
-        //m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
+        m_MovementInput = m_PlayerController.playerInput.GetMovementInput();
+        
         //m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
         //m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
+
         m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
@@ -123,10 +124,8 @@ public class PlayerMovement : MonoBehaviour
                 
             }
         }
-            
-       
 
-        if (m_CurrentThrust < 0.01f)
+        if (m_MovementInput.y < 0.01f && m_Grounded)
         {
             //Vector3 newVel = m_RigidBody.velocity * m_VelocitySlowFactor;
             //newVel.y = m_Gravity;
@@ -155,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = m_RigidBody.transform.forward;
         forward.y = 0.0f;
         forward.Normalize();
-        m_RigidBody.AddForce(forward * m_CurrentThrust * m_HorsePower, ForceMode.Acceleration);
+        m_RigidBody.AddForce(forward * m_MovementInput.y * m_HorsePower, ForceMode.Acceleration);
         if (m_AtTrickHeight)
         {
             AirFlip(m_CurrentPitch);
@@ -166,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
+        m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
 
         if (m_AtTrickHeight)
         {
@@ -175,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
 
-            m_RigidBody.AddRelativeTorque(Vector3.up * m_CurrentSteer * m_SteeringTorque, ForceMode.Acceleration);
+           
         }
 
     }
@@ -186,14 +186,14 @@ public class PlayerMovement : MonoBehaviour
         return !Physics.Raycast(transform.position, -transform.up, m_TrickHeightCheck, m_LayerMask);
     }
 
-    public void AirFlip(float _currentThrust)
+    public void AirFlip(float _currentPitch)
     {
-        m_RigidBody.AddRelativeTorque(Vector3.right * _currentThrust * m_InAirTorque, ForceMode.Acceleration);
+        m_RigidBody.AddRelativeTorque(Vector3.right * _currentPitch * m_InAirTorque, ForceMode.Acceleration);
     }
 
-    public void AirRoll(float _currentSteer)
+    public void AirRoll(float _currentRoll)
     {
-        m_RigidBody.AddRelativeTorque(Vector3.back * _currentSteer * m_InAirTorque, ForceMode.Acceleration);
+        m_RigidBody.AddRelativeTorque(Vector3.back * _currentRoll * m_InAirTorque, ForceMode.Acceleration);
     }
 
     public void Boost()
@@ -203,20 +203,41 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody.AddForce(forward * m_BoostSpeed, ForceMode.Acceleration);
     }
     
-    // Only works with wave manager active
+    
     private void ApplyForcetoPoints()
     {
-        // Raycast down from each floater
-        RaycastHit hit;
+
+        /*
+         if(Physics.Raycast(HoverPoints[i].position, HoverPoints[i].TransformDirection(Vector3.down), out Hit, HoverHeight))
+        {
+
+             Rigidbody.AddForceAtPosition((Vector3.up * HoverForceBack * Time.deltaTime)* Mathf.Abs(1-(Vector3.Distance(Hit.point, HoverPoints[i].position)/ HoverHeight)), HoverPoints[i].position);
+                 if(Hit.point != Vector3.zero)
+                     Debug.DrawLine(HoverPoints[i].position, Hit.point, Color.blue);
+         }
+         else
+         {
+              if(Physics.Raycast(HoverPoints[i].position, HoverPoints[i].TransformDirection(Vector3.down), out Hit, HoverHeight))
+                   thisRigidbody.AddForceAtPosition((Vector3.up * HoverForceFront * Time.deltaTime)* Mathf.Abs(1-(Vector3.Distance(Hit.point, HoverPoints[i].position)/ HoverHeight)), HoverPoints[i].position);
+              if(Hit.point != Vector3.zero)
+                   Debug.DrawLine(HoverPoints[i].position, Hit.point, Color.red);
+        }
+        */ 
+
+       
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
+            // Raycast down from each floater
+            RaycastHit hit;
+
             var hoverPoint = m_HoverPoints[i];
             if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask))
             {
                 //======================================
                 // Hovering
                 //____________________________________/
-                m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
+                //m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
+                m_RigidBody.AddForceAtPosition((Vector3.up * m_GroundHoverForce) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_GroundHoverHeight)), hoverPoint.transform.position);
 
                 m_Grounded = true;
             }

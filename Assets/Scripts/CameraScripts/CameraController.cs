@@ -5,11 +5,14 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
-    [SerializeField] private Vector2 m_Offset = new Vector2(10, 5); // Cam Offset
-    [SerializeField] private float m_Angle = 2.0f; // Cam Angle
+    [SerializeField] private Transform m_Target;
+    
+    [Space(10)]
+    [SerializeField] private Vector3 m_PositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
+    [SerializeField] private Vector3 m_AngleOffset = new Vector3(0.0f, 0.0f, 0.0f);
     [SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
-    private Transform m_Player;
-    private Vector3 m_TargetPosition;
+    [Space(10)]
+    [SerializeField] private Vector3 rotationMask;
 
     private static CameraController m_Instance;               // Current Private instance
     public static CameraController Instance                   // Current public instance
@@ -26,32 +29,56 @@ public class CameraController : MonoBehaviour
             m_Instance = this;
     }
 
-    private void Start()
-    {
-        m_Player = GameObject.FindWithTag("Player").transform;
-    }
 
     // Late update since we're using physics and our calculations should be after everything else
     private void FixedUpdate()
     {
+        // --- old ---  
         // Set the target position above the player of the camera
-        m_TargetPosition = m_Player.position + (Vector3.up * m_Offset.y) - (m_Player.forward * m_Offset.x);
+        //Vector3 desiredPosition = m_Target.position + (Vector3.up * m_PositionOffset.y) - (m_Target.forward * m_PositionOffset.z);
+        //transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
+        //transform.LookAt(m_Target.position + (Vector3.up * m_AngleOffset.y), Vector3.up);
 
+        CameraFollow();
+    }
 
-        transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_SmoothTime);
-        transform.LookAt(m_Player.position + (Vector3.up * m_Angle), Vector3.up);
-        
-        // Debug line drawing;
-        Debug.DrawRay(m_Player.position, Vector3.up * m_Offset.y, Color.green); // Line for offset on the y Axis
-        Debug.DrawRay(m_Player.position, -1f * m_Player.forward * m_Offset.x, Color.blue); // Line for offset on the x (z) technically
-        Debug.DrawLine(m_Player.position, m_TargetPosition, Color.magenta); // Line to the cam target position
-        
+    void CameraFollow()
+    {
+        // Apply the initial rotation to the camera.
+        Quaternion initialRotation = Quaternion.Euler(m_AngleOffset);
+
+        // Calculate the rotation to be applied to the camera
+        Quaternion rot = Quaternion.Lerp(transform.rotation, m_Target.rotation * initialRotation, m_SmoothTime * Time.deltaTime);
+        // Mask out rotation axies
+        rot = Quaternion.Euler(Vector3.Scale(rot.eulerAngles, rotationMask));
+        transform.rotation = rot;
+
+        // Calculate the camera transformed axes.
+        Vector3 forward = transform.rotation * Vector3.forward;
+        Vector3 right = transform.rotation * Vector3.right;
+        Vector3 up = transform.rotation * Vector3.up;
+
+        // Calculate the offset in the camera's coordinate frame.
+        Vector3 targetPos = m_Target.position;
+        Vector3 desiredPosition = targetPos
+            + forward * m_PositionOffset.z
+            + right * m_PositionOffset.x
+            + up * m_PositionOffset.y;
+
+        // hange the position with a Lerp.
+        Vector3 position = Vector3.Lerp(transform.position, desiredPosition, m_SmoothTime * Time.deltaTime);
+        transform.position = position;
     }
 
     public void WatchGhost()
 	{
-        m_Player = GameObject.FindGameObjectWithTag("Ghost").transform;
+        m_Target = GameObject.FindGameObjectWithTag("Ghost").transform;
 	}
+
+    private void OnDrawGizmos()
+    {
+        
+    }
 }
 
 
