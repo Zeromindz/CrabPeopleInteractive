@@ -35,9 +35,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Accelerate"",
+                    ""name"": ""TrickRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""421cf89d-ea64-42d3-9662-56e0e4402e37"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""EnableTrick"",
                     ""type"": ""Button"",
-                    ""id"": ""1b64a068-20f1-4deb-8511-ec3cee41694d"",
+                    ""id"": ""1d25ce20-cbb1-42f9-98a4-5982c07f14d5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -112,25 +120,69 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6c4d2372-9100-4ff6-9eed-5f54d5afedf4"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""8a63ee46-a0c2-4c4d-9d6e-e56051a62895"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Accelerate"",
+                    ""action"": ""EnableTrick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""5199af48-1211-48d8-900b-f643e009c4e9"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""39d49cd7-3596-4cc0-873e-a8b0680a084a"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Accelerate"",
-                    ""isComposite"": false,
+                    ""action"": ""TrickRotation"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""44470654-5048-40ab-82c2-f6d4e9af4537"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TrickRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""92cd7f7a-ad12-4a07-8f71-ed39e6b8aea9"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TrickRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""fdfddc9f-c7fd-4c74-9869-6335eaa65cac"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TrickRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1b9fe63f-abbf-46ce-b8be-c648f0111db9"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""TrickRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -158,7 +210,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_PausePreviousUI = m_Player.FindAction("Pause/Previous UI", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_Accelerate = m_Player.FindAction("Accelerate", throwIfNotFound: true);
+        m_Player_TrickRotation = m_Player.FindAction("TrickRotation", throwIfNotFound: true);
+        m_Player_EnableTrick = m_Player.FindAction("EnableTrick", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
     }
@@ -212,14 +265,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_PausePreviousUI;
     private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_Accelerate;
+    private readonly InputAction m_Player_TrickRotation;
+    private readonly InputAction m_Player_EnableTrick;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @PausePreviousUI => m_Wrapper.m_Player_PausePreviousUI;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        public InputAction @Accelerate => m_Wrapper.m_Player_Accelerate;
+        public InputAction @TrickRotation => m_Wrapper.m_Player_TrickRotation;
+        public InputAction @EnableTrick => m_Wrapper.m_Player_EnableTrick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -235,9 +290,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Accelerate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAccelerate;
-                @Accelerate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAccelerate;
-                @Accelerate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAccelerate;
+                @TrickRotation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrickRotation;
+                @TrickRotation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrickRotation;
+                @TrickRotation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrickRotation;
+                @EnableTrick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
+                @EnableTrick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
+                @EnableTrick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -248,9 +306,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @Accelerate.started += instance.OnAccelerate;
-                @Accelerate.performed += instance.OnAccelerate;
-                @Accelerate.canceled += instance.OnAccelerate;
+                @TrickRotation.started += instance.OnTrickRotation;
+                @TrickRotation.performed += instance.OnTrickRotation;
+                @TrickRotation.canceled += instance.OnTrickRotation;
+                @EnableTrick.started += instance.OnEnableTrick;
+                @EnableTrick.performed += instance.OnEnableTrick;
+                @EnableTrick.canceled += instance.OnEnableTrick;
             }
         }
     }
@@ -302,7 +363,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     {
         void OnPausePreviousUI(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
-        void OnAccelerate(InputAction.CallbackContext context);
+        void OnTrickRotation(InputAction.CallbackContext context);
+        void OnEnableTrick(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

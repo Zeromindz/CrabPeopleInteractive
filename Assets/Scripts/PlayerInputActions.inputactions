@@ -22,9 +22,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Accelerate",
+                    "name": "TrickRotation",
+                    "type": "Value",
+                    "id": "421cf89d-ea64-42d3-9662-56e0e4402e37",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EnableTrick",
                     "type": "Button",
-                    "id": "1b64a068-20f1-4deb-8511-ec3cee41694d",
+                    "id": "1d25ce20-cbb1-42f9-98a4-5982c07f14d5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -99,25 +107,69 @@
                 },
                 {
                     "name": "",
-                    "id": "6c4d2372-9100-4ff6-9eed-5f54d5afedf4",
-                    "path": "<Keyboard>/space",
+                    "id": "8a63ee46-a0c2-4c4d-9d6e-e56051a62895",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Accelerate",
+                    "action": "EnableTrick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "5199af48-1211-48d8-900b-f643e009c4e9",
-                    "path": "<Keyboard>/c",
+                    "name": "2D Vector",
+                    "id": "39d49cd7-3596-4cc0-873e-a8b0680a084a",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Accelerate",
-                    "isComposite": false,
+                    "action": "TrickRotation",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "44470654-5048-40ab-82c2-f6d4e9af4537",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TrickRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "92cd7f7a-ad12-4a07-8f71-ed39e6b8aea9",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TrickRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "fdfddc9f-c7fd-4c74-9869-6335eaa65cac",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TrickRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1b9fe63f-abbf-46ce-b8be-c648f0111db9",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TrickRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

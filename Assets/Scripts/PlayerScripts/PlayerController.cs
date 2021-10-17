@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     internal PlayerMovement playerMovement;
     internal PlayerCollision playerCollision;
     internal TrickManager trickManager;
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] InputManager playerInput;
 
-    public PlayerInput PlayerInput => playerInput;
+    public InputManager PlayerInput => playerInput;
 
     private PlayerState currentState;
 
@@ -42,15 +42,6 @@ public class PlayerController : MonoBehaviour
         {
             currentState = newState;
         }
-    }
-
-    void Update()
-    {
-        // Testing
-        //if(Input.GetKeyDown(KeyCode.R))
-        //{
-        //    ResetBoat();
-        //}
     }
 
     public void AddPassenger() 

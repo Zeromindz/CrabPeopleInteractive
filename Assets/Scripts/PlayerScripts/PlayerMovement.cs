@@ -41,11 +41,11 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 m_MovementInput;
 
-    //private float m_CurrentThrust = 0.0f;
-    //private float m_CurrentSteer = 0.0f;
+    private float m_CurrentThrust = 0.0f;
+    private float m_CurrentSteer = 0.0f;
     private float m_CurrentPitch = 0.0f;
     private float m_CurrentRoll = 0.0f;
-    private float m_CurrentSpeed = 0f;
+    private float m_CurrentSpeed = 0.0f;
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
     public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
 
@@ -72,12 +72,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        m_MovementInput = m_PlayerController.playerInput.GetMovementInput();
+       // m_MovementInput = m_PlayerController.PlayerInput.
         
         //m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
         //m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
 
-        m_CurrentSpeed = GetSpeed();
+        //m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
         if(m_Boosting)
@@ -317,4 +317,6 @@ public class PlayerMovement : MonoBehaviour
             m_CurrentRoll = movement.x;
 		}
 	}
+
+
 }

@@ -50,9 +50,9 @@ public class InputManager : MonoBehaviour
         playerInput.Player.PausePreviousUI.performed += ctx => OnEscapePressed(ctx);
         playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
 
-        playerInput.Player.Accelerate.started += ctx => OnAccelerationPressed(ctx);
-        playerInput.Player.Accelerate.performed += ctx => OnAccelerationPressed(ctx);
-        playerInput.Player.Accelerate.canceled += ctx => OnAccelerationPressed(ctx);
+        playerInput.Player.EnableTrick.started += ctx => OnShiftPressed(ctx);
+        playerInput.Player.EnableTrick.performed += ctx => OnShiftPressed(ctx);
+        playerInput.Player.EnableTrick.canceled += ctx => OnShiftPressed(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -72,9 +72,11 @@ public class InputManager : MonoBehaviour
 
     }
 
-    private void OnAccelerationPressed(InputAction.CallbackContext ctx)
+    private void OnShiftPressed(InputAction.CallbackContext ctx)
 	{
-        Debug.Log("Acceleration pressed!");
+        float num = ctx.ReadValue<float>();
+        Debug.Log("Shift pressed!" + num);
+      //  playerController.playerMovement.
 	}
 
     private void OnMovementInput(InputAction.CallbackContext ctx)

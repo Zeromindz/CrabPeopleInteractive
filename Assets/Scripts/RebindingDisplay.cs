@@ -19,7 +19,7 @@ public class RebindingDisplay : MonoBehaviour
 		startRebingdingObject.SetActive(false);
 		waitingForInputObject.SetActive(true);
 
-		playerController.PlayerInput.SwitchCurrentActionMap("Menu");
+	//	playerController.PlayerInput.SwitchCurrentActionMap("Menu");
 
 		RebindingOperation = accelerationAction.action.PerformInteractiveRebinding()
 			.WithControlsExcluding("Mouse")
@@ -30,7 +30,7 @@ public class RebindingDisplay : MonoBehaviour
 
 	private void RebindComplete()
 	{
-		playerController.PlayerInput.SwitchCurrentActionMap("Player");
+		//playerController.PlayerInput.SwitchCurrentActionMap("Player");
 		//int bindingIndex = accelerationAction.action.GetBindingIndexForControl(accelerationAction.action.controls[0]);
 
 		bindingDisplayText.GetComponent<TextMeshProUGUI>().text = InputControlPath.ToHumanReadableString(
