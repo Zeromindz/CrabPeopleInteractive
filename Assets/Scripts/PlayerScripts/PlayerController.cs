@@ -8,11 +8,6 @@ enum PlayerState
     Moving
 }
 
-[RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(PlayerCollision))]
-[RequireComponent(typeof(TrickManager))]
-
 
 public class PlayerController : MonoBehaviour
 {

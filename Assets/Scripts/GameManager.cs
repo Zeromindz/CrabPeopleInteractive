@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         }
 
         m_BoatSpeed = m_Player.playerMovement.GetSpeed();
-        m_CurrentTrickRotation = m_Player.trickManager.currentRotation;
+        //m_CurrentTrickRotation = m_Player.trickManager.currentRotation;
         m_Passengers = m_Player.GetPassengers();
         
     }
