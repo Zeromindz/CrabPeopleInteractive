@@ -180,20 +180,20 @@ public class KeybindManager : MonoBehaviour
 	/// </summary>
     void Update()
     {
-		if (m_LookingForKey)
-		{ 
-			foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
-			{
-				if (Input.GetKey(vkey))
-				{
-					if (vkey != KeyCode.Return && vkey != KeyCode.Backspace && vkey != KeyCode.Escape)
-					{
-						m_LookingForKey = false;
-						Changingkeybind(vkey);
-					}
-				}
-			}
-		}
+		//if (m_LookingForKey)
+		//{ 
+		//	foreach (KeyCode vkey in System.Enum.GetValues(typeof(KeyCode)))
+		//	{
+		//		if (Input.GetKey(vkey))
+		//		{
+		//			if (vkey != KeyCode.Return && vkey != KeyCode.Backspace && vkey != KeyCode.Escape)
+		//			{
+		//				m_LookingForKey = false;
+		//				Changingkeybind(vkey);
+		//			}
+		//		}
+		//	}
+		//}
     }
 	#endregion
 

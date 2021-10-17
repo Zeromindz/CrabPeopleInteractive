@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 enum PlayerState
 {
@@ -8,7 +9,7 @@ enum PlayerState
     Moving
 }
 
-[RequireComponent(typeof(PlayerInput))]
+//[RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerCollision))]
 [RequireComponent(typeof(TrickManager))]
@@ -16,10 +17,13 @@ enum PlayerState
 
 public class PlayerController : MonoBehaviour
 {
-    internal PlayerInput playerInput;
+    //[SerializeField] PlayerInput playerInput;
     internal PlayerMovement playerMovement;
     internal PlayerCollision playerCollision;
     internal TrickManager trickManager;
+    [SerializeField] PlayerInput playerInput;
+
+    public PlayerInput PlayerInput => playerInput;
 
     private PlayerState currentState;
 
@@ -27,9 +31,14 @@ public class PlayerController : MonoBehaviour
     public int GetPassengers() { return m_Passengers; }
     public void ClearPassengers() { m_Passengers = 0; }
 
-    void Start()
+	private void Awake()
+	{
+	}
+
+	void Start()
     {
         Initialization();
+        
     }
 
     void ChangeState(PlayerState newState)
@@ -65,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void Initialization()
     {
-        playerInput = GetComponent<PlayerInput>();
+     //   playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCollision = GetComponent<PlayerCollision>();
         trickManager = GetComponent<TrickManager>();

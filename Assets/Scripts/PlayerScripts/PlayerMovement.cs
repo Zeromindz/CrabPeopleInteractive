@@ -29,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_Gravity = -9.81f;
     [SerializeField] internal float m_LevelingForce = 2.0f;
     [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
-    internal Vector3 m_CoM;
-    internal float m_PlayerHeight;
+	internal Vector3 m_CoM;
+	internal float m_PlayerHeight;
 
     [Header("Physics")]
     [SerializeField] internal bool m_AtTrickHeight;
@@ -50,32 +50,32 @@ public class PlayerMovement : MonoBehaviour
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
 
-    [Header("GFX")]
-    [SerializeField] private ParticleSystem m_RocketTrail;
-    [SerializeField] private ParticleSystem m_GroundedTrail;
+   // [Header("GFX")]
+  //  [SerializeField] private ParticleSystem m_RocketTrail;
+   // [SerializeField] private ParticleSystem m_GroundedTrail;
 
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
         m_RigidBody = GetComponent<Rigidbody>();
 
-        m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
-        m_RigidBody.centerOfMass = m_CoM;
+		m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
+		m_RigidBody.centerOfMass = m_CoM;
 
-        //m_LayerMask = 1 << LayerMask.NameToLayer("Character");
-        //m_LayerMask = ~m_LayerMask;
+		//m_LayerMask = 1 << LayerMask.NameToLayer("Character");
+		//m_LayerMask = ~m_LayerMask;
 
-    }
+	}
 
     void Update()
     {
 
         //Check the input manager for current input
         //m_CurrentThrust = m_PlayerController.playerInput.GetWASDVertical();
-        m_CurrentThrust = m_PlayerController.playerInput.GetAcceleration();
-        m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
-        m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
-        m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
+        //m_CurrentThrust = m_PlayerController.playerInput.GetAcceleration();
+        //m_CurrentSteer = m_PlayerController.playerInput.GetWASDHorizontal();
+        //m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
+        //m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
         m_CurrentSpeed = GetSpeed();
         // Set vfx emissions
         int rocketEmissionRate = 0;
@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
             rocketEmissionRate = 10;
 
         }
-        var rocketEmission = m_RocketTrail.emission;
-        rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+       // var rocketEmission = m_RocketTrail.emission;
+      //  rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
 
         int groundEmissionRate = 0;
         if(m_Grounded)
@@ -93,8 +93,8 @@ public class PlayerMovement : MonoBehaviour
             groundEmissionRate = 10;
 
         }
-        var groundEmission = m_GroundedTrail.emission;
-        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+       // var groundEmission = m_GroundedTrail.emission;
+      //  groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
 
     }
 
@@ -133,11 +133,11 @@ public class PlayerMovement : MonoBehaviour
             m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
         }
 
-        if (m_PlayerController.playerInput.ShiftPressed())
-        {
-            Boost();
-            m_Boosting = true;
-        }
+        //if (m_PlayerController.playerInput.ShiftPressed())
+        //{
+        //    Boost();
+        //    m_Boosting = true;
+        //}
         else
         {
             m_Boosting = false;
@@ -161,7 +161,6 @@ public class PlayerMovement : MonoBehaviour
             AirFlip(m_CurrentPitch);
 
         }
-        
     }
 
     // Controls turning
@@ -228,16 +227,16 @@ public class PlayerMovement : MonoBehaviour
                 // If below trick height
                 if(!m_AtTrickHeight)
                 {
-                    // level out hoverpoints
-                    if (m_CoM.y > hoverPoint.transform.position.y)
-                    {
-                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    }
-                    else
-                    {
-                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    }
-                }
+					// level out hoverpoints
+					if (m_CoM.y > hoverPoint.transform.position.y)
+					{
+						m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+					}
+					else
+					{
+						m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+					}
+				}
             }
         }
     }
@@ -272,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         if(m_RigidBody)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(m_CoM, 0.5f);
+           // Gizmos.DrawWireSphere(m_CoM, 0.5f);
         }
 
         // Trick height
@@ -280,4 +279,21 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, (transform.position  + (-Vector3.up * m_TrickHeightCheck)));
 
     }
+
+    public void Move(Vector2 movement)
+    {
+        if(!m_AtTrickHeight)
+		{
+
+            m_CurrentThrust = movement.y;
+            m_CurrentSteer = movement.x;
+
+		}
+
+		else
+		{
+            m_CurrentPitch = movement.y;
+            m_CurrentRoll = movement.x;
+		}
+	}
 }
