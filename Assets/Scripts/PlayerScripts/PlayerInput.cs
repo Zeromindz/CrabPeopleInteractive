@@ -14,6 +14,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerInputActions playerInput;
 
     private Vector2 movementInput;
+    public Vector2 GetMovementInput() { return movementInput; }
 
     private float wasdVertical;
     private float wasdHorizontal;
@@ -67,11 +68,13 @@ public class PlayerInput : MonoBehaviour
 	{
         movementInput = ctx.ReadValue<Vector2>();
         Debug.Log($"Movement Input {movementInput} " );
-
+        
 	}
 
     void Update()
     {
+
+        
 
         //Debug.Log("Acceleration: " + acceleration);
         //wasdVertical = 0;
