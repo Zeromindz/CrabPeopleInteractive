@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_BoostSpeed = 100.0f;
     [SerializeField] internal float m_MaxBoostSpeed = 50.0f;
     [SerializeField] internal float m_SteeringTorque = 8.0f;
-    internal bool m_Boosting = false;
+    [SerializeField] internal bool m_Boosting = false;
 
     [Space(10)]
     [SerializeField] internal float m_Gravity = -9.81f;
@@ -79,6 +79,16 @@ public class PlayerMovement : MonoBehaviour
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
 
+        if (m_PlayerController.playerInput.ShiftPressed() > 0)
+        {
+            Boost();
+            m_Boosting = true;
+        }
+        else
+        {
+            m_Boosting = false;
+        }
+
         // Clamp Speed
         if (m_Boosting)
         {
@@ -118,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(m_PlayerController.playerInput.ShiftPressed() > 0)
+            if(m_PlayerController.playerInput.SpacePressed() > 0)
             {
                 AirFlip(m_MovementInput.y);
             }
@@ -129,11 +139,19 @@ public class PlayerMovement : MonoBehaviour
     public void Steer()
     {
 
-        m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
 
-        if (m_PlayerController.playerInput.ShiftPressed() > 0 && m_AtTrickHeight)
+        if(m_PlayerController.playerInput.SpacePressed() > 0)
         {
-            AirRoll(m_MovementInput.x);
+            if(m_AtTrickHeight)
+            {
+                AirRoll(m_MovementInput.x);
+
+            }
+        }
+        else
+        {
+            m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
+
         }
         
     }
@@ -231,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_RigidBody)
         {
             Gizmos.color = Color.red;
-            // Gizmos.DrawWireSphere(m_CoM, 0.5f);
+            Gizmos.DrawWireSphere(m_CoM, 0.5f);
         }
 
         // Trick height

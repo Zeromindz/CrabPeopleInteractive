@@ -16,11 +16,14 @@ public class InputManager : MonoBehaviour
     private Vector2 movementInput;
     public Vector2 GetMovementInput() { return movementInput; }
 
-    private float acceleration;
-    public float GetAcceleration() { return acceleration; }
-
     private float shiftPressed;
     public float ShiftPressed() { return shiftPressed; }
+
+    private float spacePressed;
+    public float SpacePressed() { return spacePressed; }
+
+    private float acceleration;
+    public float GetAcceleration() { return acceleration; }
 
     private float m_DeadZone = 0.1f;
 
@@ -37,9 +40,13 @@ public class InputManager : MonoBehaviour
         playerInput.Player.PausePreviousUI.performed += ctx => OnEscapePressed(ctx);
         playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
 
-        playerInput.Player.EnableTrick.started += ctx => OnShiftPressed(ctx);
-        playerInput.Player.EnableTrick.performed += ctx => OnShiftPressed(ctx);
-        playerInput.Player.EnableTrick.canceled += ctx => OnShiftPressed(ctx);
+        playerInput.Player.EnableBoost.started += ctx => OnShiftPressed(ctx);
+        playerInput.Player.EnableBoost.performed += ctx => OnShiftPressed(ctx);
+        playerInput.Player.EnableBoost.canceled += ctx => OnShiftPressed(ctx);
+
+        playerInput.Player.EnableTrick.started += ctx => OnSpacePressed(ctx);
+        playerInput.Player.EnableTrick.performed += ctx => OnSpacePressed(ctx);
+        playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -62,8 +69,13 @@ public class InputManager : MonoBehaviour
 	{
         shiftPressed = ctx.ReadValue<float>();
         Debug.Log("Shift pressed!" + shiftPressed);
-      //  playerController.playerMovement.
 	}
+
+    private void OnSpacePressed(InputAction.CallbackContext ctx)
+    {
+        spacePressed = ctx.ReadValue<float>();
+        Debug.Log("Shift pressed!" + spacePressed);
+    }
 
     private void OnMovementInput(InputAction.CallbackContext ctx)
     {

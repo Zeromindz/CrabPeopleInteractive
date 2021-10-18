@@ -20,4 +20,10 @@ public class CamRotator : MonoBehaviour
         // Set rotation to the inverse of the x and z components
         transform.rotation = Quaternion.Euler(m_TargetRotX - m_TargetRotX, m_TargetRotY, m_TargetRotZ - m_TargetRotZ);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(transform.position + (transform.forward * 10f), Vector3.one);
+    }
 }

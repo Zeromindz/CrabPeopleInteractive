@@ -49,6 +49,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""EnableBoost"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbfee99d-0f61-4784-a31e-171853682c22"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -121,7 +129,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8a63ee46-a0c2-4c4d-9d6e-e56051a62895"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -183,6 +191,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""TrickRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c05e4331-4938-4a67-8eec-657cb41d8369"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnableBoost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -212,6 +231,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_TrickRotation = m_Player.FindAction("TrickRotation", throwIfNotFound: true);
         m_Player_EnableTrick = m_Player.FindAction("EnableTrick", throwIfNotFound: true);
+        m_Player_EnableBoost = m_Player.FindAction("EnableBoost", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
     }
@@ -267,6 +287,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_TrickRotation;
     private readonly InputAction m_Player_EnableTrick;
+    private readonly InputAction m_Player_EnableBoost;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -275,6 +296,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @TrickRotation => m_Wrapper.m_Player_TrickRotation;
         public InputAction @EnableTrick => m_Wrapper.m_Player_EnableTrick;
+        public InputAction @EnableBoost => m_Wrapper.m_Player_EnableBoost;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -296,6 +318,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @EnableTrick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
                 @EnableTrick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
                 @EnableTrick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableTrick;
+                @EnableBoost.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
+                @EnableBoost.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
+                @EnableBoost.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -312,6 +337,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @EnableTrick.started += instance.OnEnableTrick;
                 @EnableTrick.performed += instance.OnEnableTrick;
                 @EnableTrick.canceled += instance.OnEnableTrick;
+                @EnableBoost.started += instance.OnEnableBoost;
+                @EnableBoost.performed += instance.OnEnableBoost;
+                @EnableBoost.canceled += instance.OnEnableBoost;
             }
         }
     }
@@ -365,6 +393,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnTrickRotation(InputAction.CallbackContext context);
         void OnEnableTrick(InputAction.CallbackContext context);
+        void OnEnableBoost(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

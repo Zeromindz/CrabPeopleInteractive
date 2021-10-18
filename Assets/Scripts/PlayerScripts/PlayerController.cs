@@ -36,28 +36,28 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //// Set vfx emissions
-        //int rocketEmissionRate = 0;
-        //if (playerMovement.m_Boosting)
-        //{
-        //    rocketEmissionRate = 10;
+        // Set vfx emissions
+        int rocketEmissionRate = 0;
+        if (playerMovement.m_Boosting)
+        {
+            rocketEmissionRate = 10;
 
-        //}
-        //foreach (var trails in m_RocketTrails)
-        //{
-        //    var rocketEmission = trails.emission;
-        //    rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
-        //}
+        }
+        foreach (var trails in m_RocketTrails)
+        {
+            var rocketEmission = trails.emission;
+            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+        }
 
-        //int groundEmissionRate = 0;
-        //if (playerMovement.m_Grounded)
-        //{
-        //    groundEmissionRate = 10;
+        int groundEmissionRate = 0;
+        if (playerMovement.m_Grounded)
+        {
+            groundEmissionRate = 10;
 
-        //}
+        }
 
-        //var groundEmission = m_GroundedTrail.emission;
-        //groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+        var groundEmission = m_GroundedTrail.emission;
+        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
 
         
     }
