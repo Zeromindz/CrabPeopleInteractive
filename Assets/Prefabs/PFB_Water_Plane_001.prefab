@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4739919844942056563}
   - component: {fileID: 6542236989238436075}
-  - component: {fileID: 7945730794834536683}
+  - component: {fileID: 2027947541685484335}
   m_Layer: 0
   m_Name: PFB_Water_Plane_001
   m_TagString: Untagged
@@ -122,8 +122,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8993533711506445248}
   m_Mesh: {fileID: -462981019419857548, guid: f1792339cc3027a48836d28a20fc1b26, type: 3}
---- !u!64 &7945730794834536683
-MeshCollider:
+--- !u!65 &2027947541685484335
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -132,7 +132,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -462981019419857548, guid: f1792339cc3027a48836d28a20fc1b26, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 200, y: 3, z: 200}
+  m_Center: {x: 0, y: -1.6, z: 0}

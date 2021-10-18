@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "EnableBoost",
+                    "type": "Button",
+                    "id": "bbfee99d-0f61-4784-a31e-171853682c22",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -108,7 +116,7 @@
                 {
                     "name": "",
                     "id": "8a63ee46-a0c2-4c4d-9d6e-e56051a62895",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -170,6 +178,17 @@
                     "action": "TrickRotation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c05e4331-4938-4a67-8eec-657cb41d8369",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnableBoost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

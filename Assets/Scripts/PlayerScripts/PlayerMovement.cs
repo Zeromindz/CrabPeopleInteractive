@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_BoostSpeed = 100.0f;
     [SerializeField] internal float m_MaxBoostSpeed = 50.0f;
     [SerializeField] internal float m_SteeringTorque = 8.0f;
-    private bool m_Boosting = false;
+    [SerializeField] internal bool m_Boosting = false;
+
     [Space(10)]
     [SerializeField] internal float m_Gravity = -9.81f;
     [SerializeField] internal float m_LevelingForce = 2.0f;
@@ -52,10 +53,6 @@ public class PlayerMovement : MonoBehaviour
     [Space(10)]
     [SerializeField] private GameObject[] m_HoverPoints;
 
-   // [Header("GFX")]
-  //  [SerializeField] private ParticleSystem m_RocketTrail;
-   // [SerializeField] private ParticleSystem m_GroundedTrail;
-
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
@@ -71,44 +68,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-       // m_MovementInput = m_PlayerController.PlayerInput.
-        
-        //m_CurrentPitch = m_PlayerController.playerInput.GetArrowsVertical();
-        //m_CurrentRoll = m_PlayerController.playerInput.GetArrowsHorizontal();
-
-        //m_CurrentSpeed = GetSpeed();
-        // Set vfx emissions
-        int rocketEmissionRate = 0;
-        if(m_Boosting)
-        {
-            rocketEmissionRate = 10;
-
-        }
-       // var rocketEmission = m_RocketTrail.emission;
-      //  rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
-
-        int groundEmissionRate = 0;
-        if(m_Grounded)
-        {
-            groundEmissionRate = 10;
-
-        }
-       // var groundEmission = m_GroundedTrail.emission;
-      //  groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
-
+        m_MovementInput = m_PlayerController.playerInput.GetMovementInput();
     }
 
     void FixedUpdate()
     {
-
         //debug
         m_AtTrickHeight = AtTrickHeight();
 
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
 
-        if(m_Boosting)
+        if (m_PlayerController.playerInput.ShiftPressed() > 0)
+        {
+            Boost();
+            m_Boosting = true;
+        }
+        else
+        {
+            m_Boosting = false;
+        }
+
+        // Clamp Speed
+        if (m_Boosting)
         {
             if(GetSpeed() > m_MaxBoostSpeed)
             {
@@ -117,36 +99,22 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Clamp Speed
             if (GetSpeed() > m_MaxSpeed)
             {
                 m_RigidBody.velocity -= m_RigidBody.velocity.normalized;
-                
             }
         }
 
         if (m_MovementInput.y < 0.01f && m_Grounded)
         {
-            //Vector3 newVel = m_RigidBody.velocity * m_VelocitySlowFactor;
-            //newVel.y = m_Gravity;
             m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
         }
 
-        //if (m_PlayerController.playerInput.ShiftPressed())
-        //{
-        //    Boost();
-        //    m_Boosting = true;
-        //}
-        else
-        {
-            m_Boosting = false;
-        }
         ApplyForcetoPoints();
        
         Accelerate();
         Steer();
     }
-
 
     // Controls the acceleration of the boat
     public void Accelerate()
@@ -154,33 +122,40 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = m_RigidBody.transform.forward;
         forward.y = 0.0f;
         forward.Normalize();
-        m_RigidBody.AddForce(forward * m_MovementInput.y * m_HorsePower, ForceMode.Acceleration);
-        if (m_AtTrickHeight)
+        if (!m_AtTrickHeight)
         {
-            AirFlip(m_CurrentPitch);
-
+            m_RigidBody.AddForce(forward * m_MovementInput.y * m_HorsePower, ForceMode.Acceleration);
+        }
+        else
+        {
+            if(m_PlayerController.playerInput.SpacePressed() > 0)
+            {
+                AirFlip(m_MovementInput.y);
+            }
         }
     }
 
     // Controls turning
     public void Steer()
     {
-        m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
 
-        if (m_AtTrickHeight)
+
+        if(m_PlayerController.playerInput.SpacePressed() > 0)
         {
-            AirRoll(m_CurrentRoll);
+            if(m_AtTrickHeight)
+            {
+                AirRoll(m_MovementInput.x);
 
+            }
         }
         else
         {
+            m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
 
-           
         }
-
+        
     }
-  
-
+        
     public bool AtTrickHeight()
     {
         return !Physics.Raycast(transform.position, -transform.up, m_TrickHeightCheck, m_LayerMask);
@@ -202,29 +177,11 @@ public class PlayerMovement : MonoBehaviour
 
         m_RigidBody.AddForce(forward * m_BoostSpeed, ForceMode.Acceleration);
     }
-    
-    
+
+
     private void ApplyForcetoPoints()
     {
 
-        /*
-         if(Physics.Raycast(HoverPoints[i].position, HoverPoints[i].TransformDirection(Vector3.down), out Hit, HoverHeight))
-        {
-
-             Rigidbody.AddForceAtPosition((Vector3.up * HoverForceBack * Time.deltaTime)* Mathf.Abs(1-(Vector3.Distance(Hit.point, HoverPoints[i].position)/ HoverHeight)), HoverPoints[i].position);
-                 if(Hit.point != Vector3.zero)
-                     Debug.DrawLine(HoverPoints[i].position, Hit.point, Color.blue);
-         }
-         else
-         {
-              if(Physics.Raycast(HoverPoints[i].position, HoverPoints[i].TransformDirection(Vector3.down), out Hit, HoverHeight))
-                   thisRigidbody.AddForceAtPosition((Vector3.up * HoverForceFront * Time.deltaTime)* Mathf.Abs(1-(Vector3.Distance(Hit.point, HoverPoints[i].position)/ HoverHeight)), HoverPoints[i].position);
-              if(Hit.point != Vector3.zero)
-                   Debug.DrawLine(HoverPoints[i].position, Hit.point, Color.red);
-        }
-        */ 
-
-       
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
             // Raycast down from each floater
@@ -246,18 +203,18 @@ public class PlayerMovement : MonoBehaviour
                 m_Grounded = false;
 
                 // If below trick height
-                if(!m_AtTrickHeight)
+                if (!m_AtTrickHeight)
                 {
-					// level out hoverpoints
-					if (m_CoM.y > hoverPoint.transform.position.y)
-					{
-						m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-					}
-					else
-					{
-						m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-					}
-				}
+                    // level out hoverpoints
+                    if (m_CoM.y > hoverPoint.transform.position.y)
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
+                    else
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
+                }
             }
         }
     }
@@ -289,34 +246,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // CoM
-        if(m_RigidBody)
+        if (m_RigidBody)
         {
             Gizmos.color = Color.red;
-           // Gizmos.DrawWireSphere(m_CoM, 0.5f);
+            Gizmos.DrawWireSphere(m_CoM, 0.5f);
         }
 
         // Trick height
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, (transform.position  + (-Vector3.up * m_TrickHeightCheck)));
+        Gizmos.DrawLine(transform.position, (transform.position + (-Vector3.up * m_TrickHeightCheck)));
 
     }
-
-    public void Move(Vector2 movement)
-    {
-        if(!m_AtTrickHeight)
-		{
-
-            m_CurrentThrust = movement.y;
-            m_CurrentSteer = movement.x;
-
-		}
-
-		else
-		{
-            m_CurrentPitch = movement.y;
-            m_CurrentRoll = movement.x;
-		}
-	}
 
 
 }

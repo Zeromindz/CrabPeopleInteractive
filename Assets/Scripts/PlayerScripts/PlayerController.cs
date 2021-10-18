@@ -15,24 +15,50 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] PlayerInput playerInput;
     internal PlayerMovement playerMovement;
     internal PlayerCollision playerCollision;
+    internal InputManager playerInput;
     internal TrickManager trickManager;
-    [SerializeField] InputManager playerInput;
 
-    public InputManager PlayerInput => playerInput;
-
+    [Header("GFX")]
+    [SerializeField] private ParticleSystem[] m_RocketTrails;
+    [SerializeField] private ParticleSystem m_GroundedTrail;
     private PlayerState currentState;
 
     private int m_Passengers = 0;
     public int GetPassengers() { return m_Passengers; }
     public void ClearPassengers() { m_Passengers = 0; }
 
-	private void Awake()
-	{
-	}
 
 	void Start()
     {
         Initialization();
+        
+    }
+
+    private void Update()
+    {
+        // Set vfx emissions
+        int rocketEmissionRate = 0;
+        if (playerMovement.m_Boosting)
+        {
+            rocketEmissionRate = 10;
+
+        }
+        foreach (var trails in m_RocketTrails)
+        {
+            var rocketEmission = trails.emission;
+            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+        }
+
+        int groundEmissionRate = 0;
+        if (playerMovement.m_Grounded)
+        {
+            groundEmissionRate = 10;
+
+        }
+
+        var groundEmission = m_GroundedTrail.emission;
+        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+
         
     }
 
@@ -60,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     void Initialization()
     {
-     //   playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<InputManager>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCollision = GetComponent<PlayerCollision>();
         trickManager = GetComponent<TrickManager>();
