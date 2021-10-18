@@ -35,11 +35,11 @@ public class CameraController : MonoBehaviour
     {
         // --- old ---  
         // Set the target position above the player of the camera
-        //Vector3 desiredPosition = m_Target.position + (Vector3.up * m_PositionOffset.y) - (m_Target.forward * m_PositionOffset.z);
-        //transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
-        //transform.LookAt(m_Target.position + (Vector3.up * m_AngleOffset.y), Vector3.up);
+        Vector3 desiredPosition = m_Target.position + (Vector3.up * m_PositionOffset.y) - (m_Target.forward * m_PositionOffset.z);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
+        transform.LookAt(m_Target.position + (Vector3.up * m_AngleOffset.y), Vector3.up);
 
-        CameraFollow();
+        //CameraFollow();
     }
 
     void CameraFollow()
