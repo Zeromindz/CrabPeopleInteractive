@@ -44,6 +44,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "RecordReplay",
+                    "type": "Value",
+                    "id": "4e806ffd-40f3-4db3-a51a-ca32dddc3eb5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -187,6 +195,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EnableBoost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15553537-9eaf-4fe6-8d74-630c868edacd",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "RecordReplay",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

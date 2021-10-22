@@ -57,6 +57,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""RecordReplay"",
+                    ""type"": ""Value"",
+                    ""id"": ""4e806ffd-40f3-4db3-a51a-ca32dddc3eb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -202,6 +210,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""EnableBoost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15553537-9eaf-4fe6-8d74-630c868edacd"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RecordReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -232,6 +251,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_TrickRotation = m_Player.FindAction("TrickRotation", throwIfNotFound: true);
         m_Player_EnableTrick = m_Player.FindAction("EnableTrick", throwIfNotFound: true);
         m_Player_EnableBoost = m_Player.FindAction("EnableBoost", throwIfNotFound: true);
+        m_Player_RecordReplay = m_Player.FindAction("RecordReplay", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
     }
@@ -288,6 +308,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_TrickRotation;
     private readonly InputAction m_Player_EnableTrick;
     private readonly InputAction m_Player_EnableBoost;
+    private readonly InputAction m_Player_RecordReplay;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -297,6 +318,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @TrickRotation => m_Wrapper.m_Player_TrickRotation;
         public InputAction @EnableTrick => m_Wrapper.m_Player_EnableTrick;
         public InputAction @EnableBoost => m_Wrapper.m_Player_EnableBoost;
+        public InputAction @RecordReplay => m_Wrapper.m_Player_RecordReplay;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -321,6 +343,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @EnableBoost.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
                 @EnableBoost.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
                 @EnableBoost.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnableBoost;
+                @RecordReplay.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
+                @RecordReplay.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
+                @RecordReplay.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -340,6 +365,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @EnableBoost.started += instance.OnEnableBoost;
                 @EnableBoost.performed += instance.OnEnableBoost;
                 @EnableBoost.canceled += instance.OnEnableBoost;
+                @RecordReplay.started += instance.OnRecordReplay;
+                @RecordReplay.performed += instance.OnRecordReplay;
+                @RecordReplay.canceled += instance.OnRecordReplay;
             }
         }
     }
@@ -394,6 +422,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnTrickRotation(InputAction.CallbackContext context);
         void OnEnableTrick(InputAction.CallbackContext context);
         void OnEnableBoost(InputAction.CallbackContext context);
+        void OnRecordReplay(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

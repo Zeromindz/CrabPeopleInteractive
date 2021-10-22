@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     internal PlayerCollision playerCollision;
     internal InputManager playerInput;
     internal TrickManager trickManager;
+    internal PassengerManager passengerManager;
 
     [Header("GFX")]
     [SerializeField] private ParticleSystem[] m_RocketTrails;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
 	void Start()
     {
         Initialization();
-        
+        passengerManager = GetComponent<PassengerManager>();
     }
 
     private void Update()
@@ -75,6 +76,8 @@ public class PlayerController : MonoBehaviour
         m_Passengers++; 
         playerMovement.m_MaxSpeed *= 1.1f;
         playerMovement.m_HorsePower *= 1.01f;
+
+        passengerManager.SpawnPassenger();
     }
 
     private void ResetBoat()
