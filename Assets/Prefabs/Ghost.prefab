@@ -209,11 +209,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4629130818476053258}
   - component: {fileID: 4629130818476053253}
-  - component: {fileID: 4629130818476053250}
-  - component: {fileID: 4629130818476053248}
-  - component: {fileID: 4629130818476053251}
-  - component: {fileID: 4629130818476053249}
-  - component: {fileID: 1334619242}
+  - component: {fileID: 3565906328876472258}
+  - component: {fileID: 4744119313499763788}
   m_Layer: 8
   m_Name: Ghost
   m_TagString: Player
@@ -257,87 +254,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4629130818476053250
+--- !u!114 &3565906328876472258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309850b778876264eb994846f83d7e02, type: 3}
+  m_Script: {fileID: 11500000, guid: 7004657ed565bcd41ab83d00174c71ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4629130818476053248
+  path: []
+  currentMove: 0
+--- !u!114 &4744119313499763788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf0c80ebd792ed4e97b606f127b62de, type: 3}
+  m_Script: {fileID: 11500000, guid: a81c98ebe7b6d6d45b55cf4d7dc80399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Airbourne: 0
-  m_HorsePower: 80
-  m_MaxSpeed: 60
-  m_SteeringTorque: 15
-  m_LevelingForce: 0.01
-  m_VelocitySlowFactor: 0.99
-  m_Gravity: -30
-  m_CenterOfMass: {fileID: 930582458}
-  m_HoverPoints:
-  - {fileID: 4629130820131787541}
-  - {fileID: 4629130820280182898}
-  - {fileID: 4629130819296999323}
-  - {fileID: 4629130818838192660}
-  m_EngineTransform: {fileID: 4629130819698018075}
-  m_GroundHoverForce: 25
-  m_GroundHoverHeight: 3
-  m_DepthBeforeSubmerged: 1
-  m_DisplacementAmount: 3
-  m_WaterDrag: 0.1
-  m_WaterAngularDrag: 0.5
---- !u!114 &4629130818476053251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f88cbf544d32b343bdc5dbc88d4f8bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4629130818476053249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8809112bb9bec164f81a4680aaebe1dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1334619242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd86e20ffc91c2546a5968aa2b620a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentRotation: 0
 --- !u!1 &4629130818744945149
 GameObject:
   m_ObjectHideFlags: 0

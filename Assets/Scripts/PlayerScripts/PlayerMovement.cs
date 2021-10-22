@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_LevelingForce = 2.0f;
     [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
 	internal Vector3 m_CoM;
+    private Vector3 m_InAirCoM;
 	internal float m_PlayerHeight;
 
     [Header("Physics")]
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
+        m_InAirCoM = m_RigidBody.centerOfMass;
         m_RigidBody.centerOfMass = m_CoM;
 
 		//m_LayerMask = 1 << LayerMask.NameToLayer("Character");
@@ -75,6 +77,15 @@ public class PlayerMovement : MonoBehaviour
     {
         //debug
         m_AtTrickHeight = AtTrickHeight();
+        if(m_AtTrickHeight)
+        {
+            m_RigidBody.centerOfMass = m_InAirCoM;
+        }    
+        else
+        {
+            m_RigidBody.centerOfMass = m_CoM;
+
+        }
 
         // Apply gravity
         m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
