@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         foreach (var trails in m_RocketTrails)
         {
             var rocketEmission = trails.emission;
-            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+        //    rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
         }
 
         int groundEmissionRate = 0;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         }
 
         var groundEmission = m_GroundedTrail.emission;
-        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+       // groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
 
         
     }
