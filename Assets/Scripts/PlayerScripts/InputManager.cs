@@ -25,6 +25,9 @@ public class InputManager : MonoBehaviour
     private float acceleration;
     public float GetAcceleration() { return acceleration; }
 
+    private float recordGhost;
+    public float RecordGhost() { return recordGhost; }
+
     private float m_DeadZone = 0.1f;
 
     private void Awake()
@@ -47,6 +50,10 @@ public class InputManager : MonoBehaviour
         playerInput.Player.EnableTrick.started += ctx => OnSpacePressed(ctx);
         playerInput.Player.EnableTrick.performed += ctx => OnSpacePressed(ctx);
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
+
+        playerInput.Player.RecordReplay.started += ctx => OnSpacePressed(ctx);
+        playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -81,6 +88,12 @@ public class InputManager : MonoBehaviour
     {
         movementInput = ctx.ReadValue<Vector2>();
         Debug.Log($"Movement Input {movementInput} ");
+    }
+
+    private void OnRecordReplay(InputAction.CallbackContext ctx)
+    {
+        //recordGhost = ctx.ReadValue<Vector2>();
+
     }
 
     private void OnEnable()
