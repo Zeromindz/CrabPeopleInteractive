@@ -5,8 +5,18 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
+    private Camera m_Cam;
     [SerializeField] private Transform m_Target;
     [SerializeField] private Transform m_LookAtTransform;
+
+    [Space(10)]
+    [Header("FOV Settings")]
+    [SerializeField] private float m_FovMin = 60.0f;
+    [SerializeField] private float m_FovMax = 75.0f;
+    [SerializeField] private float m_FovSmoothTime = 0.5f;
+    [SerializeField] private float m_TargetSpeed;
+    private float m_CamFovVel;
+    private Vector3 m_TargetLastPosition;
 
     [Space(10)]
     //[SerializeField] private Vector3 m_PositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
@@ -44,6 +54,16 @@ public class CameraController : MonoBehaviour
             m_Instance = this;
     }
 
+    private void Start()
+    {
+        m_Cam = gameObject.GetComponent<Camera>();
+    }
+
+    private void Update()
+    {
+        m_TargetSpeed = m_Target.GetComponent<PlayerController>().playerMovement.GetSpeed();    
+    }
+
     private void FixedUpdate()
     {
         // --- old ---  
@@ -51,6 +71,13 @@ public class CameraController : MonoBehaviour
         Vector3 desiredPosition = m_Target.position + (Vector3.up * m_LookAtTargetHeight) - (m_Target.forward * m_LookAtTargetDist);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
         transform.LookAt(m_Target.position + (Vector3.up * m_Angle), Vector3.up);
+
+
+        //CalculateTargetSpeed();
+
+        float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
+        m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
+        
 
 
         /*
@@ -128,6 +155,15 @@ public class CameraController : MonoBehaviour
         transform.position = position;
     }
     */ //Camera Follow
+
+
+    private void CalculateTargetSpeed()
+    {
+        // Calculate speed in meters per second
+        m_TargetSpeed = (m_Target.transform.position - m_TargetLastPosition).magnitude / Time.deltaTime;
+        //Save the position for the next update
+        m_TargetLastPosition = transform.position;
+    }
 
     public void WatchGhost()
     {

@@ -18,7 +18,12 @@ public class PassengerManager : MonoBehaviour
 
     public void SpawnPassenger()
     {
-        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", m_AttachPoints[0].transform.position, Quaternion.identity);
-        objectToSpawn.GetComponent<SpringJoint>().connectedBody = m_AttachPoints[0].GetComponent<Rigidbody>();
+        int attachPointIndex = Random.Range(0, m_AttachPoints.Count);
+
+        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", m_AttachPoints[attachPointIndex].transform.position, Quaternion.identity);
+        objectToSpawn.GetComponent<SpringJoint>().connectedBody = m_AttachPoints[attachPointIndex].GetComponent<Rigidbody>();
+
+        m_AttachPoints.Add(objectToSpawn.transform.Find("Grab Point").gameObject);
+        m_AttachPoints.RemoveAt(attachPointIndex);
     }
 }

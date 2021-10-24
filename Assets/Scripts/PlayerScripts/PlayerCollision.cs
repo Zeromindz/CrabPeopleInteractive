@@ -18,7 +18,8 @@ public class PlayerCollision : MonoBehaviour
         if (other.tag == "Pickup")
         {
             playerController.AddPassenger();
-            other.gameObject.GetComponent<ItemPickup>().OnPickup();
+            other.GetComponentInParent<ItemPickup>().OnPickup();
+            //other.gameObject.SetActive(false);
         }
     }
 }

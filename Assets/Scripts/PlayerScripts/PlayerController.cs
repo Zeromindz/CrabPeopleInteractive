@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviour
     public void AddPassenger() 
     { 
         m_Passengers++; 
-        playerMovement.m_MaxSpeed *= 1.1f;
-        playerMovement.m_HorsePower *= 1.01f;
+        //playerMovement.m_MaxSpeed *= 1.1f;
+        //playerMovement.m_HorsePower *= 1.01f;
 
         passengerManager.SpawnPassenger();
     }

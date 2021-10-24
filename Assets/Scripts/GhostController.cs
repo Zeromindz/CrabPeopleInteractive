@@ -6,6 +6,6 @@ public class GhostController : MonoBehaviour, IPooledObject
 {
     public void OnObjectSpawn()
     {
-
+        
     }
 }
