@@ -7,6 +7,6 @@ public class ItemPickup : MonoBehaviour
     
     public void OnPickup()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }

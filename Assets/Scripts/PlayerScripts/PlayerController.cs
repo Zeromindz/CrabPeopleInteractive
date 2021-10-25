@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem m_GroundedTrail;
     private PlayerState currentState;
 
+    private Stack<GameObject> m_checkPoints;
+
+
     private int m_Passengers = 0;
     public int GetPassengers() { return m_Passengers; }
     public void ClearPassengers() { m_Passengers = 0; }
@@ -47,7 +50,7 @@ public class PlayerController : MonoBehaviour
         foreach (var trails in m_RocketTrails)
         {
             var rocketEmission = trails.emission;
-            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+        //    rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
         }
 
         int groundEmissionRate = 0;
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour
         }
 
         var groundEmission = m_GroundedTrail.emission;
-        groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+       // groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
 
         
     }

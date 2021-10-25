@@ -51,25 +51,25 @@ public class InputManager : MonoBehaviour
         playerInput.Player.EnableTrick.performed += ctx => OnSpacePressed(ctx);
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
 
-        playerInput.Player.RecordReplay.started += ctx => OnSpacePressed(ctx);
-        playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
-        playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
+        playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
+       // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Button Pressed: Escape");
-        // Pauses the game
-        if (MenuController.Instance.IsInGame)
-        {
-            MenuController.Instance.PauseGame();
-        }
+        //Debug.Log("Button Pressed: Escape");
+        //// Pauses the game
+        //if (MenuController.Instance.IsInGame)
+        //{
+        //    MenuController.Instance.PauseGame();
+        //}
 
-        // Returns to the previous UI
-        else
-        {
-            MenuController.Instance.ReturnToPreviousUI();
-        }
+        //// Returns to the previous UI
+        //else
+        //{
+        //    MenuController.Instance.ReturnToPreviousUI();
+        //}
     }
 
     private void OnShiftPressed(InputAction.CallbackContext ctx)
@@ -81,7 +81,7 @@ public class InputManager : MonoBehaviour
     private void OnSpacePressed(InputAction.CallbackContext ctx)
     {
         spacePressed = ctx.ReadValue<float>();
-        Debug.Log("Shift pressed!" + spacePressed);
+        Debug.Log("Space pressed!" + spacePressed);
     }
 
     private void OnMovementInput(InputAction.CallbackContext ctx)
@@ -92,8 +92,10 @@ public class InputManager : MonoBehaviour
 
     private void OnRecordReplay(InputAction.CallbackContext ctx)
     {
-        //recordGhost = ctx.ReadValue<Vector2>();
-
+        recordGhost = ctx.ReadValue<float>();
+        Debug.Log(recordGhost);
+        GhostPlayer.Instance.LoadGhost();
+        GhostPlayer.Instance.Play();
     }
 
     private void OnEnable()
