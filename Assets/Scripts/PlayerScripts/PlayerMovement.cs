@@ -43,11 +43,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 m_MovementInput;
 
-    private float m_CurrentThrust = 0.0f;
-    private float m_CurrentSteer = 0.0f;
-    private float m_CurrentPitch = 0.0f;
-    private float m_CurrentRoll = 0.0f;
-    private float m_CurrentSpeed = 0.0f;
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
     public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
 

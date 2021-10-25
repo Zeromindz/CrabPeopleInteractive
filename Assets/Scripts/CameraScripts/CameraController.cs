@@ -8,36 +8,25 @@ public class CameraController : MonoBehaviour
     private Camera m_Cam;
     [SerializeField] private Transform m_Target;
     [SerializeField] private Transform m_LookAtTransform;
+    [SerializeField] private float m_CamHeight = 5.0f;
+    [SerializeField] private float m_CamDist = 10.0f;
+    [SerializeField] private float m_CamAngle = 5f;
 
     [Space(10)]
     [Header("FOV Settings")]
     [SerializeField] private float m_FovMin = 60.0f;
     [SerializeField] private float m_FovMax = 75.0f;
     [SerializeField] private float m_FovSmoothTime = 0.5f;
-    [SerializeField] private float m_TargetSpeed;
+    private float m_TargetSpeed;
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
     [Space(10)]
     //[SerializeField] private Vector3 m_PositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
     //[SerializeField] private Vector3 m_AngleOffset = new Vector3(0.0f, 0.0f, 0.0f);
-    [SerializeField] private float m_LookAtTargetHeight = 5.0f;
-    [SerializeField] private float m_LookAtTargetDist = 10.0f;
-    [SerializeField] private float m_Angle = 5f;
-    [SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
-    [Space(10)]
-    [SerializeField] private Vector3 rotationMask;
-
-    public bool shouldRotate = true;
-
-    // The distance in the x-z plane to the target
-    public float distance = 10.0f;
-    // the height we want the camera to be above the target
-    public float height = 5.0f;
-    // How much we
-    public float heightDamping = 2.0f;
-    public float rotationDamping = 3.0f;
-
+    //[SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
+    //[Space(10)]
+    //[SerializeField] private Vector3 rotationMask;
 
     private static CameraController m_Instance;               // Current Private instance
     public static CameraController Instance                   // Current public instance
@@ -68,18 +57,18 @@ public class CameraController : MonoBehaviour
     {
         // --- old ---  
         // Set the target position above the player of the camera
-        Vector3 desiredPosition = m_Target.position + (Vector3.up * m_LookAtTargetHeight) - (m_Target.forward * m_LookAtTargetDist);
+        Vector3 desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
-        transform.LookAt(m_Target.position + (Vector3.up * m_Angle), Vector3.up);
+        transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle), Vector3.up);
 
 
         //CalculateTargetSpeed();
 
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
-        
 
 
+        #region alternate logic
         /*
         // Early out if we don't have a target
         if (!m_Target) return;
@@ -123,6 +112,7 @@ public class CameraController : MonoBehaviour
         //transform.LookAt(m_Target.position + (Vector3.up * m_AngleOffset.y) + (m_Target.forward * 10f), Vector3.up);
 
         //CameraFollow();
+        #endregion
     }
 
 
