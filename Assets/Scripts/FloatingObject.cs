@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 
-public class FloatTest : MonoBehaviour
+public class FloatingObject : MonoBehaviour
 {
     private Rigidbody m_RigidBody;
 
@@ -29,10 +29,9 @@ public class FloatTest : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask))
+        if(Physics.Raycast(transform.position, -Vector3.up, out hit, m_GroundHoverHeight, m_LayerMask))
         {
             m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), transform.position, ForceMode.Acceleration);
         }

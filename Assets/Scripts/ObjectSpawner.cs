@@ -9,11 +9,16 @@ public class ObjectSpawner : MonoBehaviour
     private void Start()
     {
         m_ObjectPooler = PoolManager.m_Instance;
+
+        for(int i = 0; i < m_ObjectPooler.m_Pools[0].size; i++)
+        {
+            SpawnObject();
+        }
     }
 
     private void Update()
     {
-        SpawnObject();
+
     }
 
     void SpawnObject()
@@ -21,5 +26,6 @@ public class ObjectSpawner : MonoBehaviour
         Vector3 spawnPos = Random.insideUnitSphere * 100f;
 
         GameObject spawnedObject = m_ObjectPooler.SpawnFromPool("Ghost", transform.position + spawnPos, Quaternion.identity);
+
     }
 }
