@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem m_GroundedTrail;
     private PlayerState currentState;
 
+    private Stack<GameObject> m_checkPoints;
+
+
     private int m_Passengers = 0;
     public int GetPassengers() { return m_Passengers; }
     public void ClearPassengers() { m_Passengers = 0; }

@@ -20,5 +20,23 @@ public class PlayerCollision : MonoBehaviour
             playerController.AddPassenger();
             other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
+
+        if(other.tag == "Start")
+		{
+            TempGameManager.Instance.StartGame();
+           // other.gameObject.GetComponent<ItemPickup>().OnPickup();
+		}
+
+        if (other.tag == "End")
+        {
+            TempGameManager.Instance.EndGame();
+           // other.gameObject.GetComponent<ItemPickup>().OnPickup();
+        }
+
+        if(other.tag == "CheckPoint")
+		{
+            TempGameManager.Instance.CheckPointHit();
+          //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
+        }
     }
 }

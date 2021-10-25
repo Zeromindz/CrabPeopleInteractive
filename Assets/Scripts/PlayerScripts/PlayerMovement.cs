@@ -203,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //======================================
                 // Hovering
-                //____________________________________/
+                //____________________________________
                 //m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
                 m_RigidBody.AddForceAtPosition((Vector3.up * m_GroundHoverForce) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_GroundHoverHeight)), hoverPoint.transform.position);
 
@@ -266,8 +266,6 @@ public class PlayerMovement : MonoBehaviour
         // Trick height
         Gizmos.color = Color.white;
         Gizmos.DrawLine(transform.position, (transform.position + (-Vector3.up * m_TrickHeightCheck)));
-
+        
     }
-
-
 }

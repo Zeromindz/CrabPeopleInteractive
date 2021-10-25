@@ -6,9 +6,12 @@ using UnityEngine.InputSystem;
 public class TempGameManager : MonoBehaviour
 {
     public GameObject m_Player;
-    private Transform m_StartPoint;
-    private Transform m_EndPoint;
+    public GameObject m_StartPoint;
+    public GameObject checkpoint1;
+    public GameObject checkpoint2;
+    public GameObject m_EndPoint;
     private KeybindManager m_Keybinds;
+    private Stack<GameObject> m_checkPoints;
     private static TempGameManager m_Instance;                       // The current instance of MenuController
     public static TempGameManager Instance                           // The public current instance of MenuController
     {
@@ -22,77 +25,67 @@ public class TempGameManager : MonoBehaviour
             Destroy(this.gameObject);
         else
             m_Instance = this;
-       // m_StartPoint = GameObject.FindGameObjectWithTag("Start").transform;
-       // m_StartPoint = GameObject.FindGameObjectWithTag("End").transform;
-        m_Keybinds = KeybindManager.Instance;
-	}
+
+       // m_StartPoint = GameObject.FindGameObjectWithTag("Start");
+        m_StartPoint.SetActive(true);
+
+       // m_EndPoint = GameObject.FindGameObjectWithTag("End");
+        m_EndPoint.SetActive(false);
+
+       // checkpoint = GameObject.FindGameObjectWithTag("CheckPoint");
+        checkpoint1.SetActive(false);
+        checkpoint2.SetActive(false);
+
+
+
+
+        // m_Keybinds = KeybindManager.Instance;
+        m_checkPoints = new Stack<GameObject>();
+        m_checkPoints.Push(m_EndPoint);
+        m_checkPoints.Push(checkpoint2);
+        m_checkPoints.Push(checkpoint1);
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        MenuController.Instance.LoadMenu();
+      //  MenuController.Instance.LoadMenu();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-  //      // if it's in the game state
-  //      if(MenuController.Instance.m_State == MenuState.GAME)
-		//{
-
-  //          if (Input.GetKeyDown(m_Keybinds.Forward))
-  //          {
-  //              Debug.Log("Pressed: Forward");
-  //          }
-
-  //          if (Input.GetKeyDown(m_Keybinds.TurnLeft))
-  //          {
-  //              Debug.Log("Pressed: TurnLeft");
-  //          }
-
-  //          if (Input.GetKeyDown(m_Keybinds.TurnRight))
-  //          {
-  //              Debug.Log("Pressed: TurnRight");
-  //          }
-
-  //          if (Input.GetKeyDown(m_Keybinds.BackwardOrStop))
-  //          {
-  //              Debug.Log("Pressed: BackwardOrStop");
-  //          }
-
-  //          if (Input.GetKeyDown(KeyCode.R))
-		//	{
-  //              if(!GhostRecorder.Instance.IsRecording())
-		//		{
-  //                  Debug.Log("Recording started");
-  //                  GhostRecorder.Instance.StartRecording();
-		//		}
-		//		else
-		//		{
-  //                  GhostRecorder.Instance.SaveRecording();
-  //                  Debug.Log("Recording stopped");
-		//		}
-		//	}
-
-  //          if (Input.GetKeyDown(KeyCode.P))
-		//	{
-  //              GhostPlayer.Instance.LoadGhost();
-  //              GhostPlayer.Instance.Play();
-  //              CameraController.Instance.WatchGhost();
-  //              Debug.Log("Playing recording");
-		//	}
-
-		//	if (Input.GetKeyDown(KeyCode.Space))
-  //          {
-  //              MenuController.Instance.LoadEndScreen();
-		//	}
-  //      }
     }
 
     public void RestartGame()
 	{
-        m_Player.transform.position = m_StartPoint.position;
-        m_Player.transform.rotation = m_StartPoint.rotation;
+        //m_Player.transform.position = m_StartPoint.position;
+        //m_Player.transform.rotation = m_StartPoint.rotation;
 	}
+    public void StartGame()
+    {
+        Debug.Log("Start point hit");
+        SpawnNextCheckpoint();
+        GhostRecorder.Instance.StartRecording();
+    }
+
+    private void SpawnNextCheckpoint()
+    {
+        GameObject nextLocation = m_checkPoints.Pop();
+        nextLocation.SetActive(true);
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("End point hit");
+        GhostRecorder.Instance.SaveRecording();
+    }
+
+    public void CheckPointHit()
+	{
+        Debug.Log("CheckPoint hit");
+        SpawnNextCheckpoint();
+	}
+
 }

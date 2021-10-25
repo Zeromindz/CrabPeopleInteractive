@@ -60,7 +60,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""RecordReplay"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""4e806ffd-40f3-4db3-a51a-ca32dddc3eb5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
