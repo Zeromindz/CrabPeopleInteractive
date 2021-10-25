@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 10.0f;
     [SerializeField] private float m_CamAngle = 5f;
+    [SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
 
     [Space(10)]
     [Header("FOV Settings")]
@@ -24,7 +25,6 @@ public class CameraController : MonoBehaviour
     [Space(10)]
     //[SerializeField] private Vector3 m_PositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
     //[SerializeField] private Vector3 m_AngleOffset = new Vector3(0.0f, 0.0f, 0.0f);
-    //[SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
     //[Space(10)]
     //[SerializeField] private Vector3 rotationMask;
 
