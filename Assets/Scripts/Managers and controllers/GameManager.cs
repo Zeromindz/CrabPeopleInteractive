@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
         m_CurrentTime = m_TimeLimit; 
     }
 
-    
     void Update()
     {
         // Time limit

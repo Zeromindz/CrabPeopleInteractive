@@ -21,9 +21,16 @@ public class PassengerManager : MonoBehaviour
         int attachPointIndex = Random.Range(0, m_AttachPoints.Count);
 
         GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", m_AttachPoints[attachPointIndex].transform.position, Quaternion.identity);
-        objectToSpawn.GetComponent<SpringJoint>().connectedBody = m_AttachPoints[attachPointIndex].GetComponent<Rigidbody>();
+        objectToSpawn.GetComponentInChildren<SpringJoint>().connectedBody = m_AttachPoints[attachPointIndex].GetComponent<Rigidbody>();
 
-        m_AttachPoints.Add(objectToSpawn.transform.Find("Grab Point").gameObject);
+        //GameObject grabPoint = objectToSpawn.transform.GetChild(2).gameObject;
+        GameObject grabPoint = objectToSpawn.transform.Find("Grab Point").gameObject;
+        m_AttachPoints.Add(grabPoint);
+
+        //GameObject hand = objectToSpawn.transform.Find("Root/Arm_L/Hand_L").gameObject;
+        //hand.transform.position = m_AttachPoints[attachPointIndex].transform.position;
+        //hand.transform.SetParent(m_AttachPoints[attachPointIndex].transform);
+        
         m_AttachPoints.RemoveAt(attachPointIndex);
     }
 }

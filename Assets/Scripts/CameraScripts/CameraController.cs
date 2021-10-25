@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     [Header("Camera Settings")]
     private Camera m_Cam;
     [SerializeField] private Transform m_Target;
-    [SerializeField] private Transform m_LookAtTransform;
+    //[SerializeField] private Transform m_LookAtTransform;
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 10.0f;
     [SerializeField] private float m_CamAngle = 5f;
@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_FovMin = 60.0f;
     [SerializeField] private float m_FovMax = 75.0f;
     [SerializeField] private float m_FovSmoothTime = 0.5f;
-    private float m_TargetSpeed;
+    public float m_TargetSpeed;
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
@@ -48,13 +48,12 @@ public class CameraController : MonoBehaviour
         m_Cam = gameObject.GetComponent<Camera>();
     }
 
-    private void Update()
-    {
-        m_TargetSpeed = m_Target.GetComponent<PlayerController>().playerMovement.GetSpeed();    
-    }
+   
 
     private void FixedUpdate()
     {
+        m_TargetSpeed = Vector3.Dot(m_Target.GetComponent<Rigidbody>().velocity, m_Target.transform.forward);
+
         // --- old ---  
         // Set the target position above the player of the camera
         Vector3 desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
@@ -162,8 +161,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(m_LookAtTransform.position + (m_LookAtTransform.forward * 10f), 1f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(m_LookAtTransform.position + (m_LookAtTransform.forward * 10f), 1f);
 
 
     }

@@ -8,46 +8,47 @@ using UnityEngine;
 //______________________________________________/
 
 public class PlayerMovement : MonoBehaviour
-{
-
-    internal PlayerController m_PlayerController;
-    private Rigidbody m_RigidBody; // Rigidbody attached to the boat
-    
+{ 
+    internal PlayerController m_PlayerController;                   // Player controller script
+    private Rigidbody m_RigidBody;                                  // Rigidbody attached to the boat
+    [SerializeField] private Transform m_ShipBody;                  // GFX of the boat
 
     [Header("Boat Settings")]
-    [SerializeField] internal bool m_Grounded = false;
-    [Space(10)]
-    [SerializeField] internal float m_HorsePower = 30.0f;
-    [SerializeField] internal float m_MaxSpeed = 50.0f;
-    [SerializeField] internal float m_BoostSpeed = 100.0f;
-    [SerializeField] internal float m_MaxBoostSpeed = 50.0f;
-    [SerializeField] internal float m_SteeringTorque = 8.0f;
+    [SerializeField] internal bool m_Grounded = false;              // Is the boat grounded (in water)
     [SerializeField] internal bool m_Boosting = false;
-
     [Space(10)]
-    [SerializeField] internal float m_Gravity = -9.81f;
-    [SerializeField] internal float m_LevelingForce = 2.0f;
-    [SerializeField] internal float m_VelocitySlowFactor = 0.95f;
-	internal Vector3 m_CoM;
-    private Vector3 m_InAirCoM;
-	internal float m_PlayerHeight;
-
-    [Header("Physics")]
-    [SerializeField] internal bool m_AtTrickHeight;
-    [SerializeField] internal float m_GroundHoverForce = 9.0f;
-    [SerializeField] internal float m_GroundHoverHeight = 4.0f;
-    [SerializeField] internal float m_InAirTorque = 20.0f; // May need to split to vert and hori
-    [SerializeField] internal float m_TrickHeightCheck = 10.0f;
-    //private int m_LayerMask;
-    public LayerMask m_LayerMask;
-
-    private Vector2 m_MovementInput;
-
+    [SerializeField] internal float m_HorsePower = 30.0f;           // Acceleration speed
+    [SerializeField] internal float m_MaxSpeed = 50.0f;             // Max speed without boost
+    [SerializeField] internal float m_BoostSpeed = 100.0f;          // Boost force
+    [SerializeField] internal float m_MaxBoostSpeed = 50.0f;        // Max speed with boosy
+    [SerializeField] internal float m_SteeringTorque = 8.0f;        // Steering speed
+    [SerializeField] internal float m_SidewaysDriftAmount = 5.0f;   // Sideways motion (drift) while accelerating and turning
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
     public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
+    private Vector2 m_MovementInput;
 
     [Space(10)]
+    [Header("Physics")]
+    [SerializeField] internal bool m_AtTrickHeight;                 // Is the boat at trick height
+    [SerializeField] internal float m_TrickHeightCheck = 10.0f;
+    [Space(10)]
+    [SerializeField] internal float m_Gravity = -9.81f;
+    [SerializeField] internal float m_InAirTorque = 20.0f;          // Trick rotation force
+    [SerializeField] internal float m_LevelingForce = 2.0f;         // Force applied to hover points to keep the boat level
+    [SerializeField] internal float m_VelocitySlowFactor = 0.95f;   // Velocity slow factor
+    [SerializeField] internal float m_GroundHoverForce = 9.0f;      
+    [SerializeField] internal float m_GroundHoverHeight = 4.0f;
     [SerializeField] private GameObject[] m_HoverPoints;
+    [Space(10)]
+    public LayerMask m_LayerMask;
+	public Vector3 m_CoM;
+    public Vector3 m_InAirCoM;
+
+    [Space(10)]
+    [Header("GFX")]
+    public float m_ShipRollAngle = 30f;         // The angle that the ship "banks" into a turn
+    public float m_ShipRollSpeed = 10f;         // Banking speed
+
 
     void Start()
     {
@@ -55,12 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
-        m_InAirCoM = m_RigidBody.centerOfMass;
+        m_InAirCoM = gameObject.transform.Find("InAirCoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
-
-		//m_LayerMask = 1 << LayerMask.NameToLayer("Character");
-		//m_LayerMask = ~m_LayerMask;
-
 	}
 
     void Update()
@@ -70,8 +67,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        //debug
+        // Check if at trick height
         m_AtTrickHeight = AtTrickHeight();
+
+        // Set the rb's CoM position based on if the player is at trick height
         if(m_AtTrickHeight)
         {
             m_RigidBody.centerOfMass = m_InAirCoM;
@@ -79,12 +78,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             m_RigidBody.centerOfMass = m_CoM;
-
         }
 
         // Apply gravity
-        m_RigidBody.AddForceAtPosition((Vector3.up * m_Gravity), transform.position, ForceMode.Acceleration);
+        m_RigidBody.AddForce((Vector3.up * m_Gravity), ForceMode.Acceleration);
 
+        // Boost
         if (m_PlayerController.playerInput.ShiftPressed() > 0)
         {
             Boost();
@@ -111,10 +110,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // Slow velocity when theres no forward input and not in the air
         if (m_MovementInput.y < 0.01f && m_Grounded)
         {
             m_RigidBody.velocity = m_RigidBody.velocity * m_VelocitySlowFactor;
         }
+
+        // Calculate current sideways speed by using the dot product.
+        float sidewaysSpeed = Vector3.Dot(m_RigidBody.velocity, transform.right);
+
+        // Calculate the force to apply to the side of the vehicle to limit the amount of sideways drifting while turning.
+        Vector3 sideFriction = -transform.right * (sidewaysSpeed / Time.fixedDeltaTime) / m_SidewaysDriftAmount;
+
+        // Apply the sideways friction
+        m_RigidBody.AddForce(sideFriction, ForceMode.Acceleration);
 
         ApplyForcetoPoints();
        
@@ -144,27 +153,40 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
-
-
         if(m_PlayerController.playerInput.SpacePressed() > 0)
         {
             if(m_AtTrickHeight)
             {
                 AirRoll(m_MovementInput.x);
-
+            }
+            else
+            {
+                m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
             }
         }
         else
         {
             m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
+        }
+
+        if(m_Grounded)
+        {
+            //Calculate the angle we want the ship's body to bank into a turn.
+            float angle = m_ShipRollAngle * -m_MovementInput.x;
+
+            //Calculate the rotation needed for this new angle
+            Quaternion bodyRotation = transform.rotation * Quaternion.Euler(0f, 0f, angle);
+
+            //Finally, apply this angle to the ship's body
+            m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
 
         }
-        
+
     }
         
     public bool AtTrickHeight()
     {
-        return !Physics.Raycast(transform.position, -transform.up, m_TrickHeightCheck, m_LayerMask);
+        return !Physics.Raycast(transform.position, -Vector3.up, m_TrickHeightCheck, m_LayerMask);
     }
 
     public void AirFlip(float _currentPitch)
@@ -254,10 +276,10 @@ public class PlayerMovement : MonoBehaviour
         // CoM
         if (m_RigidBody)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(m_CoM, 0.5f);
+            
         }
-
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(m_CoM, 0.5f);
         // Trick height
         Gizmos.color = Color.white;
         Gizmos.DrawLine(transform.position, (transform.position + (-Vector3.up * m_TrickHeightCheck)));
