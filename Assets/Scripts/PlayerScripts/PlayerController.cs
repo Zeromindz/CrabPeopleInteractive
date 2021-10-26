@@ -19,10 +19,7 @@ public class PlayerController : MonoBehaviour
     internal TrickManager trickManager;
     internal PassengerManager passengerManager;
 
-    [Header("GFX")]
-    [SerializeField] private ParticleSystem[] m_RocketTrails;
-    [SerializeField] private ParticleSystem m_GroundedTrail;
-    [SerializeField] private ParticleSystem m_Sparkle;
+    
     private PlayerState currentState;
 
     private Stack<GameObject> m_checkPoints;
@@ -41,33 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Set vfx emissions
-        int rocketEmissionRate = 0;
-        if (playerMovement.m_Boosting)
-        {
-            rocketEmissionRate = 10;
-
-        }
-        foreach (var trails in m_RocketTrails)
-        {
-            var rocketEmission = trails.emission;
-        //    rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
-        }
-
-        int groundEmissionRate = 0;
-        if (playerMovement.m_Grounded)
-        {
-            groundEmissionRate = 10;
-
-        }
-
-        var groundEmission = m_GroundedTrail.emission;
-       // groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
-
-        if(playerInput.SpacePressed() > 0)
-        {
-            m_Sparkle.Play();
-        }
+        
     }
 
     void ChangeState(PlayerState newState)
