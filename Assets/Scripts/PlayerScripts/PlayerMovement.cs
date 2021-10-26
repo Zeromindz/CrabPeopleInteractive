@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 //==================================================
 // Handles moving the player through the rigidbody
 //______________________________________________/
@@ -12,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     internal PlayerController m_PlayerController;                   // Player controller script
     private Rigidbody m_RigidBody;                                  // Rigidbody attached to the boat
     [SerializeField] private Transform m_ShipBody;                  // GFX of the boat
+
+    public bool m_UseGravity = true;
 
     [Header("Boat Settings")]
     [SerializeField] internal bool m_Grounded = false;              // Is the boat grounded (in water)
@@ -81,7 +82,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Apply gravity
-        m_RigidBody.AddForce((Vector3.up * m_Gravity), ForceMode.Acceleration);
+        if(m_UseGravity)
+        {
+            m_RigidBody.AddForce((Vector3.up * m_Gravity), ForceMode.Acceleration);
+        }
 
         // Boost
         if (m_PlayerController.playerInput.ShiftPressed() > 0)
@@ -276,13 +280,16 @@ public class PlayerMovement : MonoBehaviour
         // CoM
         if (m_RigidBody)
         {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position + m_CoM, 0.5f);
             
         }
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(m_CoM, 0.5f);
         // Trick height
         Gizmos.color = Color.white;
         Gizmos.DrawLine(transform.position, (transform.position + (-Vector3.up * m_TrickHeightCheck)));
-        
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + GetCurrentVel());
+
     }
 }

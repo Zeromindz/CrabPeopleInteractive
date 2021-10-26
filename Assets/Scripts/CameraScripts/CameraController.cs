@@ -7,7 +7,10 @@ public class CameraController : MonoBehaviour
     [Header("Camera Settings")]
     private Camera m_Cam;
     [SerializeField] private Transform m_Target;
-    //[SerializeField] private Transform m_LookAtTransform;
+    private PlayerController m_Player;
+    [SerializeField] private Vector3 desiredPosition;
+
+
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 10.0f;
     [SerializeField] private float m_CamAngle = 5f;
@@ -22,9 +25,6 @@ public class CameraController : MonoBehaviour
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
-    [Space(10)]
-    //[SerializeField] private Vector3 m_PositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
-    //[SerializeField] private Vector3 m_AngleOffset = new Vector3(0.0f, 0.0f, 0.0f);
     //[Space(10)]
     //[SerializeField] private Vector3 rotationMask;
 
@@ -46,20 +46,31 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         m_Cam = gameObject.GetComponent<Camera>();
+        m_Player = m_Target.gameObject.GetComponent<PlayerController>();
     }
 
    
 
     private void FixedUpdate()
     {
-        m_TargetSpeed = Vector3.Dot(m_Target.GetComponent<Rigidbody>().velocity, m_Target.transform.forward);
+        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.GetCurrentVel(), m_Target.forward);
 
-        // --- old ---  
+            Vector3 dir = m_Player.playerMovement.GetCurrentVel();
         // Set the target position above the player of the camera
-        Vector3 desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
+        if (!m_Player.playerMovement.m_AtTrickHeight || dir.magnitude < 0.1f)
+        {
+            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
+        }
+        else
+        {
+            dir.Normalize();
+            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
+        }
+
+        
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle), Vector3.up);
-
+       
 
         //CalculateTargetSpeed();
 
@@ -161,10 +172,10 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(m_LookAtTransform.position + (m_LookAtTransform.forward * 10f), 1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(desiredPosition, 1f);
 
-
+        
     }
 
 

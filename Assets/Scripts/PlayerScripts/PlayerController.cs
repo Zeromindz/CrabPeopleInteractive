@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [Header("GFX")]
     [SerializeField] private ParticleSystem[] m_RocketTrails;
     [SerializeField] private ParticleSystem m_GroundedTrail;
+    [SerializeField] private ParticleSystem m_Sparkle;
     private PlayerState currentState;
 
     private Stack<GameObject> m_checkPoints;
@@ -63,7 +64,10 @@ public class PlayerController : MonoBehaviour
         var groundEmission = m_GroundedTrail.emission;
        // groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
 
-        
+        if(playerInput.SpacePressed() > 0)
+        {
+            m_Sparkle.Play();
+        }
     }
 
     void ChangeState(PlayerState newState)
