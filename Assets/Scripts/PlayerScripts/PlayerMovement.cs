@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 { 
     internal PlayerController m_PlayerController;                   // Player controller script
-    private Rigidbody m_RigidBody;                                  // Rigidbody attached to the boat
+    [SerializeField] private Rigidbody m_RigidBody;                                  // Rigidbody attached to the boat
     [SerializeField] private Transform m_ShipBody;                  // GFX of the boat
 
     public bool m_UseGravity = true;
@@ -55,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
     {
         m_PlayerController = GetComponent<PlayerController>();
 
-        m_RigidBody = GetComponent<Rigidbody>();
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
         m_InAirCoM = gameObject.transform.Find("InAirCoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
