@@ -65,6 +65,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leaderboard"",
+                    ""type"": ""Button"",
+                    ""id"": ""289d387f-3983-4b57-abb1-7998dc20f74b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -221,6 +229,39 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""RecordReplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""9362abc8-e0d7-4154-a73e-84171af7fdfb"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leaderboard"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""fb622f56-6b79-4ea1-ba2f-d2f75812138e"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Leaderboard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""460d64c9-bb30-40e9-b698-622942ef520e"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Leaderboard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -252,6 +293,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_EnableTrick = m_Player.FindAction("EnableTrick", throwIfNotFound: true);
         m_Player_EnableBoost = m_Player.FindAction("EnableBoost", throwIfNotFound: true);
         m_Player_RecordReplay = m_Player.FindAction("RecordReplay", throwIfNotFound: true);
+        m_Player_Leaderboard = m_Player.FindAction("Leaderboard", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
     }
@@ -309,6 +351,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_EnableTrick;
     private readonly InputAction m_Player_EnableBoost;
     private readonly InputAction m_Player_RecordReplay;
+    private readonly InputAction m_Player_Leaderboard;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -319,6 +362,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @EnableTrick => m_Wrapper.m_Player_EnableTrick;
         public InputAction @EnableBoost => m_Wrapper.m_Player_EnableBoost;
         public InputAction @RecordReplay => m_Wrapper.m_Player_RecordReplay;
+        public InputAction @Leaderboard => m_Wrapper.m_Player_Leaderboard;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -346,6 +390,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @RecordReplay.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
                 @RecordReplay.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
                 @RecordReplay.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRecordReplay;
+                @Leaderboard.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeaderboard;
+                @Leaderboard.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeaderboard;
+                @Leaderboard.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeaderboard;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -368,6 +415,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @RecordReplay.started += instance.OnRecordReplay;
                 @RecordReplay.performed += instance.OnRecordReplay;
                 @RecordReplay.canceled += instance.OnRecordReplay;
+                @Leaderboard.started += instance.OnLeaderboard;
+                @Leaderboard.performed += instance.OnLeaderboard;
+                @Leaderboard.canceled += instance.OnLeaderboard;
             }
         }
     }
@@ -423,6 +473,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnEnableTrick(InputAction.CallbackContext context);
         void OnEnableBoost(InputAction.CallbackContext context);
         void OnRecordReplay(InputAction.CallbackContext context);
+        void OnLeaderboard(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

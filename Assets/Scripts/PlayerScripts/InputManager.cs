@@ -52,8 +52,10 @@ public class InputManager : MonoBehaviour
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
 
         playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
-       // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
+
+        playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -96,6 +98,12 @@ public class InputManager : MonoBehaviour
         Debug.Log(recordGhost);
         GhostPlayer.Instance.LoadGhost();
         GhostPlayer.Instance.Play();
+    }
+
+    private void LeaderboardNav(InputAction.CallbackContext ctx)
+	{
+        float i = ctx.ReadValue<float>();
+        Debug.Log(i);
     }
 
     private void OnEnable()
