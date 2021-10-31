@@ -8,35 +8,45 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 { 
-    internal PlayerController m_PlayerController;                   // Player controller script
-    [SerializeField] private Rigidbody m_RigidBody;                                  // Rigidbody attached to the boat
-    [SerializeField] private Transform m_ShipBody;                  // GFX of the boat
+    internal PlayerController m_PlayerController;                       // Player controller script
+    [SerializeField] private Rigidbody m_RigidBody;                     // Rigidbody attached to the boat
+    [SerializeField] private Transform m_ShipBody;                      // GFX of the boat
 
     public bool m_UseGravity = true;
 
     [Header("Boat Settings")]
-    [SerializeField] internal bool m_Grounded = false;              // Is the boat grounded (in water)
+    [SerializeField] internal bool m_Grounded = false;                  // Is the boat grounded (in water)
     [SerializeField] internal bool m_Boosting = false;
     [Space(10)]
-    [SerializeField] internal float m_HorsePower = 30.0f;           // Acceleration speed
-    [SerializeField] internal float m_MaxSpeed = 50.0f;             // Max speed without boost
-    [SerializeField] internal float m_BoostSpeed = 100.0f;          // Boost force
-    [SerializeField] internal float m_MaxBoostSpeed = 50.0f;        // Max speed with boosy
-    [SerializeField] internal float m_SteeringTorque = 8.0f;        // Steering speed
-    [SerializeField] internal float m_SidewaysDriftAmount = 5.0f;   // Sideways motion (drift) while accelerating and turning
+    [Tooltip("Acceleration force added to the rigidbody")]
+    [SerializeField] internal float m_HorsePower = 30.0f;               // Acceleration force
+    [Tooltip("Max speed (m/s) without boost")]
+    [SerializeField] internal float m_MaxSpeed = 50.0f;                 // Max speed without boost
+    [Tooltip("Boost force added to the rigidbody")]
+    [SerializeField] internal float m_BoostSpeed = 100.0f;              // Boost force
+    [Tooltip("Max speed (m/s) with boost")]
+    [SerializeField] internal float m_MaxBoostSpeed = 50.0f;            // Max speed with boost
+    [Tooltip("Steering force added to the rigidbody as torque")]
+    [SerializeField] internal float m_SteeringTorque = 8.0f;            // Steering speed
+    [Tooltip("Sideways motion (drift) while accelerating and turning")] 
+    [SerializeField] internal float m_SidewaysDriftAmount = 5.0f;       // Sideways motion (drift) while accelerating and turning
     public float GetSpeed() { return m_RigidBody.velocity.magnitude; }
     public Vector3 GetCurrentVel() { return m_RigidBody.velocity; }
     private Vector2 m_MovementInput;
 
     [Space(10)]
     [Header("Physics")]
-    [SerializeField] internal bool m_AtTrickHeight;                 // Is the boat at trick height
+    [SerializeField] internal bool m_AtTrickHeight;                     // Is the boat at trick height
+    [Tooltip("Height player must be to allow for tricks")]
     [SerializeField] internal float m_TrickHeightCheck = 10.0f;
     [Space(10)]
     [SerializeField] internal float m_Gravity = -9.81f;
-    [SerializeField] internal float m_InAirTorque = 20.0f;          // Trick rotation force
-    [SerializeField] internal float m_LevelingForce = 2.0f;         // Force applied to hover points to keep the boat level
-    [SerializeField] internal float m_VelocitySlowFactor = 0.95f;   // Velocity slow factor
+    [Tooltip("Trick rotation force")]
+    [SerializeField] internal float m_InAirTorque = 20.0f;              // Trick rotation force
+    [Tooltip("Force applied to hover points to keep the boat level")]
+    [SerializeField] internal float m_LevelingForce = 2.0f;             // Force applied to hover points to keep the boat level
+    [Tooltip("How qucikly the boat deccelerates without input while grounded")]
+    [SerializeField] internal float m_VelocitySlowFactor = 0.95f;       // Velocity slow factor
     [SerializeField] internal float m_GroundHoverForce = 9.0f;      
     [SerializeField] internal float m_GroundHoverHeight = 4.0f;
     [SerializeField] private GameObject[] m_HoverPoints;
