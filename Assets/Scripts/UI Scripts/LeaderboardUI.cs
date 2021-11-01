@@ -59,14 +59,27 @@ public class LeaderBoardElement : MonoBehaviour
 
     public void SetY(float yPos)
 	{
-        NameLabel.transform.localPosition += new Vector3(0.0f, yPos, 0.0f);
-        ScoreLabel.transform.localPosition += new Vector3(0.0f, yPos, 0.0f);
-        GhostButton.transform.localPosition += new Vector3(0.0f, yPos, 0.0f);
+        NameLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
+        ScoreLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
+        GhostButton.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
     }
 
     public float GetHeight()
 	{
         return NameLabel.GetComponent<RectTransform>().rect.height;
+	}
+
+    public void MoveYDir(float yDirection)
+	{
+        Vector3 direction = new Vector3(0.0f, yDirection, 0.0f);
+        NameLabel.transform.localPosition += direction;
+        ScoreLabel.transform.localPosition += direction;
+        GhostButton.transform.localPosition += direction;  
+    }
+
+    public float GetYPos()
+	{
+        return NameLabel.transform.localPosition.y;
 	}
 }
 
@@ -94,8 +107,15 @@ public class LeaderboardUI : MonoBehaviour
     int m_leftmostXPosition;
 
     private LeaderBoardElement[] m_Element = null;
+    
+    private int m_TopIndex, m_BottomIndex;
 
-	private void Awake()
+    private int m_TopMostIndex, m_BottomMostIndex;
+
+    private int m_CountingIndex;
+
+
+    private void Awake()
 	{
         m_Element = new LeaderBoardElement[m_ElementsPerPage];
     }
@@ -110,8 +130,8 @@ public class LeaderboardUI : MonoBehaviour
             m_Element[value].InstantiateElement(m_Canvas);
             m_Element[value].SetY(m_TopYPosition - (i * m_Element[i].GetHeight()));
             m_Element[value].SetX(m_leftmostXPosition);
-
-            if(value + 1 < m_ElementsPerPage)
+            
+            if(value < m_TotalElements)
 			{
                 m_Element[value].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
 			}
@@ -123,6 +143,12 @@ public class LeaderboardUI : MonoBehaviour
 
             m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => {OnbuttonPress(value); });
 	   }
+
+        m_TopIndex = 0;
+        m_TopMostIndex = m_TopIndex;
+        m_BottomIndex = m_ElementsPerPage - 1;
+        m_BottomMostIndex = m_BottomIndex;
+        m_CountingIndex = m_ElementsPerPage - 1;
     }
 
 	private void OnbuttonPress(int index)
@@ -138,5 +164,104 @@ public class LeaderboardUI : MonoBehaviour
     private void LoadElementAmount()
 	{
         // loads the amount of elements from file
-	} 
+	}
+
+	public void Move(float direction)
+	{
+        float yMovement = direction *  m_Element[0].GetHeight();
+        Debug.Log("Move: " + yMovement);
+
+        for(int i = 0; i < m_Element.Length; i++)
+		{
+            m_Element[i].MoveYDir(yMovement);
+		}
+
+		WrapElements(direction);
+	}
+
+	public void WrapElements(float yValue)
+	{
+		if (yValue > 0)
+		{
+    
+			m_Element[m_TopIndex].SetY(m_Element[m_BottomIndex].GetYPos() - m_Element[m_BottomIndex].GetHeight());
+            m_Element[m_TopIndex].SetX(m_leftmostXPosition);
+
+			//if(m_CountingIndex < m_TotalElements)
+			//{
+   //             m_Element[m_TopIndex].SetElementValues("N/A", "N/A", "N/A");
+   //         }
+
+            m_Element[m_TopIndex].SetElementValues("Name: " + m_CountingIndex, "Score: " + m_CountingIndex, "Button: " + m_CountingIndex);
+
+            // The original bottom row is now at the top, resets to bottom
+            if (m_TopIndex == m_BottomMostIndex)
+			{
+				m_TopIndex = m_TopMostIndex;
+				m_BottomIndex = m_BottomMostIndex;
+			}
+
+			// Scrolls up indecies by one
+			else
+			{
+				m_BottomIndex = m_TopIndex;
+				m_TopIndex = m_TopIndex + 1;
+                m_CountingIndex++;
+			}
+
+			// Has scrolled down
+		}
+
+		else
+		{
+
+            m_Element[m_BottomIndex].SetY(m_Element[m_TopIndex].GetYPos() + m_Element[m_TopIndex].GetHeight());
+            m_Element[m_BottomIndex].SetX(m_leftmostXPosition);
+            int value = m_CountingIndex - m_ElementsPerPage;
+            m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
+            if (m_CountingIndex < m_ElementsPerPage - 1)
+            {
+                m_Element[m_BottomIndex].SetElementValues("N/A", "N/A", "N/A");
+            }
+
+
+            // The original top row index is now at the bottom, resets to top 
+            if (m_BottomIndex == m_TopMostIndex)
+			{
+				m_BottomIndex = m_BottomMostIndex;
+				m_TopIndex = m_TopMostIndex;
+			}
+
+			// Scrolls down indecies by one
+			else
+			{
+				m_TopIndex = m_BottomIndex;
+				m_BottomIndex = m_BottomIndex - 1;
+                m_CountingIndex--;
+			}
+
+		}
+        Debug.Log("" + m_CountingIndex);
+        //pdateText(yValue);
+	}
+
+    private void UpdateText(float yValue)
+	{
+        if (yValue > 0)
+        {
+            int num = m_CountingIndex;
+            m_Element[m_BottomIndex].SetElementValues("Name: " + num, "Score: " + num, "Button: " + num);
+            Debug.Log("Counting index: " + m_CountingIndex);
+            Debug.Log("Num" + num);
+        }
+
+        else
+        {
+            int num = m_CountingIndex - m_ElementsPerPage;
+            m_Element[m_TopIndex].SetElementValues("Name: " + num, "Score: " + num, "Button: " + num);
+            Debug.Log("Counting index: " + m_CountingIndex);
+            Debug.Log("Num: " + num);
+
+        }
+    }
 }

@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
 {
     internal PlayerController playerController;
     private PlayerInputActions playerInput;
+    public LeaderboardUI leaderboardUI;
 
     private Vector2 movementInput;
     public Vector2 GetMovementInput() { return movementInput; }
@@ -104,6 +105,7 @@ public class InputManager : MonoBehaviour
 	{
         float i = ctx.ReadValue<float>();
         Debug.Log(i);
+        leaderboardUI.Move(i);
     }
 
     private void OnEnable()
