@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
 {
     internal PlayerController playerController;
     private PlayerInputActions playerInput;
+    public LeaderboardUI leaderboardUI;
 
     private Vector2 movementInput;
     public Vector2 GetMovementInput() { return movementInput; }
@@ -57,6 +58,8 @@ public class InputManager : MonoBehaviour
         playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
         // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
+
+        playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
 
         playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
@@ -107,6 +110,13 @@ public class InputManager : MonoBehaviour
     {
         pPressed = ctx.ReadValue<float>();
         Debug.Log($"P Pressed {pPressed} ");
+    }
+
+    private void LeaderboardNav(InputAction.CallbackContext ctx)
+	{
+        float i = ctx.ReadValue<float>();
+        Debug.Log(i);
+        leaderboardUI.Move(i);
     }
 
     private void OnEnable()
