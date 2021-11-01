@@ -29,6 +29,9 @@ public class InputManager : MonoBehaviour
     private float recordGhost;
     public float RecordGhost() { return recordGhost; }
 
+    private float pPressed;
+    public float PPressed() { return pPressed; }
+
     private float m_DeadZone = 0.1f;
 
     private void Awake()
@@ -57,6 +60,8 @@ public class InputManager : MonoBehaviour
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
         playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
+
+        playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -99,6 +104,12 @@ public class InputManager : MonoBehaviour
         Debug.Log(recordGhost);
         GhostPlayer.Instance.LoadGhost();
         GhostPlayer.Instance.Play();
+    }
+
+    private void OnSpawnPortal(InputAction.CallbackContext ctx)
+    {
+        pPressed = ctx.ReadValue<float>();
+        Debug.Log($"P Pressed {pPressed} ");
     }
 
     private void LeaderboardNav(InputAction.CallbackContext ctx)
