@@ -5,16 +5,17 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
-    private Camera m_Cam;
-    [SerializeField] private Transform m_Target;
-    private PlayerController m_Player;
-    [SerializeField] private Vector3 desiredPosition;
+    private Camera m_Cam;                               // Reference to the camera component to give access to the fieldOfView property 
+    [SerializeField] private Transform m_Target;        // Target object transform
+    private PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
+    private Vector3 desiredPosition;                    // Desired position of the cam to lerp to
 
 
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 10.0f;
     [SerializeField] private float m_CamAngle = 5f;
-    [SerializeField] private float m_SmoothTime = 2.0f; // Movement Smoothing Time
+    [SerializeField] private float m_FollowSpeed = 2.0f; // Movement smoothing Time
+    [SerializeField] private float m_RotationSpeed = 2.0f; // Look smoothing Time
 
     [Space(10)]
     [Header("FOV Settings")]
@@ -49,120 +50,39 @@ public class CameraController : MonoBehaviour
         m_Player = m_Target.gameObject.GetComponent<PlayerController>();
     }
 
-   
-
     private void FixedUpdate()
     {
+        // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.GetCurrentVel(), m_Target.forward);
 
-            Vector3 dir = m_Player.playerMovement.GetCurrentVel();
-        // Set the target position above the player of the camera
-        if (!m_Player.playerMovement.m_AtTrickHeight || dir.magnitude < 0.1f)
+        // Store the target's direction of movement
+        Vector3 vel = m_Player.playerMovement.GetCurrentVel();
+
+        if (!m_Player.playerMovement.m_AtTrickHeight || vel.magnitude < 0.1f)
         {
+            // If the player is below the trick height, use their forward vector as the cam's distance offset direction
             desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
         }
         else
         {
-            dir.Normalize();
+            // Otherwise, use the player's velocity normalised as the distance direction
+            Vector3 dir = vel.normalized;
             desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
         }
 
-        
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * m_SmoothTime);
-        transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle), Vector3.up);
-       
+        // Lerp between the cams current position and the desired position
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.deltaTime);
 
-        //CalculateTargetSpeed();
+        // Lerp camera rotation to the direction of the target
+        Vector3 direction = (m_Target.position + (Vector3.up * m_CamAngle)) - transform.position;
+        Quaternion toRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, m_RotationSpeed * Time.deltaTime);
 
+        // Calculate a smoothed fov value based on the target's speed
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
+        // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
 
-
-        #region alternate logic
-        /*
-        // Early out if we don't have a target
-        if (!m_Target) return;
-
-        // Calculate the current rotation angles
-        float wantedRotationAngle = m_Target.eulerAngles.y;
-        float wantedHeight = m_Target.position.y + height;
-
-        float currentRotationAngle = transform.eulerAngles.y;
-        float currentHeight = transform.position.y;
-
-        // Damp the rotation around the y-axis
-        currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
-
-        // Damp the height
-        currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-
-        // Convert the angle into a rotation
-        var currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
-
-        // Set the position of the camera on the x-z plane to:
-        // distance meters behind the target
-        transform.position = m_Target.position;
-        transform.position -= currentRotation * Vector3.forward * distance;
-
-        // Set the height of the camera
-        transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
-
-        float targetRotX = m_Target.eulerAngles.x;
-        float targetRotY = m_Target.eulerAngles.y;
-        float targetRotZ = m_Target.eulerAngles.z;
-
-        // Set rotation to the inverse of the x and z components
-        m_LookAtTransform.rotation = Quaternion.Euler(targetRotX - targetRotX, targetRotY, targetRotZ - targetRotZ);
-        m_LookAtTransform.position = m_Target.position + (Vector3.up * m_LookAtTargetHeight);
-        transform.LookAt(m_LookAtTransform.position + (m_LookAtTransform.forward * m_LookAtTargetDist), Vector3.up);
-
-        */
-
-        // Always look at the target
-        //transform.LookAt(m_Target.position + (Vector3.up * m_AngleOffset.y) + (m_Target.forward * 10f), Vector3.up);
-
-        //CameraFollow();
-        #endregion
-    }
-
-
-    /*
-    void CameraFollow()
-    {
-        // Apply the initial rotation to the camera.
-        Quaternion initialRotation = Quaternion.Euler(m_AngleOffset);
-
-        // Calculate the rotation to be applied to the camera
-        Quaternion rot = Quaternion.Lerp(transform.rotation, m_Target.rotation * initialRotation, m_SmoothTime * Time.deltaTime);
-        // Mask out rotation axies
-        rot = Quaternion.Euler(Vector3.Scale(rot.eulerAngles, rotationMask));
-        transform.rotation = rot;
-
-        // Calculate the camera transformed axes.
-        Vector3 forward = transform.rotation * Vector3.forward;
-        Vector3 right = transform.rotation * Vector3.right;
-        Vector3 up = transform.rotation * Vector3.up;
-
-        // Calculate the offset in the camera's coordinate frame.
-        Vector3 targetPos = m_Target.position;
-        Vector3 desiredPosition = targetPos
-            + forward * m_PositionOffset.z
-            + right * m_PositionOffset.x
-            + up * m_PositionOffset.y;
-
-        // change the position with a Lerp.
-        Vector3 position = Vector3.Lerp(transform.position, desiredPosition, m_SmoothTime * Time.deltaTime);
-        transform.position = position;
-    }
-    */ //Camera Follow
-
-
-    private void CalculateTargetSpeed()
-    {
-        // Calculate speed in meters per second
-        m_TargetSpeed = (m_Target.transform.position - m_TargetLastPosition).magnitude / Time.deltaTime;
-        //Save the position for the next update
-        m_TargetLastPosition = transform.position;
     }
 
     public void WatchGhost()
@@ -172,10 +92,9 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(desiredPosition, 1f);
-
-        
     }
 
 

@@ -26,15 +26,15 @@ public class TempGameManager : MonoBehaviour
         else
             m_Instance = this;
 
-       // m_StartPoint = GameObject.FindGameObjectWithTag("Start");
-        m_StartPoint.SetActive(true);
+       //// m_StartPoint = GameObject.FindGameObjectWithTag("Start");
+       // m_StartPoint.SetActive(true);
 
-       // m_EndPoint = GameObject.FindGameObjectWithTag("End");
-        m_EndPoint.SetActive(false);
+       //// m_EndPoint = GameObject.FindGameObjectWithTag("End");
+       // m_EndPoint.SetActive(false);
 
-       // checkpoint = GameObject.FindGameObjectWithTag("CheckPoint");
-        checkpoint1.SetActive(false);
-        checkpoint2.SetActive(false);
+       //// checkpoint = GameObject.FindGameObjectWithTag("CheckPoint");
+       // checkpoint1.SetActive(false);
+       // checkpoint2.SetActive(false);
 
 
 
