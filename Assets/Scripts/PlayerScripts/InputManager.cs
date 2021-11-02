@@ -116,7 +116,7 @@ public class InputManager : MonoBehaviour
 	{
         float i = ctx.ReadValue<float>();
         Debug.Log(i);
-        leaderboardUI.Move(i);
+        leaderboardUI.WrapElements(i);
     }
 
     private void OnEnable()
