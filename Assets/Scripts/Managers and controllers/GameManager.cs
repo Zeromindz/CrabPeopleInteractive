@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_Canvas;
     
     [Header("Player Stats")]
-    private PlayerController m_Player;
+    //private PlayerController m_Player;
     public float m_BoatSpeed;
     public float m_CurrentTrickRotation;
     public int m_Passengers;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+      ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         m_CurrentTime = m_TimeLimit;
 
         MenuController.Instance.LoadMenu();
