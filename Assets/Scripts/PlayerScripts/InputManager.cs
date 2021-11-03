@@ -59,28 +59,28 @@ public class InputManager : MonoBehaviour
         // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
-        playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
-        playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
-        playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
         playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-        //Debug.Log("Button Pressed: Escape");
-        //// Pauses the game
-        //if (MenuController.Instance.IsInGame)
-        //{
-        //    MenuController.Instance.PauseGame();
-        //}
+		Debug.Log("Button Pressed: Escape");
+		// Pauses the game
+		if (MenuController.Instance.IsInGame)
+		{
+			MenuController.Instance.PauseGame();
+		}
 
-        //// Returns to the previous UI
-        //else
-        //{
-        //    MenuController.Instance.ReturnToPreviousUI();
-        //}
-    }
+		// Returns to the previous UI
+		else
+		{
+			MenuController.Instance.ReturnToPreviousUI();
+		}
+	}
 
     private void OnShiftPressed(InputAction.CallbackContext ctx)
 	{
