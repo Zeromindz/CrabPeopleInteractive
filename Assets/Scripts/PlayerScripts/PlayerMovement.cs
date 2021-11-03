@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 { 
     internal PlayerController m_PlayerController;                       // Player controller script
+    public PIDController hoverPID;			                            //A PID controller to smooth the ship's hovering
     [SerializeField] private Rigidbody m_RigidBody;                     // Rigidbody attached to the boat
     [SerializeField] private Transform m_ShipBody;                      // GFX of the boat
 
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Boat Settings")]
     [SerializeField] internal bool m_Grounded = false;                  // Is the boat grounded (in water)
+    [SerializeField] internal float m_MaxGroundedDist = 5f;
     [SerializeField] internal bool m_Boosting = false;
     [Space(10)]
     [Tooltip("Acceleration force added to the rigidbody")]
@@ -43,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
     [Range(1.0f, 50.0f)]
     [SerializeField] internal float m_TrickHeightCheck = 15.0f;
     [Space(10)]
-    [Range(-1.0f, -100.0f)]
-    [SerializeField] internal float m_Gravity = -50.0f;
+    public float hoverGravity = 20f;        //The gravity applied to the ship while it is on the ground
+    public float m_FallGravity = 80f;			//The gravity applied to the ship while it is falling
+    //[Range(-1.0f, -100.0f)]
+    //[SerializeField] internal float m_Gravity = -50.0f;
     [Tooltip("Trick rotation force")]
     [SerializeField] internal float m_InAirTorque = 15.0f;              // Trick rotation force
     [Tooltip("Force applied to hover points to keep the boat level")]
@@ -95,9 +99,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Apply gravity
-        if(m_UseGravity)
+        if(m_UseGravity && !m_Grounded)
         {
-            m_RigidBody.AddForce((Vector3.up * m_Gravity), ForceMode.Acceleration);
+            m_RigidBody.AddForce((-Vector3.up * m_FallGravity), ForceMode.Acceleration);
         }
 
         // Boost
@@ -142,7 +146,8 @@ public class PlayerMovement : MonoBehaviour
         // Apply the sideways friction
         m_RigidBody.AddForce(sideFriction, ForceMode.Acceleration);
 
-        ApplyForcetoPoints();
+        //ApplyForceToPoints();
+        CalculateHover();
        
         Accelerate();
         Steer();
@@ -223,10 +228,10 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody.AddForce(forward * m_BoostSpeed, ForceMode.Acceleration);
     }
 
-
-    private void ApplyForcetoPoints()
+    // Old hover Calculation
+    //m_RigidBody.AddForceAtPosition((Vector3.up * m_GroundHoverForce) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_GroundHoverHeight)), hoverPoint.transform.position);
+    private void ApplyForceToPoints()
     {
-
         for (int i = 0; i < m_HoverPoints.Length; i++)
         {
             // Raycast down from each floater
@@ -238,8 +243,37 @@ public class PlayerMovement : MonoBehaviour
                 //======================================
                 // Hovering
                 //____________________________________
-                //m_RigidBody.AddForceAtPosition(Vector3.up * m_GroundHoverForce * (1.0f - (hit.distance / m_GroundHoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
-                m_RigidBody.AddForceAtPosition((Vector3.up * m_GroundHoverForce) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_GroundHoverHeight)), hoverPoint.transform.position);
+
+                // Store the normal of the ground
+                Vector3 groundNormal;
+
+                // Determine how high off the ground it is
+                float height = hit.distance;
+                // Save the normal of the ground
+                groundNormal = hit.normal.normalized;
+                // Use the PID controller to determine the amount of hover force needed
+                float forcePercent = hoverPID.Seek(m_GroundHoverHeight, height);
+
+                // Calulcate the total amount of hover force based on normal (or "up") of the ground
+                Vector3 force = groundNormal * m_GroundHoverForce * forcePercent;
+                // Calculate the force and direction of gravity to adhere the ship to the 
+                // track (which is not always straight down in the world)
+                Vector3 gravity = -groundNormal * hoverGravity * height;
+
+                m_RigidBody.AddForceAtPosition(force, hoverPoint.transform.position, ForceMode.Acceleration);
+
+                // Apply the hover and gravity forces
+                m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
+
+                //Calculate the amount of pitch and roll the ship needs to match its orientation
+                //with the ground.
+                Vector3 projection = Vector3.ProjectOnPlane(transform.forward, groundNormal);
+                Quaternion rotation = Quaternion.LookRotation(projection, groundNormal);
+
+                // Move the ship over time to match the desired rotation to match the ground.
+                m_RigidBody.MoveRotation(Quaternion.Lerp(m_RigidBody.rotation, rotation, Time.fixedDeltaTime * 10f));
+
+                
 
                 m_Grounded = true;
             }
@@ -250,6 +284,76 @@ public class PlayerMovement : MonoBehaviour
                 // If below trick height
                 if (!m_AtTrickHeight)
                 {
+                    // level out hoverpoints
+                    if (m_CoM.y > hoverPoint.transform.position.y)
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
+                    else
+                    {
+                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    }
+                }
+            }
+        }
+    }
+    
+
+    void CalculateHover()
+    {
+        // Raycast down from each floater
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, -transform.up, out hit, m_GroundHoverHeight, m_LayerMask))
+        {
+            //======================================
+            // Hovering
+            //____________________________________
+
+            // Store the normal of the ground
+            Vector3 groundNormal;
+
+            // Determine how high off the ground it is
+            float height = hit.distance;
+            // Save the normal of the ground
+            groundNormal = hit.normal.normalized;
+            // Use the PID controller to determine the amount of hover force needed
+            float forcePercent = hoverPID.Seek(m_GroundHoverHeight, height);
+
+            // Calulcate the total amount of hover force based on normal (or "up") of the ground
+            Vector3 force = groundNormal * m_GroundHoverForce * forcePercent;
+            // Calculate the force and direction of gravity to adhere the ship to the 
+            // track (which is not always straight down in the world)
+            Vector3 gravity = -groundNormal * hoverGravity * height;
+
+            m_RigidBody.AddForceAtPosition(force, transform.position, ForceMode.Acceleration);
+
+            // Apply the hover and gravity forces
+            m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
+
+            //Calculate the amount of pitch and roll the ship needs to match its orientation
+            //with the ground.
+            Vector3 projection = Vector3.ProjectOnPlane(transform.forward, groundNormal);
+            Quaternion rotation = Quaternion.LookRotation(projection, groundNormal);
+
+            // Move the ship over time to match the desired rotation to match the ground.
+            m_RigidBody.MoveRotation(Quaternion.Lerp(m_RigidBody.rotation, rotation, Time.fixedDeltaTime * 10f));
+
+            // Old hover Calculation
+            //m_RigidBody.AddForceAtPosition((Vector3.up * m_GroundHoverForce) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_GroundHoverHeight)), hoverPoint.transform.position);
+
+            m_Grounded = true;
+        }
+        else
+        {
+            m_Grounded = false;
+
+            // If below trick height
+            if (!m_AtTrickHeight)
+            {
+                for (int i = 0; i < m_HoverPoints.Length; i++)
+                {
+                    var hoverPoint = m_HoverPoints[i];
                     // level out hoverpoints
                     if (m_CoM.y > hoverPoint.transform.position.y)
                     {
