@@ -56,7 +56,7 @@ public class InputManager : MonoBehaviour
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
 
         playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
-        // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        //playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
         //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
@@ -68,9 +68,10 @@ public class InputManager : MonoBehaviour
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-		Debug.Log("Button Pressed: Escape");
+		Debug.Log("Button Pressed: Escape" + ctx.started);
+
 		// Pauses the game
-		if (MenuController.Instance.IsInGame)
+		if (!MenuController.Instance.IsGamePaused)
 		{
 			MenuController.Instance.PauseGame();
 		}

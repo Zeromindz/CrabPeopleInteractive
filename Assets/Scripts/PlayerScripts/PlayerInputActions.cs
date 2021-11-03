@@ -24,7 +24,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""6c728e1e-0cab-42a9-89a0-774d3af89e93"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Movement"",
@@ -87,7 +87,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6b496fc7-1167-43d1-b0f1-075792894000"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
