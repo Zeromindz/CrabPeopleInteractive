@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("End point hit");
-        GhostRecorder.Instance.SaveRecording();
+        // GhostRecorder.Instance.SaveRecording();
         SceneManager.LoadScene(0);
     }
 
