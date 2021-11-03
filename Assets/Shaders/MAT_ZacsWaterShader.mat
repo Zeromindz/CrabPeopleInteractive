@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MAT_ZacsWaterShader
+  m_Shader: {fileID: -6465566751694194690, guid: 6e8a1296a5d97474282e9e7a688aa947, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_39C534A3: 0.1
+    - Vector1_3D1DC294: 1
+    - Vector1_67563EE0: 1
+    - Vector1_CA9156AA: 4.67
+    - Vector1_F8A43356: 1
+    - Vector1_F999FCA8: 2
+    - _EmissionStrength: 4.3
+    - _FoamAmount: 1.3
+    - _FoamCutOff: 0.75
+    - _FoamScale: 100
+    - _FoamSpeed: 10
+    - _Gradient: 5.7
+    - _RefractionSpeed: 0.5
+    - _RefractionStrength: 1
+    - _Refraction_Scale: 1
+    - _SmoothnessAdjust: 1.82
+    - _WaterAlpha: 0.23
+    m_Colors:
+    - Color_58D0A695: {r: 1, g: 0.571125, b: 0, a: 0.6627451}
+    - _EmissionColour: {r: 1, g: 0, b: 0.030630589, a: 0}
+    - _FoamColour: {r: 1, g: 0.7122642, b: 0.7442348, a: 1}
+    - _WaterDeep: {r: 0.6745098, g: 0, b: 0.05098036, a: 0.14901961}
+    - _WaterShallow: {r: 0.103773594, g: 0.007018609, b: 0.0014684916, a: 0.1411765}
+  m_BuildTextureStacks: []
