@@ -155,8 +155,8 @@ public class LeaderboardUI : MonoBehaviour
 
 	private void Update()
 	{
-        TextMeshProUGUI text = counter.GetComponent<TextMeshProUGUI>();
-        text.text = "" + m_CountingIndex;
+        //TextMeshProUGUI text = counter.GetComponent<TextMeshProUGUI>();
+      //  text.text = "" + m_CountingIndex;
 	}
 
 	private void OnbuttonPress(int index)
@@ -199,7 +199,7 @@ public class LeaderboardUI : MonoBehaviour
                 m_Element[m_BottomIndex].SetX(m_leftmostXPosition);
                 int value = m_CountingIndex - 1;
                 m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
-                //[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveListener(() => { OnbuttonPress(value - 2); });
+                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveListener(() => { OnbuttonPress(value - 2); });
                 m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
 
