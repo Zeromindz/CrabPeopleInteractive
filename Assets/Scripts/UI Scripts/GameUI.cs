@@ -36,16 +36,16 @@ public class GameUI : MonoBehaviour
     // To be changed to the gamemanager singleton
     void UpdateUI()
     {
-        string timerText = "Time: " + (int)m_GameManager.GetCurrentTime();
+        string timerText = "Time: " + (int)GameManager.Instance.GetCurrentTime();
         m_TimerUI.text = timerText;
 
-        string speedText = "Speed: " + Mathf.Round(m_GameManager.m_BoatSpeed);
+        string speedText = "Speed: " + Mathf.Round(GameManager.Instance.m_BoatSpeed);
         m_SpeedUI.text = speedText;
 
-        string passengerText = "Passengers: " + m_GameManager.m_Passengers;
+        string passengerText = "Passengers: " + GameManager.Instance.m_Passengers;
         m_PassengerUI.text = passengerText;
 
-        string trickText = "Trick: " + m_GameManager.m_CurrentTrickRotation;
+        string trickText = "Trick: " + GameManager.Instance.m_CurrentTrickRotation;
         m_TrickUI.text = trickText;
     }
 
