@@ -56,29 +56,32 @@ public class InputManager : MonoBehaviour
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
 
         playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
-        // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        //playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
         //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
-        playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
         playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-        //Debug.Log("Button Pressed: Escape");
-        //// Pauses the game
-        //if (MenuController.Instance.IsInGame)
-        //{
-        //    MenuController.Instance.PauseGame();
-        //}
+		Debug.Log("Button Pressed: Escape" + ctx.started);
 
-        //// Returns to the previous UI
-        //else
-        //{
-        //    MenuController.Instance.ReturnToPreviousUI();
-        //}
-    }
+		// Pauses the game
+		if (!MenuController.Instance.IsGamePaused)
+		{
+			MenuController.Instance.PauseGame();
+		}
+
+		// Returns to the previous UI
+		else
+		{
+			MenuController.Instance.ReturnToPreviousUI();
+		}
+	}
 
     private void OnShiftPressed(InputAction.CallbackContext ctx)
 	{
@@ -116,7 +119,7 @@ public class InputManager : MonoBehaviour
 	{
         float i = ctx.ReadValue<float>();
         Debug.Log(i);
-        leaderboardUI.Move(i);
+        leaderboardUI.WrapElements(i);
     }
 
     private void OnEnable()

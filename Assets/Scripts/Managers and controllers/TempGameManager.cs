@@ -6,10 +6,7 @@ using UnityEngine.InputSystem;
 public class TempGameManager : MonoBehaviour
 {
     public GameObject m_Player;
-    public GameObject m_StartPoint;
-    public GameObject checkpoint1;
-    public GameObject checkpoint2;
-    public GameObject m_EndPoint;
+    public List<GameObject> m_CheckpointObjects;
     private KeybindManager m_Keybinds;
     private Stack<GameObject> m_checkPoints;
     private static TempGameManager m_Instance;                       // The current instance of MenuController
@@ -26,24 +23,14 @@ public class TempGameManager : MonoBehaviour
         else
             m_Instance = this;
 
-       //// m_StartPoint = GameObject.FindGameObjectWithTag("Start");
-       // m_StartPoint.SetActive(true);
-
-       //// m_EndPoint = GameObject.FindGameObjectWithTag("End");
-       // m_EndPoint.SetActive(false);
-
-       //// checkpoint = GameObject.FindGameObjectWithTag("CheckPoint");
-       // checkpoint1.SetActive(false);
-       // checkpoint2.SetActive(false);
-
-
-
-
         // m_Keybinds = KeybindManager.Instance;
         m_checkPoints = new Stack<GameObject>();
-        m_checkPoints.Push(m_EndPoint);
-        m_checkPoints.Push(checkpoint2);
-        m_checkPoints.Push(checkpoint1);
+        m_CheckpointObjects.Reverse();
+
+        for(int i = 0; i < m_CheckpointObjects.Count; i++)
+		{
+            m_checkPoints.Push(m_CheckpointObjects[i]);
+		}
 
     }
 
