@@ -30,6 +30,7 @@ public class PlayerCollision : MonoBehaviour
         if (other.tag == "End")
         {
             GameManager.Instance.EndGame();
+            Debug.Log("End Hit");
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
 
