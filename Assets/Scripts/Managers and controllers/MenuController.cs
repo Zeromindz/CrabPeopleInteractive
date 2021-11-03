@@ -93,7 +93,6 @@ public class MenuController : MonoBehaviour
 
 		m_CurrentUI = m_MenuUI;
 		m_UIStack = new Stack<MenuStackItem>();
-		LoadMenu();
 	}
 	#endregion
 
@@ -164,6 +163,7 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
+		Time.timeScale = 1;
 	}
 
 	/// <summary>
@@ -230,7 +230,7 @@ public class MenuController : MonoBehaviour
 		{
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
-			m_GameUI.GetComponent<GameUI>().StartCountDown();
+			//m_GameUI.GetComponent<GameUI>().StartCountDown();
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)
