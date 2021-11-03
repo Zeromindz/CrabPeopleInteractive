@@ -12,17 +12,17 @@ public class CameraController : MonoBehaviour
 
 
     [SerializeField] private float m_CamHeight = 5.0f;
-    [SerializeField] private float m_CamDist = 10.0f;
+    [SerializeField] private float m_CamDist = 15.0f;
     [SerializeField] private float m_CamAngle = 5f;
-    [SerializeField] private float m_FollowSpeed = 2.0f; // Movement smoothing Time
-    [SerializeField] private float m_RotationSpeed = 2.0f; // Look smoothing Time
+    [SerializeField] private float m_FollowSpeed = 10.0f; // Movement smoothing Time
+    [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
 
     [Space(10)]
     [Header("FOV Settings")]
     [SerializeField] private float m_FovMin = 60.0f;
     [SerializeField] private float m_FovMax = 75.0f;
     [SerializeField] private float m_FovSmoothTime = 0.5f;
-    public float m_TargetSpeed;
+    private float m_TargetSpeed;
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 

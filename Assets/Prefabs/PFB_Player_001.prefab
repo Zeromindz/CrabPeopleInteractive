@@ -288,20 +288,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf0c80ebd792ed4e97b606f127b62de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverPID:
+    pCoeff: 0.8
+    iCoeff: 0.0002
+    dCoeff: 0.2
+    minimum: -1
+    maximum: 1
   m_RigidBody: {fileID: 4629130818476053253}
   m_ShipBody: {fileID: 4629130820421721205}
   m_UseGravity: 1
   m_Grounded: 0
+  m_MaxGroundedDist: 5
   m_Boosting: 0
   m_HorsePower: 60
-  m_MaxSpeed: 50
+  m_MaxSpeed: 60
   m_BoostSpeed: 20
   m_MaxBoostSpeed: 100
   m_SteeringTorque: 8
   m_SidewaysDriftAmount: 15
   m_AtTrickHeight: 0
   m_TrickHeightCheck: 15
-  m_Gravity: -50
+  hoverGravity: 20
+  m_FallGravity: 20
   m_InAirTorque: 15
   m_LevelingForce: 0.1
   m_VelocitySlowFactor: 0.99
@@ -343,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17efbca97c0396344b4e9954a4df4ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaderboardUI: {fileID: 0}
 --- !u!114 &1115569635
 MonoBehaviour:
   m_ObjectHideFlags: 0
