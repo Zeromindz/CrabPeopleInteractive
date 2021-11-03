@@ -16,7 +16,7 @@ public class PortalManager : MonoBehaviour
     public GameObject m_PortalPrefab;
     public Camera m_PortalCamera;
     public Transform m_PlayerCamera;
-    public Transform m_PortalExit;
+    [SerializeField] private Transform m_PortalExit;
     public Material m_PortalMaterial;
     private Transform m_Entrance;
     [Space(10)]
@@ -125,7 +125,7 @@ public class PortalManager : MonoBehaviour
             // Add the rotation offset from entrance to exit 
             rotDifference += 180f;
 
-
+            // Get
             float dot = Vector3.Dot(m_Entrance.forward, Vector3.left);
 
             if(dot > 0f)

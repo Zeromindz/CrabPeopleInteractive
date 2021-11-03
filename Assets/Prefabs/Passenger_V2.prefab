@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901210384272520452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.43, y: 0, z: 0}
+  m_LocalPosition: {x: 0.945, y: 0, z: -0.055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7684758966144268778}
@@ -122,7 +122,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 1.608, y: 5.392, z: -0.08}
+  m_ConnectedAnchor: {x: 18.284733, y: 2.35, z: 25.987358}
   serializedVersion: 2
   m_Spring: 100
   m_Damper: 0.2
@@ -160,7 +160,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.49199986
+      value: 0.006999254
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.08
+      value: 0.024999693
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -229,7 +229,7 @@ PrefabInstance:
     - target: {fileID: -2820771651590790, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4027429c6717be94591077b8a92fa144, type: 2}
+      objectReference: {fileID: 2100000, guid: e51290ccb17b3ec4f87925332d82cf79, type: 2}
     - target: {fileID: 919132149155446097, guid: 836ebc7e89dda2f4abe593e4180431e1, type: 3}
       propertyPath: m_Name
       value: GFX

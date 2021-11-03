@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0f, 100.0f)]
     [SerializeField] internal float m_HorsePower = 60.0f;               // Acceleration force
     [Tooltip("Max speed (m/s) without boost")]
-    [SerializeField] internal float m_MaxSpeed = 50.0f;                 // Max speed without boost
+    [SerializeField] internal float m_MaxSpeed = 60.0f;                 // Max speed without boost
     [Tooltip("Boost force added to the rigidbody")]
     [SerializeField] internal float m_BoostSpeed = 20.0f;              // Boost force
     [Tooltip("Max speed (m/s) with boost")]
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(1.0f, 50.0f)]
     [SerializeField] internal float m_TrickHeightCheck = 15.0f;
     [Space(10)]
-    public float hoverGravity = 20f;        //The gravity applied to the ship while it is on the ground
+    public float m_HoverGravity = 20f;        //The gravity applied to the ship while it is on the ground
     public float m_FallGravity = 80f;			//The gravity applied to the ship while it is falling
     //[Range(-1.0f, -100.0f)]
     //[SerializeField] internal float m_Gravity = -50.0f;
@@ -258,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 force = groundNormal * m_GroundHoverForce * forcePercent;
                 // Calculate the force and direction of gravity to adhere the ship to the 
                 // track (which is not always straight down in the world)
-                Vector3 gravity = -groundNormal * hoverGravity * height;
+                Vector3 gravity = -groundNormal * m_HoverGravity * height;
 
                 m_RigidBody.AddForceAtPosition(force, hoverPoint.transform.position, ForceMode.Acceleration);
 
@@ -324,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 force = groundNormal * m_GroundHoverForce * forcePercent;
             // Calculate the force and direction of gravity to adhere the ship to the 
             // track (which is not always straight down in the world)
-            Vector3 gravity = -groundNormal * hoverGravity * height;
+            Vector3 gravity = -groundNormal * m_HoverGravity * height;
 
             m_RigidBody.AddForceAtPosition(force, transform.position, ForceMode.Acceleration);
 

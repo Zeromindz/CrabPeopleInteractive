@@ -402,7 +402,7 @@ MonoBehaviour:
   m_AtTrickHeight: 0
   m_TrickHeightCheck: 15
   hoverGravity: 20
-  m_FallGravity: 80
+  m_FallGravity: 20
   m_InAirTorque: 15
   m_LevelingForce: 0.1
   m_VelocitySlowFactor: 0.99
@@ -973,14 +973,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
---- !u!4 &7576498729041125551 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8993566913710426541, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
-  m_PrefabInstance: {fileID: 1579268163371755778}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &948106065433378912 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1784245102073850210, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
+  m_PrefabInstance: {fileID: 1579268163371755778}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7576498729041125551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8993566913710426541, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
   m_PrefabInstance: {fileID: 1579268163371755778}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4288460657757455722
@@ -1056,14 +1056,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
---- !u!4 &5254323051889578013 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8316097669598106999, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
-  m_PrefabInstance: {fileID: 4288460657757455722}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4805563987408761011 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8733437092055987673, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
+  m_PrefabInstance: {fileID: 4288460657757455722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5254323051889578013 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8316097669598106999, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
   m_PrefabInstance: {fileID: 4288460657757455722}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4442062785393236214
