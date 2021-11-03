@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 0ffaa0b7117ba8c47a9d05ae701d4b4d, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 4954cbbc378291940a0b54df08b82154, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -2706,6 +2706,7 @@ MonoBehaviour:
   m_BoatSpeed: 0
   m_CurrentTrickRotation: 0
   m_Passengers: 0
+  m_CheckpointObjects: []
   m_TimeLimit: 50
 --- !u!4 &733202409
 Transform:
@@ -2733,11 +2734,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c960bfe8c6c646f4bb63d584dbb0555c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Portal: {fileID: 7685300827308483357, guid: c91972a2537e214468a8fc697a438d66, type: 3}
-  m_PortalCam: {fileID: 2026533934}
-  m_PortalMat: {fileID: 2100000, guid: 43e057c32ea97b54594f344d4d065393, type: 2}
+  m_Player: {fileID: 0}
+  m_PortalPrefab: {fileID: 0}
+  m_PortalCamera: {fileID: 0}
+  m_PlayerCamera: {fileID: 0}
+  m_PortalExit: {fileID: 0}
+  m_PortalMaterial: {fileID: 0}
   m_SpawnDist: 30
-  m_PortalSpawned: 0
+  m_PlayerOverlapping: 0
+  m_PortalHasBeenSpawned: 0
 --- !u!4 &744992041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7168125766259929922, guid: ade52c9ea8f945d4d900d2725fde5dd5, type: 3}
@@ -7649,10 +7654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4267f444d83d39d48816a14545e7d262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerCam: {fileID: 332962910}
-  m_Entrance: {fileID: 0}
-  m_Exit: {fileID: 515497661}
-  m_Active: 0
 --- !u!114 &2026533933
 MonoBehaviour:
   m_ObjectHideFlags: 0
