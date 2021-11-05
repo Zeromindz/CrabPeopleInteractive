@@ -67,12 +67,27 @@ public class PlayerMovement : MonoBehaviour
     [Header("GFX")]
     public float m_ShipRollAngle = 20f;         // The angle that the ship "banks" into a turn
     public float m_ShipRollSpeed = 5f;          // Banking speed
+    private Vector2 m_Movement = Vector2.zero;
+    bool isShiftPressed;
+    bool isSpacePressed;
 
+    private static PlayerMovement m_Instance;                       
+    public static PlayerMovement Instance                           
+    {
+        get { return m_Instance; }
+    }
+
+    void Awake()
+    {
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+    }
 
     void Start()
-    {
-        m_PlayerController = GetComponent<PlayerController>();
-
+    {   
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
         m_InAirCoM = gameObject.transform.Find("InAirCoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
@@ -80,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        m_MovementInput = m_PlayerController.playerInput.GetMovementInput();
+        m_MovementInput = m_Movement;
     }
 
     void FixedUpdate()
@@ -105,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Boost
-        if (m_PlayerController.playerInput.ShiftPressed() > 0)
+        if (isShiftPressed)
         {
             Boost();
             m_Boosting = true;
@@ -165,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(m_PlayerController.playerInput.SpacePressed() > 0)
+            if(isSpacePressed)
             {
                 AirFlip(m_MovementInput.y);
             }
@@ -175,23 +190,16 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
-        if(m_PlayerController.playerInput.SpacePressed() > 0)
-        {
-            if(m_AtTrickHeight)
-            {
-                AirRoll(m_MovementInput.x);
-            }
-            else
-            {
-                m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
-            }
+        if(isSpacePressed && m_AtTrickHeight)
+        {      
+            AirRoll(m_MovementInput.x);
         }
-        else
-        {
-            m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
-        }
+		else
+		{
+			m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
+		}
 
-        if(m_Grounded)
+		if (m_Grounded)
         {
             //Calculate the angle we want the ship's body to bank into a turn.
             float angle = m_ShipRollAngle * -m_MovementInput.x;
@@ -201,9 +209,7 @@ public class PlayerMovement : MonoBehaviour
 
             //Finally, apply this angle to the ship's body
             m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
-
         }
-
     }
         
     public bool AtTrickHeight()
@@ -273,7 +279,6 @@ public class PlayerMovement : MonoBehaviour
                 // Move the ship over time to match the desired rotation to match the ground.
                 m_RigidBody.MoveRotation(Quaternion.Lerp(m_RigidBody.rotation, rotation, Time.fixedDeltaTime * 10f));
 
-                
 
                 m_Grounded = true;
             }
@@ -409,4 +414,36 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + GetCurrentVel());
 
     }
+
+    public void ShiftPressed(float value)
+    {
+
+        if (value > 0)
+        {
+            isShiftPressed = true;
+        }
+
+        else
+        {
+            isShiftPressed = false;
+        }
+    }
+    public void SpacePressed(float value)
+    {
+
+        if (value > 0)
+        {
+            isSpacePressed = true;
+        }
+
+        else
+        {
+            isSpacePressed = false;
+        }
+    }
+
+    public void Movement(Vector2 movement)
+	{
+        m_Movement = movement;
+	}
 }

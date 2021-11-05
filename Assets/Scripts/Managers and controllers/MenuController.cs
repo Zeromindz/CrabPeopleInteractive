@@ -231,7 +231,6 @@ public class MenuController : MonoBehaviour
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
 			Time.timeScale = 1;
-			//m_GameUI.GetComponent<GameUI>().StartCountDown();
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)

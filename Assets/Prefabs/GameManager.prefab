@@ -10,10 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5255520189579624734}
   - component: {fileID: 5255520189579624725}
-  - component: {fileID: 5255520189579624730}
-  - component: {fileID: 5255520189579624731}
   - component: {fileID: 5255520189579624728}
-  - component: {fileID: 1029329713}
   - component: {fileID: 1029329714}
   - component: {fileID: 1029329715}
   m_Layer: 0
@@ -55,70 +52,6 @@ MonoBehaviour:
   m_Passengers: 0
   m_CheckpointObjects: []
   m_TimeLimit: 50
---- !u!114 &5255520189579624730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd040296820caf14588a516bcac8ae69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_State: 1
-  m_MenuUI: {fileID: 0}
-  m_GameUI: {fileID: 0}
-  m_GamePausedUI: {fileID: 0}
-  m_EndScreenUI: {fileID: 0}
-  m_SettingsUI: {fileID: 0}
-  m_LeaderboardUI: {fileID: 0}
---- !u!114 &5255520189579624731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc5630e944af5440b621ff419e8c2e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MainVolume: 1
-  m_MusicVolume: 1
-  m_SFXVolume: 1
-  m_GameMusic: {fileID: 0}
-  m_MenuMusic: {fileID: 0}
-  m_CollisionSounds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_MenuSelectSounds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_MainVolumeSlider: {fileID: 0}
-  m_MainVolumeInput: {fileID: 0}
-  m_MusicVolumeSlider: {fileID: 0}
-  m_MusicVolumeInput: {fileID: 0}
-  m_SFXVolumeSlider: {fileID: 0}
-  m_SFXVolumeInput: {fileID: 0}
 --- !u!114 &5255520189579624728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,36 +65,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leaderboardUI: {fileID: 0}
---- !u!114 &1029329713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: af8e2132eac76454aa248668298960cc, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1029329714
 MonoBehaviour:
   m_ObjectHideFlags: 0

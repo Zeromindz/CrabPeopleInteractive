@@ -913,7 +913,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: LoadSettings
         m_Mode: 1
@@ -1120,9 +1120,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: UnPauseGame
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1263,8 +1263,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+      - m_Target: {fileID: 1340591926130817513}
+        m_TargetAssemblyTypeName: SettingsUI, Assembly-CSharp
         m_MethodName: SetDropDownValue
         m_Mode: 0
         m_Arguments:
@@ -1274,7 +1274,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
   m_AlphaFadeSpeed: 0.15
 --- !u!1 &3968692095439020848
 GameObject:
@@ -2150,7 +2150,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 0
@@ -3218,7 +3218,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMainVolume
         m_Mode: 0
@@ -4100,6 +4100,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3968692095897777488}
+  - component: {fileID: 145304622386176481}
+  - component: {fileID: 1340591926130817513}
+  - component: {fileID: 4426651047235259948}
+  - component: {fileID: 2608819040516289337}
+  - component: {fileID: 7183256269909236251}
   m_Layer: 0
   m_Name: UserInterfaces
   m_TagString: Untagged
@@ -4121,8 +4126,8 @@ RectTransform:
   - {fileID: 3968692095696064913}
   - {fileID: 3968692096638392585}
   - {fileID: 3968692096127745064}
-  - {fileID: 3968692096167760575}
   - {fileID: 3968692096809273856}
+  - {fileID: 3968692096167760575}
   - {fileID: 3968692096346895477}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -4132,6 +4137,127 @@ RectTransform:
   m_AnchoredPosition: {x: 550, y: 271.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &145304622386176481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278a9620c0f46644abaec3b0abb91a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimerUI: {fileID: 3968692096865639851}
+  m_SpeedUI: {fileID: 3968692096507651768}
+  m_PassengerUI: {fileID: 3968692095728806546}
+  m_TrickUI: {fileID: 3968692096300670526}
+  m_CountDown: {fileID: 3968692096998175249}
+--- !u!114 &1340591926130817513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e9f31deacf8d249802fcc823fa361f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GeneralSettings: {fileID: 3968692095534772320}
+  m_KeybindSettings: {fileID: 3968692096697032762}
+  m_ResultionDropDown: {fileID: 3968692095431009839}
+  m_GeneralButton: {fileID: 3968692096891095878}
+  m_KeybindButton: {fileID: 3968692097248711141}
+  m_FullScreen: 0
+  m_ScreenSizes: []
+  m_DropDownValue: 0
+--- !u!114 &4426651047235259948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68f29ced57b8ad40b30cdfd9408433a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counter: {fileID: 0}
+  m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
+  m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
+  m_Canvas: {fileID: 3968692096346895472}
+  m_ElementsPerPage: 6
+  m_TotalElements: 5
+  m_TopYPosition: 140
+  m_leftmostXPosition: -810
+--- !u!114 &2608819040516289337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd040296820caf14588a516bcac8ae69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_State: 1
+  m_MenuUI: {fileID: 3968692095696064912}
+  m_GameUI: {fileID: 3968692096638392584}
+  m_GamePausedUI: {fileID: 3968692096127745071}
+  m_EndScreenUI: {fileID: 3968692096809273863}
+  m_SettingsUI: {fileID: 3968692096167760574}
+  m_LeaderboardUI: {fileID: 3968692096346895476}
+--- !u!114 &7183256269909236251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc5630e944af5440b621ff419e8c2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MainVolume: 1
+  m_MusicVolume: 1
+  m_SFXVolume: 1
+  m_GameMusic: {fileID: 0}
+  m_MenuMusic: {fileID: 0}
+  m_CollisionSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_MenuSelectSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_MainVolumeSlider: {fileID: 3968692095698036786}
+  m_MainVolumeInput: {fileID: 3968692096847829324}
+  m_MusicVolumeSlider: {fileID: 3968692095539765591}
+  m_MusicVolumeInput: {fileID: 3968692096344567859}
+  m_SFXVolumeSlider: {fileID: 3968692096411037046}
+  m_SFXVolumeInput: {fileID: 3968692095973478158}
 --- !u!1 &3968692095917594958
 GameObject:
   m_ObjectHideFlags: 0
@@ -4327,7 +4453,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: LoadMenu
         m_Mode: 1
@@ -4763,7 +4889,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 0
@@ -5541,7 +5667,6 @@ GameObject:
   - component: {fileID: 3968692096167760571}
   - component: {fileID: 3968692096167760570}
   - component: {fileID: 3968692096167760569}
-  - component: {fileID: 3968692096167760568}
   m_Layer: 5
   m_Name: SettingsUI
   m_TagString: Untagged
@@ -5562,7 +5687,7 @@ RectTransform:
   m_Children:
   - {fileID: 3968692097055819621}
   m_Father: {fileID: 3968692095897777488}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5629,26 +5754,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3968692096167760568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3968692096167760574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3e9f31deacf8d249802fcc823fa361f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_GeneralSettings: {fileID: 3968692095534772320}
-  m_KeybindSettings: {fileID: 3968692096697032762}
-  m_ResultionDropDown: {fileID: 3968692095431009839}
-  m_GeneralButton: {fileID: 3968692096891095878}
-  m_KeybindButton: {fileID: 3968692097248711141}
-  m_FullScreen: 1
-  m_ScreenSizes: []
-  m_DropDownValue: 0
 --- !u!1 &3968692096202655001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +7030,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3968692096167760568}
+      - m_Target: {fileID: 1340591926130817513}
         m_TargetAssemblyTypeName: SettingsUI, Assembly-CSharp
         m_MethodName: SetScreenSize
         m_Mode: 1
@@ -7093,7 +7198,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 0
@@ -7104,7 +7209,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7211,14 +7316,13 @@ GameObject:
   - component: {fileID: 3968692096346895472}
   - component: {fileID: 3968692096346895479}
   - component: {fileID: 3968692096346895478}
-  - component: {fileID: 3968692096346895473}
   m_Layer: 5
   m_Name: LeaderboardUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3968692096346895477
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7302,25 +7406,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3968692096346895473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3968692096346895476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68f29ced57b8ad40b30cdfd9408433a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
-  m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
-  m_Canvas: {fileID: 3968692096346895472}
-  m_ElementsPerPage: 6
-  m_TotalElements: 5
-  m_TopYPosition: 140
-  m_leftmostXPosition: -810
 --- !u!1 &3968692096349871636
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,7 +7660,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
@@ -7944,7 +8029,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 0
@@ -9330,7 +9415,6 @@ GameObject:
   - component: {fileID: 3968692096638392581}
   - component: {fileID: 3968692096638392580}
   - component: {fileID: 3968692096638392587}
-  - component: {fileID: 3968692096638392586}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -9418,23 +9502,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3968692096638392586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3968692096638392584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 278a9620c0f46644abaec3b0abb91a1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TimerUI: {fileID: 3968692096865639851}
-  m_SpeedUI: {fileID: 3968692096507651768}
-  m_PassengerUI: {fileID: 3968692095728806546}
-  m_TrickUI: {fileID: 3968692096300670526}
-  m_CountDown: {fileID: 3968692096998175249}
 --- !u!1 &3968692096648016692
 GameObject:
   m_ObjectHideFlags: 0
@@ -10345,7 +10412,7 @@ RectTransform:
   m_Children:
   - {fileID: 3968692096106313727}
   m_Father: {fileID: 3968692095897777488}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10664,7 +10731,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: LoadSettings
         m_Mode: 1
@@ -11270,7 +11337,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7183256269909236251}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: SetMainVolume
         m_Mode: 0
@@ -11872,7 +11939,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3968692096167760568}
+      - m_Target: {fileID: 1340591926130817513}
         m_TargetAssemblyTypeName: SettingsUI, Assembly-CSharp
         m_MethodName: SetGeneralUI
         m_Mode: 1
@@ -12544,7 +12611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
@@ -13429,7 +13496,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3968692096167760568}
+      - m_Target: {fileID: 1340591926130817513}
         m_TargetAssemblyTypeName: SettingsUI, Assembly-CSharp
         m_MethodName: ToggleFullScreen
         m_Mode: 1
@@ -13769,7 +13836,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: LoadGame
         m_Mode: 1
@@ -14071,7 +14138,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3968692096167760568}
+      - m_Target: {fileID: 1340591926130817513}
         m_TargetAssemblyTypeName: SettingsUI, Assembly-CSharp
         m_MethodName: SetKeyBindUI
         m_Mode: 1
