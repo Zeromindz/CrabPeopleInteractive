@@ -73,7 +73,7 @@ public class InputManager : MonoBehaviour
 		Debug.Log("Button Pressed: Escape" + ctx.started);
 
 		// Pauses the game
-		if (!MenuController.Instance.IsGamePaused)
+		if (MenuController.Instance.IsInGame)
 		{
 			MenuController.Instance.PauseGame();
 		}

@@ -137,7 +137,7 @@ public class MenuController : MonoBehaviour
 	{
 		Debug.Log("Un-Pausing Game");
 		m_State = MenuState.GAME;
-		UpdateState();
+		LoadGame();
 	}
 
 	/// <summary>
