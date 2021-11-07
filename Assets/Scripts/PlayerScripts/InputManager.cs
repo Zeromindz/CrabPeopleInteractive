@@ -68,7 +68,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-		Debug.Log("Button Pressed: Escape");
+		//Debug.Log("Button Pressed: Escape");
 		// Pauses the game
 		if (MenuController.Instance.IsInGame)
 		{
@@ -85,25 +85,25 @@ public class InputManager : MonoBehaviour
     private void OnShiftPressed(InputAction.CallbackContext ctx)
 	{
         shiftPressed = ctx.ReadValue<float>();
-        Debug.Log("Shift pressed!" + shiftPressed);
+        //Debug.Log("Shift pressed!" + shiftPressed);
 	}
 
     private void OnSpacePressed(InputAction.CallbackContext ctx)
     {
         spacePressed = ctx.ReadValue<float>();
-        Debug.Log("Space pressed!" + spacePressed);
+        //Debug.Log("Space pressed!" + spacePressed);
     }
 
     private void OnMovementInput(InputAction.CallbackContext ctx)
     {
         movementInput = ctx.ReadValue<Vector2>();
-        Debug.Log($"Movement Input {movementInput} ");
+        //Debug.Log($"Movement Input {movementInput} ");
     }
 
     private void OnRecordReplay(InputAction.CallbackContext ctx)
     {
         recordGhost = ctx.ReadValue<float>();
-        Debug.Log(recordGhost);
+        //Debug.Log(recordGhost);
         GhostPlayer.Instance.LoadGhost();
         GhostPlayer.Instance.Play();
     }
@@ -111,13 +111,13 @@ public class InputManager : MonoBehaviour
     private void OnSpawnPortal(InputAction.CallbackContext ctx)
     {
         pPressed = ctx.ReadValue<float>();
-        Debug.Log($"P Pressed {pPressed} ");
+        //Debug.Log($"P Pressed {pPressed} ");
     }
 
     private void LeaderboardNav(InputAction.CallbackContext ctx)
 	{
         float i = ctx.ReadValue<float>();
-        Debug.Log(i);
+        //Debug.Log(i);
         leaderboardUI.WrapElements(i);
     }
 

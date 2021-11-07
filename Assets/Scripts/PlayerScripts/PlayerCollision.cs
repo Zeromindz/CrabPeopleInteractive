@@ -12,6 +12,15 @@ public class PlayerCollision : MonoBehaviour
         playerController = GetComponent<PlayerController>();
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
+            playerController.playerMovement.m_RigidBody.AddForce(-upwardsForce, ForceMode.Impulse);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // Picking up object

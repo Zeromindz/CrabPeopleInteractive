@@ -53,10 +53,12 @@ public class CameraController : MonoBehaviour
     private void FixedUpdate()
     {
         // Store the targets speed in m/s, ignoring the y component of the velocity
-        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.GetCurrentVel(), m_Target.forward);
+        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
+        Debug.Log("Target Speed: " + m_TargetSpeed);
+        
 
         // Store the target's direction of movement
-        Vector3 vel = m_Player.playerMovement.GetCurrentVel();
+        Vector3 vel = m_Player.playerMovement.m_CurrentVel;
 
         if (!m_Player.playerMovement.m_AtTrickHeight || vel.magnitude < 0.1f)
         {
@@ -65,9 +67,20 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            // Otherwise, use the player's velocity normalised as the distance direction
-            Vector3 dir = vel.normalized;
-            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
+
+            if (m_TargetSpeed < 0.1f)
+            {
+                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
+            }
+            else
+            {
+                // Otherwise, use the player's velocity normalised as the distance direction
+                Vector3 dir = vel.normalized;
+                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
+
+            }
+
+
         }
 
         // Lerp between the cams current position and the desired position
