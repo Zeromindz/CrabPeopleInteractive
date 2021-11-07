@@ -39,5 +39,11 @@ public class PlayerCollision : MonoBehaviour
             GameManager.Instance.CheckPointHit();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
+
+        if (other.tag == "Wall")
+        {
+            Vector3 collision = other.transform.forward.normalized;
+            PlayerMovement.Instance.BounceOffWall(collision); 
+        }
     }
 }

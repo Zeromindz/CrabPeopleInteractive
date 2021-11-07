@@ -7,7 +7,7 @@ using UnityEngine;
 //______________________________________________/
 
 public class PlayerMovement : MonoBehaviour
-{ 
+{
     internal PlayerController m_PlayerController;                       // Player controller script
     public PIDController hoverPID;			                            //A PID controller to smooth the ship's hovering
     [SerializeField] private Rigidbody m_RigidBody;                     // Rigidbody attached to the boat
@@ -55,12 +55,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_LevelingForce = 0.1f;             // Force applied to hover points to keep the boat level
     [Tooltip("How qucikly the boat deccelerates without input while grounded")]
     [SerializeField] internal float m_VelocitySlowFactor = 0.99f;       // Velocity slow factor
-    [SerializeField] internal float m_GroundHoverForce = 20.0f;      
+    [SerializeField] internal float m_GroundHoverForce = 20.0f;
     [SerializeField] internal float m_GroundHoverHeight = 5.0f;
     [SerializeField] private GameObject[] m_HoverPoints;
     [Space(10)]
     public LayerMask m_LayerMask;
-	public Vector3 m_CoM;
+    public Vector3 m_CoM;
     public Vector3 m_InAirCoM;
 
     [Space(10)]
@@ -70,9 +70,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 m_Movement = Vector2.zero;
     bool isShiftPressed;
     bool isSpacePressed;
+    [SerializeField, Range(0, 2)] internal float m_BounceForce;
 
-    private static PlayerMovement m_Instance;                       
-    public static PlayerMovement Instance                           
+    private static PlayerMovement m_Instance;
+    public static PlayerMovement Instance
     {
         get { return m_Instance; }
     }
@@ -87,15 +88,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Start()
-    {   
+    {
         m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
         m_InAirCoM = gameObject.transform.Find("InAirCoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_CoM;
-	}
+    }
 
     void Update()
     {
         m_MovementInput = m_Movement;
+        CheckWallRaycast();
     }
 
     void FixedUpdate()
@@ -104,17 +106,17 @@ public class PlayerMovement : MonoBehaviour
         m_AtTrickHeight = AtTrickHeight();
 
         // Set the rb's CoM position based on if the player is at trick height
-        if(m_AtTrickHeight)
+        if (m_AtTrickHeight)
         {
             m_RigidBody.centerOfMass = m_InAirCoM;
-        }    
+        }
         else
         {
             m_RigidBody.centerOfMass = m_CoM;
         }
 
         // Apply gravity
-        if(m_UseGravity && !m_Grounded)
+        if (m_UseGravity && !m_Grounded)
         {
             m_RigidBody.AddForce((-Vector3.up * m_FallGravity), ForceMode.Acceleration);
         }
@@ -133,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
         // Clamp Speed
         if (m_Boosting)
         {
-            if(GetSpeed() > m_MaxBoostSpeed)
+            if (GetSpeed() > m_MaxBoostSpeed)
             {
                 m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxBoostSpeed;
             }
@@ -163,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
 
         //ApplyForceToPoints();
         CalculateHover();
-       
+
         Accelerate();
         Steer();
     }
@@ -180,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(isSpacePressed)
+            if (isSpacePressed)
             {
                 AirFlip(m_MovementInput.y);
             }
@@ -190,16 +192,16 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
-        if(isSpacePressed && m_AtTrickHeight)
-        {      
+        if (isSpacePressed && m_AtTrickHeight)
+        {
             AirRoll(m_MovementInput.x);
         }
-		else
-		{
-			m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
-		}
+        else
+        {
+            m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
+        }
 
-		if (m_Grounded)
+        if (m_Grounded)
         {
             //Calculate the angle we want the ship's body to bank into a turn.
             float angle = m_ShipRollAngle * -m_MovementInput.x;
@@ -211,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
             m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
         }
     }
-        
+
     public bool AtTrickHeight()
     {
         return !Physics.Raycast(transform.position, -Vector3.up, m_TrickHeightCheck, m_LayerMask);
@@ -302,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    
+
 
     void CalculateHover()
     {
@@ -373,6 +375,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void BounceOffWall(Vector3 angle)
+    {
+        m_RigidBody.AddForce(-m_RigidBody.velocity * m_BounceForce, ForceMode.VelocityChange);
+
+     
+    }
+
     void OnDrawGizmos()
     {
         // Hoverpoint Drawing
@@ -413,6 +422,40 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + GetCurrentVel());
 
+        // Draws feelers
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 30, 0);
+        Vector3 leftPos = (diagonalFeelerRotation * transform.forward).normalized;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 rightPos = (diagonalFeelerRotation * transform.forward).normalized;
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(transform.position, transform.position + leftPos * 10);
+        Gizmos.DrawLine(transform.position, transform.position + rightPos * 10);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 10);
+
+    }
+
+    private void CheckWallRaycast() 
+    {
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 30, 0);
+        Vector3 leftDir = (diagonalFeelerRotation * transform.forward).normalized;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 rightDir = (diagonalFeelerRotation * transform.forward).normalized;
+        Vector3 upOffset = Vector3.up.normalized * 1;
+       
+        RaycastHit hitLeft;
+        RaycastHit hitRight;
+
+        if (Physics.Raycast(transform.position, leftDir, out hitLeft, ~m_LayerMask))
+        {
+            Debug.Log("Left Feeler Hit!");
+
+        }
+
+        if (Physics.Raycast(transform.position, rightDir, out hitRight, ~m_LayerMask))
+        {
+            Debug.Log("Right Feeler Hit!");      
+        }
     }
 
     public void ShiftPressed(float value)
@@ -428,6 +471,7 @@ public class PlayerMovement : MonoBehaviour
             isShiftPressed = false;
         }
     }
+
     public void SpacePressed(float value)
     {
 
@@ -446,4 +490,5 @@ public class PlayerMovement : MonoBehaviour
 	{
         m_Movement = movement;
 	}
+
 }

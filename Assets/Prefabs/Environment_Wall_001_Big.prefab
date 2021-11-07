@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4856258114377026342}
   m_Layer: 0
   m_Name: Environment_Wall_001_Big
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,10 +89,10 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159262623681669380}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_Material: {fileID: 13400000, guid: 62aacfaf08018d644bc409d851f67774, type: 2}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7089396770784552187, guid: 949efb3ae94e02a41a5b93c54898cd1f, type: 3}
