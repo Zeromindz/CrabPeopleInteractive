@@ -65,19 +65,22 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            // Otherwise, use the player's velocity normalised as the distance direction
+            Vector3 dir = vel.normalized;
+            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
             // If the player's speed is low and they aren't falling
-            if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
-            {
-                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
-            }
-            else
-            {
-                // Otherwise, use the player's velocity normalised as the distance direction
-                Vector3 dir = vel.normalized;
-                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
-
-            }
+            //if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
+            //{
+            //    desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
+            //}
+            //else
+            //{
+            //    
+            //
+            //}
         }
+
+        // Camera collision
 
         //RaycastHit hitInfo;
         //if(Physics.Linecast(m_Target.position, transform.position, out hitInfo, m_CameraMask))
@@ -94,12 +97,13 @@ public class CameraController : MonoBehaviour
         //}
 
         // Lerp between the cams current position and the desired position
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.fixedDeltaTime);
+        
 
         // Lerp camera rotation to the direction of the target
         Vector3 direction = (m_Target.position + (Vector3.up * m_CamAngle)) - transform.position;
         Quaternion toRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, m_RotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, m_RotationSpeed * Time.fixedDeltaTime);
 
         // Calculate a smoothed fov value based on the target's speed
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
