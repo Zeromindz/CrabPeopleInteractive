@@ -12,7 +12,7 @@ public class PortalManager : MonoBehaviour
     private InputManager playerInput;
 
     [Header("Game Objects")]
-    public GameObject m_Player;
+    private GameObject m_Player;
     public GameObject m_PortalPrefab;
     public Camera m_PortalCamera;
     public Transform m_PlayerCamera;
