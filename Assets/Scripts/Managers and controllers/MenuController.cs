@@ -63,7 +63,7 @@ public class MenuController : MonoBehaviour
 	Vector2 m_ScreenSize;
 	private GameObject m_CurrentUI = null;                          // The current Ui that is being displayed
 	private Stack<MenuStackItem> m_UIStack;                         // The stack holding information when travelling between UIs
-	private bool IsGamePaused										// Displayed if the Game is currently paused
+	public bool IsGamePaused										// Displayed if the Game is currently paused
 	{
 		get { return m_State == MenuState.GAMEPAUSED; }
 	}
@@ -137,7 +137,7 @@ public class MenuController : MonoBehaviour
 	{
 		Debug.Log("Un-Pausing Game");
 		m_State = MenuState.GAME;
-		UpdateState();
+		LoadGame();
 	}
 
 	/// <summary>
@@ -230,7 +230,7 @@ public class MenuController : MonoBehaviour
 		{
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
-			//m_GameUI.GetComponent<GameUI>().StartCountDown();
+			Time.timeScale = 1;
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)

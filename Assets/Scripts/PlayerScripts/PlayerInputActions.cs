@@ -24,7 +24,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""6c728e1e-0cab-42a9-89a0-774d3af89e93"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Movement"",

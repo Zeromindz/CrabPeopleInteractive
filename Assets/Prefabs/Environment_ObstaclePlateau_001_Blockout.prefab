@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3890566080569960064}
   m_Layer: 0
   m_Name: Environment_ObstaclePlateau_001_Blockout
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: e60895bdcb55d1f419a7063615f64189, type: 3}
+  - {fileID: 2100000, guid: c4779e3ab549a5b4c8f1d4a525236ab3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,8 +89,8 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763999754938177870}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_Material: {fileID: 13400000, guid: ad788e74e326caf489fbbcba47dab369, type: 2}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 8, y: 36, z: 8}

@@ -34,41 +34,44 @@ public class InputManager : MonoBehaviour
 
     private float m_DeadZone = 0.1f;
 
+
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
 
         playerInput = new PlayerInputActions();
-        playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
+       // playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.performed += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.canceled += ctx => OnMovementInput(ctx);
 
-        playerInput.Player.PausePreviousUI.started += ctx => OnEscapePressed(ctx);
+        //playerInput.Player.PausePreviousUI.started += ctx => OnEscapePressed(ctx);
         playerInput.Player.PausePreviousUI.performed += ctx => OnEscapePressed(ctx);
-        playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
+       // playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
 
-        playerInput.Player.EnableBoost.started += ctx => OnShiftPressed(ctx);
+        //playerInput.Player.EnableBoost.started += ctx => OnShiftPressed(ctx);
         playerInput.Player.EnableBoost.performed += ctx => OnShiftPressed(ctx);
         playerInput.Player.EnableBoost.canceled += ctx => OnShiftPressed(ctx);
 
-        playerInput.Player.EnableTrick.started += ctx => OnSpacePressed(ctx);
+        //playerInput.Player.EnableTrick.started += ctx => OnSpacePressed(ctx);
         playerInput.Player.EnableTrick.performed += ctx => OnSpacePressed(ctx);
         playerInput.Player.EnableTrick.canceled += ctx => OnSpacePressed(ctx);
 
-        playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
-        // playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
-        //playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
+        //playerInput.Player.RecordReplay.started += ctx => OnRecordReplay(ctx);
+        playerInput.Player.RecordReplay.performed += ctx => OnSpacePressed(ctx);
+        playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
         //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
-        //playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
-        //playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
+        playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
+        playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
         playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-		//Debug.Log("Button Pressed: Escape");
+		Debug.Log("Button Pressed: Escape" + ctx.started);
+
 		// Pauses the game
 		if (MenuController.Instance.IsInGame)
 		{
@@ -85,19 +88,22 @@ public class InputManager : MonoBehaviour
     private void OnShiftPressed(InputAction.CallbackContext ctx)
 	{
         shiftPressed = ctx.ReadValue<float>();
-        //Debug.Log("Shift pressed!" + shiftPressed);
+        Debug.Log("Shift pressed!" + shiftPressed);
+        PlayerMovement.Instance.ShiftPressed(shiftPressed);
 	}
 
     private void OnSpacePressed(InputAction.CallbackContext ctx)
     {
         spacePressed = ctx.ReadValue<float>();
-        //Debug.Log("Space pressed!" + spacePressed);
+        Debug.Log("Space pressed!" + spacePressed);
+        PlayerMovement.Instance.SpacePressed(spacePressed);
     }
 
     private void OnMovementInput(InputAction.CallbackContext ctx)
     {
         movementInput = ctx.ReadValue<Vector2>();
-        //Debug.Log($"Movement Input {movementInput} ");
+       // Debug.Log($"Movement Input {movementInput} ");
+        PlayerMovement.Instance.Movement(movementInput);
     }
 
     private void OnRecordReplay(InputAction.CallbackContext ctx)

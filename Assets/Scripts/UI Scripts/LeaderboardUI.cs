@@ -199,7 +199,7 @@ public class LeaderboardUI : MonoBehaviour
                 m_Element[m_BottomIndex].SetX(m_leftmostXPosition);
                 int value = m_CountingIndex - 1;
                 m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
-                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveListener(() => { OnbuttonPress(value - 2); });
+                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
                 m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
 

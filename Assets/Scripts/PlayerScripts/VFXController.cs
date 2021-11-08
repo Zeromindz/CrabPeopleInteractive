@@ -40,10 +40,10 @@ public class VFXController : MonoBehaviour
             groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
         }
 
-        //Sparkle testing
-        if (m_PlayerController.playerInput.SpacePressed() > 0)
-        {
-            m_Sparkle.Play();
-        }
+        ////Sparkle testing
+        //if (m_PlayerController.playerInput.SpacePressed() > 0)
+        //{
+        //    m_Sparkle.Play();
+        //}
     }
 }

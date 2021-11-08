@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8035831050118622203}
   m_Layer: 0
   m_Name: Environment_ObstacleWall_001_Blockout
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 454ddf8d8cf4ae448a34b12d8349c511, type: 3}
+  - {fileID: 2100000, guid: c4779e3ab549a5b4c8f1d4a525236ab3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5627213620902336528}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 11, y: 36, z: 9}

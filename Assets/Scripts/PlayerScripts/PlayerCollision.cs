@@ -32,20 +32,27 @@ public class PlayerCollision : MonoBehaviour
 
         if(other.tag == "Start")
 		{
-            TempGameManager.Instance.StartGame();
+            GameManager.Instance.StartGame();
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
 		}
 
         if (other.tag == "End")
         {
-            TempGameManager.Instance.EndGame();
+            GameManager.Instance.EndGame();
+            Debug.Log("End Hit");
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
 
         if(other.tag == "CheckPoint")
 		{
-            TempGameManager.Instance.CheckPointHit();
+            GameManager.Instance.CheckPointHit();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
+        }
+
+        if (other.tag == "Wall")
+        {
+        //    Vector3 collision = other.transform.forward.normalized;
+     //       PlayerMovement.Instance.BounceOffWall(collision); 
         }
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 public class GameManager : MonoBehaviour
@@ -81,10 +84,20 @@ public class GameManager : MonoBehaviour
         //m_Player.transform.rotation = m_StartPoint.rotation;
     }
     public void StartGame()
-    {
+    { 
         Debug.Log("Start point hit");
-        SpawnNextCheckpoint();
-        GhostRecorder.Instance.StartRecording();
+      //  SpawnNextCheckpoint();
+        if (GhostSave.Instance.DoesSaveExist())
+        {
+            GhostPlayer.Instance.LoadGhost();
+            GhostPlayer.Instance.Play();
+            GhostRecorder.Instance.StartRecording();
+        }
+        else
+        {
+            GhostRecorder.Instance.StartRecording();
+        }
+
     }
 
     private void SpawnNextCheckpoint()
@@ -96,7 +109,10 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("End point hit");
+        // GhostRecorder.Instance.SaveRecording();
         GhostRecorder.Instance.SaveRecording();
+        GhostPlayer.Instance.Stop();
+        SceneManager.LoadScene(0);
     }
 
     public void CheckPointHit()

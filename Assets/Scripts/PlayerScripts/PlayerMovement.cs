@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 { 
     private Vector2 m_MovementInput;
 
+  //  public GameObject ghostPrefab;
     public bool m_UseGravity = true;
     
     [Header("Drive Settings")]
@@ -57,6 +58,22 @@ public class PlayerMovement : MonoBehaviour
 
     private float drag;
 
+
+    private static PlayerMovement m_Instance;
+    public static PlayerMovement Instance
+    {
+        get { return m_Instance; }
+    }
+
+    void Awake()
+    {
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+    }
+
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
@@ -70,7 +87,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        m_MovementInput = m_PlayerController.playerInput.GetMovementInput();
+        m_MovementInput = m_Movement;
+        CheckWallRaycast();
     }
 
     void FixedUpdate()
@@ -80,10 +98,10 @@ public class PlayerMovement : MonoBehaviour
         m_AtTrickHeight = AtTrickHeight();
 
         // Set the rb's CoM position based on if the player is at trick height
-        if(m_AtTrickHeight)
+        if (m_AtTrickHeight)
         {
             m_RigidBody.centerOfMass = m_InAirCoM;
-        }    
+        }
         else
         {
             m_RigidBody.centerOfMass = m_CoM;
@@ -114,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Boost
-        if (m_PlayerController.playerInput.ShiftPressed() > 0)
+        if (isShiftPressed)
         {
             Boost();
             m_Boosting = true;
@@ -140,23 +158,16 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
-        if(m_PlayerController.playerInput.SpacePressed() > 0)
+        if (isSpacePressed && m_AtTrickHeight)
         {
-            if(m_AtTrickHeight)
-            {
-                AirRoll(m_MovementInput.x);
-            }
-            else
-            {
-                m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
-            }
+            AirRoll(m_MovementInput.x);
         }
         else
         {
             m_RigidBody.AddRelativeTorque(Vector3.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
         }
 
-        if(m_Grounded)
+        if (m_Grounded)
         {
             //Calculate the angle we want the ship's body to bank into a turn.
             float angle = m_ShipRollAngle * -m_MovementInput.x;
@@ -166,8 +177,8 @@ public class PlayerMovement : MonoBehaviour
 
             //Finally, apply this angle to the ship's body
             m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
-
         }
+    }
 
         // Calculate current sideways speed by using the dot product.
         float sidewaysSpeed = Vector3.Dot(m_RigidBody.velocity, transform.right);
@@ -335,5 +346,93 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + m_CurrentVel);
 
+        // Draws feelers
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 45, 0);
+        Vector3 rightPos = (diagonalFeelerRotation * transform.forward).normalized;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 leftPos = (diagonalFeelerRotation * transform.forward).normalized;
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(transform.position, transform.position + leftPos * 10);
+        Gizmos.DrawLine(transform.position, transform.position + rightPos * 10);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 10);
+
+    }
+
+    private void CheckWallRaycast() 
+    {
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 45, 0);
+        Vector3 rightDir = (diagonalFeelerRotation * transform.forward).normalized;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 leftDir = (diagonalFeelerRotation * transform.forward).normalized;
+        
+       
+        RaycastHit hitLeft;
+        RaycastHit hitRight;
+
+        if (Physics.Raycast(transform.position, leftDir, out hitLeft, m_FeelerMask))
+        {
+            //    Debug.Log("Left Feeler Hit!" + hitLeft.distance);
+            
+
+        }
+
+        if (Physics.Raycast(transform.position, rightDir, out hitRight, m_FeelerMask))
+        {
+            //Debug.Log("Right Feeler Hit!" + hitRight.distance);
+            //ghostPrefab.transform.position = hitRight.point;
+        }
+    }
+
+    public void ShiftPressed(float value)
+    {
+
+        if (value > 0)
+        {
+            isShiftPressed = true;
+        }
+
+        else
+        {
+            isShiftPressed = false;
+        }
+    }
+
+    public void SpacePressed(float value)
+    {
+
+        if (value > 0)
+        {
+            isSpacePressed = true;
+        }
+
+        else
+        {
+            isSpacePressed = false;
+        }
+    }
+
+    public void Movement(Vector2 movement)
+	{
+        m_Movement = movement;
+	}
+
+    public void NudgeLeft(float value)
+    {
+        //Calculate the angle we want the ship's body to bank into a turn.
+        float angle = m_ShipRollAngle * -m_MovementInput.x;
+
+        //Calculate the rotation needed for this new angle
+        Quaternion bodyRotation = transform.rotation * Quaternion.Euler(0f, 0f, angle);
+
+        //Finally, apply this angle to the ship's body
+        m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
+    }
+
+
+    public void NudgeRight(float value)
+    {
+        
+    
     }
 }
