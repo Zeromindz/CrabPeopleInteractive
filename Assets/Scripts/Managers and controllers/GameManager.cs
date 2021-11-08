@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public float m_CurrentTrickRotation;
     public int m_Passengers;
     public List<GameObject> m_CheckpointObjects;
+    public List<GameObject> m_GhostPickups;
+    public Transform m_StartPos;
+    public GameObject m_Player;
 
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     { 
         Debug.Log("Start point hit");
-      //  SpawnNextCheckpoint();
+
         if (GhostSave.Instance.DoesSaveExist())
         {
             GhostPlayer.Instance.LoadGhost();
@@ -112,7 +115,8 @@ public class GameManager : MonoBehaviour
         // GhostRecorder.Instance.SaveRecording();
         GhostRecorder.Instance.SaveRecording();
         GhostPlayer.Instance.Stop();
-        SceneManager.LoadScene(0);
+        MenuController.Instance.LoadEndScreen();
+        ResetGame();
     }
 
     public void CheckPointHit()
@@ -120,5 +124,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("CheckPoint hit");
         SpawnNextCheckpoint();
     }
+    public void ResetGame()
+	{
+        for (int i = 0; i < m_GhostPickups.Count; i++)
+		{
+            m_GhostPickups[i].SetActive(true);
+		}
+        m_Player.transform.position = m_StartPos.transform.position;
+	}
 
 }
