@@ -84,9 +84,9 @@ public class GameManager : MonoBehaviour
         //m_Player.transform.rotation = m_StartPoint.rotation;
     }
     public void StartGame()
-    {
+    { 
         Debug.Log("Start point hit");
-        SpawnNextCheckpoint();
+      //  SpawnNextCheckpoint();
         if (GhostSave.Instance.DoesSaveExist())
         {
             GhostPlayer.Instance.LoadGhost();
