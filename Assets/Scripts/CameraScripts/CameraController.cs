@@ -26,8 +26,8 @@ public class CameraController : MonoBehaviour
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
-    //[Space(10)]
-    //[SerializeField] private Vector3 rotationMask;
+    public LayerMask m_CameraMask;
+
 
     private static CameraController m_Instance;               // Current Private instance
     public static CameraController Instance                   // Current public instance
@@ -54,8 +54,6 @@ public class CameraController : MonoBehaviour
     {
         // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
-        Debug.Log("Target Speed: " + m_TargetSpeed);
-        
 
         // Store the target's direction of movement
         Vector3 vel = m_Player.playerMovement.m_CurrentVel;
@@ -67,8 +65,8 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-
-            if (m_TargetSpeed < 0.1f)
+            // If the player's speed is low and they aren't falling
+            if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
             {
                 desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
             }
@@ -79,9 +77,21 @@ public class CameraController : MonoBehaviour
                 desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
 
             }
-
-
         }
+
+        //RaycastHit hitInfo;
+        //if(Physics.Linecast(m_Target.position, transform.position, out hitInfo, m_CameraMask))
+        //{
+        //    Debug.Log("Camera linecast hit");
+        //
+        //    Vector3 directionToPlayer = m_Target.position - transform.position;
+        //
+        //    Vector3 posToHit = transform.position - hitInfo.point;
+        //    float hitDist = posToHit.magnitude;
+        //    //desiredPosition = transform.position + (directionToPlayer.normalized * hitInfo.distance);
+        //    transform.position = m_Target.position + (posToHit.normalized * hitDist);
+        //
+        //}
 
         // Lerp between the cams current position and the desired position
         transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.deltaTime);
@@ -95,7 +105,6 @@ public class CameraController : MonoBehaviour
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
         // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
-
     }
 
     public void WatchGhost()
@@ -108,6 +117,7 @@ public class CameraController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(desiredPosition, 1f);
+
     }
 
 
