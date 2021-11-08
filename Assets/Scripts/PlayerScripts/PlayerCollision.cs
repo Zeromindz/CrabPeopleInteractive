@@ -42,8 +42,8 @@ public class PlayerCollision : MonoBehaviour
 
         if (other.tag == "Wall")
         {
-            Vector3 collision = other.transform.forward.normalized;
-            PlayerMovement.Instance.BounceOffWall(collision); 
+        //    Vector3 collision = other.transform.forward.normalized;
+     //       PlayerMovement.Instance.BounceOffWall(collision); 
         }
     }
 }
