@@ -21,7 +21,7 @@ public class PortalManager : MonoBehaviour
     private Transform m_Entrance;
     [Space(10)]
     public float m_SpawnDist = 30.0f;
-    
+    public bool m_PPressed;
     public bool m_PlayerOverlapping = false;
     public bool m_PortalHasBeenSpawned = false;
 
@@ -39,7 +39,7 @@ public class PortalManager : MonoBehaviour
     {
         // Portal spawn set to button (P) for testing,
         // will eventually be bound to the start option of the main menu
-        if (playerInput.PPressed() > 0 && !m_PortalHasBeenSpawned)
+        if (m_PPressed && !m_PortalHasBeenSpawned)
         {
              SpawnPortal();
         }

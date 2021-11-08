@@ -102,14 +102,14 @@ public class InputManager : MonoBehaviour
     private void OnMovementInput(InputAction.CallbackContext ctx)
     {
         movementInput = ctx.ReadValue<Vector2>();
-       // Debug.Log($"Movement Input {movementInput} ");
+        Debug.Log($"Movement Input {movementInput} ");
         PlayerMovement.Instance.Movement(movementInput);
     }
 
     private void OnRecordReplay(InputAction.CallbackContext ctx)
     {
         recordGhost = ctx.ReadValue<float>();
-        //Debug.Log(recordGhost);
+        Debug.Log(recordGhost);
         GhostPlayer.Instance.LoadGhost();
         GhostPlayer.Instance.Play();
     }
@@ -117,14 +117,30 @@ public class InputManager : MonoBehaviour
     private void OnSpawnPortal(InputAction.CallbackContext ctx)
     {
         pPressed = ctx.ReadValue<float>();
-        //Debug.Log($"P Pressed {pPressed} ");
+        Debug.Log($"P Pressed {pPressed} ");
+        if(pPressed > 0)
+        {
+            PortalManager.m_Instance.m_PPressed = true;
+        }
+        else
+        {
+            PortalManager.m_Instance.m_PPressed = false;
+        }
+
     }
 
     private void LeaderboardNav(InputAction.CallbackContext ctx)
 	{
         float i = ctx.ReadValue<float>();
         //Debug.Log(i);
-        leaderboardUI.WrapElements(i);
+        if(leaderboardUI != null)
+        {
+            leaderboardUI.WrapElements(i);
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void OnEnable()
