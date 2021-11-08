@@ -96,14 +96,16 @@ public class PortalManager : MonoBehaviour
 
     void MovePortalCamera()
     {
+        // Store the player's offset from the portal entrance
         Vector3 playerOffsetFromPortal = m_PlayerCamera.position - m_Entrance.position;
+
         m_PortalCamera.transform.position = m_PortalExit.position + playerOffsetFromPortal;
 
-        float angularDiffBetweenPortalRotations = Quaternion.Angle(m_PortalExit.rotation, m_Entrance.rotation);
-
-        Quaternion rotationalDiff = Quaternion.AngleAxis(angularDiffBetweenPortalRotations, Vector3.up);
-        Vector3 newDirection = rotationalDiff * m_PlayerCamera.forward;
-        m_PortalCamera.transform.rotation = Quaternion.LookRotation(-newDirection, Vector3.up);
+        //float angularDiffBetweenPortalRotations = Quaternion.Angle(m_PortalExit.rotation, m_Entrance.rotation);
+        //
+        //Quaternion rotationalDiff = Quaternion.AngleAxis(angularDiffBetweenPortalRotations, Vector3.up);
+        //Vector3 newDirection = rotationalDiff * m_PlayerCamera.forward;
+        //m_PortalCamera.transform.rotation = Quaternion.LookRotation(-newDirection, Vector3.up);
     }
 
     void TeleportPlayer()
@@ -125,7 +127,7 @@ public class PortalManager : MonoBehaviour
             // Add the rotation offset from entrance to exit 
             rotDifference += 180f;
 
-            // Get
+            // Check the dot product of the portal entrance
             float dot = Vector3.Dot(m_Entrance.forward, Vector3.left);
 
             if(dot > 0f)

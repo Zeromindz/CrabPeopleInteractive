@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
-    public LayerMask m_CameraMask;
+    public LayerMask m_CollideWithCamera;
 
 
     private static CameraController m_Instance;               // Current Private instance
@@ -58,43 +58,29 @@ public class CameraController : MonoBehaviour
         // Store the target's direction of movement
         Vector3 vel = m_Player.playerMovement.m_CurrentVel;
 
-        if (!m_Player.playerMovement.m_AtTrickHeight || vel.magnitude < 0.1f)
+        if (!m_Player.playerMovement.m_AtTrickHeight || m_TargetSpeed < 0.1f)
         {
-            // If the player is below the trick height, use their forward vector as the cam's distance offset direction
+            // Use player's forward vector as the cam's distance offset direction
             desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
         }
         else
         {
-            // Otherwise, use the player's velocity normalised as the distance direction
-            Vector3 dir = vel.normalized;
-            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
+
             // If the player's speed is low and they aren't falling
-            //if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
-            //{
-            //    desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
-            //}
-            //else
-            //{
-            //    
-            //
-            //}
+            if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
+            {
+                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
+            }
+            else
+            {
+                // Use player's velocity normalised as the distance direction
+                Vector3 dir = vel.normalized;
+                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
+
+            }
         }
 
-        // Camera collision
-
-        //RaycastHit hitInfo;
-        //if(Physics.Linecast(m_Target.position, transform.position, out hitInfo, m_CameraMask))
-        //{
-        //    Debug.Log("Camera linecast hit");
-        //
-        //    Vector3 directionToPlayer = m_Target.position - transform.position;
-        //
-        //    Vector3 posToHit = transform.position - hitInfo.point;
-        //    float hitDist = posToHit.magnitude;
-        //    //desiredPosition = transform.position + (directionToPlayer.normalized * hitInfo.distance);
-        //    transform.position = m_Target.position + (posToHit.normalized * hitDist);
-        //
-        //}
+        
 
         // Lerp between the cams current position and the desired position
         transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.fixedDeltaTime);
@@ -109,6 +95,27 @@ public class CameraController : MonoBehaviour
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
         // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
+
+        CheckForWall();
+    }
+
+    void CheckForWall()
+    {
+        // Camera collision
+
+        RaycastHit hitInfo;
+
+        Vector3 direction = transform.position - m_Target.transform.position;
+        float distance = direction.magnitude;
+        Debug.DrawRay(m_Target.transform.position, direction, Color.green);
+        if (Physics.Raycast(m_Target.position, direction, out hitInfo, distance, m_CollideWithCamera))
+        {
+            //Debug.Log("Camera raycast hit");
+            
+            float hitDist = hitInfo.distance;
+            Vector3 sphereCenter = m_Target.transform.position + (direction.normalized * hitDist);
+            transform.position = sphereCenter;
+        }
     }
 
     public void WatchGhost()
@@ -118,11 +125,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(desiredPosition, 1f);
 
     }
-
-
 }
