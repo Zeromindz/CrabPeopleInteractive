@@ -102,7 +102,7 @@ public class InputManager : MonoBehaviour
     private void OnMovementInput(InputAction.CallbackContext ctx)
     {
         movementInput = ctx.ReadValue<Vector2>();
-        Debug.Log($"Movement Input {movementInput} ");
+       // Debug.Log($"Movement Input {movementInput} ");
         PlayerMovement.Instance.Movement(movementInput);
     }
 

@@ -32,6 +32,7 @@ public class SettingsUI : MonoBehaviour
 			options.Add("" + m_ScreenSizes[i].x + " X " + m_ScreenSizes[i].y);
 		}
 
+		m_DropDownValue  = 0;
 		drop.AddOptions(options);
 		SetGeneralUI();
 	}

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody m_RigidBody;                     // Rigidbody attached to the boat
     [SerializeField] private Transform m_ShipBody;                      // GFX of the boat
 
+  //  public GameObject ghostPrefab;
     public bool m_UseGravity = true;
 
     [Header("Boat Settings")]
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] m_HoverPoints;
     [Space(10)]
     public LayerMask m_LayerMask;
+    public LayerMask m_FeelerMask;
     public Vector3 m_CoM;
     public Vector3 m_InAirCoM;
 
@@ -71,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
     bool isShiftPressed;
     bool isSpacePressed;
     [SerializeField, Range(0, 2)] internal float m_BounceForce;
+
+    //[Header("Auto Adjust")]
+    //[SerializeField, Range(0, 5)] private float m_NudgeIntensity;
+    //[SerializeField, Range(0, 10)]
+
 
     private static PlayerMovement m_Instance;
     public static PlayerMovement Instance
@@ -423,10 +430,10 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + GetCurrentVel());
 
         // Draws feelers
-        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 30, 0);
-        Vector3 leftPos = (diagonalFeelerRotation * transform.forward).normalized;
-        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 45, 0);
         Vector3 rightPos = (diagonalFeelerRotation * transform.forward).normalized;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 leftPos = (diagonalFeelerRotation * transform.forward).normalized;
 
         Gizmos.color = Color.black;
         Gizmos.DrawLine(transform.position, transform.position + leftPos * 10);
@@ -437,24 +444,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckWallRaycast() 
     {
-        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 30, 0);
-        Vector3 leftDir = (diagonalFeelerRotation * transform.forward).normalized;
-        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Quaternion diagonalFeelerRotation = Quaternion.Euler(0, 45, 0);
         Vector3 rightDir = (diagonalFeelerRotation * transform.forward).normalized;
-        Vector3 upOffset = Vector3.up.normalized * 1;
+        diagonalFeelerRotation.y = diagonalFeelerRotation.y * -1;
+        Vector3 leftDir = (diagonalFeelerRotation * transform.forward).normalized;
+        
        
         RaycastHit hitLeft;
         RaycastHit hitRight;
 
-        if (Physics.Raycast(transform.position, leftDir, out hitLeft, ~m_LayerMask))
+        if (Physics.Raycast(transform.position, leftDir, out hitLeft, m_FeelerMask))
         {
-            Debug.Log("Left Feeler Hit!");
+            //    Debug.Log("Left Feeler Hit!" + hitLeft.distance);
+            
 
         }
 
-        if (Physics.Raycast(transform.position, rightDir, out hitRight, ~m_LayerMask))
+        if (Physics.Raycast(transform.position, rightDir, out hitRight, m_FeelerMask))
         {
-            Debug.Log("Right Feeler Hit!");      
+            //Debug.Log("Right Feeler Hit!" + hitRight.distance);
+            //ghostPrefab.transform.position = hitRight.point;
         }
     }
 
@@ -491,4 +500,22 @@ public class PlayerMovement : MonoBehaviour
         m_Movement = movement;
 	}
 
+    public void NudgeLeft(float value)
+    {
+        //Calculate the angle we want the ship's body to bank into a turn.
+        float angle = m_ShipRollAngle * -m_MovementInput.x;
+
+        //Calculate the rotation needed for this new angle
+        Quaternion bodyRotation = transform.rotation * Quaternion.Euler(0f, 0f, angle);
+
+        //Finally, apply this angle to the ship's body
+        m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
+    }
+
+
+    public void NudgeRight(float value)
+    {
+        
+    
+    }
 }

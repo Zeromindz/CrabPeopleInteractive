@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 public class GameManager : MonoBehaviour
@@ -85,7 +87,17 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Start point hit");
         SpawnNextCheckpoint();
-        GhostRecorder.Instance.StartRecording();
+        if (GhostSave.Instance.DoesSaveExist())
+        {
+            GhostPlayer.Instance.LoadGhost();
+            GhostPlayer.Instance.Play();
+            GhostRecorder.Instance.StartRecording();
+        }
+        else
+        {
+            GhostRecorder.Instance.StartRecording();
+        }
+
     }
 
     private void SpawnNextCheckpoint()
@@ -98,6 +110,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End point hit");
         // GhostRecorder.Instance.SaveRecording();
+        GhostRecorder.Instance.SaveRecording();
+        GhostPlayer.Instance.Stop();
         SceneManager.LoadScene(0);
     }
 

@@ -261,6 +261,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public void PlayMenuMusic()
 	{
+		//m_MenuMusic.volume = m_MusicVolume;
 		m_MenuMusic.Play();
 	}
 
