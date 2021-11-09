@@ -16,8 +16,12 @@ public class PlayerCollision : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
-            playerController.playerMovement.m_RigidBody.AddForce(-upwardsForce, ForceMode.Impulse);
+            //Vector3 impactDirection = collision.transform.position - transform.position;
+            //
+            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
+            //
+            ////Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
+            //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
         }
     }
 

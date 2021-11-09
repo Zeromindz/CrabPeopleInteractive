@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_CamAngle = 5f;
     [SerializeField] private float m_FollowSpeed = 30.0f; // Movement smoothing Time
     [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
+    [SerializeField] private float m_MinCameraDist = 3.0f;
     private float rotationVector;
 
     [Space(10)]
@@ -70,9 +71,12 @@ public class CameraController : MonoBehaviour
         //    rotationVector = m_Target.eulerAngles.y;
         //}
 
-        // Store the target's rotation on the y axis
+
+
+        // Store the target's y rotation angle
         rotationVector = m_Target.eulerAngles.y;
 
+        // 
         float desiredAngle = rotationVector;
         float desiredHeight = m_Target.position.y + m_CamHeight;
         float currentAngle = transform.eulerAngles.y;
@@ -91,6 +95,9 @@ public class CameraController : MonoBehaviour
         transform.position = temp;
 
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
+
+
+
 
         // Calculate a smoothed fov value based on the target's speed
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);

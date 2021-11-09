@@ -173,15 +173,15 @@ public class PlayerMovement : MonoBehaviour
 
         // TODO: Increase acceleration amount over time
         float inputMultiplier = m_AccelerationMultiplierMin;
-        //if (m_MovementInput.y > 0.01f)
-        //    inputMultiplier += m_AccelerationFactor;
-        //else
-        //    inputMultiplier -= m_DeccelerationFactor;
-        //
-        //if(inputMultiplier < m_AccelerationMultiplierMin)
-        //    inputMultiplier = m_AccelerationMultiplierMin;
-        //if (inputMultiplier > m_AccelerationMultiplierMax)
-        //    inputMultiplier = m_AccelerationMultiplierMax;
+        if (m_MovementInput.y > 0.01f)
+            inputMultiplier += m_AccelerationFactor;
+        else
+            inputMultiplier -= m_DeccelerationFactor;
+        
+        if(inputMultiplier < m_AccelerationMultiplierMin)
+            inputMultiplier = m_AccelerationMultiplierMin;
+        if (inputMultiplier > m_AccelerationMultiplierMax)
+            inputMultiplier = m_AccelerationMultiplierMax;
 
         //Debug.Log("Input Multiplier: " + inputMultiplier);
 
