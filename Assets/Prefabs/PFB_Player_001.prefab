@@ -381,13 +381,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf0c80ebd792ed4e97b606f127b62de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UseGravity: 1
+  m_InputDisabled: 0
+  m_FlipBoat: 0
+  m_TrickDuration: 0.5
   m_CurrentSpeed: 0
-  m_AccelerationForce: 60
+  m_AccelerationForce: 50
   m_BoostForce: 20
-  m_MaxSpeed: 50
+  m_MaxSpeed: 80
+  m_InAirPitchMultiplier: 3
   m_VelocitySlowFactor: 0.99
+  m_AccelerationFactor: 0.1
+  m_DeccelerationFactor: 0.25
+  m_AccelerationMultiplierMin: 1
+  m_AccelerationMultiplierMax: 10
   m_SteeringTorque: 8
   m_TrickTorque: 15
+  m_InAirTurnMultiplier: 3
   m_SidewaysDriftAmount: 15
   m_ShipBody: {fileID: 4629130820421721205}
   m_ShipRollAngle: 20

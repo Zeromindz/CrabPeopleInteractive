@@ -25,6 +25,9 @@ public class PortalManager : MonoBehaviour
     public bool m_PlayerOverlapping = false;
     public bool m_PortalHasBeenSpawned = false;
 
+    float m_RotationVector;
+    float m_CurrentAngle;
+
     int layerMask;
 
     void Start()
@@ -126,6 +129,11 @@ public class PortalManager : MonoBehaviour
         // Store the cameras current rotation from the player.
 
         //Quaternion playerCamRotation = Quaternion.Inverse(m_Player.transform.rotation);
+        m_RotationVector = m_PlayerCamera.eulerAngles.y;
+
+        float desiredAngle = m_RotationVector;
+
+        Quaternion currentRotation = Quaternion.Euler(0f, desiredAngle, 0f);
 
         // dot product checking if the player entered the portal from the right side
         float dotProduct = Vector3.Dot(m_Entrance.up, portalToPlayer);
@@ -169,9 +177,7 @@ public class PortalManager : MonoBehaviour
             // Set camera position and rotation using the player's position + the camera offset calulated earlier
             m_PlayerCamera.transform.position = m_Player.transform.position + playerCamOffset;
 
-            float diff = m_Entrance.transform.eulerAngles.y - m_Player.transform.eulerAngles.y;
-
-            m_PlayerCamera.transform.rotation = Quaternion.Euler(0f, m_PortalExit.eulerAngles.y - diff, 0f);
+            m_PlayerCamera.transform.rotation = currentRotation;
 
             m_PlayerOverlapping = false;
         }

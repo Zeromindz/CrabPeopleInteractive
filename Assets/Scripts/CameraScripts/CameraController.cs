@@ -10,15 +10,12 @@ public class CameraController : MonoBehaviour
     private PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
     private Vector3 desiredPosition;                    // Desired position of the cam to lerp to
 
-    //[SerializeField] private float m_CamHeight = 5.0f;
-    //[SerializeField] private float m_CamDist = 15.0f;
-
-    [SerializeField] private Vector3 m_PositionOffset = new Vector3(0f, 5.0f, -15.0f);
-    [SerializeField] private Vector3 m_AngleOffset = new Vector3(0f, 0f, 0f);
-
+    [SerializeField] private float m_CamHeight = 5.0f;
+    [SerializeField] private float m_CamDist = 15.0f;
     [SerializeField] private float m_CamAngle = 5f;
-    [SerializeField] private float m_FollowSpeed = 10.0f; // Movement smoothing Time
+    [SerializeField] private float m_FollowSpeed = 30.0f; // Movement smoothing Time
     [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
+    private float rotationVector;
 
     [Space(10)]
     [Header("FOV Settings")]
@@ -56,7 +53,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckForWall();
+        
 
         // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
@@ -64,60 +61,43 @@ public class CameraController : MonoBehaviour
         // Store the target's direction of movement
         Vector3 vel = m_Player.playerMovement.m_CurrentVel;
 
-        Quaternion initialRotation = Quaternion.Euler(m_AngleOffset);
+        //if(vel.z < -0.5f)
+        //{
+        //    rotationVector = m_Target.eulerAngles.y + 100f;
+        //}
+        //else
+        //{
+        //    rotationVector = m_Target.eulerAngles.y;
+        //}
 
-        Quaternion rot = Quaternion.Lerp(transform.rotation, m_Player.transform.rotation * initialRotation, m_RotationSpeed * Time.fixedDeltaTime);
+        // Store the target's rotation on the y axis
+        rotationVector = m_Target.eulerAngles.y;
 
-        transform.rotation = rot;
+        float desiredAngle = rotationVector;
+        float desiredHeight = m_Target.position.y + m_CamHeight;
+        float currentAngle = transform.eulerAngles.y;
+        float currentHeight = transform.position.y;
 
-        Vector3 forward = transform.rotation * Vector3.forward;
-        Vector3 right = transform.rotation * Vector3.right;
-        Vector3 up = transform.rotation * Vector3.up;
+        currentAngle = Mathf.LerpAngle(currentAngle, desiredAngle, m_RotationSpeed * Time.deltaTime);
+        currentHeight = Mathf.LerpAngle(currentHeight, desiredHeight, m_RotationSpeed * Time.deltaTime);
 
-        Vector3 targetPos = m_Player.transform.position;
-        Vector3 desiredPosition = targetPos + forward * m_PositionOffset.z  + right * m_PositionOffset.x + up * m_PositionOffset.y;
+        Quaternion currentRotation = Quaternion.Euler(0, currentAngle, 0);
 
-        Vector3 position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.fixedDeltaTime);
+        transform.position = m_Target.position;
+        transform.position -= currentRotation * Vector3.forward * m_CamDist;
 
-        transform.position = position;
+        Vector3 temp = transform.position;
+        temp.y = currentHeight;
+        transform.position = temp;
 
-        /*
-        
-        if (!m_Player.playerMovement.m_Grounded || m_TargetSpeed < 0.1f)
-        {
-            // Use player's forward vector as the cam's distance offset direction
-            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
-        }
-        else
-        {
-            // If the player's speed is low and they are falling
-            if (m_TargetSpeed < 0.1f && !m_Player.playerMovement.m_Grounded)
-            {
-                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
-            }
-            else
-            {
-                // Use player's velocity normalised as the distance direction
-                Vector3 dir = vel.normalized;
-                desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
-            }
-        }
-
-        // Lerp between the cams current position and the desired position
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.fixedDeltaTime);
-        
-        // Lerp camera rotation to the direction of the target
-        Vector3 direction = (m_Target.position + (Vector3.up * m_CamAngle)) - transform.position;
-        Quaternion toRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, m_RotationSpeed * Time.fixedDeltaTime);
-
-        */
+        transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
 
         // Calculate a smoothed fov value based on the target's speed
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
         // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
 
+        CheckForWall();
     }
 
     void CheckForWall()
@@ -147,7 +127,7 @@ public class CameraController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(desiredPosition, 1f);
+        Gizmos.DrawWireSphere(transform.position, 1f);
 
     }
 }

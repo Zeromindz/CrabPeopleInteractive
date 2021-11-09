@@ -13,7 +13,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 m_MovementInput;
     private bool m_IsSpacePressed;
     private bool m_IsShiftPressed;
+    [Header("DEBUG")]
+    public bool m_UseGravity = true;
+    public bool m_InputDisabled = false;
+    public bool m_FlipBoat = false;
+    public float m_TrickDuration = 0.5f;
+    private float m_TrickTimer;
 
+    [Space(10)]
     [Header("Drive Settings")]
     public float m_CurrentSpeed;
     [Space(10)]
@@ -55,16 +62,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_TrickHeightCheck = 15.0f;
     [SerializeField] private GameObject[] m_HoverPoints;
     public LayerMask m_HoverLayers;
-    private Vector3 m_CoM;
-    private Vector3 m_InAirCoM;
+    private Vector3 m_GroundedCenterOfMass;
+    private Vector3 m_InAirCenterOfMass;
     private Vector3 m_GroundNormal;
+    public Vector3 GetGroundNormal() { return m_GroundNormal; }
 
     public PIDController hoverPID;			                            //A PID controller to smooth the ship's hovering
     internal PlayerController m_PlayerController;                       // Player controller script
     internal Rigidbody m_RigidBody;                                      // Rigidbody attached to the boat
 
-    private float drag;
-    private bool m_IsSelfRighting = false;
 
     private static PlayerMovement m_Instance;
     public static PlayerMovement Instance
@@ -86,31 +92,51 @@ public class PlayerMovement : MonoBehaviour
     {
         m_PlayerController = GetComponent<PlayerController>();
         m_RigidBody = GetComponent<Rigidbody>();
-        m_CoM = gameObject.transform.Find("CoM").transform.localPosition;
-        m_InAirCoM = gameObject.transform.Find("InAirCoM").transform.localPosition;
-        m_RigidBody.centerOfMass = m_CoM;
+        m_GroundedCenterOfMass = gameObject.transform.Find("CoM").transform.localPosition;
+        m_InAirCenterOfMass = gameObject.transform.Find("InAirCoM").transform.localPosition;
+        m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
 
-        drag = m_AccelerationForce / m_MaxSpeed;
     }
 
     void Update()
     {
-        m_MovementInput = m_Movement;
+        if (m_InputDisabled)
+            m_MovementInput = Vector2.zero;
+        else
+            m_MovementInput = m_Movement;
+
+        Debug.Log("Input: " + m_MovementInput);
     }
 
     void FixedUpdate()
     {
+        // TESTING
+        if (m_FlipBoat)
+        {
+            transform.SetPositionAndRotation(transform.position + (Vector3.up * 10f), Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 180f));
+            m_FlipBoat = false;
+        }
+
+        if(m_IsSpacePressed && !m_Grounded)
+        {
+
+            StartCoroutine(SetUpTrickConditions(m_TrickDuration));
+            AirTrick(m_MovementInput);
+            
+        }
+      
+
         m_CurrentVel = m_RigidBody.velocity;
         m_CurrentSpeed = Vector3.Dot(m_CurrentVel, transform.forward);
 
         // Set the rb's CoM position based on if the player is at trick height
         if (!m_Grounded)
         {
-            m_RigidBody.centerOfMass = m_InAirCoM;
+            m_RigidBody.centerOfMass = m_InAirCenterOfMass;
         }
         else
         {
-            m_RigidBody.centerOfMass = m_CoM;
+            m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
         }
 
 
@@ -120,13 +146,30 @@ public class PlayerMovement : MonoBehaviour
         Hover();
     }
 
+    IEnumerator SetUpTrickConditions(float _duration)
+    {
+        m_RigidBody.angularDrag = 0.5f;
+        m_UseGravity = false;
+        m_InputDisabled = true;
+        yield return new WaitForSeconds(_duration);
+        m_RigidBody.angularDrag = 1.5f;
+        m_UseGravity = true;
+        m_InputDisabled = false;
+    }
+
     // Controls the acceleration of the boat
     public void Accelerate()
     {
         Vector3 forward = m_RigidBody.transform.forward;
-        forward = Vector3.ProjectOnPlane(forward, m_GroundNormal);
-        //forward.y = 0.0f;
-        //forward.Normalize();
+        if(m_Grounded)
+        {
+            forward = Vector3.ProjectOnPlane(forward, m_GroundNormal);
+        }
+        else
+        {
+            forward.y = 0.0f;
+            forward.Normalize();
+        }
 
         // TODO: Increase acceleration amount over time
         float inputMultiplier = m_AccelerationMultiplierMin;
@@ -214,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
         //m_RigidBody.AddForceAtPosition(((m_GroundNormal * m_HoverForce)) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_HoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
 
         // Create a new ray
-        Ray groundRay = new Ray(transform.position, -m_GroundNormal);
+        Ray groundRay = new Ray(transform.position, -Vector3.up);
         // Store raycast data
         RaycastHit groundHit;
         // Check if player is grounded
@@ -252,9 +295,17 @@ public class PlayerMovement : MonoBehaviour
             // Calculate a gravity force based on the height
             Vector3 gravity = -m_GroundNormal * m_HoverGravity * height;
 
+            // ===============DEBUG=================
+            if(m_UseGravity)
+            {
+                m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
+            }
+            else
+            {
+                force.y = 0;
+            }
             // Add each force to the rigid body
             m_RigidBody.AddForce(force, ForceMode.Acceleration);
-            m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
 
             // Rotate the rigidbody based on the ground normal
             Vector3 projection = Vector3.ProjectOnPlane(transform.forward, m_GroundNormal);
@@ -270,23 +321,26 @@ public class PlayerMovement : MonoBehaviour
             // Set gravity
             Vector3 gravity = -m_GroundNormal * m_FallGravity;
             // And apply the force to the RB
-            m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
+            if (m_UseGravity)
+                m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
 
             // If below trick height
             if (!m_Grounded)
             {
                 for (int i = 0; i < m_HoverPoints.Length; i++)
                 {
-                    var hoverPoint = m_HoverPoints[i];
-                    // level out hoverpoints
-                    if (m_CoM.y > hoverPoint.transform.position.y)
-                    {
-                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    }
-                    else
-                    {
-                        m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    }
+                    // TODO - Fix self leveling using hoverpoints and CoM
+
+                    //var hoverPoint = m_HoverPoints[i];
+                    //// level out hoverpoints
+                    //if (m_CoM.y > hoverPoint.transform.position.y)
+                    //{
+                    //    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    //}
+                    //else
+                    //{
+                    //    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+                    //}
                 }
 
             }
@@ -295,7 +349,39 @@ public class PlayerMovement : MonoBehaviour
 
     private void AirTrick(Vector2 _currentInput)
     {
-        m_RigidBody.AddRelativeTorque(Vector3.right * _currentInput * m_TrickTorque, ForceMode.Impulse);
+        float x = _currentInput.x;
+        float y = _currentInput.y;
+
+        Vector3 spinDirection = Vector3.zero;
+
+        if (x > 0.1f && y < 0.1f)
+        {
+            spinDirection = Vector3.back;
+        }
+        if (x < -0.1f && y < 0.1f)
+        {
+            spinDirection = Vector3.forward;
+        }
+        if (x < 0.1f && y > 0.1f)
+        {
+            spinDirection = Vector3.right;
+        }
+        if (x < 0.1f && y < -0.1f)
+        {
+            spinDirection = Vector3.left;
+        }
+
+        if( x > 0.1f && y > 0.1f)
+        {
+            spinDirection = Vector3.back + Vector3.right;
+        }
+
+        if (x < -0.1f && y < -0.1f)
+        {
+            spinDirection = Vector3.forward + Vector3.left;
+        }
+
+        m_RigidBody.AddRelativeTorque(spinDirection * m_TrickTorque, ForceMode.Impulse);
     }
 
     private void Boost()
@@ -367,7 +453,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_RigidBody)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position + m_CoM, 0.5f);
+            Gizmos.DrawWireSphere(transform.position + m_GroundedCenterOfMass, 0.5f);
 
         }
         // Trick height
