@@ -28,6 +28,7 @@ public class PlayerCollision : MonoBehaviour
         {
             playerController.AddPassenger();
             other.GetComponentInParent<ItemPickup>().OnPickup();
+            SoundManager.Instance.PlayRandomGhostPickupSound();
         }
 
         if(other.tag == "Start")
@@ -48,11 +49,22 @@ public class PlayerCollision : MonoBehaviour
             GameManager.Instance.CheckPointHit();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
+    }
 
-        if (other.tag == "Wall")
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.other.tag == "Wall")
         {
-        //    Vector3 collision = other.transform.forward.normalized;
-     //       PlayerMovement.Instance.BounceOffWall(collision); 
+            Debug.Log("Collided with: " + collision.other.tag);
+            SoundManager.Instance.PlayCollisionSound(1);
+        }
+
+
+        if (collision.other.tag == "Obstacle")
+        {
+            Debug.Log("Collided with: " + collision.other.tag);
+            SoundManager.Instance.PlayCollisionSound(0);
         }
     }
 }

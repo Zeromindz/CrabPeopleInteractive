@@ -279,6 +279,7 @@ public class PlayerMovement : MonoBehaviour
 
             m_RigidBody.MoveRotation(Quaternion.Lerp(m_RigidBody.rotation, rotation, Time.fixedDeltaTime * 10f));
         }
+
         // If not grounded
         else
         {

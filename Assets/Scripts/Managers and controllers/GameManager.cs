@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
             GhostRecorder.Instance.StartRecording();
         }
 
+        
+
     }
 
     private void SpawnNextCheckpoint()
