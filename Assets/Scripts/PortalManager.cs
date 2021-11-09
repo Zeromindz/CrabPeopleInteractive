@@ -25,6 +25,9 @@ public class PortalManager : MonoBehaviour
     public bool m_PlayerOverlapping = false;
     public bool m_PortalHasBeenSpawned = false;
 
+    float m_RotationVector;
+    float m_CurrentAngle;
+
     int layerMask;
 
     void Start()
@@ -96,39 +99,41 @@ public class PortalManager : MonoBehaviour
 
     void MovePortalCamera()
     {
-        //m_PortalCamera.transform.RotateAround(m_Entrance.transform.position, Vector3.up, 180f);
-        //Vector3 localPos = m_Entrance.transform.InverseTransformPoint(m_PortalCamera.transform.position);
-        //Quaternion localRot = Quaternion.Inverse(m_Entrance.transform.rotation) * m_PortalCamera.transform.rotation;
-        //
-        //m_PortalCamera.transform.position = m_PortalExit.transform.TransformPoint(localPos);
-        //m_PortalCamera.transform.rotation = m_PortalExit.transform.rotation * localRot;
+        // Set cam2's position and rotation to match cam1
+        m_PortalCamera.transform.position = m_PlayerCamera.position;
+        m_PortalCamera.transform.rotation = m_PlayerCamera.rotation;
 
-
-        //Vector3 playerCamLocalOffsetFromPortal = m_Entrance.worldToLocalMatrix * m_PlayerCamera.transform.position;
-        //Quaternion localRot = m_PlayerCamera.transform.rotation * m_Entrance.transform.rotation;
-        //
-        //m_PortalCamera.transform.position = m_PortalExit.localToWorldMatrix * playerCamLocalOffsetFromPortal;//m_PortalExit.position + playerCamLocalOffsetFromPortal;
-
-
-
-        // Store the player's offset from the portal entrance
-        Vector3 playerOffsetFromPortal = m_PlayerCamera.position - m_Entrance.position;
+        // Rotate cam 2 around portal, on the y axis with inverted z
+        m_PortalCamera.transform.RotateAround(m_Entrance.transform.position, Vector3.up, 180f);
+        // Calculate the local position of cam2 to portal
+        Vector3 localPos = m_Entrance.transform.InverseTransformPoint(m_PortalCamera.transform.position);
+        // Calculate local rotation of the camera to portal rotation
+        Quaternion localRot = Quaternion.Inverse(m_Entrance.transform.rotation) * m_PortalCamera.transform.rotation;
         
-        m_PortalCamera.transform.position = m_PortalExit.position + playerOffsetFromPortal;
-        
-        float angularDiffBetweenPortalRotations = Quaternion.Angle(m_PortalExit.rotation, m_Entrance.rotation);
-        
-        Quaternion rotationalDiff = Quaternion.AngleAxis(angularDiffBetweenPortalRotations, Vector3.up);
-        Vector3 newDirection = rotationalDiff * m_PlayerCamera.forward;
-        m_PortalCamera.transform.rotation = Quaternion.LookRotation(-newDirection, Vector3.up);
+        // Set cam2's position and rotation to the local offsets from the exit
+        m_PortalCamera.transform.position = m_PortalExit.transform.TransformPoint(localPos);
+        m_PortalCamera.transform.rotation = m_PortalExit.transform.rotation * localRot;
+
+        m_PortalCamera.GetComponent<Camera>().fieldOfView = m_PlayerCamera.GetComponent<CameraController>().GetCamFOV();
+
     }
 
     void TeleportPlayer()
     {
+        
         // Get the vector from the portal entrance to the player
         Vector3 portalToPlayer = m_Player.transform.position - m_Entrance.position;
+
         // Store the cameras current offset from the player. This is to help with a seamless teleport
         Vector3 playerCamOffset = m_PlayerCamera.position - m_Player.transform.position;
+        // Store the cameras current rotation from the player.
+
+        //Quaternion playerCamRotation = Quaternion.Inverse(m_Player.transform.rotation);
+        m_RotationVector = m_PlayerCamera.eulerAngles.y;
+
+        float desiredAngle = m_RotationVector;
+
+        Quaternion currentRotation = Quaternion.Euler(0f, desiredAngle, 0f);
 
         // dot product checking if the player entered the portal from the right side
         float dotProduct = Vector3.Dot(m_Entrance.up, portalToPlayer);
@@ -158,17 +163,21 @@ public class PortalManager : MonoBehaviour
             // Create and offset with the already calculated player position offset from the portal,
             // rotated around the y by the rot difference 
             Vector3 posOffset = Quaternion.Euler(0f, rotDifference, 0f) * portalToPlayer;
+
             
             // Set player's position to the exit's position + offset
             m_Player.transform.position = m_PortalExit.position + posOffset;
-            
+
             //Rotate the player's velocity to the exit portals forward direction
             Rigidbody rb = m_Player.GetComponent<Rigidbody>();
             Vector3 currentVel = rb.velocity;
             rb.velocity = m_PortalExit.forward * currentVel.magnitude;
 
-            // Set camera position using the player's position + the camera offset calulated earlier
+            
+            // Set camera position and rotation using the player's position + the camera offset calulated earlier
             m_PlayerCamera.transform.position = m_Player.transform.position + playerCamOffset;
+
+            m_PlayerCamera.transform.rotation = currentRotation;
 
             m_PlayerOverlapping = false;
         }
