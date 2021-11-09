@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
             GhostRecorder.Instance.StartRecording();
         }
 
-        
+        SoundManager.Instance.PlayRandomBGM();
 
     }
 

@@ -27,14 +27,14 @@ public class SoundManager : MonoBehaviour
 	public AudioClip m_MenuMusic = null;                                // The menu music
 	public AudioClip[] m_CollisionClips = new AudioClip[10];            // The collision sounds
 	public AudioClip[] m_GhostPickupClips = new AudioClip[10];          // The sounds for ghost pickup
-	public AudioClip[] m_BMGClips = new AudioClip[10];
+	public AudioClip[] m_BGMClips = new AudioClip[10];
 	public AudioClip[] m_MenuSelectClips = new AudioClip[10];			// The menu selection sounds
 
 	[Header("Sources")]
 	public GameObject m_SoundSourceObject = null;
 	private AudioSource m_CollisionSource = null;
 	private AudioSource m_GhostPickupSource = null;
-	private AudioSource m_BGM = null;
+	private AudioSource m_BGMSource = null;
 
 	#endregion
 
@@ -63,6 +63,7 @@ public class SoundManager : MonoBehaviour
 		AudioSource[] SourceArray = m_SoundSourceObject.GetComponentsInChildren<AudioSource>(false);
 		m_CollisionSource = SourceArray[0];
 		m_GhostPickupSource = SourceArray[1];
+		m_BGMSource = SourceArray[2];
 		
 	}
 	#endregion
@@ -140,17 +141,17 @@ public class SoundManager : MonoBehaviour
 	#region Background Music
 	public void PlayBGM(int index)
 	{
-		m_BGM.clip = m_GhostPickupClips[index];
+		m_BGMSource.clip = m_GhostPickupClips[index];
 		m_GhostPickupSource.Play();
-		Debug.Log("SoundManager play Ghost: " + index);
+		Debug.Log("SoundManager play BGM: " + index);
 	}
 
-	public void PlayRandomGhostPickupSound()
-	{
-		int rand = Random.Range(0, m_GhostPickupClips.Length);
-		m_GhostPickupSource.clip = m_GhostPickupClips[rand];
+	public void PlayRandomBGM()
+	{ 
+		int rand = Random.Range(0, m_BGMClips.Length);
+		m_BGMSource.clip = m_BGMClips[rand];
 		m_GhostPickupSource.Play();
-		Debug.Log("SoundManager play Ghost: Random " + rand);
+		Debug.Log("SoundManager play BGM: Random " + rand);
 	}
 
 	#endregion
