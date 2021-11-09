@@ -10,12 +10,13 @@ public class CameraController : MonoBehaviour
     private PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
     private Vector3 desiredPosition;                    // Desired position of the cam to lerp to
 
-
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 15.0f;
     [SerializeField] private float m_CamAngle = 5f;
-    [SerializeField] private float m_FollowSpeed = 10.0f; // Movement smoothing Time
+    [SerializeField] private float m_FollowSpeed = 30.0f; // Movement smoothing Time
     [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
+    [SerializeField] private float m_MinCameraDist = 3.0f;
+    private float rotationVector;
 
     [Space(10)]
     [Header("FOV Settings")]
@@ -26,8 +27,9 @@ public class CameraController : MonoBehaviour
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
-    //[Space(10)]
-    //[SerializeField] private Vector3 rotationMask;
+    public LayerMask m_CollideWithCamera;
+
+    public float GetCamFOV() { return m_Cam.fieldOfView; }
 
     private static CameraController m_Instance;               // Current Private instance
     public static CameraController Instance                   // Current public instance
@@ -52,37 +54,76 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
+
         // Store the targets speed in m/s, ignoring the y component of the velocity
-        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.GetCurrentVel(), m_Target.forward);
+        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
 
         // Store the target's direction of movement
-        Vector3 vel = m_Player.playerMovement.GetCurrentVel();
+        Vector3 vel = m_Player.playerMovement.m_CurrentVel;
 
-        if (!m_Player.playerMovement.m_AtTrickHeight || vel.magnitude < 0.1f)
-        {
-            // If the player is below the trick height, use their forward vector as the cam's distance offset direction
-            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (m_Target.forward * m_CamDist);
-        }
-        else
-        {
-            // Otherwise, use the player's velocity normalised as the distance direction
-            Vector3 dir = vel.normalized;
-            desiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (dir * m_CamDist);
-        }
+        //if(vel.z < -0.5f)
+        //{
+        //    rotationVector = m_Target.eulerAngles.y + 100f;
+        //}
+        //else
+        //{
+        //    rotationVector = m_Target.eulerAngles.y;
+        //}
 
-        // Lerp between the cams current position and the desired position
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, m_FollowSpeed * Time.deltaTime);
 
-        // Lerp camera rotation to the direction of the target
-        Vector3 direction = (m_Target.position + (Vector3.up * m_CamAngle)) - transform.position;
-        Quaternion toRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, m_RotationSpeed * Time.deltaTime);
+
+        // Store the target's y rotation angle
+        rotationVector = m_Target.eulerAngles.y;
+
+        // 
+        float desiredAngle = rotationVector;
+        float desiredHeight = m_Target.position.y + m_CamHeight;
+        float currentAngle = transform.eulerAngles.y;
+        float currentHeight = transform.position.y;
+
+        currentAngle = Mathf.LerpAngle(currentAngle, desiredAngle, m_RotationSpeed * Time.deltaTime);
+        currentHeight = Mathf.LerpAngle(currentHeight, desiredHeight, m_RotationSpeed * Time.deltaTime);
+
+        Quaternion currentRotation = Quaternion.Euler(0, currentAngle, 0);
+
+        transform.position = m_Target.position;
+        transform.position -= currentRotation * Vector3.forward * m_CamDist;
+
+        Vector3 temp = transform.position;
+        temp.y = currentHeight;
+        transform.position = temp;
+
+        transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
+
+
+
 
         // Calculate a smoothed fov value based on the target's speed
         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, m_TargetSpeed * 0.005f);
         // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
 
+        CheckForWall();
+    }
+
+    void CheckForWall()
+    {
+        // Camera collision
+
+        RaycastHit hitInfo;
+
+        Vector3 direction = transform.position - m_Target.transform.position;
+        float distance = direction.magnitude;
+        Debug.DrawRay(m_Target.transform.position, direction, Color.green);
+        if (Physics.Raycast(m_Target.position, direction, out hitInfo, distance, m_CollideWithCamera))
+        {
+            //Debug.Log("Camera raycast hit");
+            
+            float hitDist = hitInfo.distance;
+            Vector3 sphereCenter = m_Target.transform.position + (direction.normalized * hitDist);
+            transform.position = sphereCenter;
+        }
     }
 
     public void WatchGhost()
@@ -92,10 +133,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(desiredPosition, 1f);
+        Gizmos.DrawWireSphere(transform.position, 1f);
+
     }
-
-
 }

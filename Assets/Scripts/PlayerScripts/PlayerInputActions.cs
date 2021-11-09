@@ -87,7 +87,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6b496fc7-1167-43d1-b0f1-075792894000"",
-                    ""path"": ""<Keyboard>/l"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

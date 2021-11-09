@@ -307,10 +307,10 @@ GameObject:
   - component: {fileID: 4629130818476053250}
   - component: {fileID: 4629130818476053248}
   - component: {fileID: 4629130818476053249}
-  - component: {fileID: 4116299506068116760}
   - component: {fileID: 1115569635}
   - component: {fileID: 1115569640}
   - component: {fileID: 1115569642}
+  - component: {fileID: 152439194}
   m_Layer: 8
   m_Name: PFB_Player_001
   m_TagString: Player
@@ -381,45 +381,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf0c80ebd792ed4e97b606f127b62de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UseGravity: 1
+  m_InputDisabled: 0
+  m_FlipBoat: 0
+  m_TrickDuration: 0.5
+  m_CurrentSpeed: 0
+  m_AccelerationForce: 50
+  m_BoostForce: 20
+  m_MaxSpeed: 80
+  m_InAirPitchMultiplier: 3
+  m_VelocitySlowFactor: 0.99
+  m_AccelerationFactor: 0.1
+  m_DeccelerationFactor: 0.25
+  m_AccelerationMultiplierMin: 1
+  m_AccelerationMultiplierMax: 10
+  m_SteeringTorque: 8
+  m_TrickTorque: 15
+  m_InAirTurnMultiplier: 3
+  m_SidewaysDriftAmount: 15
+  m_ShipBody: {fileID: 4629130820421721205}
+  m_ShipRollAngle: 20
+  m_ShipRollSpeed: 5
+  m_Grounded: 0
+  m_GroundCheckDist: 5
+  m_AtTrickHeight: 0
+  m_HoverForce: 30
+  m_HoverHeight: 1.5
+  m_HoverGravity: 20
+  m_FallGravity: 20
+  m_LevelingForce: 0.1
+  m_TrickHeightCheck: 15
+  m_HoverPoints:
+  - {fileID: 4629130820131787541}
+  - {fileID: 4629130820280182898}
+  - {fileID: 4629130819296999323}
+  - {fileID: 4629130818838192660}
+  m_HoverLayers:
+    serializedVersion: 2
+    m_Bits: 1024
   hoverPID:
     pCoeff: 0.8
     iCoeff: 0.0002
     dCoeff: 0.2
     minimum: -1
     maximum: 1
-  m_RigidBody: {fileID: 4629130818476053253}
-  m_ShipBody: {fileID: 4629130820421721205}
-  m_UseGravity: 1
-  m_Grounded: 0
-  m_MaxGroundedDist: 5
-  m_Boosting: 0
-  m_HorsePower: 60
-  m_MaxSpeed: 50
-  m_BoostSpeed: 20
-  m_MaxBoostSpeed: 100
-  m_SteeringTorque: 8
-  m_SidewaysDriftAmount: 15
-  m_AtTrickHeight: 0
-  m_TrickHeightCheck: 15
-  m_HoverGravity: 20
-  m_FallGravity: 20
-  m_InAirTorque: 15
-  m_LevelingForce: 0.1
-  m_VelocitySlowFactor: 0.99
-  m_GroundHoverForce: 20
-  m_GroundHoverHeight: 5
-  m_HoverPoints:
-  - {fileID: 4629130820131787541}
-  - {fileID: 4629130820280182898}
-  - {fileID: 4629130819296999323}
-  - {fileID: 4629130818838192660}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_CoM: {x: 0, y: 0, z: 0}
-  m_InAirCoM: {x: 0, y: 0, z: 0}
-  m_ShipRollAngle: 20
-  m_ShipRollSpeed: 5
 --- !u!114 &4629130818476053249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,19 +437,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8809112bb9bec164f81a4680aaebe1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4116299506068116760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17efbca97c0396344b4e9954a4df4ba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leaderboardUI: {fileID: 0}
 --- !u!114 &1115569635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +482,19 @@ MonoBehaviour:
   - {fileID: 8332516386123114679}
   m_GroundedTrail: {fileID: 4805563987408761011}
   m_Sparkle: {fileID: 4664201737102922670}
+--- !u!114 &152439194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629130818476053259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17efbca97c0396344b4e9954a4df4ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaderboardUI: {fileID: 0}
 --- !u!1 &4629130818744945149
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Sparkle_001
       objectReference: {fileID: 0}
+    - target: {fileID: 4664201736938371001, guid: cd7190a89626b06499fa3aa6b55eb3a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4664201736938371002, guid: cd7190a89626b06499fa3aa6b55eb3a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -996,7 +1005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2062528463027473785, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2062528463027473785, guid: 611468854b4750c42bc1a572e94a76b4, type: 3}
       propertyPath: m_Layer

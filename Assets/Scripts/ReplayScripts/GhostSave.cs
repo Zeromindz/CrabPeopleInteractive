@@ -88,4 +88,18 @@ public class GhostSave : MonoBehaviour
 		}
 	}
 
+	public bool DoesSaveExist()
+	{
+		string path = Application.persistentDataPath + "/Replays.dat";
+		if (File.Exists(path))
+		{
+			return true;
+		}
+
+		else
+		{
+			return false;
+		}
+	}
+
 }
