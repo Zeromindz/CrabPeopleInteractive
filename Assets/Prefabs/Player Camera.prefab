@@ -132,8 +132,11 @@ MonoBehaviour:
   m_CamHeight: 5
   m_CamDist: 15
   m_CamAngle: 5
-  m_FollowSpeed: 10
+  m_FollowSpeed: 30
   m_RotationSpeed: 10
   m_FovMin: 60
   m_FovMax: 75
   m_FovSmoothTime: 0.5
+  m_CollideWithCamera:
+    serializedVersion: 2
+    m_Bits: 5120

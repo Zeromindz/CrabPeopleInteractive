@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     internal Rigidbody m_RigidBody;                                      // Rigidbody attached to the boat
 
     private float drag;
+    private bool m_IsSelfRighting = false;
 
     private static PlayerMovement m_Instance;
     public static PlayerMovement Instance
@@ -105,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         {
             m_RigidBody.centerOfMass = m_CoM;
         }
+
 
         Accelerate();
         Steer();
@@ -229,18 +231,35 @@ public class PlayerMovement : MonoBehaviour
         //m_RigidBody.AddForceAtPosition(((m_GroundNormal * m_HoverForce)) * Mathf.Abs(1.0f - (Vector3.Distance(hit.point, hoverPoint.transform.position) / m_HoverHeight)), hoverPoint.transform.position, ForceMode.Acceleration);
 
         // Create a new ray
-        Ray ray = new Ray(transform.position, -transform.up);
+        Ray groundRay = new Ray(transform.position, -m_GroundNormal);
         // Store raycast data
-        RaycastHit hitInfo;
+        RaycastHit groundHit;
         // Check if player is grounded
-        m_Grounded = Physics.Raycast(ray, out hitInfo, m_GroundCheckDist, m_HoverLayers);
+        m_Grounded = Physics.Raycast(groundRay, out groundHit, m_GroundCheckDist, m_HoverLayers);
 
         if (m_Grounded)
         {
             // Store height from ground
-            float height = hitInfo.distance;
+            float height = groundHit.distance;
             // Get the normal direction of the ground
-            m_GroundNormal = hitInfo.normal.normalized;
+
+            //m_GroundNormal = groundHit.normal.normalized;
+            
+            Vector3[] hoverPointGroundNormals = new Vector3[m_HoverPoints.Length];
+
+            for (int i = 0; i < m_HoverPoints.Length; i++)
+            {
+                var hoverPoint = m_HoverPoints[i];
+
+                Ray hoverRay = new Ray(hoverPoint.transform.position, -transform.up);
+                RaycastHit hit;
+                
+                Physics.Raycast(hoverRay, out hit, m_GroundCheckDist, m_HoverLayers);
+
+                hoverPointGroundNormals[i] = hit.normal.normalized;
+            }
+
+            m_GroundNormal = (hoverPointGroundNormals[0] + hoverPointGroundNormals[1] + hoverPointGroundNormals[2] + hoverPointGroundNormals[3]) / m_HoverPoints.Length;
 
             // Use PID controller to calculate a percentage 
             float forcePercent = hoverPID.Seek(m_HoverHeight, height);
@@ -291,22 +310,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     public bool AtTrickHeight()
     {
         return !Physics.Raycast(transform.position, -Vector3.up, m_TrickHeightCheck, m_HoverLayers);
     }
 
-    public void AirFlip(float _currentPitch)
+    private void AirFlip(float _currentPitch)
     {
         m_RigidBody.AddRelativeTorque(Vector3.right * _currentPitch * m_TrickTorque, ForceMode.Acceleration);
     }
 
-    public void AirRoll(float _currentRoll)
+    private void AirRoll(float _currentRoll)
     {
         m_RigidBody.AddRelativeTorque(Vector3.back * _currentRoll * m_TrickTorque, ForceMode.Acceleration);
     }
 
-    public void Boost()
+    private void Boost()
     {
         Vector3 forward = m_RigidBody.transform.forward;
 
