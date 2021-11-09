@@ -96,16 +96,31 @@ public class PortalManager : MonoBehaviour
 
     void MovePortalCamera()
     {
+        //m_PortalCamera.transform.RotateAround(m_Entrance.transform.position, Vector3.up, 180f);
+        //Vector3 localPos = m_Entrance.transform.InverseTransformPoint(m_PortalCamera.transform.position);
+        //Quaternion localRot = Quaternion.Inverse(m_Entrance.transform.rotation) * m_PortalCamera.transform.rotation;
+        //
+        //m_PortalCamera.transform.position = m_PortalExit.transform.TransformPoint(localPos);
+        //m_PortalCamera.transform.rotation = m_PortalExit.transform.rotation * localRot;
+
+
+        //Vector3 playerCamLocalOffsetFromPortal = m_Entrance.worldToLocalMatrix * m_PlayerCamera.transform.position;
+        //Quaternion localRot = m_PlayerCamera.transform.rotation * m_Entrance.transform.rotation;
+        //
+        //m_PortalCamera.transform.position = m_PortalExit.localToWorldMatrix * playerCamLocalOffsetFromPortal;//m_PortalExit.position + playerCamLocalOffsetFromPortal;
+
+
+
         // Store the player's offset from the portal entrance
         Vector3 playerOffsetFromPortal = m_PlayerCamera.position - m_Entrance.position;
-
+        
         m_PortalCamera.transform.position = m_PortalExit.position + playerOffsetFromPortal;
-
-        //float angularDiffBetweenPortalRotations = Quaternion.Angle(m_PortalExit.rotation, m_Entrance.rotation);
-        //
-        //Quaternion rotationalDiff = Quaternion.AngleAxis(angularDiffBetweenPortalRotations, Vector3.up);
-        //Vector3 newDirection = rotationalDiff * m_PlayerCamera.forward;
-        //m_PortalCamera.transform.rotation = Quaternion.LookRotation(-newDirection, Vector3.up);
+        
+        float angularDiffBetweenPortalRotations = Quaternion.Angle(m_PortalExit.rotation, m_Entrance.rotation);
+        
+        Quaternion rotationalDiff = Quaternion.AngleAxis(angularDiffBetweenPortalRotations, Vector3.up);
+        Vector3 newDirection = rotationalDiff * m_PlayerCamera.forward;
+        m_PortalCamera.transform.rotation = Quaternion.LookRotation(-newDirection, Vector3.up);
     }
 
     void TeleportPlayer()
