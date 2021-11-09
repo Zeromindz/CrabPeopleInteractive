@@ -388,4 +388,12 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + m_CurrentVel);
 
     }
+
+    public Vector2 GetSpeeds()
+    {
+        Vector2 speeds = Vector2.zero;
+        speeds.x = m_CurrentSpeed;
+        speeds.y = m_MaxSpeed;
+        return speeds;
+    }
 }

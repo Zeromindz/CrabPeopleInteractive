@@ -7,35 +7,26 @@ public class GameUI : MonoBehaviour
 {
     private GameManager m_GameManager;
 
-    [SerializeField] private TextMeshProUGUI m_TimerUI;
+    [SerializeField] private TextMeshProUGUI m_TimeUI;
     [SerializeField] private TextMeshProUGUI m_CurrentSpeedText;
     [SerializeField] private TextMeshProUGUI m_MaxSpeedUI;
 
     void Start()
     {
-
         m_GameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
     {
         UpdateUI();
-
     }
 
-    // To be changed to the gamemanager singleton
     void UpdateUI()
     {
-        //string timerText = "Time: " + (int)GameManager.Instance.GetCurrentTime();
-        //m_TimerUI.text = timerText;
+        string currentSpeedText = "Current: " + Mathf.Round(PlayerMovement.Instance.GetSpeeds().x);
+        m_CurrentSpeedText.text = currentSpeedText;
 
-        //string speedText = "Speed: " + Mathf.Round(Player);
-        //m_SpeedUI.text = speedText;
-
-        //string passengerText = "Passengers: " + GameManager.Instance.m_Passengers;
-        //m_PassengerUI.text = passengerText;
-
-        //string trickText = "Trick: " + GameManager.Instance.m_CurrentTrickRotation;
-        //m_TrickUI.text = trickText;
+        string maxSpeedText = "Current: " + Mathf.Round(PlayerMovement.Instance.GetSpeeds().x);
+        m_MaxSpeedUI.text = maxSpeedText;
     }
 }
