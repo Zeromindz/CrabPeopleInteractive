@@ -77,7 +77,6 @@ public class SettingsUI : MonoBehaviour
 	/// </summary>
 	public void SetGeneralUI()
 	{
-		EventSystem.current.SetSelectedGameObject(m_GeneralButton);
 		m_GeneralSettings.SetActive(true);
 		m_KeybindSettings.SetActive(false);
 	}
@@ -87,7 +86,6 @@ public class SettingsUI : MonoBehaviour
 	/// </summary>
 	public void SetKeyBindUI()
 	{
-		EventSystem.current.SetSelectedGameObject(m_KeybindButton);
 		m_KeybindSettings.SetActive(true);
 		m_GeneralSettings.SetActive(false);
 	}

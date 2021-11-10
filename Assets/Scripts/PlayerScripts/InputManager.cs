@@ -40,6 +40,7 @@ public class InputManager : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
 
+        Debug.Log("HI");
         playerInput = new PlayerInputActions();
        // playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.performed += ctx => OnMovementInput(ctx);
@@ -47,7 +48,7 @@ public class InputManager : MonoBehaviour
 
         //playerInput.Player.PausePreviousUI.started += ctx => OnEscapePressed(ctx);
         playerInput.Player.PausePreviousUI.performed += ctx => OnEscapePressed(ctx);
-        playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
+        //playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
 
         //playerInput.Player.EnableBoost.started += ctx => OnShiftPressed(ctx);
         playerInput.Player.EnableBoost.performed += ctx => OnShiftPressed(ctx);
