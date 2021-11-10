@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &763999754938177870
+--- !u!1 &2397415154309625665
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,90 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 131049786615989236}
-  - component: {fileID: 3926662251492936785}
-  - component: {fileID: 1268530524561668251}
-  - component: {fileID: 3890566080569960064}
+  - component: {fileID: 8806215816997965690}
+  - component: {fileID: 6375600867758027268}
   m_Layer: 0
-<<<<<<< HEAD:Assets/Prefabs/Environment_ObstaclePlateau_001.prefab
-  m_Name: Environment_ObstaclePlateau_001
-  m_TagString: Untagged
-=======
-  m_Name: Environment_ObstaclePlateau_001_Blockout
+  m_Name: Collider
   m_TagString: Obstacle
->>>>>>> main:Assets/Prefabs/Environment/Environment_ObstaclePlateau_001_Blockout.prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &131049786615989236
+--- !u!4 &8806215816997965690
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763999754938177870}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 2397415154309625665}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
+  m_Father: {fileID: 7437324279933376668}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6375600867758027268
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2397415154309625665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.0147743, y: 40.591095, z: 6.7382126}
+  m_Center: {x: 0.24814034, y: -12.2011795, z: -0.6107216}
+--- !u!1 &7817544903593902630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7437324279933376668}
+  - component: {fileID: 5807801366745061177}
+  - component: {fileID: 8610183041451484147}
+  m_Layer: 0
+  m_Name: Environment_ObstaclePlateau_001
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7437324279933376668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817544903593902630}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8806215816997965690}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3926662251492936785
+--- !u!33 &5807801366745061177
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763999754938177870}
+  m_GameObject: {fileID: 7817544903593902630}
   m_Mesh: {fileID: -66163031925517235, guid: e60895bdcb55d1f419a7063615f64189, type: 3}
---- !u!23 &1268530524561668251
+--- !u!23 &8610183041451484147
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763999754938177870}
+  m_GameObject: {fileID: 7817544903593902630}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -87,16 +126,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3890566080569960064
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763999754938177870}
-  m_Material: {fileID: 13400000, guid: ad788e74e326caf489fbbcba47dab369, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 8, y: 36, z: 8}
-  m_Center: {x: 0.5, y: -10, z: -0.5}
