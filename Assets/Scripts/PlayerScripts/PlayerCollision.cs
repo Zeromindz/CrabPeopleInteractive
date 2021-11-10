@@ -12,6 +12,19 @@ public class PlayerCollision : MonoBehaviour
         playerController = GetComponent<PlayerController>();
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            //Vector3 impactDirection = collision.transform.position - transform.position;
+            //
+            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
+            //
+            ////Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
+            //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // Picking up object
@@ -19,24 +32,43 @@ public class PlayerCollision : MonoBehaviour
         {
             playerController.AddPassenger();
             other.GetComponentInParent<ItemPickup>().OnPickup();
+            SoundManager.Instance.PlayRandomGhostPickupSound();
         }
 
         if(other.tag == "Start")
 		{
-            TempGameManager.Instance.StartGame();
+            GameManager.Instance.StartGame();
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
 		}
 
         if (other.tag == "End")
         {
-            TempGameManager.Instance.EndGame();
+            GameManager.Instance.EndGame();
+            Debug.Log("End Hit");
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
 
         if(other.tag == "CheckPoint")
 		{
-            TempGameManager.Instance.CheckPointHit();
+            GameManager.Instance.CheckPointHit();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.other.tag == "Wall")
+        {
+            Debug.Log("Collided with: " + collision.other.tag);
+            SoundManager.Instance.PlayCollisionSound(1);
+        }
+
+
+        if (collision.other.tag == "Obstacle")
+        {
+            Debug.Log("Collided with: " + collision.other.tag);
+            SoundManager.Instance.PlayCollisionSound(0);
         }
     }
 }
