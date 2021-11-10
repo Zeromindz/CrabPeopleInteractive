@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
 
         //playerInput.Player.PausePreviousUI.started += ctx => OnEscapePressed(ctx);
         playerInput.Player.PausePreviousUI.performed += ctx => OnEscapePressed(ctx);
-       // playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
+        playerInput.Player.PausePreviousUI.canceled += ctx => OnEscapePressed(ctx);
 
         //playerInput.Player.EnableBoost.started += ctx => OnShiftPressed(ctx);
         playerInput.Player.EnableBoost.performed += ctx => OnShiftPressed(ctx);
