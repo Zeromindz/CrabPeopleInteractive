@@ -70,7 +70,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-		//Debug.Log("Button Pressed: Escape" + ctx.started);
+		Debug.Log("Button Pressed: Escape" + ctx.started);
 
 		// Pauses the game
 		if (MenuController.Instance.IsInGame)
