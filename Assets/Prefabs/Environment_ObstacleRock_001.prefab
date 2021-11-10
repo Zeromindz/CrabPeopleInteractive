@@ -11,9 +11,15 @@ GameObject:
   - component: {fileID: 1967119081035663604}
   - component: {fileID: 3234508073062696785}
   - component: {fileID: 794798186728911771}
+  - component: {fileID: 2933382083379464273}
   m_Layer: 0
+<<<<<<< HEAD:Assets/Prefabs/Environment_ObstacleRock_001.prefab
   m_Name: Environment_ObstacleRock_001
   m_TagString: Untagged
+=======
+  m_Name: Environment_ObstacleRock_001_Blockout
+  m_TagString: Obstacle
+>>>>>>> main:Assets/Prefabs/Environment/Environment_ObstacleRock_001_Blockout.prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,8 +34,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 6713181810608627754}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82,47 +87,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &6629550965778952339
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6713181810608627754}
-  - component: {fileID: 8653866685376600588}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6713181810608627754
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6629550965778952339}
-  m_LocalRotation: {x: 0.018194335, y: 0.043301817, z: 0.016672036, w: 0.9987572}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1967119081035663604}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2, y: 5, z: 2}
---- !u!65 &8653866685376600588
+--- !u!65 &2933382083379464273
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6629550965778952339}
+  m_GameObject: {fileID: 1154976274183508558}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 40, z: 6}
-  m_Center: {x: 0, y: -5, z: 0.5}
+  m_Size: {x: 7.0835547, y: 51.554043, z: 7.835555}
+  m_Center: {x: 0.2587793, y: -8.007692, z: 0.2770567}

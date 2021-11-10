@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 public class GameManager : MonoBehaviour
@@ -15,6 +17,9 @@ public class GameManager : MonoBehaviour
     public float m_CurrentTrickRotation;
     public int m_Passengers;
     public List<GameObject> m_CheckpointObjects;
+    public List<GameObject> m_GhostPickups;
+    public Transform m_StartPos;
+    public GameObject m_Player;
 
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
@@ -82,10 +87,22 @@ public class GameManager : MonoBehaviour
         //m_Player.transform.rotation = m_StartPoint.rotation;
     }
     public void StartGame()
-    {
+    { 
         Debug.Log("Start point hit");
-        SpawnNextCheckpoint();
-        GhostRecorder.Instance.StartRecording();
+
+        if (GhostSave.Instance.DoesSaveExist())
+        {
+            GhostPlayer.Instance.LoadGhost();
+            GhostPlayer.Instance.Play();
+            GhostRecorder.Instance.StartRecording();
+        }
+        else
+        {
+            GhostRecorder.Instance.StartRecording();
+        }
+
+        SoundManager.Instance.PlayRandomBGM();
+
     }
 
     private void SpawnNextCheckpoint()
@@ -98,7 +115,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End point hit");
         // GhostRecorder.Instance.SaveRecording();
-        SceneManager.LoadScene(0);
+        GhostRecorder.Instance.SaveRecording();
+        GhostPlayer.Instance.Stop();
+        MenuController.Instance.LoadEndScreen();
+        ResetGame();
     }
 
     public void CheckPointHit()
@@ -106,5 +126,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("CheckPoint hit");
         SpawnNextCheckpoint();
     }
+    public void ResetGame()
+	{
+        for (int i = 0; i < m_GhostPickups.Count; i++)
+		{
+            m_GhostPickups[i].SetActive(true);
+		}
+        m_Player.transform.position = m_StartPos.transform.position;
+	}
 
 }
