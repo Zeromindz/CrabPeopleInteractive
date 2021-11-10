@@ -163,7 +163,7 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
-		Time.timeScale = 1;
+
 	}
 
 	/// <summary>
@@ -188,6 +188,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
 		UpdateState();
+		Time.timeScale = 0;
 	}
 
 	/// <summary>
