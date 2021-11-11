@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    internal PlayerController playerController;
+	internal PlayerController playerController;
+    [SerializeField] private GameUI gameUI = null;
 
-    void Start()
+	void Start()
     {
         playerController = GetComponent<PlayerController>();
     }
@@ -30,6 +31,7 @@ public class PlayerCollision : MonoBehaviour
         // Picking up object
         if (other.tag == "Pickup")
         {
+            Debug.Log("Pickup hit!");
             playerController.AddPassenger();
             other.GetComponentInParent<ItemPickup>().OnPickup();
             SoundManager.Instance.PlayRandomGhostPickupSound();
@@ -44,13 +46,13 @@ public class PlayerCollision : MonoBehaviour
         if (other.tag == "End")
         {
             GameManager.Instance.EndGame();
-            Debug.Log("End Hit");
+            //Debug.Log("End Hit");
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
 
         if(other.tag == "CheckPoint")
 		{
-            GameManager.Instance.CheckPointHit();
+            gameUI.TakeTime();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
     }

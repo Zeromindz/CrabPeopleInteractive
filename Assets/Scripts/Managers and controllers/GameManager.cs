@@ -16,15 +16,15 @@ public class GameManager : MonoBehaviour
     public float m_BoatSpeed;
     public float m_CurrentTrickRotation;
     public int m_Passengers;
-    public List<GameObject> m_CheckpointObjects;
     public List<GameObject> m_GhostPickups;
     public Transform m_StartPos;
     public GameObject m_Player;
 
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
-    private Stack<GameObject> m_checkPoints;
     public float GetCurrentTime() { return m_CurrentTime; }
+    [SerializeField] GameObject m_UIObject = null;
+    private GameUI gameUI = null;
 
     private static GameManager m_Instance;                       // The current instance of MenuController
     public static GameManager Instance                           // The public current instance of MenuController
@@ -40,13 +40,7 @@ public class GameManager : MonoBehaviour
         else
             m_Instance = this;
 
-        m_checkPoints = new Stack<GameObject>();
-        m_CheckpointObjects.Reverse();
-
-        for (int i = 0; i < m_CheckpointObjects.Count; i++)
-        {
-            m_checkPoints.Push(m_CheckpointObjects[i]);
-        }
+        gameUI = m_UIObject.GetComponent<GameUI>();
     }
 
     void Start()
@@ -80,16 +74,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-
-    public void RestartGame()
-    {
-        m_Player.transform.position = m_StartPos.position;
-        m_Player.transform.rotation = m_StartPos.rotation;
-        //Reset
-        //Speed, max and current
-        // Pickups, re-enable them all
-        //
-    }
     public void StartGame()
     { 
         Debug.Log("Start point hit");
@@ -103,17 +87,13 @@ public class GameManager : MonoBehaviour
         else
         {
             GhostRecorder.Instance.StartRecording();
-        }
+		}
 
-        SoundManager.Instance.PlayRandomBGM();
+		SoundManager.Instance.PlayRandomBGM();
 
-    }
-
-    private void SpawnNextCheckpoint()
-    {
-        GameObject nextLocation = m_checkPoints.Pop();
-        nextLocation.SetActive(true);
-    }
+        gameUI.TimerCounting(true);
+    
+	}
 
     public void EndGame()
     {
@@ -122,21 +102,22 @@ public class GameManager : MonoBehaviour
         GhostRecorder.Instance.SaveRecording();
         GhostPlayer.Instance.Stop();
         MenuController.Instance.LoadEndScreen();
+        gameUI.TimerCounting(false);
         ResetGame();
     }
 
-    public void CheckPointHit()
-    {
-        Debug.Log("CheckPoint hit");
-        SpawnNextCheckpoint();
-    }
     public void ResetGame()
 	{
         for (int i = 0; i < m_GhostPickups.Count; i++)
 		{
             m_GhostPickups[i].SetActive(true);
 		}
-        m_Player.transform.position = m_StartPos.transform.position;
+
+        m_Player.transform.position = m_StartPos.position;
+        m_Player.transform.rotation = m_StartPos.rotation;
+
+        gameUI.ResetTime();
+        MenuController.Instance.LoadMenu();
 	}
 
 }

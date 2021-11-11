@@ -12,7 +12,7 @@ public class SkyboxCam : MonoBehaviour
     {
         Vector3 playerRot = m_Playercam.rotation.eulerAngles;
 
-        Quaternion newRot = Quaternion.Euler(0.0f, playerRot.y, 0.0f);
+        Quaternion newRot = Quaternion.Euler(0.0f, playerRot.y , 0.0f);
         this.transform.rotation = newRot;
     }
 }
