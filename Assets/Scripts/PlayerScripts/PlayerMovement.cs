@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         else
             m_MovementInput = m_Movement;
 
-      //  Debug.Log("Input: " + m_MovementInput);
+        //Debug.Log("Input: " + m_MovementInput);
     }
 
     void FixedUpdate()
