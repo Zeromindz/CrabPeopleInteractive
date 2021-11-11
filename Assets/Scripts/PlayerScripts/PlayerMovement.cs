@@ -397,13 +397,16 @@ public class PlayerMovement : MonoBehaviour
         if (value > 0)
         {
             m_IsShiftPressed = true;
+            //SoundManager.Instance.BoostFadeIn();
         }
 
         else
         {
             m_IsShiftPressed = false;
+            //SoundManager.Instance.BoostFadeOut();
         }
     }
+
 
     public void SpacePressed(float value)
     {

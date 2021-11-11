@@ -83,8 +83,12 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        //m_Player.transform.position = m_StartPoint.position;
-        //m_Player.transform.rotation = m_StartPoint.rotation;
+        m_Player.transform.position = m_StartPos.position;
+        m_Player.transform.rotation = m_StartPos.rotation;
+        //Reset
+        //Speed, max and current
+        // Pickups, re-enable them all
+        //
     }
     public void StartGame()
     { 

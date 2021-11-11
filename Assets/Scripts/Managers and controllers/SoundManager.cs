@@ -23,18 +23,21 @@ public class SoundManager : MonoBehaviour
 	public float m_SFXVolume = 1.0f;                                    // Current volume for the SFX
 
 	[Header("Sounds")]
-	public AudioClip m_GameMusic = null;                                // The game music
-	public AudioClip m_MenuMusic = null;                                // The menu music
-	public AudioClip[] m_CollisionClips = new AudioClip[10];            // The collision sounds
-	public AudioClip[] m_GhostPickupClips = new AudioClip[10];          // The sounds for ghost pickup
-	public AudioClip[] m_BGMClips = new AudioClip[10];
-	public AudioClip[] m_MenuSelectClips = new AudioClip[10];			// The menu selection sounds
+	[SerializeField] private AudioClip m_GameMusic = null;                                // The game music
+	[SerializeField] private AudioClip m_MenuMusic = null;                                // The menu music
+	[SerializeField] private AudioClip[] m_CollisionClips = new AudioClip[10];            // The collision sounds
+	[SerializeField] private AudioClip[] m_GhostPickupClips = new AudioClip[10];          // The sounds for ghost pickup
+	[SerializeField] private AudioClip[] m_BGMClips = new AudioClip[10];
+	[SerializeField] private AudioClip[] m_MenuSelectClips = new AudioClip[10];         // The menu selection sounds
+	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];
+	[SerializeField,Range(0,1)] private float BoostFadeInOutTime;
 
 	[Header("Sources")]
 	public GameObject m_SoundSourceObject = null;
 	private AudioSource m_CollisionSource = null;
 	private AudioSource m_GhostPickupSource = null;
 	private AudioSource m_BGMSource = null;
+	private AudioSource m_BoostSource = null;
 
 	#endregion
 
@@ -64,7 +67,10 @@ public class SoundManager : MonoBehaviour
 		m_CollisionSource = SourceArray[0];
 		m_GhostPickupSource = SourceArray[1];
 		m_BGMSource = SourceArray[2];
-		
+		m_BoostSource = SourceArray[3];
+
+		//m_BoostSource.volume = 0.0f;
+		//PlayBoost(0);
 	}
 	#endregion
 
@@ -155,7 +161,35 @@ public class SoundManager : MonoBehaviour
 	}
 
 	#endregion
-	public void SetSFXVolume(float volume)
+
+	#region Boosting Sounds
+	//public void PlayBoost(int index)
+	//{
+	//	m_BoostSource.clip = m_BoostClips[index];
+	//	m_BoostSource.loop = true;
+	//	m_BoostSource.Play();
+	//	Debug.Log("SoundManager Starting boost: " + index);
+		
+	//}
+
+	//public void StopBoost()
+	//{
+	//	Debug.Log("SoundManager Ending boost ");
+	//	m_BoostSource.Stop();
+	//}
+	//public void BoostFadeIn()
+	//{
+	//		m_BoostSource.volume += Time.deltaTime / BoostFadeInOutTime;
+	//	Debug.Log("Fade in");
+	//}
+
+	//public void BoostFadeOut()
+	//{
+	//		m_BoostSource.volume -=  Time.deltaTime / BoostFadeInOutTime;
+	//}
+
+	#endregion
+		public void SetSFXVolume(float volume)
 	{
 		m_SFXVolume = volume;
 	}

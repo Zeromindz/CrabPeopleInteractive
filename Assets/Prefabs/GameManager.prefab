@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5255520189579624734}
   - component: {fileID: 5255520189579624725}
-  - component: {fileID: 5255520189579624728}
   - component: {fileID: 1029329714}
   - component: {fileID: 1029329715}
   - component: {fileID: 7234643233102593861}
+  - component: {fileID: 3010770541729388967}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -56,19 +56,6 @@ MonoBehaviour:
   m_StartPos: {fileID: 0}
   m_Player: {fileID: 0}
   m_TimeLimit: 50
---- !u!114 &5255520189579624728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17efbca97c0396344b4e9954a4df4ba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leaderboardUI: {fileID: 0}
 --- !u!114 &1029329714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +115,7 @@ MonoBehaviour:
   m_SFXVolume: 1
   m_GameMusic: {fileID: 0}
   m_MenuMusic: {fileID: 0}
-  m_CollisionSounds:
+  m_CollisionClips:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -139,7 +126,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  m_MenuSelectSounds:
+  m_GhostPickupClips:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -150,9 +137,50 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  m_MainVolumeSlider: {fileID: 0}
-  m_MainVolumeInput: {fileID: 0}
-  m_MusicVolumeSlider: {fileID: 0}
-  m_MusicVolumeInput: {fileID: 0}
-  m_SFXVolumeSlider: {fileID: 0}
-  m_SFXVolumeInput: {fileID: 0}
+  m_BGMClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_MenuSelectClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_BoostClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BoostFadeInOutTime: 0
+  m_SoundSourceObject: {fileID: 0}
+--- !u!114 &3010770541729388967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255520189579624735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4307f6bbe55870141a61b4ebba1c5cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
