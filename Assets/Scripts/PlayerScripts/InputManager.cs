@@ -10,9 +10,10 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+
     internal PlayerController playerController;
     private PlayerInputActions playerInput;
-    public LeaderboardUI leaderboardUI;
+    private UIController m_UIController = null;
 
     private Vector2 movementInput;
     public Vector2 GetMovementInput() { return movementInput; }
@@ -74,15 +75,15 @@ public class InputManager : MonoBehaviour
 		Debug.Log("Button Pressed: Escape" + ctx.started);
 
 		// Pauses the game
-		if (MenuController.Instance.IsInGame)
+		if (m_UIController.MenuController.IsInGame)
 		{
-			MenuController.Instance.PauseGame();
+			m_UIController.MenuController.PauseGame();
 		}
 
 		// Returns to the previous UI
 		else
 		{
-			MenuController.Instance.ReturnToPreviousUI();
+			m_UIController.MenuController.ReturnToPreviousUI();
 		}
 	}
 
@@ -134,9 +135,9 @@ public class InputManager : MonoBehaviour
 	{
         float i = ctx.ReadValue<float>();
         //Debug.Log(i);
-        if(leaderboardUI != null)
+        if(m_UIController.LeaderboardUI != null)
         {
-            leaderboardUI.WrapElements(i);
+            m_UIController.LeaderboardUI.WrapElements(i);
         }
         else
         {

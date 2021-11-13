@@ -199,10 +199,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Boost();
             m_Boosting = true;
+            SoundManager.Instance.BoostFadeIn();
         }
         else
         {
             m_Boosting = false;
+            SoundManager.Instance.BoostFadeOut();
         }
 
         // Clamp Speed

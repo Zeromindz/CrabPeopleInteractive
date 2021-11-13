@@ -21,6 +21,7 @@ public class SettingsUI : MonoBehaviour
 	public List<Vector2> m_ScreenSizes = new List<Vector2>();       // The posible screen resolutions
 	public int m_DropDownValue;                                     // The current index shown by the drop down box
 
+
 	private void Start()
 	{
 		TMP_Dropdown drop = m_ResultionDropDown.GetComponent<TMP_Dropdown>();

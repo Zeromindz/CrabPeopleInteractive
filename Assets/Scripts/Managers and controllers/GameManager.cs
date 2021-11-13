@@ -10,7 +10,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject m_Canvas;
-    
+
+    private UIController m_UIController = null;
+
     [Header("Player Stats")]
     //private PlayerController m_Player;
     public float m_BoatSpeed;
@@ -23,8 +25,8 @@ public class GameManager : MonoBehaviour
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
     public float GetCurrentTime() { return m_CurrentTime; }
-    [SerializeField] GameObject m_UIObject = null;
-    private GameUI gameUI = null;
+
+
 
     private static GameManager m_Instance;                       // The current instance of MenuController
     public static GameManager Instance                           // The public current instance of MenuController
@@ -40,7 +42,8 @@ public class GameManager : MonoBehaviour
         else
             m_Instance = this;
 
-        gameUI = m_UIObject.GetComponent<GameUI>();
+        m_UIController = UIController.Instance;
+
     }
 
     void Start()
@@ -48,7 +51,7 @@ public class GameManager : MonoBehaviour
       ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         m_CurrentTime = m_TimeLimit;
 
-        MenuController.Instance.LoadMenu();
+        m_UIController.MenuController.LoadMenu();
     }
 
     void Update()
@@ -89,9 +92,9 @@ public class GameManager : MonoBehaviour
             GhostRecorder.Instance.StartRecording();
 		}
 
-		SoundManager.Instance.PlayRandomBGM();
+		SoundManager.Instance.PlayBGM(0);
 
-        gameUI.TimerCounting(true);
+        m_UIController.GameUI.TimerCounting(true);
     
 	}
 
@@ -101,8 +104,10 @@ public class GameManager : MonoBehaviour
         // GhostRecorder.Instance.SaveRecording();
         GhostRecorder.Instance.SaveRecording();
         GhostPlayer.Instance.Stop();
-        MenuController.Instance.LoadEndScreen();
-        gameUI.TimerCounting(false);
+        m_UIController.MenuController.LoadEndScreen();
+        m_UIController.GameUI.TimerCounting(false);
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.BoostFadeToStop();
         ResetGame();
     }
 
@@ -116,8 +121,6 @@ public class GameManager : MonoBehaviour
         m_Player.transform.position = m_StartPos.position;
         m_Player.transform.rotation = m_StartPos.rotation;
 
-        gameUI.ResetTime();
-        MenuController.Instance.LoadMenu();
+        m_UIController.GameUI.ResetTime();
 	}
-
 }

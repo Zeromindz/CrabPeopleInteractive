@@ -33,10 +33,10 @@ public class PlayerCollision : MonoBehaviour
         {
             Debug.Log("Pickup hit!");
             playerController.AddPassenger();
+            SoundManager.Instance.PlayGhostPickupSound(0);
             other.GetComponentInParent<ItemPickup>().OnPickup();
-            SoundManager.Instance.PlayRandomGhostPickupSound();
         }
-
+        
         if(other.tag == "Start")
 		{
             GameManager.Instance.StartGame();

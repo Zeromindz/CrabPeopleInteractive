@@ -69,15 +69,6 @@ public class MenuController : MonoBehaviour
 	}
 	#endregion
 
-	#region Singleton instances
-	// Singleton instance
-	private static MenuController m_Instance;						// The current instance of MenuController
-	public static MenuController Instance							// The public current instance of MenuController
-	{
-		get { return m_Instance; }
-	}
-	#endregion
-
 	#region Unity Functions
 	/// <summary>
 	/// Called when the script is being loaded.
@@ -85,12 +76,6 @@ public class MenuController : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
-		// Initialize Singleton
-		if (m_Instance != null && m_Instance != this)
-			Destroy(this.gameObject);
-		else
-			m_Instance = this;
-
 		m_CurrentUI = m_MenuUI;
 		m_UIStack = new Stack<MenuStackItem>();
 	}
@@ -189,6 +174,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
 		UpdateState();
 		Time.timeScale = 0;
+		UIController.Instance.EndScreenUI.SetScore();
 	}
 
 	/// <summary>

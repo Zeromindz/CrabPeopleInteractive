@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 	[SerializeField] private AudioClip[] m_CollisionClips = new AudioClip[10];            // The collision sounds
 	[SerializeField] private AudioClip[] m_GhostPickupClips = new AudioClip[10];          // The sounds for ghost pickup
 	[SerializeField] private AudioClip[] m_BGMClips = new AudioClip[10];
-	[SerializeField] private AudioClip[] m_MenuSelectClips = new AudioClip[10];         // The menu selection sounds
+	[SerializeField] private AudioClip[] m_UIClips = new AudioClip[10];         // The menu selection sounds
 	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];
 	[SerializeField,Range(0,1)] private float BoostFadeInOutTime;
 
@@ -38,6 +38,7 @@ public class SoundManager : MonoBehaviour
 	private AudioSource m_GhostPickupSource = null;
 	private AudioSource m_BGMSource = null;
 	private AudioSource m_BoostSource = null;
+	private AudioSource m_UISource = null;
 
 	#endregion
 
@@ -68,9 +69,10 @@ public class SoundManager : MonoBehaviour
 		m_GhostPickupSource = SourceArray[1];
 		m_BGMSource = SourceArray[2];
 		m_BoostSource = SourceArray[3];
+		m_UISource = SourceArray[4];
 
 		//m_BoostSource.volume = 0.0f;
-		//PlayBoost(0);
+		PlayBoost(0);
 	}
 	#endregion
 
@@ -147,8 +149,8 @@ public class SoundManager : MonoBehaviour
 	#region Background Music
 	public void PlayBGM(int index)
 	{
-		m_BGMSource.clip = m_GhostPickupClips[index];
-		m_GhostPickupSource.Play();
+		m_BGMSource.clip = m_BGMClips[index];
+		m_BGMSource.Play();
 		Debug.Log("SoundManager play BGM: " + index);
 	}
 
@@ -156,40 +158,75 @@ public class SoundManager : MonoBehaviour
 	{ 
 		int rand = Random.Range(0, m_BGMClips.Length);
 		m_BGMSource.clip = m_BGMClips[rand];
-		m_GhostPickupSource.Play();
+		m_BGMSource.Play();
 		Debug.Log("SoundManager play BGM: Random " + rand);
 	}
 
+	public void StopBGM()
+	{
+		m_BGMSource.Stop();
+	}
 	#endregion
 
 	#region Boosting Sounds
-	//public void PlayBoost(int index)
-	//{
-	//	m_BoostSource.clip = m_BoostClips[index];
-	//	m_BoostSource.loop = true;
-	//	m_BoostSource.Play();
-	//	Debug.Log("SoundManager Starting boost: " + index);
-		
-	//}
+	public void PlayBoost(int index)
+	{
+		m_BoostSource.clip = m_BoostClips[index];
+		m_BoostSource.loop = true;
+		m_BoostSource.volume = 0.0f;
+		m_BoostSource.Play();
+		Debug.Log("SoundManager Starting boost: " + index);
 
-	//public void StopBoost()
-	//{
-	//	Debug.Log("SoundManager Ending boost ");
-	//	m_BoostSource.Stop();
-	//}
-	//public void BoostFadeIn()
-	//{
-	//		m_BoostSource.volume += Time.deltaTime / BoostFadeInOutTime;
-	//	Debug.Log("Fade in");
-	//}
+	}
 
-	//public void BoostFadeOut()
-	//{
-	//		m_BoostSource.volume -=  Time.deltaTime / BoostFadeInOutTime;
-	//}
+	public void StopBoost()
+	{
+		Debug.Log("SoundManager Ending boost ");
+		m_BoostSource.Stop();
+	}
+	public void BoostFadeIn()
+	{
+		m_BoostSource.volume += Time.deltaTime / BoostFadeInOutTime;
+		Debug.Log("Fade in");
+	}
+
+	public void BoostFadeOut()
+	{
+		m_BoostSource.volume -= Time.deltaTime / BoostFadeInOutTime;
+	}
+
+	public void BoostFadeToStop()
+	{
+		while(m_BoostSource.volume != 0)
+		{
+			m_BoostSource.volume -= Time.deltaTime / BoostFadeInOutTime;
+		}
+	}
+	#endregion
+
+	#region UI Sounds
+	public void PlayUIHoverSound()
+	{
+		m_UISource.clip = m_UIClips[0];
+		float range = Random.Range(1, 301);
+		range = range / 100;
+		m_UISource.pitch = range;
+		m_UISource.Play();
+		//Debug.Log("SoundManager play UI Hover");
+	}
+
+	public void PlayUISelectSound()
+	{
+		m_UISource.clip = m_UIClips[1];
+		float range = Random.Range(1, 301);
+		range = range / 100;
+		m_UISource.pitch = range; 
+		m_UISource.Play();
+		//Debug.Log("SoundManager play UI Select");
+	}
 
 	#endregion
-		public void SetSFXVolume(float volume)
+	public void SetSFXVolume(float volume)
 	{
 		m_SFXVolume = volume;
 	}
