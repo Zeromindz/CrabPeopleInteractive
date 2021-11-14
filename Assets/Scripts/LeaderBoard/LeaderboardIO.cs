@@ -28,7 +28,7 @@ public class LeaderboardIO : MonoBehaviour
 	}
 	private void Start()
 	{
-	
+		//SaveRowAmount(0);
 	}
 
 	private void SaveRowAmount(int amount)
@@ -61,7 +61,9 @@ public class LeaderboardIO : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Row Amount save file not found!");
+			Debug.Log("Row Amount save file not found! creating file...");
+			SaveRowAmount(0);
+			LoadRowAmount();
 			return null;
 		}
 	}
@@ -75,7 +77,7 @@ public class LeaderboardIO : MonoBehaviour
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
 	
 		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
-
+		Debug.Log("" + path);
 		FileStream stream = new FileStream(path, FileMode.Create);
 
 		GhostData[] replayDataArray = replayData.ToArray();
