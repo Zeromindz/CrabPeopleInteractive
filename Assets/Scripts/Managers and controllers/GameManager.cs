@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject m_Canvas;
 
-    private UIController m_UIController = null;
+    [SerializeField] private UIController m_UIController = null;
 
     [Header("Player Stats")]
     //private PlayerController m_Player;
@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
         else
             m_Instance = this;
 
-        m_UIController = UIController.Instance;
 
     }
 
@@ -50,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
       ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         m_CurrentTime = m_TimeLimit;
+        m_UIController = UIController.Instance;
 
         m_UIController.MenuController.LoadMenu();
     }

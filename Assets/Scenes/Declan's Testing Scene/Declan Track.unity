@@ -444,6 +444,10 @@ PrefabInstance:
       propertyPath: m_GhostPickups.Array.data[5]
       value: 
       objectReference: {fileID: 1755108135}
+    - target: {fileID: 5255520189579624725, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_UIController
+      value: 
+      objectReference: {fileID: 701652100}
     - target: {fileID: 5255520189579624734, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 550
@@ -1905,6 +1909,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5380965559906533328, guid: 547b26997a26d5145b4b334065d66499, type: 3}
   m_PrefabInstance: {fileID: 1116547351}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &451097136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5255520189579624735, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+  m_PrefabInstance: {fileID: 105205851}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &451097137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451097136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2082d18a6e2959d418c55135645e7400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &476545459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3968692096349871638, guid: 51da96a789f40564c82fc6684e6d3949, type: 3}
@@ -3787,9 +3808,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701652098}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: LoadLearderboard
+      - m_Target: {fileID: 701652101}
+        m_TargetAssemblyTypeName: EndScreenUI, Assembly-CSharp
+        m_MethodName: SetScore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

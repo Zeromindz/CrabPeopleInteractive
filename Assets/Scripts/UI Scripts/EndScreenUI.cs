@@ -39,6 +39,6 @@ public class EndScreenUI : MonoBehaviour
 
     public void SaveScore()
 	{
-
+        LeaderboardIO.Instance.SaveLeaderBoardRow(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
 	}
 }

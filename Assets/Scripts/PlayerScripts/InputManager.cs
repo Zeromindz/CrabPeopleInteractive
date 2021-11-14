@@ -35,9 +35,12 @@ public class InputManager : MonoBehaviour
 
     private float m_DeadZone = 0.1f;
 
+	private void Start()
+	{
+        m_UIController = UIController.Instance;
+	}
 
-
-    private void Awake()
+	private void Awake()
     {
         playerController = GetComponent<PlayerController>();
 

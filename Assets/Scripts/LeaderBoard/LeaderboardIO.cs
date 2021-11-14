@@ -28,14 +28,12 @@ public class LeaderboardIO : MonoBehaviour
 	}
 	private void Start()
 	{
-		SaveRowAmount(0);
-		LoadRowAmount();
-		SaveLeaderBoardRow("Declan", 100, null);
+	
 	}
 
 	private void SaveRowAmount(int amount)
 	{
-		string path = Application.dataPath + "/RowAmount.dat";
+		string path = Application.dataPath + "/Leaderboard/RowAmount.dat";
 		//if (!File.Exists(path)) { }
 		BinaryFormatter formatter = new BinaryFormatter();
 		FileStream stream = new FileStream(path, FileMode.Create);
@@ -49,7 +47,7 @@ public class LeaderboardIO : MonoBehaviour
 
 	private RowAmount LoadRowAmount()
 	{
-		string path = Application.dataPath + "/RowAmount.dat";
+		string path = Application.dataPath + "/LeaderBoard/RowAmount.dat";
 		if (File.Exists(path))
 		{
 			BinaryFormatter formatter = new BinaryFormatter();
@@ -69,12 +67,15 @@ public class LeaderboardIO : MonoBehaviour
 	}
 
 
-	public void SaveLeaderBoardRow(string name, int score, List<GhostData> replayData)
+	public void SaveLeaderBoardRow(string name, float score, List<GhostData> replayData)
 	{
 		RowAmount rows = LoadRowAmount();
 
 		BinaryFormatter formatter = new BinaryFormatter();
-		string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat";
+		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
+	
+		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
+
 		FileStream stream = new FileStream(path, FileMode.Create);
 
 		GhostData[] replayDataArray = replayData.ToArray();
@@ -82,12 +83,15 @@ public class LeaderboardIO : MonoBehaviour
 		formatter.Serialize(stream, save);
 		stream.Close();
 		SaveRowAmount(rows.rowAmount + 1);
+		Debug.Log("Saving Row to " + path);
 	}
 
 	public LeaderboardData LoadLeaderBoardData(int index)
 	{
 		RowAmount rows = LoadRowAmount();
-		string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat";
+		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat";
+		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
+
 		if (File.Exists(path))
 		{
 			BinaryFormatter formatter = new BinaryFormatter();

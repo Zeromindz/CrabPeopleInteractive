@@ -6,10 +6,10 @@ using UnityEngine;
 public class LeaderboardData
 {
 	public string playerName;
-	public int playerScore;
+	public float playerScore;
 	public GhostData[] replayPath;
 
-	public LeaderboardData(string name, int score, GhostData[] path)
+	public LeaderboardData(string name, float score, GhostData[] path)
 	{
 		playerName = name;
 		playerScore = score;
