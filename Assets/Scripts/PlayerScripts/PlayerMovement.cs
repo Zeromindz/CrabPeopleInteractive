@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     [Space(10)]
     [Header("Hover Settings")]
     [SerializeField] internal bool m_Grounded = false;                  // Is the boat grounded
+    [SerializeField] private bool m_WasGrounded = false;
     [SerializeField] private float m_GroundCheckDist = 5f;
     [SerializeField] internal bool m_AtTrickHeight = false;             // Height player must be to allow for tricks
     [Space(10)]
@@ -116,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
             transform.SetPositionAndRotation(transform.position + (Vector3.up * 10f), Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 180f));
             m_FlipBoat = false;
         }
+        m_WasGrounded = m_Grounded;
 
         if(m_IsSpacePressed && !m_Grounded)
         {
@@ -142,8 +144,20 @@ public class PlayerMovement : MonoBehaviour
 
         Accelerate();
         Steer();
-        //CalculatePropulsion();
         Hover();
+
+        if(m_WasGrounded != m_Grounded)
+        {
+            if(!m_WasGrounded)
+            {
+                Debug.Log("Has just hit ground");
+                //m_RigidBody.AddForce(transform.forward * 25f, ForceMode.Impulse);
+            }
+            else
+            {
+                Debug.Log("Has just left ground");
+            }
+        }
     }
 
     IEnumerator SetUpTrickConditions(float _duration)
@@ -226,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_Grounded)
         {
-            m_RigidBody.AddRelativeTorque(transform.up * m_MovementInput.x * m_SteeringTorque, ForceMode.Acceleration);
+            m_RigidBody.AddRelativeTorque(transform.up * (m_MovementInput.x * m_SteeringTorque), ForceMode.Acceleration);
 
             //Calculate the angle we want the ship's body to bank into a turn.
             float angle = m_ShipRollAngle * -m_MovementInput.x;

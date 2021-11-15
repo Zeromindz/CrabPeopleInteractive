@@ -57,19 +57,19 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
 
-        if (collision.other.tag == "Wall")
+        if (other.collider.tag == "Wall")
         {
-            Debug.Log("Collided with: " + collision.other.tag);
+            Debug.Log("Collided with: " + other.collider.tag);
             SoundManager.Instance.PlayCollisionSound(1);
         }
 
 
-        if (collision.other.tag == "Obstacle")
+        if (other.collider.tag == "Obstacle")
         {
-            Debug.Log("Collided with: " + collision.other.tag);
+            Debug.Log("Collided with: " + other.collider.tag);
             SoundManager.Instance.PlayCollisionSound(0);
         }
     }
