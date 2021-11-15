@@ -45,7 +45,7 @@ public class LeaderboardIO : MonoBehaviour
 		stream.Close();
 	}
 
-	private RowAmount LoadRowAmount()
+	public RowAmount LoadRowAmount()
 	{
 		string path = Application.dataPath + "/LeaderBoard/RowAmount.dat";
 		if (File.Exists(path))
@@ -64,7 +64,9 @@ public class LeaderboardIO : MonoBehaviour
 			Debug.Log("Row Amount save file not found! creating file...");
 			SaveRowAmount(0);
 			LoadRowAmount();
-			return null;
+			RowAmount rows = new RowAmount();
+			rows.rowAmount = 0;
+			return rows;
 		}
 	}
 

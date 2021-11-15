@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
+    public int m_ChosenGhostIndex = 0;
+    public bool m_ChoseGhost = false;
     public float GetCurrentTime() { return m_CurrentTime; }
 
 
@@ -80,9 +82,9 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     { 
         Debug.Log("Start point hit");
-        if (GhostPlayer.Instance.LoadGhost(0))
-        {
-            GhostPlayer.Instance.Play();   
+        if (m_ChoseGhost && GhostPlayer.Instance.LoadGhost(m_ChosenGhostIndex))
+        { 
+            GhostPlayer.Instance.ResetAndPlay();   
 
             GhostRecorder.Instance.StartRecording();
         }
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
         m_UIController.GameUI.TimerCounting(false);
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.BoostFadeToStop();
+        m_ChoseGhost = false;
         ResetGame();
     }
 

@@ -48,14 +48,14 @@ public class GhostPlayer : MonoBehaviour
     
     public bool LoadGhost(int index)
     {
-        LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(0);
+        LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
         if(save != null)
 		{
             List<GhostData> ghost = new List<GhostData>();
 
             for (int i = 0; i < save.replayPath.Length; i++)
             {
-                ghost.Add(save.replayPath[save.replayPath.Length - i - 1]);
+                ghost.Add(save.replayPath[i]);
             }
             path = ghost;
             m_Nametag.text = save.playerName;
@@ -81,7 +81,7 @@ public class GhostPlayer : MonoBehaviour
                 return;
             }
 
-            else if (path[i].timeStamp < timeValue & timeValue < path[i + 1].timeStamp)
+            else if (path[i].timeStamp < timeValue && timeValue < path[i + 1].timeStamp)
             {
                 index1 = i;
                 index2 = i + 1;
@@ -130,6 +130,15 @@ public class GhostPlayer : MonoBehaviour
 
     public void Play()
     {
+        isReplaying = true;
+        isPlaying = true;
+    }
+
+    public void ResetAndPlay()
+    {
+        index1 = 0;
+        index2 = 0;
+        timeValue = 0;
         isReplaying = true;
         isPlaying = true;
     }

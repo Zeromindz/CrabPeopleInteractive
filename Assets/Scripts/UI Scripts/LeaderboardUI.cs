@@ -162,11 +162,15 @@ public class LeaderboardUI : MonoBehaviour
 	private void OnbuttonPress(int index)
 	{
         Debug.Log("Button " + index + " Pressed!");
+        LoadGhost(index);
 	}
 
     private void LoadGhost(int index)
 	{
-        //Loads a chosen ghost
+        GameManager.Instance.m_ChosenGhostIndex = index;
+        GameManager.Instance.m_ChoseGhost = true;
+        GameManager.Instance.ResetGame();
+        UIController.Instance.MenuController.LoadGame();
 	}
 
     private void LoadElementAmount()
@@ -276,4 +280,17 @@ public class LeaderboardUI : MonoBehaviour
 
         }
     }
+
+    public void Load()
+	{
+        RowAmount rows = LeaderboardIO.Instance.LoadRowAmount();
+        for(int i = 0; i < rows.rowAmount; i++)
+		{
+			if(i < m_ElementsPerPage)
+			{
+                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(i);
+                m_Element[i].SetElementValues(save.playerName, "" + save.playerScore, "Ghost" + i);
+			}
+		}
+	}
 }

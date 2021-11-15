@@ -186,6 +186,7 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
 		UpdateState();
+		UIController.Instance.LeaderboardUI.Load();
 	}
 
 
