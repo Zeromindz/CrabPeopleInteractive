@@ -5,10 +5,15 @@ using TMPro;
 
 public class GhostPlayer : MonoBehaviour
 {
+    [Header("Current Ghost")]
+    public string name = "";
+    public float score = 0;
+
+    private bool isPlaying = false;
     private float timeValue;
     private int index1;
     private int index2;
-    private bool isReplaying;
+    public bool isReplaying;
     public List<GhostData> path = new List<GhostData>();
     [SerializeField] TMP_Text m_Nametag = null;
 
@@ -50,10 +55,12 @@ public class GhostPlayer : MonoBehaviour
 
             for (int i = 0; i < save.replayPath.Length; i++)
             {
-                ghost.Add(save.replayPath[i]);
+                ghost.Add(save.replayPath[save.replayPath.Length - i - 1]);
             }
             path = ghost;
             m_Nametag.text = save.playerName;
+            name = save.playerName;
+            score = save.playerScore;
             return true;
 		}
         return false;
@@ -124,10 +131,21 @@ public class GhostPlayer : MonoBehaviour
     public void Play()
     {
         isReplaying = true;
+        isPlaying = true;
     }
 
     public void Stop()
     {
         isReplaying = false;
+
     }
+    public bool IsPlaying() 
+    {
+        return isPlaying;
+    }
+
+    public void SetIsPlaying(bool value)
+	{
+        isPlaying = value;
+	}
 }

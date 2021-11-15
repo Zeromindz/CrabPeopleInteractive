@@ -211,6 +211,7 @@ public class MenuController : MonoBehaviour
 		{
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
+			GhostRecorder.Instance.ResetData();
 		}
 
 		if (m_State == MenuState.GAME)
@@ -218,12 +219,23 @@ public class MenuController : MonoBehaviour
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
 			Time.timeScale = 1;
+			if (GhostPlayer.Instance.IsPlaying())
+			{
+				GhostPlayer.Instance.Play();
+				GhostRecorder.Instance.StartRecording();
+			}
+			
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)
 		{
 			m_GamePausedUI.SetActive(true);
 			m_CurrentUI = m_GamePausedUI;
+			if (GhostPlayer.Instance.IsPlaying())
+			{
+				GhostPlayer.Instance.Stop();
+			}
+			GhostRecorder.Instance.StopRecording();
 		}
 
 		if (m_State == MenuState.SETTINGS)
