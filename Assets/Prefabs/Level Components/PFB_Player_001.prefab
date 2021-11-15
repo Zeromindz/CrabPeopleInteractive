@@ -386,9 +386,9 @@ MonoBehaviour:
   m_FlipBoat: 0
   m_TrickDuration: 0.5
   m_CurrentSpeed: 0
-  m_AccelerationForce: 50
+  m_AccelerationForce: 15
   m_BoostForce: 20
-  m_MaxSpeed: 100
+  m_MaxSpeed: 50
   m_InAirPitchMultiplier: 3
   m_VelocitySlowFactor: 0.99
   m_AccelerationFactor: 0.1
@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8809112bb9bec164f81a4680aaebe1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameUI: {fileID: 0}
 --- !u!114 &1115569635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2704608cfbe42854f90f0c58aa39a604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recordFrequency: 10
+  recordFrequency: 144
   path: []
 --- !u!114 &1115569640
 MonoBehaviour:
@@ -495,7 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17efbca97c0396344b4e9954a4df4ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leaderboardUI: {fileID: 0}
 --- !u!1 &4629130818744945149
 GameObject:
   m_ObjectHideFlags: 0

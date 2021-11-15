@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1029329715}
   - component: {fileID: 7234643233102593861}
   - component: {fileID: 3010770541729388967}
+  - component: {fileID: 451097137}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,11 +52,18 @@ MonoBehaviour:
   m_BoatSpeed: 0
   m_CurrentTrickRotation: 0
   m_Passengers: 0
-  m_CheckpointObjects: []
-  m_GhostPickups: []
+  m_GhostPickups:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_StartPos: {fileID: 0}
   m_Player: {fileID: 0}
   m_TimeLimit: 50
+  m_ChosenGhostIndex: 0
+  m_ChoseGhost: 0
 --- !u!114 &1029329714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,61 +124,18 @@ MonoBehaviour:
   m_GameMusic: {fileID: 0}
   m_MenuMusic: {fileID: 0}
   m_CollisionClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 3602155b805262c48803aa66d636c3f6, type: 3}
+  - {fileID: 8300000, guid: 8203d613ddbfd6144b8d5608c55d3124, type: 3}
   m_GhostPickupClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: c2de743aaf836c4499bcfca861883f88, type: 3}
   m_BGMClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_MenuSelectClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 7ab086e3a6086da4fabddfd53fa6ff53, type: 3}
+  m_UIClips:
+  - {fileID: 8300000, guid: 2f7bf083e8a60194592a75f5ebeccb23, type: 3}
+  - {fileID: 8300000, guid: 32e6993caac86d44cb9a2d26e383af1b, type: 3}
   m_BoostClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BoostFadeInOutTime: 0
+  - {fileID: 8300000, guid: 8618b16fef3ef3d42a1b9477482e6e9a, type: 3}
+  BoostFadeInOutTime: 0.983
   m_SoundSourceObject: {fileID: 0}
 --- !u!114 &3010770541729388967
 MonoBehaviour:
@@ -182,5 +147,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4307f6bbe55870141a61b4ebba1c5cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &451097137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255520189579624735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2082d18a6e2959d418c55135645e7400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
