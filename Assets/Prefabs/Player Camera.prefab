@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787659447880062201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.66617, y: 42.92, z: -138.64319}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1713821040636222044}
@@ -135,12 +135,16 @@ MonoBehaviour:
   m_CamAngle: 5
   m_FollowSpeed: 30
   m_RotationSpeed: 10
+  m_MinCameraDist: 3
   m_FovMin: 60
   m_FovMax: 75
   m_FovSmoothTime: 0.5
-  m_CollideWithCamera:
+  m_WallLayer:
     serializedVersion: 2
-    m_Bits: 5120
+    m_Bits: 4096
+  m_GroundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &7133612260197170943
 GameObject:
   m_ObjectHideFlags: 0

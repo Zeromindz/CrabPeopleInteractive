@@ -8,7 +8,8 @@ public class CameraController : MonoBehaviour
     private Camera m_Cam;                               // Reference to the camera component to give access to the fieldOfView property 
     [SerializeField] private Transform m_Target;        // Target object transform
     private PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
-    private Vector3 desiredPosition;                    // Desired position of the cam to lerp to
+
+    bool m_PositiveForwardVel = false;
 
     [SerializeField] private float m_CamHeight = 5.0f;
     [SerializeField] private float m_CamDist = 15.0f;
@@ -17,6 +18,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
     [SerializeField] private float m_MinCameraDist = 3.0f;
     private float rotationVector;
+    private Vector3 m_DesiredPosition;
 
     [Space(10)]
     [Header("FOV Settings")]
@@ -27,7 +29,8 @@ public class CameraController : MonoBehaviour
     private float m_CamFovVel;
     private Vector3 m_TargetLastPosition;
 
-    public LayerMask m_CollideWithCamera;
+    public LayerMask m_WallLayer; 
+    public LayerMask m_GroundLayer;
 
     public float GetCamFOV() { return m_Cam.fieldOfView; }
 
@@ -49,18 +52,21 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         m_Cam = gameObject.GetComponent<Camera>();
-        m_Player = m_Target.gameObject.GetComponent<PlayerController>();
+        m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        if (!m_Target)
+        {
+            m_Target = m_Player.transform;
+        }
     }
 
     private void FixedUpdate()
     {
-        
-
         // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
 
         // Store the target's direction of movement
-        Vector3 vel = m_Player.playerMovement.m_CurrentVel;
+        Vector3 playerVelocity = m_Player.playerMovement.m_CurrentVel;
 
         //if(vel.z < -0.5f)
         //{
@@ -71,12 +77,33 @@ public class CameraController : MonoBehaviour
         //    rotationVector = m_Target.eulerAngles.y;
         //}
 
+        
 
+        
+        
+        
+        //Quaternion playerVelRot = Quaternion.LookRotation(playerVelocity.normalized, Vector3.up);
+        //float playerVelRotVector = Quaternion.Angle(transform.rotation, playerVelRot);
+        //
+        //if (!m_Player.playerMovement.m_Grounded)
+        //{
+        //    if (playerVelocity.magnitude > 0.1f)
+        //    {
+        //        rotationVector = playerVelRotVector;
+        //    }
+        //    else
+        //    {
+        //        // Store the target's y rotation angle
+        //        rotationVector = m_Target.eulerAngles.y;
+        //    }
+        //}
 
         // Store the target's y rotation angle
         rotationVector = m_Target.eulerAngles.y;
 
-        // 
+        // Store the target's y rotation angle
+        rotationVector = m_Target.eulerAngles.y;
+
         float desiredAngle = rotationVector;
         float desiredHeight = m_Target.position.y + m_CamHeight;
         float currentAngle = transform.eulerAngles.y;
@@ -90,13 +117,96 @@ public class CameraController : MonoBehaviour
         transform.position = m_Target.position;
         transform.position -= currentRotation * Vector3.forward * m_CamDist;
 
-        Vector3 temp = transform.position;
-        temp.y = currentHeight;
-        transform.position = temp;
+        Vector3 m_DesiredPosition = transform.position;
+        m_DesiredPosition.y = currentHeight;
 
+
+        //if(!m_Player.playerMovement.m_Grounded)
+        //{
+        //    if(playerVelocity.magnitude > 0.1f)
+        //    {
+        //        m_DesiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (playerVelocity.normalized * m_CamDist);
+        //    }
+        //}
+        
+        // Find the player's local velocity so we can tell if we're moving forwards or backwards
+        //Vector3 localPlayerVel = m_Player.transform.InverseTransformDirection(playerVelocity);
+        //
+        //// Check if the z component is positive or negative
+        //if(localPlayerVel.z > 0.0f)
+        //{
+        //    m_PositiveForwardVel = true;
+        //}
+        //else
+        //{
+        //    m_PositiveForwardVel = false;
+        //}
+        //
+        //// Variable storing the normalized direction vector of the player
+        //Vector3 normalizedVelocity;
+        //
+        //// If player's velocity is greater than 0.1
+        //if(playerVelocity.magnitude > 0.1f)
+        //{
+        //    // Set vector to the player's velocity normalized
+        //    normalizedVelocity = playerVelocity.normalized;
+        //}
+        //else
+        //{
+        //    // Otherwise, use the player's forward direction
+        //    normalizedVelocity = m_Player.transform.forward;
+        //}
+        //   
+        //// Float used to offset the camera's position on the y axis
+        //float camHeightOffset;
+        //
+        //// Check if the player is currently ascending or decending
+        //if (normalizedVelocity.y > 0f)
+        //{
+        //    // Moving upwards
+        //    camHeightOffset = -3;
+        //}
+        //else
+        //{
+        //    // Moving downwards
+        //    camHeightOffset = 3;
+        //}
+
+        //if (m_PositiveForwardVel && normalizedVelocity.y > 0.1f)
+        //{
+        //    // Moving forwards up incline
+        //    camHeightOffset = -5;
+        //}
+        //else if(m_PositiveForwardVel && normalizedVelocity.y < -0.1f)
+        //{
+        //    // Moving forwards down incline
+        //    camHeightOffset = 5;
+        //}
+        //else if(!m_PositiveForwardVel && normalizedVelocity.y > 0.1f)
+        //{
+        //    // Moving backwards up incline
+        //    camHeightOffset = -5;
+        //}
+        //else
+        //{
+        //    // Moving backwards down incline
+        //    camHeightOffset = 5;
+        //}
+
+
+
+        // Set the y component of the desired position to the calculated height + the y component of the player's velocity multiplied by the offset
+        //m_DesiredPosition.y = currentHeight + (normalizedVelocity.y * camHeightOffset);
+
+        // Set the camera's position
+        transform.position = m_DesiredPosition;
+
+
+        //Vector3 startPos = transform.position;
+        //transform.position = Vector3.Lerp(startPos, m_DesiredPosition, m_FollowSpeed *  Time.deltaTime);
+
+        //Look at camera
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
-
-
 
 
         // Calculate a smoothed fov value based on the target's speed
@@ -105,9 +215,13 @@ public class CameraController : MonoBehaviour
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
 
         CheckForWall();
+        CheckForGround();
     }
 
-    void CheckForWall()
+
+
+
+        void CheckForWall()
     {
         // Camera collision
 
@@ -116,13 +230,30 @@ public class CameraController : MonoBehaviour
         Vector3 direction = transform.position - m_Target.transform.position;
         float distance = direction.magnitude;
         Debug.DrawRay(m_Target.transform.position, direction, Color.green);
-        if (Physics.Raycast(m_Target.position, direction, out hitInfo, distance, m_CollideWithCamera))
+        if (Physics.Raycast(m_Target.position, direction, out hitInfo, distance, m_WallLayer))
         {
             //Debug.Log("Camera raycast hit");
             
             float hitDist = hitInfo.distance;
-            Vector3 sphereCenter = m_Target.transform.position + (direction.normalized * hitDist);
-            transform.position = sphereCenter;
+            Vector3 newPosition = m_Target.transform.position + (direction.normalized * hitDist);
+            transform.position = newPosition;
+        }
+    }
+
+    void CheckForGround()
+    {
+
+        RaycastHit hitInfo;
+
+        Vector3 direction = -transform.up;
+        Debug.DrawRay(transform.position, direction, Color.blue);
+        if (Physics.Raycast(transform.position, direction, out hitInfo, m_CamHeight, m_GroundLayer))
+        {
+
+            float hitDist = hitInfo.distance;
+            float diff = m_CamHeight - hitDist;
+            Vector3 newPosition = Vector3.up * diff;
+            transform.position = transform.position + newPosition;
         }
     }
 
@@ -135,6 +266,9 @@ public class CameraController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 1f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + m_DesiredPosition, 1f);
+        
 
     }
 }
