@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GhostPlayer : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GhostPlayer : MonoBehaviour
     private int index2;
     private bool isReplaying;
     public List<GhostData> path = new List<GhostData>();
+    [SerializeField] TMP_Text m_Nametag = null;
+
     public int currentMove = 0;
 
     private static GhostPlayer m_Instance;               // Current Private instance
@@ -37,9 +40,25 @@ public class GhostPlayer : MonoBehaviour
         }
     }
 
-    public void LoadGhost()
+    
+    public bool LoadGhost(int index)
     {
-        path = GhostSave.Instance.LoadGhost();
+        LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(0);
+        if(save != null)
+		{
+            List<GhostData> ghost = new List<GhostData>();
+
+            for (int i = 0; i < save.replayPath.Length; i++)
+            {
+                ghost.Add(save.replayPath[i]);
+            }
+            path = ghost;
+            m_Nametag.text = save.playerName;
+            return true;
+		}
+        return false;
+        //old loading and saving
+       //path = GhostSave.Instance.LoadGhost();
         
     }
 
@@ -99,6 +118,7 @@ public class GhostPlayer : MonoBehaviour
             gameObject.transform.position = Vector3.Lerp(pos1, pos2, interpolationFactor);
             gameObject.transform.rotation = Quaternion.Lerp(rot1, rot2, interpolationFactor);
 		}
+        currentMove = index1;
     }
 
     public void Play()

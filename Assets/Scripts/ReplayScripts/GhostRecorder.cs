@@ -68,6 +68,7 @@ public class GhostRecorder : MonoBehaviour
     {
         isRecording = false;
         GhostSave.Instance.SaveGhost(path);
+
     }
 
     public List<GhostData> GetPath()

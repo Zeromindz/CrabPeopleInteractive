@@ -91,8 +91,13 @@ public class LeaderboardIO : MonoBehaviour
 	public LeaderboardData LoadLeaderBoardData(int index)
 	{
 		RowAmount rows = LoadRowAmount();
+		
+		if(index > rows.rowAmount - 1)
+		{
+			index = 0;
+		}
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat";
-		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
+		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + index + ".dat";
 
 		if (File.Exists(path))
 		{

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject m_Canvas;
 
-    [SerializeField] private UIController m_UIController = null;
+    private UIController m_UIController = null;
 
     [Header("Player Stats")]
     //private PlayerController m_Player;
@@ -80,13 +80,13 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     { 
         Debug.Log("Start point hit");
-
-        if (GhostSave.Instance.DoesSaveExist())
+        if (GhostPlayer.Instance.LoadGhost(0))
         {
-            GhostPlayer.Instance.LoadGhost();
-            GhostPlayer.Instance.Play();
+            GhostPlayer.Instance.Play();   
+
             GhostRecorder.Instance.StartRecording();
         }
+
         else
         {
             GhostRecorder.Instance.StartRecording();
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
 
 		SoundManager.Instance.PlayBGM(0);
 
+        m_UIController.EndScreenUI.Reset();
         m_UIController.GameUI.TimerCounting(true);
     
 	}
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End point hit");
         // GhostRecorder.Instance.SaveRecording();
-        GhostRecorder.Instance.SaveRecording();
+        GhostRecorder.Instance.StopRecording();
         GhostPlayer.Instance.Stop();
         m_UIController.MenuController.LoadEndScreen();
         m_UIController.GameUI.TimerCounting(false);

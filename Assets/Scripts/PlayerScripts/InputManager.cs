@@ -115,7 +115,7 @@ public class InputManager : MonoBehaviour
     {
         recordGhost = ctx.ReadValue<float>();
         //Debug.Log(recordGhost);
-        GhostPlayer.Instance.LoadGhost();
+        GhostPlayer.Instance.LoadGhost(0);
         GhostPlayer.Instance.Play();
     }
 

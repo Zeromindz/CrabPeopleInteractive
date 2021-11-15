@@ -8,6 +8,7 @@ public class EndScreenUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_ScoreText = null;
     [SerializeField] private TMP_InputField m_InputField = null;
+    [SerializeField] private GameObject m_SaveScoreButton = null;
 
     private void Awake()
 	{
@@ -25,7 +26,13 @@ public class EndScreenUI : MonoBehaviour
         
     }
 
-    public void ChangeToUpperCase(string name)
+	public void Reset()
+	{
+        m_SaveScoreButton.SetActive(true);
+        m_InputField.text = "";
+	}
+
+	public void ChangeToUpperCase(string name)
 	{
         string upperName;
         upperName = name.ToUpper();
@@ -40,5 +47,8 @@ public class EndScreenUI : MonoBehaviour
     public void SaveScore()
 	{
         LeaderboardIO.Instance.SaveLeaderBoardRow(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
+        GhostRecorder.Instance.ResetData();
+        m_SaveScoreButton.SetActive(false);
+
 	}
 }

@@ -327,6 +327,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3565906328876472258, guid: 70ed376f0d25b5f4dbad6c6595f76ca0, type: 3}
+      propertyPath: m_Nametag
+      value: 
+      objectReference: {fileID: 757565215}
     - target: {fileID: 4629130818476053258, guid: 70ed376f0d25b5f4dbad6c6595f76ca0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 62.4
@@ -2412,7 +2416,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672790417}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02, y: 0.01, z: 0.01}
   m_Children:
@@ -2672,6 +2676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScoreText: {fileID: 476545459}
   m_InputField: {fileID: 1245586566}
+  m_SaveScoreButton: {fileID: 1091236486}
 --- !u!4 &744662624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 554856636473939415, guid: 11f09b1a90ce6e843b2c5a5ac4b85e6b, type: 3}
@@ -3810,7 +3815,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 701652101}
         m_TargetAssemblyTypeName: EndScreenUI, Assembly-CSharp
-        m_MethodName: SetScore
+        m_MethodName: SaveScore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
