@@ -217,7 +217,10 @@ public class SoundUI : MonoBehaviour
 	/// <param name="value">The value the slider needs to be updated to</param>
 	private void UpdateSliderValue(SliderInput sliderInput, float value)
 	{
-		sliderInput.Sliders.GetComponent<Slider>().value = value;
+		if(sliderInput.Sliders != null)
+		{
+			sliderInput.Sliders.GetComponent<Slider>().value = value;
+		}
 	}
 
 	/// <summary>
@@ -230,9 +233,11 @@ public class SoundUI : MonoBehaviour
 	{
 		float num = value * 100;
 		num = (int)num;
-
-		TMP_InputField text = sliderInput.Input.GetComponent<TMP_InputField>();
-		text.text = "" + num;
+		if(sliderInput.Input != null)
+		{
+			TMP_InputField text = sliderInput.Input.GetComponent<TMP_InputField>();
+			text.text = "" + num;
+		}
 	}
     #endregion
 }
