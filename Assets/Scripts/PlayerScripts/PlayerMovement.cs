@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private bool m_IsSpacePressed;
     private bool m_IsShiftPressed;
     [Header("DEBUG")]
+    public bool m_InMenu = false;
     public bool m_UseGravity = true;
     public bool m_InputDisabled = false;
     public bool m_FlipBoat = false;
@@ -146,10 +147,7 @@ public class PlayerMovement : MonoBehaviour
         }
         m_WasGrounded = m_Grounded;
 
-        //if(m_IsShiftPressed)
-        //{
-        //    Boost();
-        //}
+        
 
         if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
         {
@@ -246,6 +244,11 @@ public class PlayerMovement : MonoBehaviour
             inputMultiplier = m_AccelerationMultiplierMax;
 
         //Debug.Log("Input Multiplier: " + inputMultiplier);
+
+        if (m_InMenu)
+        {
+            m_MovementInput.y = 1f;
+        }
 
         if (m_Grounded)
         {
