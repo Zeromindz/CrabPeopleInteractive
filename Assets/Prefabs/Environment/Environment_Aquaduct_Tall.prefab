@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5676372055429986372}
   m_Layer: 0
   m_Name: Environment_Aquaduct_Tall
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,9 +92,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2650575825809472619}
   - component: {fileID: 8294893570964080302}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
+  - component: {fileID: 3818413963389582486}
+  - component: {fileID: 3542723822526037617}
+  - component: {fileID: 5969369076061650961}
+  m_Layer: 12
+  m_Name: Collider
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,5 +127,44 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 39, y: 90, z: 7}
+  m_Center: {x: -19.5, y: -20, z: 3.5}
+--- !u!65 &3818413963389582486
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8129259425526370357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 39, y: 90, z: 7}
+  m_Center: {x: -19.5, y: -20, z: 58}
+--- !u!65 &3542723822526037617
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8129259425526370357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 10, z: 62}
+  m_Center: {x: -1.5, y: 30, z: 31}
+--- !u!65 &5969369076061650961
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8129259425526370357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 10, z: 62}
+  m_Center: {x: -37, y: 30, z: 31}
