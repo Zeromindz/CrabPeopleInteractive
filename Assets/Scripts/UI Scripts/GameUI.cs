@@ -26,10 +26,10 @@ public class GameUI : MonoBehaviour
 
     void UpdateUI()
     {
-        string currentSpeedText = "Current: " + Mathf.Floor(PlayerMovement.Instance.GetSpeeds().x);
+        string currentSpeedText = "" + Mathf.Floor(PlayerMovement.Instance.GetSpeeds().x);
         m_CurrentSpeedText.text = currentSpeedText;
 
-        string maxSpeedText = "Max: " + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
+        string maxSpeedText = "" + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
         m_MaxSpeedUI.text = maxSpeedText;
 
         int centseconds = (int)(m_Time * 100);
@@ -39,7 +39,7 @@ public class GameUI : MonoBehaviour
 
         if (m_Time > 0)
 		{
-            string time = "Time: " + wholeSeconds + (leftover < 10 ? ".0" : ".") + leftover;
+            string time = "" + wholeSeconds + (leftover < 10 ? ".0" : ".") + leftover;
             m_TimeUI.text = time;
 		}
 		else

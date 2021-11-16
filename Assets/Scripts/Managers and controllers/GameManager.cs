@@ -53,7 +53,11 @@ public class GameManager : MonoBehaviour
         m_CurrentTime = m_TimeLimit;
         m_UIController = UIController.Instance;
 
-        m_UIController.MenuController.LoadMenu();
+        if(m_UIController != null)
+        {
+            m_UIController.MenuController.LoadMenu();
+
+        }
     }
 
     void Update()

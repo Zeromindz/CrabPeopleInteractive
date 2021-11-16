@@ -21,20 +21,22 @@ public class PortalManager : MonoBehaviour
     private Transform m_Entrance;
     [Space(10)]
     public float m_SpawnDist = 30.0f;
+    public float m_SpawnHeight = 30.0f;
     public bool m_PPressed;
     public bool m_PlayerOverlapping = false;
     public bool m_PortalHasBeenSpawned = false;
 
+    private GameObject m_SpawnedPortal;
+
     float m_RotationVector;
     float m_CurrentAngle;
 
-    int layerMask;
+    public LayerMask m_LayerMask;
 
     void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
         playerInput = m_Player.gameObject.GetComponent<InputManager>();
-        layerMask = 1 << 10; // Bit shift index of layer 10 for bitmask
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class PortalManager : MonoBehaviour
         if (m_PPressed && !m_PortalHasBeenSpawned)
         {
              SpawnPortal();
+            m_PPressed = false;
         }
 
         // If the portal has been spawned, mirror main camera movement with portal camera
@@ -69,7 +72,7 @@ public class PortalManager : MonoBehaviour
         Vector3 spawnPos = m_Player.transform.position + (moveDir * m_SpawnDist);
         //Raycast down from above that position, finding collision on the selected layer
         RaycastHit hit;
-        if (Physics.Raycast(spawnPos + (Vector3.up * 100f), -Vector3.up, out hit, layerMask))
+        if (Physics.Raycast(spawnPos + (Vector3.up * m_SpawnHeight), -Vector3.up, out hit, m_LayerMask))
         {
             Debug.DrawRay(spawnPos, -Vector3.up, Color.red);
             Debug.Log("Portal raycast hit!" + hit.collider.gameObject.name);
@@ -81,9 +84,9 @@ public class PortalManager : MonoBehaviour
         // Set portal position to raycast hit point + portal collider halfheight, so it's on the ground nicely
         spawnPos = hit.point + (Vector3.up * (portalHeight / 2));
 
-        GameObject portal = Instantiate(m_PortalPrefab, spawnPos, Quaternion.LookRotation(-moveDir, Vector3.up));
+        m_SpawnedPortal = Instantiate(m_PortalPrefab, spawnPos, Quaternion.LookRotation(-moveDir, Vector3.up));
 
-        m_Entrance = portal.transform;
+        m_Entrance = m_SpawnedPortal.transform;
 
         // Set up portal texture
         if (m_PortalCamera.targetTexture != null)
@@ -180,6 +183,9 @@ public class PortalManager : MonoBehaviour
             m_PlayerCamera.transform.rotation = currentRotation;
 
             m_PlayerOverlapping = false;
+
+            Destroy(m_SpawnedPortal);
+            m_PortalHasBeenSpawned = false;
         }
     }
 
