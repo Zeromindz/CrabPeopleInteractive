@@ -17,8 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public bool m_UseGravity = true;
     public bool m_InputDisabled = false;
     public bool m_FlipBoat = false;
-    public float m_TrickDuration = 0.5f;
-    private float m_TrickTimer;
+    
 
     [Space(10)]
     [Header("Drive Settings")]
@@ -35,7 +34,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_AccelerationMultiplierMin = 1f;
     [SerializeField] internal float m_AccelerationMultiplierMax = 10.0f;
 
+    private float m_DefaultMaxSpeed;
+
     internal Vector3 m_CurrentVel;
+    
     internal bool m_Boosting = false;
 
     [Space(10)]
@@ -49,6 +51,13 @@ public class PlayerMovement : MonoBehaviour
     public float m_ShipRollSpeed = 5f;                                 // Banking speed
 
     [Space(10)]
+    [Header("Trick Settings")]
+    public bool m_DisableGravityDuringTrick;
+    //public int m_HowManyTricksBeforeLanding = 2;
+    public float m_TrickDuration = 0.5f;
+    private float m_TrickTimer;
+
+    [Space(10)]
     [Header("Hover Settings")]
     [SerializeField] internal bool m_Grounded = false;                  // Is the boat grounded
     [SerializeField] private bool m_WasGrounded = false;
@@ -60,8 +69,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_HoverGravity = 20f;               //The gravity applied to the ship while it is on the ground
     [SerializeField] internal float m_FallGravity = 30f;               //The gravity applied to the ship while it is in the air
     [SerializeField] internal float m_LevelingForce = 0.1f;             // Force applied to hover points to keep the boat level
-    [SerializeField] internal float m_TrickHeightCheck = 15.0f;
     [SerializeField] private GameObject[] m_HoverPoints;
+
     public LayerMask m_HoverLayers;
     private Vector3 m_GroundedCenterOfMass;
     private Vector3 m_InAirCenterOfMass;
@@ -97,6 +106,21 @@ public class PlayerMovement : MonoBehaviour
         m_InAirCenterOfMass = gameObject.transform.Find("InAirCoM").transform.localPosition;
         m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
 
+        SaveDefaults();
+
+    }
+
+    void SaveDefaults()
+    {
+        m_DefaultMaxSpeed = m_MaxSpeed;
+    }
+
+    public void ResetMovement()
+    {
+        m_RigidBody.velocity = Vector3.zero;
+        m_RigidBody.angularVelocity = Vector3.zero;
+
+        m_MaxSpeed = m_DefaultMaxSpeed;
     }
 
     void Update()
@@ -119,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
         m_WasGrounded = m_Grounded;
 
-        if(m_IsSpacePressed && !m_Grounded)
+        if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
         {
 
             StartCoroutine(SetUpTrickConditions(m_TrickDuration));
@@ -163,7 +187,10 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator SetUpTrickConditions(float _duration)
     {
         m_RigidBody.angularDrag = 0.5f;
-        m_UseGravity = false;
+        if (m_DisableGravityDuringTrick)
+        {
+            m_UseGravity = false;
+        }
         m_InputDisabled = true;
         yield return new WaitForSeconds(_duration);
         m_RigidBody.angularDrag = 1.5f;
@@ -476,9 +503,6 @@ public class PlayerMovement : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position + m_GroundedCenterOfMass, 0.5f);
 
         }
-        // Trick height
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, (transform.position + (-Vector3.up * m_TrickHeightCheck)));
 
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + m_CurrentVel);
@@ -492,4 +516,5 @@ public class PlayerMovement : MonoBehaviour
         speeds.y = m_MaxSpeed;
         return speeds;
     }
+
 }
