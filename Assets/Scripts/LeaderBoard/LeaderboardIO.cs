@@ -75,6 +75,11 @@ public class LeaderboardIO : MonoBehaviour
 	{
 		RowAmount rows = LoadRowAmount();
 
+		if (rows.rowAmount == 5)
+		{
+			rows.rowAmount = 0;
+		}
+
 		BinaryFormatter formatter = new BinaryFormatter();
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
 	
