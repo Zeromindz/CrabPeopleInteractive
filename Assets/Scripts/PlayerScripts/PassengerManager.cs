@@ -35,10 +35,6 @@ public class PassengerManager : MonoBehaviour
         
         m_AttachPoints.RemoveAt(attachPointIndex);
 
-        if(m_PassengerObjects.Count == 10)
-        {
-            ResetPassengers();
-        }
     }
 
     public void ResetPassengers()
