@@ -7,10 +7,12 @@ public class PlayerCollision : MonoBehaviour
 {
 	internal PlayerController playerController;
     [SerializeField] private GameUI gameUI = null;
+    private SoundManager m_SoundManager;
 
 	void Start()
     {
         playerController = GetComponent<PlayerController>();
+        m_SoundManager = SoundManager.Instance;
     }
 
     private void OnCollisionStay(Collision collision)
@@ -32,9 +34,10 @@ public class PlayerCollision : MonoBehaviour
         if (other.tag == "Pickup")
         {
             Debug.Log("Pickup hit!");
-            playerController.AddPassenger();
-            SoundManager.Instance.PlayGhostPickupSound(0);
             other.GetComponentInParent<ItemPickup>().OnPickup();
+            playerController.AddPassenger();
+            if(m_SoundManager)
+                SoundManager.Instance.PlayGhostPickupSound(0);
         }
         
         if(other.tag == "Start")
@@ -45,6 +48,7 @@ public class PlayerCollision : MonoBehaviour
 
         if (other.tag == "End")
         {
+
             GameManager.Instance.EndGame();
             //Debug.Log("End Hit");
            // other.gameObject.GetComponent<ItemPickup>().OnPickup();
@@ -63,14 +67,16 @@ public class PlayerCollision : MonoBehaviour
         if (other.collider.tag == "Wall")
         {
             Debug.Log("Collided with: " + other.collider.tag);
-            SoundManager.Instance.PlayCollisionSound(1);
+            if(m_SoundManager)
+                SoundManager.Instance.PlayCollisionSound(1);
         }
 
 
         if (other.collider.tag == "Obstacle")
         {
             Debug.Log("Collided with: " + other.collider.tag);
-            SoundManager.Instance.PlayCollisionSound(0);
+            if(m_SoundManager)
+                SoundManager.Instance.PlayCollisionSound(0);
         }
     }
 }
