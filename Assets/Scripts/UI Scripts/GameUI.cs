@@ -44,7 +44,7 @@ public class GameUI : MonoBehaviour
 		}
 		else
 		{
-            string time = "Time: " + wholeSeconds + ((-1 * leftover) < 10 ? ".0" : ".") + (-1* leftover);
+            string time = "" + wholeSeconds + ((-1 * leftover) < 10 ? ".0" : ".") + (-1* leftover);
             m_TimeUI.text = time;
         }
     }
