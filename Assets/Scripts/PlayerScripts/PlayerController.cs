@@ -29,8 +29,22 @@ public class PlayerController : MonoBehaviour
     public int GetPassengers() { return m_Passengers; }
     public void ClearPassengers() { m_Passengers = 0; }
 
+    private static PlayerController m_Instance;                       // The current instance of MenuController
+    public static PlayerController Instance                           // The public current instance of MenuController
+    {
+        get { return m_Instance; }
+    }
 
-	void Start()
+    void Awake()
+    {
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+    }
+
+    void Start()
     {
         Initialization();
         passengerManager = GetComponent<PassengerManager>();
