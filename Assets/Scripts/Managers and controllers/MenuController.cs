@@ -174,6 +174,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
 		UpdateState();
 		Time.timeScale = 0;
+		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
 	}
 

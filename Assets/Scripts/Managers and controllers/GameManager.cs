@@ -99,8 +99,6 @@ public class GameManager : MonoBehaviour
 		}
 
 		SoundManager.Instance.PlayBGM(0);
-
-        m_UIController.EndScreenUI.Reset();
         m_UIController.GameUI.TimerCounting(true);
     
 	}
