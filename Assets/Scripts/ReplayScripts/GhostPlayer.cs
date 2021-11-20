@@ -128,12 +128,20 @@ public class GhostPlayer : MonoBehaviour
         currentMove = index1;
     }
 
+    /// <summary>
+    /// Called when the the run starts
+    /// Starts playing the recording
+    /// </summary>
     public void Play()
     {
         isReplaying = true;
         isPlaying = true;
     }
 
+    /// <summary>
+    /// Called to reset and play the ghostplayer
+    /// Resets tothe starting position and starts playing
+    /// </summary>
     public void ResetAndPlay()
     {
         index1 = 0;
@@ -143,16 +151,28 @@ public class GhostPlayer : MonoBehaviour
         isPlaying = true;
     }
 
+    /// <summary>
+    /// Called when paused or finished run
+    /// Stops the ghost from playing more of it's path
+    /// </summary>
     public void Stop()
     {
         isReplaying = false;
-
     }
+
+    /// <summary>
+    /// Called tpo check the state of the Ghost player
+    /// </summary>
+    /// <returns>Thestate of the ghost player playing</returns>
     public bool IsPlaying() 
     {
         return isPlaying;
     }
 
+    /// <summary>
+    /// Called to manually change the IsPlaying state
+    /// </summary>
+    /// <param name="value">True to play, False to not play</param>
     public void SetIsPlaying(bool value)
 	{
         isPlaying = value;
