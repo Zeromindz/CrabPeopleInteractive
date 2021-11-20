@@ -147,7 +147,7 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
     [SerializeField, Range(-810, 810)] private int m_leftmostXPosition;     // The left most X position of the first label
 
-    [SerializeField] private int m_TotalElements;                                            // The total amount of rows saved
+    private int m_TotalElements;                                            // The total amount of rows saved
     private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard
     private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
     private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
@@ -194,6 +194,7 @@ public class LeaderboardUI : MonoBehaviour
         m_BottomIndex = m_ElementsPerPage - 1;
         m_BottomMostIndex = m_BottomIndex;
         m_CountingIndex = m_TopIndex;
+        LoadElementAmount();
     }
 
     /// <summary>
@@ -245,7 +246,7 @@ public class LeaderboardUI : MonoBehaviour
 		if (yValue > 0)
 		{
             // Does nothing if the index is out of range
-            if (m_CountingIndex - 1 < 0)
+            if (m_CountingIndex -1 < 0)
             {
 
             }
@@ -274,7 +275,9 @@ public class LeaderboardUI : MonoBehaviour
                     m_CountingIndex--;
                 }
 
-                Move(yValue);
+				LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
+				m_Element[m_TopIndex].SetElementValues(save.playerName, "" + save.playerScore, "Ghost" + value);
+				Move(-1);
 
             }
         }
@@ -287,11 +290,17 @@ public class LeaderboardUI : MonoBehaviour
 
 			}
             else
-			{
+            {       
 			    m_Element[m_TopIndex].SetY(m_Element[m_BottomIndex].GetYPos() - m_Element[m_BottomIndex].GetHeight());
                 m_Element[m_TopIndex].SetX(m_leftmostXPosition);
+
                 int value = m_CountingIndex + m_ElementsPerPage;
+                if (value == 11)
+				{
+                    Debug.Log("11");
+				}
                 m_Element[m_TopIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
+                m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
                 // The original bottom row is now at the top, resets to bottom
@@ -306,10 +315,12 @@ public class LeaderboardUI : MonoBehaviour
 			    {
 				    m_BottomIndex = m_TopIndex;
 				    m_TopIndex = m_TopIndex + 1;
-                    m_CountingIndex++;
 			    }
 
-                Move(yValue);
+                m_CountingIndex++;
+				LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
+				m_Element[m_BottomIndex].SetElementValues(save.playerName, "" + save.playerScore, "Ghost" + value);
+				Move(1);
 			}			
 		}
 	}
@@ -329,5 +340,7 @@ public class LeaderboardUI : MonoBehaviour
                 m_Element[i].SetElementValues(save.playerName, "" + save.playerScore, "Ghost" + i);
 			}
 		}
+
+        LoadElementAmount();
 	}
 }

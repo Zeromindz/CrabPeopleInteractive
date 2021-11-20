@@ -18,17 +18,21 @@ public struct SliderInput
 		Input = input;
 	}
 }
+
+/// <summary>
+/// A script relating to all the sound UI 
+/// </summary>
 public class SoundUI : MonoBehaviour
 {
 	#region Variables/Properties
 	[Header("Current volumes")]
-	public float m_MainVolume = 1.0f;                                   // Current volume for Main
+	public float m_MasterVolume = 1.0f;                                 // Current volume for Master
 	public float m_MusicVolume = 1.0f;                                  // Current volume for the Music
 	public float m_SFXVolume = 1.0f;                                    // Current volume for the SFX
 
-	[Header("Main volume")]
-	public Slider m_MainVolumeSlider = null;                            // The slider for Main volume
-	public GameObject m_MainVolumeInput = null;                         // The inputbox for Main volume
+	[Header("Master volume")]
+	public Slider m_MasterVolumeSlider = null;                          // The slider for Master volume
+	public GameObject m_MasterVolumeInput = null;                       // The inputbox for Master volume
 
 	[Header("Music volume")]
 	public Slider m_MusicVolumeSlider = null;                           // The slider for Music volume
@@ -38,7 +42,7 @@ public class SoundUI : MonoBehaviour
 	public Slider m_SFXVolumeSlider = null;                             // The slider for SFX volume
 	public GameObject m_SFXVolumeInput = null;                          // The inputbox for SFX volume
 
-	private SliderInput m_Main;                                         // Slider and Inputboxz for Main sounds
+	private SliderInput m_Master;                                       // Slider and Inputboxz for Master sounds
 	private SliderInput m_Music;                                        // Slider and Inputbox for Music sounds
 	private SliderInput m_SFX;                                          // Slider and Inputbox for SFX sounds
 	#endregion
@@ -53,13 +57,13 @@ public class SoundUI : MonoBehaviour
 	private void Start()
 	{
 		// Pairs each Slider to it's InputField
-		m_Main = new SliderInput(m_MainVolumeSlider, m_MainVolumeInput);
+		m_Master = new SliderInput(m_MasterVolumeSlider, m_MasterVolumeInput);
 		m_Music = new SliderInput(m_MusicVolumeSlider, m_MusicVolumeInput);
 		m_SFX = new SliderInput(m_SFXVolumeSlider, m_SFXVolumeInput);
 
 		// Sets the Slider and InputFields to their defaults
-		UpdateInputValue(m_Main, m_MainVolume);
-		UpdateSliderValue(m_Main, m_MainVolume);
+		UpdateInputValue(m_Master, m_MasterVolume);
+		UpdateSliderValue(m_Master, m_MasterVolume);
 
 		UpdateInputValue(m_Music, m_MusicVolume);
 		UpdateSliderValue(m_Music, m_MusicVolume);
@@ -71,11 +75,11 @@ public class SoundUI : MonoBehaviour
 
 	#region Functions
 	/// <summary>
-	/// Called when the Main slider value has been changed.
+	/// Called when the Master slider value has been changed.
 	/// Calls to update the inputbox value
 	/// </summary>
 	/// <param name="volume">The value of the slider</param>
-	public void SetMainVolume(float volume)
+	public void SetMasterVolume(float volume)
 	{
 		if (volume > 1.0f)
 		{
@@ -86,16 +90,18 @@ public class SoundUI : MonoBehaviour
 		{
 			volume = 0.0f;
 		}
-		m_MainVolume = volume;
-		UpdateInputValue(m_Main, m_MainVolume);
+		m_MasterVolume = volume;
+		UpdateInputValue(m_Master, m_MasterVolume);
+		SoundManager.Instance.SetVolume(m_MasterVolume, VolumeType.Master);
+
 	}
 
 	/// <summary>
-	/// Called when the Main inputbox value has been changed.
+	/// Called when the Master inputbox value has been changed.
 	/// Calls to update the slider with the new value
 	/// </summary>
 	/// <param name="text">The text of the inputbox will be an integer</param>
-	public void SetMainVolume(string text)
+	public void SetMasterVolume(string text)
 	{
 		int volume;
 		float volumefloat;
@@ -111,8 +117,9 @@ public class SoundUI : MonoBehaviour
 				volume = 0;
 			}
 			volumefloat = (float)volume;
-			m_MainVolume = (volumefloat / 100.0f);
-			UpdateSliderValue(m_Main, m_MainVolume);
+			m_MasterVolume = (volumefloat / 100.0f);
+			UpdateSliderValue(m_Master, m_MasterVolume);
+			SoundManager.Instance.SetVolume(m_MasterVolume, VolumeType.Master);
 		}
 	}
 
@@ -134,6 +141,7 @@ public class SoundUI : MonoBehaviour
 		}
 		m_MusicVolume = volume;
 		UpdateInputValue(m_Music, m_MusicVolume);
+		SoundManager.Instance.SetVolume(m_MusicVolume, VolumeType.Music);
 	}
 
 	/// <summary>
@@ -160,6 +168,7 @@ public class SoundUI : MonoBehaviour
 			volumefloat = (float)volume;
 			m_MusicVolume = (volumefloat / 100.0f);
 			UpdateSliderValue(m_Music, m_MusicVolume);
+			SoundManager.Instance.SetVolume(m_MusicVolume, VolumeType.Music);
 		}
 	}
 
@@ -181,6 +190,7 @@ public class SoundUI : MonoBehaviour
 		}
 		m_SFXVolume = volume;
 		UpdateInputValue(m_SFX, m_SFXVolume);
+		SoundManager.Instance.SetVolume(m_SFXVolume, VolumeType.SFX);
 	}
 
 	/// <summary>
@@ -207,6 +217,7 @@ public class SoundUI : MonoBehaviour
 			volumefloat = (float)volume;
 			m_SFXVolume = (volumefloat / 100.0f);
 			UpdateSliderValue(m_SFX, m_SFXVolume);
+			SoundManager.Instance.SetVolume(m_SFXVolume, VolumeType.SFX);
 		}
 	}
 	/// <summary>

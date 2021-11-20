@@ -9,8 +9,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject m_Canvas;
-
     private UIController m_UIController = null;
 
     [Header("Player Stats")]
@@ -113,8 +111,7 @@ public class GameManager : MonoBehaviour
         m_UIController.GameUI.TimerCounting(false);
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.BoostFadeToStop();
-        m_ChoseGhost = false;
-        ResetGame();
+        m_ChoseGhost = false;        
     }
 
     public void ResetGame()

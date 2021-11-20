@@ -26,10 +26,6 @@ public class LeaderboardIO : MonoBehaviour
 		else
 			m_Instance = this;
 	}
-	private void Start()
-	{
-		//SaveRowAmount(0);
-	}
 
 	private void SaveRowAmount(int amount)
 	{
@@ -75,10 +71,11 @@ public class LeaderboardIO : MonoBehaviour
 	{
 		RowAmount rows = LoadRowAmount();
 
-		if (rows.rowAmount == 5)
-		{
-			rows.rowAmount = 0;
-		}
+		// This limits the amount of files that can be created
+		//if (rows.rowAmount == 5)
+		//{
+		//	rows.rowAmount = 0;
+		//}
 
 		BinaryFormatter formatter = new BinaryFormatter();
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
@@ -113,6 +110,7 @@ public class LeaderboardIO : MonoBehaviour
 
 			LeaderboardData save = formatter.Deserialize(stream) as LeaderboardData;
 
+			stream.Close();
 			return save;
 		}
 		else

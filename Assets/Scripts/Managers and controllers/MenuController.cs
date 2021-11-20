@@ -214,6 +214,7 @@ public class MenuController : MonoBehaviour
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();
+			GameManager.Instance.ResetGame();
 		}
 
 		if (m_State == MenuState.GAME)
