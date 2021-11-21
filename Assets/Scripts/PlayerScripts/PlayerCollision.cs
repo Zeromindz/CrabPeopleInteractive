@@ -15,6 +15,10 @@ public class PlayerCollision : MonoBehaviour
         m_SoundManager = SoundManager.Instance;
     }
 
+    /// <summary>
+    ///  Handle collisions while the player collider continues to intersect with other collider
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -28,9 +32,13 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handle collisions with colliders depending on the objects tag
+    /// </summary>
+    /// <param name="other"> Collider being detected in the collision </param>
     private void OnTriggerEnter(Collider other)
     {
-        // Picking up object
+        // Hit pick-up object
         if (other.tag == "Pickup")
         {
             Debug.Log("Pickup hit!");
@@ -40,24 +48,22 @@ public class PlayerCollision : MonoBehaviour
                 SoundManager.Instance.PlayGhostPickupSound(0);
         }
         
+        // Hit starting checkpoint
         if(other.tag == "Start")
 		{
             GameManager.Instance.StartGame();
-           // other.gameObject.GetComponent<ItemPickup>().OnPickup();
 		}
 
+        // Hit end checkpoint
         if (other.tag == "End")
         {
-
             GameManager.Instance.EndGame();
-            //Debug.Log("End Hit");
-           // other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
 
+        // Hit intermediary checkpoint
         if(other.tag == "CheckPoint")
 		{
             gameUI.TakeTime();
-          //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
     }
 
