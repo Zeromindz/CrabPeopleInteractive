@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
 	internal PlayerController playerController;
-
+    private SoundManager m_SoundManager;
 
 	void Start()
     {
