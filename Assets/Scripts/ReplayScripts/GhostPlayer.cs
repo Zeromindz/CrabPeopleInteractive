@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// A script attached to ther ghost allowing it to load and move the ghost
+/// </summary>
 public class GhostPlayer : MonoBehaviour
 {
     [Header("Current Ghost")]
-    public string name = "";
-    public float score = 0;
+    public string name = "";                                // The name of the replay ghost
+    public float score = 0;                                 // The score of the replay ghost
+    public bool isReplaying;                                // If the replay ghost is replaying
+    [SerializeField] TMP_Text m_Nametag = null;             // The namtag of the ghost   
 
-    private bool isPlaying = false;
-    private float timeValue;
-    private int index1;
-    private int index2;
-    public bool isReplaying;
-    public List<GhostData> path = new List<GhostData>();
-    [SerializeField] TMP_Text m_Nametag = null;
+    private List<GhostData> path = new List<GhostData>();   // The path of the replay ghost
+    private bool isPlaying = false;                         // If the replay ghost is playing
+    private float timeValue;                                // The current time in the replay
+    private int index1;                                     // The current position
+    private int index2;                                     // The next position
 
-    public int currentMove = 0;
-
-    private static GhostPlayer m_Instance;               // Current Private instance
-    public static GhostPlayer Instance                   // Current public instance
+    private static GhostPlayer m_Instance;                  // Current Private instance
+    public static GhostPlayer Instance                      // Current public instance
     {
         get { return m_Instance; }
     }
 
+    /// <summary>
+    /// Called on script loading
+    /// Sets deault variables
+    /// </summary>
     private void Awake()
     {
         // Initialize Singleton
@@ -34,7 +39,11 @@ public class GhostPlayer : MonoBehaviour
             m_Instance = this;
         timeValue = 0;
     }
-
+    
+    /// <summary>
+    /// Called every frame
+    /// If replaying continues to replay
+    /// </summary>
     private void Update()
     {
         if (isReplaying)
@@ -46,6 +55,12 @@ public class GhostPlayer : MonoBehaviour
     }
 
     
+    /// <summary>
+    /// Called when the ghost needs to be loaded
+    /// Loads a selected ghost from an index
+    /// </summary>
+    /// <param name="index">The index of the chosen ghost</param>
+    /// <returns>A true or false based on if the replay exists</returns>
     public bool LoadGhost(int index)
     {
         LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
@@ -69,6 +84,10 @@ public class GhostPlayer : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Called once a frame,
+    /// Changes the current position index if needed
+    /// </summary>
     private void GetIndex()
     {
         for (int i = 0; i < path.Count - 2; i++)
@@ -93,6 +112,10 @@ public class GhostPlayer : MonoBehaviour
         index2 = path.Count - 1;
     }
 
+    /// <summary>
+    /// Called after GetIndex every frame
+    /// Updates the ghosts transform to the next position
+    /// </summary>
     private void SetTransform()
     {
         Vector3 pos1, pos2;
@@ -125,7 +148,6 @@ public class GhostPlayer : MonoBehaviour
             gameObject.transform.position = Vector3.Lerp(pos1, pos2, interpolationFactor);
             gameObject.transform.rotation = Quaternion.Lerp(rot1, rot2, interpolationFactor);
 		}
-        currentMove = index1;
     }
 
     /// <summary>

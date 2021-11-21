@@ -343,4 +343,21 @@ public class LeaderboardUI : MonoBehaviour
 
         LoadElementAmount();
 	}
+
+    public void ClearLeaderboard()
+	{
+        LeaderboardIO.Instance.ClearRows();
+        Reload();
+	}
+
+    public void Reload()
+	{
+        Load();
+
+        m_TopIndex = 0;
+        m_TopMostIndex = m_TopIndex;
+        m_BottomIndex = m_ElementsPerPage - 1;
+        m_BottomMostIndex = m_BottomIndex;
+        m_CountingIndex = m_TopIndex;
+    }
 }
