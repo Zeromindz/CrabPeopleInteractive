@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script to add behaviour to the end point
+/// </summary>
 public class EndPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+	/// <summary>
+	/// Called when the trigger is entered
+	/// </summary>
+	/// <param name="other"> The collider of the item hit</param>
 	private void OnTriggerEnter(Collider other)
 	{
         Debug.Log(gameObject.tag + " Collided with: " + other.tag);
