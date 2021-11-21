@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script attached to the skybox camera
+/// </summary>
 public class SkyboxCam : MonoBehaviour
 {
+    [SerializeField] private Transform m_PlayerCamera = null;   // The player Cameras transform
+	[SerializeField] private float m_SkyBoxScale = 16.0f;		// The scale compared to the ral world, 16 = 1/6th scale
 
-    [SerializeField] private Transform m_Playercam = null;
-
-    // Update is called once per frame
-    void Update()
+	/// <summary>
+	/// Called every frame
+	/// Updates the cameras rotation and position to mimic the players rotation
+	/// </summary>
+	void Update()
     {
-        Vector3 playerRot = m_Playercam.rotation.eulerAngles;
-
-        Quaternion newRot = Quaternion.Euler(0.0f, playerRot.y , 0.0f);
-        this.transform.rotation = newRot;
+		transform.rotation = m_PlayerCamera.rotation;
+		transform.localPosition = (m_PlayerCamera.position / m_SkyBoxScale);
     }
 }

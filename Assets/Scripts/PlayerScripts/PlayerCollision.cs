@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
 	internal PlayerController playerController;
-    [SerializeField] private GameUI gameUI = null;
     private SoundManager m_SoundManager;
 
 	void Start()
@@ -56,7 +55,7 @@ public class PlayerCollision : MonoBehaviour
 
         if(other.tag == "CheckPoint")
 		{
-            gameUI.TakeTime();
+            UIController.Instance.GameUI.TakeTime();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
     }
