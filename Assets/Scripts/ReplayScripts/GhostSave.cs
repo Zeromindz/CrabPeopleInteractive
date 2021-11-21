@@ -4,7 +4,10 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-	// Reference https://www.youtube.com/watch?v=c5G2jv7YCxM
+// Reference https://www.youtube.com/watch?v=c5G2jv7YCxM
+/// <summary>
+/// A class holding the data for and segment of the final replay
+/// </summary>
 [System.Serializable]
 public class GhostData
 {
@@ -26,6 +29,9 @@ public class GhostData
 	}
 }
 
+/// <summary>
+/// A script responsible for saving and loading the replay ghost-> used version in LeaderborardIO
+/// </summary>
 public class GhostSave : MonoBehaviour
 {
 
@@ -35,6 +41,9 @@ public class GhostSave : MonoBehaviour
 		get { return m_Instance; }
 	}
 
+	/// <summary>
+	/// Called on scrip loading
+	/// </summary>
 	private void Awake()
 	{
 		// Initialize Singleton
@@ -44,6 +53,10 @@ public class GhostSave : MonoBehaviour
 			m_Instance = this;
 	}
 
+	/// <summary>
+	/// Called usually at the end of a run where the player saves their replay
+	/// </summary>
+	/// <param name="ghostData">A list of Ghost data that makes up the path of the replay ghost</param>
 	public void SaveGhost(List<GhostData> ghostData)
 	{
 		BinaryFormatter formatter = new BinaryFormatter();
@@ -58,6 +71,11 @@ public class GhostSave : MonoBehaviour
 		stream.Close();
 	}
 
+	/// <summary>
+	/// Called when the replay ghost needs to be loaded
+	/// Gets the last saved ghost path data from a file
+	/// </summary>
+	/// <returns>A list of Ghost data that makes upthe path of the replay ghost</returns>
 	public List<GhostData> LoadGhost()
 	{
 		// Checks if the file exists then opens everything and returns the data as settingsdata class

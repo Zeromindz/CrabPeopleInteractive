@@ -47,18 +47,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_InAirTurnMultiplier = 3.0f;       // How fast you can turn the boat in the air
     [SerializeField] internal float m_SidewaysDriftAmount = 15.0f;     // Sideways motion (drift) while accelerating and turning (1 to 100)
     [SerializeField] private Transform m_ShipBody;                     // GFX of the boat
+    [SerializeField] private Transform m_Scythe;                     // GFX of the boat
     public float m_ShipRollAngle = 20f;                                // The angle that the ship "banks" into a turn
     public float m_ShipRollSpeed = 5f;                                 // Banking speed
+    public float m_ScytheTiltAngle = 20f;
+    public float m_ScytheTiltSpeed = 5f;
 
     [Space(10)]
     [Header("Trick Settings")]
     public bool m_DisableGravityDuringTrick;
-    private bool m_TrickPerformed = false;
+    public bool m_TrickPerformed = false;
     //public int m_HowManyTricksBeforeLanding = 2;
     internal bool m_Boosting = false;
     public float m_BoostDuration = 1.5f;
 
-    public float m_TrickDuration = 0.5f;
+    public float m_TrickConditionDuration = 0.5f; // How long trick conditions are enabled (Low andular drag, low gravity, input disabled)
     private float m_TrickTimer;
 
     [Space(10)]
@@ -84,7 +87,8 @@ public class PlayerMovement : MonoBehaviour
     public PIDController hoverPID;			                            //A PID controller to smooth the ship's hovering
     internal PlayerController m_PlayerController;                       // Player controller script
     internal Rigidbody m_RigidBody;                                      // Rigidbody attached to the boat
-
+    private SoundManager m_SoundManager;
+    private CameraController m_CameraController;
 
     private static PlayerMovement m_Instance;
     public static PlayerMovement Instance
@@ -104,6 +108,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        m_SoundManager = SoundManager.Instance;
+        m_CameraController = CameraController.Instance;
+
         m_PlayerController = GetComponent<PlayerController>();
         m_RigidBody = GetComponent<Rigidbody>();
         m_GroundedCenterOfMass = gameObject.transform.Find("CoM").transform.localPosition;
@@ -147,18 +154,13 @@ public class PlayerMovement : MonoBehaviour
         }
         m_WasGrounded = m_Grounded;
 
-        
-
         if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
         {
-
-            StartCoroutine(SetUpTrickConditions(m_TrickDuration));
-            AirTrick(m_MovementInput);
-
+            StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
+            //AirTrick(m_MovementInput);
+            AirRoll(m_MovementInput.x);
             m_TrickPerformed = true;
-            
         }
-      
 
         m_CurrentVel = m_RigidBody.velocity;
         m_CurrentSpeed = Vector3.Dot(m_CurrentVel, transform.forward);
@@ -183,22 +185,35 @@ public class PlayerMovement : MonoBehaviour
             if(!m_WasGrounded)
             {
                 Debug.Log("Has just hit ground");
+
+                if (m_CameraController)
+                {
+                    m_CameraController.SetLerpSpeed(0f);
+                }
+
                 //m_RigidBody.AddForce(transform.forward * 25f, ForceMode.Impulse);
                 if (m_TrickPerformed)
                 {
                     Boost();
-
-                    SoundManager.Instance.BoostFadeIn();
+                    m_TrickPerformed = false;
+                    if(m_SoundManager)
+                        m_SoundManager.BoostFadeIn();
                 }
                 else
                 {
 
-                    SoundManager.Instance.BoostFadeOut();
+                    if (m_SoundManager)
+                        m_SoundManager.BoostFadeOut();
                 }
             }
             else
             {
                 Debug.Log("Has just left ground");
+
+                if(m_CameraController)
+                {
+                    m_CameraController.SetLerpSpeed(0f);
+                }
             }
         }
     }
@@ -280,14 +295,24 @@ public class PlayerMovement : MonoBehaviour
         {
             m_RigidBody.AddRelativeTorque(transform.up * (m_MovementInput.x * m_SteeringTorque), ForceMode.Acceleration);
 
+            //-------------------------------------------------------------------
+            // Rotating boat elements
+            //_____________________________________________________________
             //Calculate the angle we want the ship's body to bank into a turn.
-            float angle = m_ShipRollAngle * -m_MovementInput.x;
+            float bankingAngle = m_ShipRollAngle * -m_MovementInput.x;
 
             //Calculate the rotation needed for this new angle
-            Quaternion bodyRotation = transform.rotation * Quaternion.Euler(0f, 0f, angle);
+            Quaternion bodyRotation = transform.rotation * Quaternion.Euler(0f, 0f, bankingAngle);
 
             //Finally, apply this angle to the ship's body
             m_ShipBody.rotation = Quaternion.Lerp(m_ShipBody.rotation, bodyRotation, Time.deltaTime * m_ShipRollSpeed);
+
+            float scytheAngle = m_ScytheTiltAngle * -m_MovementInput.x;
+
+            Quaternion scytheRotation = transform.rotation * Quaternion.Euler(0f, 0f, scytheAngle);
+
+            m_Scythe.rotation = Quaternion.Lerp(m_Scythe.rotation, scytheRotation, Time.deltaTime * m_ScytheTiltSpeed);
+
 
             // Calculate current sideways speed by using the dot product.
             float sidewaysSpeed = Vector3.Dot(m_RigidBody.velocity, transform.right);
@@ -402,6 +427,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void AirRoll(float _input)
+    {
+        Vector3 spinDirection = Vector3.zero;
+
+        if (_input > 0.1f)
+        {
+            spinDirection = Vector3.back;
+        }
+        if (_input < -0.1f)
+        {
+            spinDirection = Vector3.forward;
+        }
+
+        m_RigidBody.AddRelativeTorque(spinDirection * m_TrickTorque, ForceMode.Impulse);
+    }
+
+    /*
     private void AirTrick(Vector2 _currentInput)
     {
         float x = _currentInput.x;
@@ -438,7 +480,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_RigidBody.AddRelativeTorque(spinDirection * m_TrickTorque, ForceMode.Impulse);
     }
-
+    */
     private void Boost()
     {
         Vector3 forward = m_RigidBody.transform.forward;

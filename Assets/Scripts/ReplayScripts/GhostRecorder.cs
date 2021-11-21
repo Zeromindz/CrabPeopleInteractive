@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class GhostRecorder : MonoBehaviour
 {
-    private float timer;
-    private float timevalue;
-    private bool isRecording = false;
-    public float recordFrequency;
-    public List<GhostData> path = new List<GhostData>();
+    [SerializeField] private float recordFrequency;         // The desired frequency 
     
-    private static GhostRecorder m_Instance;               // Current Private instance
-    public static GhostRecorder Instance                   // Current public instance
+    private float timer;                                    // Makes sure it records at the desired frequency
+    private float timevalue;                                // The delta time between each path position
+    private bool isRecording = false;                       // The recording state
+    private List<GhostData> path = new List<GhostData>();   // The list path 
+    private static GhostRecorder m_Instance;                // Current Private instance
+    public static GhostRecorder Instance                    // Current public instance
     {
         get { return m_Instance; }
     }
+
+    /// <summary>
+    /// Called on the loading of the script
+    /// </summary>
     private void Awake()
     {
         // Initialize Singleton
@@ -23,19 +27,19 @@ public class GhostRecorder : MonoBehaviour
         else
             m_Instance = this;
 
-        if (isRecording)
-        {
-            ResetData();
-            timevalue = 0;
-            timer = 0;
-        }
+        // if true records more data
+        //if (isRecording)
+        //{
+        //    ResetData();
+        //    timevalue = 0;
+        //    timer = 0;
+        //}
     }
 
-    public void ResetData()
-    {
-        path.Clear();
-    }
-
+    /// <summary>
+    /// Called once a frame
+    /// Records the ghost if recording state it true
+    /// </summary>
     private void Update()
     {
         if (isRecording)
@@ -54,28 +58,56 @@ public class GhostRecorder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when starting a new run
+    /// Clears / resets the ghost path data
+    /// </summary>
+    public void ResetData()
+    {
+        path.Clear();
+    }
+
+    /// <summary>
+    /// Called during the start or unpause of the run
+    /// Changes the recording state to true
+    /// </summary>
     public void StartRecording()
     {
         isRecording = true;
     }
 
+    /// <summary>
+    /// Called during pause or completion of the track
+    /// Changes the recording state to false
+    /// </summary>
     public void StopRecording()
     {
         isRecording = false;
     }
 
+    /// <summary>
+    /// Clled when saving the ghostspath -> GetPath function is referenced when saving now
+    /// </summary>
     public void SaveRecording()
     {
         isRecording = false;
         GhostSave.Instance.SaveGhost(path);
-
     }
 
+    /// <summary>
+    /// Called when the path is tobe saved
+    /// Gets the path of 
+    /// </summary>
+    /// <returns>The recorded ghosts path</returns>
     public List<GhostData> GetPath()
 	{
         return path;
 	}
 
+    /// <summary>
+    /// Called to check the recording state
+    /// </summary>
+    /// <returns>A bool of the recording state</returns>
     public bool IsRecording()
     {
         return isRecording;
