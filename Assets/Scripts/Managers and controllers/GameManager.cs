@@ -9,8 +9,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject m_Canvas;
-
     private UIController m_UIController = null;
 
     [Header("Player Stats")]
@@ -99,8 +97,6 @@ public class GameManager : MonoBehaviour
 		}
 
 		SoundManager.Instance.PlayBGM(0);
-
-        m_UIController.EndScreenUI.Reset();
         m_UIController.GameUI.TimerCounting(true);
     
 	}
@@ -115,8 +111,7 @@ public class GameManager : MonoBehaviour
         m_UIController.GameUI.TimerCounting(false);
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.BoostFadeToStop();
-        m_ChoseGhost = false;
-        ResetGame();
+        m_ChoseGhost = false;        
     }
 
     public void ResetGame()
@@ -129,7 +124,8 @@ public class GameManager : MonoBehaviour
         m_Player.transform.position = m_StartPos.position;
         m_Player.transform.rotation = m_StartPos.rotation;
         PlayerMovement.Instance.ResetMovement();
-        
+        PlayerController.Instance.passengerManager.ResetPassengers();
+
         m_UIController.GameUI.ResetTime();
 	}
 }

@@ -4,10 +4,13 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+/// <summary>
+/// A class that holds information on the amount of rows saved
+/// </summary>
 [System.Serializable]
 public class RowAmount
 {
-	public int rowAmount;
+	public int rowAmount;									// How many rows 
 }
 
 public class LeaderboardIO : MonoBehaviour
@@ -18,6 +21,9 @@ public class LeaderboardIO : MonoBehaviour
 		get { return m_Instance; }
 	}
 
+	/// <summary>
+	/// Called on script loading
+	/// </summary>
 	private void Awake()
 	{
 		// Initialize Singleton
@@ -26,11 +32,12 @@ public class LeaderboardIO : MonoBehaviour
 		else
 			m_Instance = this;
 	}
-	private void Start()
-	{
-		//SaveRowAmount(0);
-	}
 
+	/// <summary>
+	/// Called when a new save is made
+	/// Updaets the file to the new value
+	/// </summary>
+	/// <param name="amount">The amount of Leaderboard rows</param>
 	private void SaveRowAmount(int amount)
 	{
 		string path = Application.dataPath + "/Leaderboard/RowAmount.dat";
@@ -45,6 +52,11 @@ public class LeaderboardIO : MonoBehaviour
 		stream.Close();
 	}
 
+	/// <summary>
+	/// Called when saving the row amount
+	/// Loads a row amount
+	/// </summary>
+	/// <returns>The class holding an int of row amounts</returns>
 	public RowAmount LoadRowAmount()
 	{
 		string path = Application.dataPath + "/LeaderBoard/RowAmount.dat";
@@ -70,15 +82,22 @@ public class LeaderboardIO : MonoBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Called when saving to the leaderboard
+	/// Saves a new row to the leaderboard
+	/// </summary>
+	/// <param name="name">The players name</param>
+	/// <param name="score">The players score</param>
+	/// <param name="replayData">The The path of the ghost replay</param>
 	public void SaveLeaderBoardRow(string name, float score, List<GhostData> replayData)
 	{
 		RowAmount rows = LoadRowAmount();
 
-		if (rows.rowAmount == 5)
-		{
-			rows.rowAmount = 0;
-		}
+		// This limits the amount of files that can be created
+		//if (rows.rowAmount == 5)
+		//{
+		//	rows.rowAmount = 0;
+		//}
 
 		BinaryFormatter formatter = new BinaryFormatter();
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
@@ -95,6 +114,12 @@ public class LeaderboardIO : MonoBehaviour
 		Debug.Log("Saving Row to " + path);
 	}
 
+	/// <summary>
+	/// Called when loading the leaderboard data
+	/// Loads a leaderboard row from a file
+	/// </summary>
+	/// <param name="index">The row index to load</param>
+	/// <returns></returns>
 	public LeaderboardData LoadLeaderBoardData(int index)
 	{
 		RowAmount rows = LoadRowAmount();
@@ -113,14 +138,23 @@ public class LeaderboardIO : MonoBehaviour
 
 			LeaderboardData save = formatter.Deserialize(stream) as LeaderboardData;
 
+			stream.Close();
 			return save;
 		}
+
 		else
 		{
 			Debug.Log("Save file not found in " + path);
 			return null;
 		}
 	}
-
-
+	
+	/// <summary>
+	/// Called when the ClearLeaxderboard funtion is run
+	/// Sets the Row amount to 0
+	/// </summary>
+	public void ClearRows()
+	{
+		SaveRowAmount(0);
+	}
 }
