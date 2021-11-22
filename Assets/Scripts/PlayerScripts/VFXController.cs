@@ -11,6 +11,7 @@ public class VFXController : MonoBehaviour
 
     private Material m_GondolaMat;
     
+    [SerializeField] private ParticleSystem m_SpeedLines;
     [Space(10)]
     [Header("Particles")]
     [SerializeField] private ParticleSystem[] m_RocketTrails;
