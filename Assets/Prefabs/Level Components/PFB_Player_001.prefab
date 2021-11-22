@@ -444,7 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8809112bb9bec164f81a4680aaebe1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameUI: {fileID: 0}
 --- !u!114 &1115569635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordFrequency: 144
-  path: []
 --- !u!114 &1115569640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrickGlowDuration: 1
   m_GlowSmooth: 2
+  m_SpeedLines: {fileID: 0}
   m_RocketTrails:
   - {fileID: 948106065433378912}
   - {fileID: 8332516386123114679}
@@ -1162,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109319815893626384, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.54
+      value: -4.102
       objectReference: {fileID: 0}
     - target: {fileID: 4109319815893626384, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
       propertyPath: m_LocalRotation.x

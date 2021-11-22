@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         Accelerate();
         Steer();
         Hover();
-        if(!m_ActivelyTricking && GameManager.Instance.State == GameState.InRun)
+        if(!m_ActivelyTricking /*&& GameManager.Instance.State == GameState.InRun*/)
         { 
 
             LevelBoat();

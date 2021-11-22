@@ -43,7 +43,7 @@ public class VFXController : MonoBehaviour
         }
 
         int groundEmissionRate = 0;
-        if (m_PlayerController.playerMovement.m_Grounded)
+        if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 5f)
         {
             foreach (var fx in m_GroundedFX)
             {
@@ -57,8 +57,6 @@ public class VFXController : MonoBehaviour
                 fx.Stop();
             }
         }
-        
-        
 
         TrickGlow();
     }
