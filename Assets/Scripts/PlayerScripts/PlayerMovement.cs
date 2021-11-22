@@ -495,11 +495,6 @@ public class PlayerMovement : MonoBehaviour
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
             SoundManager.Instance.PlayRandomBoost();
         }
-
-        else
-        {
-          //  SoundManager.Instance.BoostFadeOut();
-        }
     }
 
     IEnumerator Boosting(float _duration)
@@ -514,13 +509,11 @@ public class PlayerMovement : MonoBehaviour
         if (value > 0)
         {
             m_IsShiftPressed = true;
-            //SoundManager.Instance.BoostFadeIn();
         }
 
         else
         {
             m_IsShiftPressed = false;
-            //SoundManager.Instance.BoostFadeOut();
         }
     }
 
