@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Trick Settings")]
     public bool m_DisableGravityDuringTrick;
     public bool m_TrickPerformed = false;
+    private bool m_ActivelyTricking = false;
     //public int m_HowManyTricksBeforeLanding = 2;
     internal bool m_Boosting = false;
     public float m_BoostDuration = 1.5f;
@@ -178,23 +179,25 @@ public class PlayerMovement : MonoBehaviour
         Accelerate();
         Steer();
         Hover();
+        if(!m_ActivelyTricking /*&& GameManager.Instance.State == GameState.InRun*/)
+        { 
 
-        if(m_WasGrounded != m_Grounded)
+            LevelBoat();
+
+        }
+
+        if (m_WasGrounded != m_Grounded)
         {
             if(!m_WasGrounded)
             {
                 Debug.Log("Has just hit ground");
-
-                if (m_CameraController)
-                {
-                    m_CameraController.SetLerpSpeed(0f);
-                }
 
                 //m_RigidBody.AddForce(transform.forward * 25f, ForceMode.Impulse);
                 if (m_TrickPerformed)
                 {
                     Boost();
                     m_TrickPerformed = false;
+                   // SoundManager.Instance.PlaySplashSound();
                     //if(m_SoundManager)
                     //    m_SoundManager.BoostFadeIn();
                 }
@@ -211,16 +214,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Has just left ground");
 
-                if(m_CameraController)
-                {
-                    m_CameraController.SetLerpSpeed(0f);
-                }
             }
         }
     }
 
     IEnumerator SetUpTrickConditions(float _duration)
     {
+        m_ActivelyTricking = true;
         m_RigidBody.angularDrag = 0.5f;
         if (m_DisableGravityDuringTrick)
         {
@@ -231,6 +231,8 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody.angularDrag = 1.5f;
         m_UseGravity = true;
         m_InputDisabled = false;
+
+        m_ActivelyTricking = false;
     }
 
     // Controls the acceleration of the boat
@@ -272,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_RigidBody.AddTorque(transform.right * (m_MovementInput.y * m_InAirPitchMultiplier), ForceMode.Acceleration);
+            //m_RigidBody.AddTorque(transform.right * (m_MovementInput.y * m_InAirPitchMultiplier), ForceMode.Acceleration);
         }
 
         // Clamp Speed
@@ -405,27 +407,27 @@ public class PlayerMovement : MonoBehaviour
             if (m_UseGravity)
                 m_RigidBody.AddForce(gravity, ForceMode.Acceleration);
 
-            // If below trick height
-            if (!m_Grounded)
-            {
-                for (int i = 0; i < m_HoverPoints.Length; i++)
-                {
-                    // TODO - Fix self leveling using hoverpoints and CoM
-
-                    //var hoverPoint = m_HoverPoints[i];
-                    //// level out hoverpoints
-                    //if (m_CoM.y > hoverPoint.transform.position.y)
-                    //{
-                    //    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    //}
-                    //else
-                    //{
-                    //    m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
-                    //}
-                }
-
-            }
+            
         }
+    }
+
+    private void LevelBoat()
+    {
+
+         for (int i = 0; i < m_HoverPoints.Length; i++)
+         {
+
+             var hoverPoint = m_HoverPoints[i];
+             // level out hoverpoints
+             if (transform.position.y > hoverPoint.transform.position.y)
+             {
+                 m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+             }
+             else
+             {
+                 m_RigidBody.AddForceAtPosition(hoverPoint.transform.up * -m_LevelingForce, hoverPoint.transform.position, ForceMode.Acceleration);
+             }
+         }
     }
 
     private void AirRoll(float _input)
@@ -491,12 +493,7 @@ public class PlayerMovement : MonoBehaviour
         if(m_Boosting == true)
         {
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
-            SoundManager.Instance.BoostFadeIn();
-        }
-
-        else
-        {
-            SoundManager.Instance.BoostFadeOut();
+            SoundManager.Instance.PlayRandomBoost();
         }
     }
 
@@ -512,13 +509,11 @@ public class PlayerMovement : MonoBehaviour
         if (value > 0)
         {
             m_IsShiftPressed = true;
-            //SoundManager.Instance.BoostFadeIn();
         }
 
         else
         {
             m_IsShiftPressed = false;
-            //SoundManager.Instance.BoostFadeOut();
         }
     }
 

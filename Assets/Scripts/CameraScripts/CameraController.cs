@@ -95,34 +95,10 @@ public class CameraController : MonoBehaviour
         m_DesiredPosition.y = currentHeight;
 
 
-        //if(!m_Player.playerMovement.m_Grounded)
-        //{
-        //
-        //    if(playerVelocity.magnitude > 0.1f)
-        //    {
-        //        m_DesiredPosition = m_Target.position + (Vector3.up * m_CamHeight) - (playerVelocity.normalized * m_CamDist);
-        //    }
-        //}
-
-
         // Set the camera's position
         transform.position = m_DesiredPosition;
 
-        if(m_LerpSpeed < 0.01f)
-        {
-            
-            m_LerpSpeed += 0.01f;
-        }
-        else
-        {
-            if(m_LerpSpeed > m_MaxLerpSpeed)
-            {
-                m_LerpSpeed = m_MaxLerpSpeed;
-            }
-        }
 
-        //Vector3 startPos = transform.position;
-        //transform.position = Vector3.Lerp(transform.position, m_DesiredPosition, m_LerpSpeed);
 
         //Look at camera
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));

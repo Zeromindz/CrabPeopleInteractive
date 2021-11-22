@@ -22,12 +22,15 @@ public class PlayerCollision : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            //Vector3 impactDirection = collision.transform.position - transform.position;
-            //
-            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
-            //
-            ////Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
+            Vector3 impactDirection = collision.transform.position - transform.position;
+            
+            Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
+            
+            //Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
             //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
+
+            Vector3 reflectionDirection = Vector3.Reflect(impactDirection, collision.GetContact(0).normal);
+            playerController.playerMovement.m_RigidBody.AddForce(reflectionDirection, ForceMode.Impulse);
         }
     }
 
@@ -44,7 +47,7 @@ public class PlayerCollision : MonoBehaviour
             other.GetComponentInParent<ItemPickup>().OnPickup();
             playerController.AddPassenger();
             if(m_SoundManager)
-                SoundManager.Instance.PlayGhostPickupSound(0);
+                SoundManager.Instance.PlayRandomGhostPickupSound();
         }
         
         // Hit starting checkpoint
@@ -74,7 +77,7 @@ public class PlayerCollision : MonoBehaviour
         {
             Debug.Log("Collided with: " + other.collider.tag);
             if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(1);
+                SoundManager.Instance.PlayRandomCollisionSound();
         }
 
 
@@ -82,7 +85,7 @@ public class PlayerCollision : MonoBehaviour
         {
             Debug.Log("Collided with: " + other.collider.tag);
             if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(0);
+                SoundManager.Instance.PlayRandomCollisionSound();
         }
     }
 }
