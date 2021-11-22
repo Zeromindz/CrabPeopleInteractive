@@ -157,7 +157,6 @@ public class PlayerMovement : MonoBehaviour
         if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
         {
             StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
-            //AirTrick(m_MovementInput);
             AirRoll(m_MovementInput.x);
             m_TrickPerformed = true;
         }
@@ -205,6 +204,8 @@ public class PlayerMovement : MonoBehaviour
                     if (m_SoundManager)
                         m_SoundManager.BoostFadeOut();
                 }
+
+                m_PlayerController.VFXController.Sparkle();
             }
             else
             {
