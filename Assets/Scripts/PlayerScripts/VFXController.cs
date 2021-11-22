@@ -9,8 +9,7 @@ public class VFXController : MonoBehaviour
     public float m_TrickGlowDuration = 0.5f; 
     public float m_GlowSmooth = 2f;
 
-    [Header("Materials")]
-    [SerializeField] private Material m_GondolaMat;
+    private Material m_GondolaMat;
     
     [Space(10)]
     [Header("Particles")]
@@ -45,13 +44,17 @@ public class VFXController : MonoBehaviour
         int groundEmissionRate = 0;
         if (m_PlayerController.playerMovement.m_Grounded)
         {
-            groundEmissionRate = 10;
+            foreach (var fx in m_GroundedFX)
+            {
+                fx.Play();
+            }
         }
-
-        foreach (var fx in m_GroundedFX)
+        else
         {
-            var groundEmission = fx.emission;
-            groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+            foreach (var fx in m_GroundedFX)
+            {
+                fx.Stop();
+            }
         }
         
         
