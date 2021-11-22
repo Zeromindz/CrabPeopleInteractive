@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+public enum GameState
+{
+    InRun,
+    NotInRun
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -25,7 +30,12 @@ public class GameManager : MonoBehaviour
     public int m_ChosenGhostIndex = 0;
     public bool m_ChoseGhost = false;
     public float GetCurrentTime() { return m_CurrentTime; }
-
+    private GameState m_State = GameState.NotInRun;
+    public GameState State
+    {
+        get { return m_State; }
+        set { m_State = value; }
+    }
 
 
     private static GameManager m_Instance;                       // The current instance of MenuController
@@ -96,7 +106,7 @@ public class GameManager : MonoBehaviour
             GhostRecorder.Instance.StartRecording();
 		}
 
-		SoundManager.Instance.PlayBGM(0);
+        m_State = GameState.InRun;
         m_UIController.GameUI.TimerCounting(true);
     
 	}
@@ -104,6 +114,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("End point hit");
+        m_State = GameState.NotInRun;
         // GhostRecorder.Instance.SaveRecording();
         GhostRecorder.Instance.StopRecording();
         GhostPlayer.Instance.Stop();
