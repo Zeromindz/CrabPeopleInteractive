@@ -62,19 +62,12 @@ public class CameraController : MonoBehaviour
         {
             m_Target = m_Player.transform;
         }
+
+        transform.position = m_Target.transform.position;
     }
 
     private void FixedUpdate()
     {
-        // Store the targets speed in m/s, ignoring the y component of the velocity
-        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
-
-        // Store the target's direction of movement
-        Vector3 playerVelocity = m_Player.playerMovement.m_CurrentVel;
-
-
-
-
         // Store the target's y rotation angle
         rotationVector = m_Target.eulerAngles.y;
 
@@ -94,22 +87,22 @@ public class CameraController : MonoBehaviour
         Vector3 m_DesiredPosition = transform.position;
         m_DesiredPosition.y = currentHeight;
 
-
         // Set the camera's position
         transform.position = m_DesiredPosition;
-
-
 
         //Look at camera
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
 
+        // Store the targets speed in m/s, ignoring the y component of the velocity
+        m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
 
         // Calculate a smoothed fov value based on the target's speed
         if(!m_Player.playerMovement.m_Boosting)
         {
             m_BoostFOVMultiplier = 1f;
         }
-         float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, (m_TargetSpeed * m_BoostFOVMultiplier) * 0.005f);
+
+        float fov = Mathf.SmoothStep(m_FovMin, m_FovMax, (m_TargetSpeed * m_BoostFOVMultiplier) * 0.005f);
         // Lerp the cam's fov
         m_Cam.fieldOfView = Mathf.SmoothDamp(m_Cam.fieldOfView, fov, ref m_CamFovVel, m_FovSmoothTime);
 

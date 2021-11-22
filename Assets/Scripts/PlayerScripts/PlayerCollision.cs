@@ -8,10 +8,15 @@ public class PlayerCollision : MonoBehaviour
 	internal PlayerController playerController;
     private SoundManager m_SoundManager;
 
-	void Start()
+    Vector3 m_ReflectionDirection;
+    private LayerMask m_WallLayer;
+
+
+    void Start()
     {
         playerController = GetComponent<PlayerController>();
         m_SoundManager = SoundManager.Instance;
+        m_WallLayer = LayerMask.NameToLayer("Wall");
     }
 
     /// <summary>
@@ -20,17 +25,23 @@ public class PlayerCollision : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if(collision.gameObject.layer == m_WallLayer)
         {
-            Vector3 impactDirection = collision.transform.position - transform.position;
-            
-            Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
-            
+            Vector3 impactDirection = collision.GetContact(0).point - transform.position;
+
+            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
+
             //Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
             //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
+            //m_ReflectionDirection = Vector3.Reflect(impactDirection, collision.GetContact(0).normal);
 
-            Vector3 reflectionDirection = Vector3.Reflect(impactDirection, collision.GetContact(0).normal);
-            playerController.playerMovement.m_RigidBody.AddForce(reflectionDirection, ForceMode.Impulse);
+            Vector3 surfaceNormal = collision.GetContact(0).normal;
+            Vector3 myDirection = playerController.playerMovement.m_CurrentVel.normalized;
+
+            Vector3 temp = Vector3.Cross(surfaceNormal, myDirection);
+            myDirection = Vector3.Cross(temp, surfaceNormal);
+
+            playerController.playerMovement.m_RigidBody.AddForce(myDirection.normalized * 100f, ForceMode.Acceleration);
         }
     }
 
@@ -87,5 +98,12 @@ public class PlayerCollision : MonoBehaviour
             if(m_SoundManager)
                 SoundManager.Instance.PlayCollisionSound(0);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+
+        Gizmos.DrawRay(transform.position, m_ReflectionDirection * 10f);
     }
 }
