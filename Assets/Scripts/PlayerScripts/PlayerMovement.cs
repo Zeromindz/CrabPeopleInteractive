@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         Accelerate();
         Steer();
         Hover();
-        if(!m_ActivelyTricking && GameManager.Instance.State == GameState.InRun)
+        if(!m_ActivelyTricking /*&& GameManager.Instance.State == GameState.InRun*/)
         { 
 
             LevelBoat();
@@ -197,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Boost();
                     m_TrickPerformed = false;
+                   // SoundManager.Instance.PlaySplashSound();
                     //if(m_SoundManager)
                     //    m_SoundManager.BoostFadeIn();
                 }
@@ -492,12 +493,7 @@ public class PlayerMovement : MonoBehaviour
         if(m_Boosting == true)
         {
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
-            SoundManager.Instance.BoostFadeIn();
-        }
-
-        else
-        {
-            SoundManager.Instance.BoostFadeOut();
+            SoundManager.Instance.PlayRandomBoost();
         }
     }
 
@@ -513,13 +509,11 @@ public class PlayerMovement : MonoBehaviour
         if (value > 0)
         {
             m_IsShiftPressed = true;
-            //SoundManager.Instance.BoostFadeIn();
         }
 
         else
         {
             m_IsShiftPressed = false;
-            //SoundManager.Instance.BoostFadeOut();
         }
     }
 

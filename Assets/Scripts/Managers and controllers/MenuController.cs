@@ -135,6 +135,7 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
+		SoundManager.Instance.PlayMusic(1);
 		Time.timeScale = 0;
 	}
 
@@ -148,7 +149,7 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
-
+		SoundManager.Instance.PlayMusic(0);
 	}
 
 	/// <summary>
@@ -176,6 +177,7 @@ public class MenuController : MonoBehaviour
 		Time.timeScale = 0;
 		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
+		SoundManager.Instance.PlayMusic(1);
 	}
 
 	/// <summary>
