@@ -47,7 +47,7 @@ public class PlayerCollision : MonoBehaviour
             other.GetComponentInParent<ItemPickup>().OnPickup();
             playerController.AddPassenger();
             if(m_SoundManager)
-                SoundManager.Instance.PlayGhostPickupSound(0);
+                SoundManager.Instance.PlayRandomGhostPickupSound();
         }
         
         // Hit starting checkpoint
@@ -77,7 +77,7 @@ public class PlayerCollision : MonoBehaviour
         {
             Debug.Log("Collided with: " + other.collider.tag);
             if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(1);
+                SoundManager.Instance.PlayRandomCollisionSound();
         }
 
 
@@ -85,7 +85,7 @@ public class PlayerCollision : MonoBehaviour
         {
             Debug.Log("Collided with: " + other.collider.tag);
             if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(0);
+                SoundManager.Instance.PlayRandomCollisionSound();
         }
     }
 }

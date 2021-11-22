@@ -197,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Boost();
                     m_TrickPerformed = false;
+                   // SoundManager.Instance.PlaySplashSound();
                     //if(m_SoundManager)
                     //    m_SoundManager.BoostFadeIn();
                 }
@@ -492,12 +493,12 @@ public class PlayerMovement : MonoBehaviour
         if(m_Boosting == true)
         {
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
-            SoundManager.Instance.BoostFadeIn();
+            SoundManager.Instance.PlayRandomBoost();
         }
 
         else
         {
-            SoundManager.Instance.BoostFadeOut();
+          //  SoundManager.Instance.BoostFadeOut();
         }
     }
 

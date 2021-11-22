@@ -94,8 +94,6 @@ public class SoundManager : MonoBehaviour
 		m_MusicVolumeSources.Add(m_BGMSource);
 
 		//m_BoostSource.volume = 0.0f;
-		PlayBoost(0);
-		BoostFadeOut();
 	}
 	#endregion
 
@@ -226,10 +224,21 @@ public class SoundManager : MonoBehaviour
 	public void PlayBoost(int index)
 	{
 		m_BoostSource.clip = m_BoostClips[index];
-		m_BoostSource.loop = true;
-		m_BoostSource.volume = 0.0f;
 		m_BoostSource.Play();
 		Debug.Log("SoundManager Starting boost: " + index);
+	}
+
+	/// <summary>
+	/// Called when the player boosts
+	/// Plays a random boosting sound at an index on an array
+	/// </summary>
+	
+	public void PlayRandomBoost()
+	{
+		int rand = Random.Range(0, m_BoostClips.Length);
+		m_BoostSource.clip = m_BoostClips[rand];
+		m_BoostSource.Play();
+		Debug.Log("SoundManager Starting boost: " + rand);
 	}
 
 	/// <summary>
