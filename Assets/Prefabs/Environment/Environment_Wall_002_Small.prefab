@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 554856636473939415}
   - component: {fileID: 3466897320149457522}
   - component: {fileID: 1727152410324102840}
+  - component: {fileID: 104102899664056777}
   m_Layer: 12
   m_Name: Environment_Wall_002_Small
   m_TagString: Wall
@@ -82,6 +83,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &104102899664056777
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934760287204822893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4474683096258385431, guid: ae6fd1ee5936f6740a51e194952ba57e, type: 3}
 --- !u!1 &4005902762507504884
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4952591221068558056
 Transform:
   m_ObjectHideFlags: 0

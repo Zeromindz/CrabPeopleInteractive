@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6088181243173768046
 Transform:
   m_ObjectHideFlags: 0
@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 5380965559906533328}
   - component: {fileID: 9008004370198556789}
   - component: {fileID: 6549970495587550399}
+  - component: {fileID: 620451763886978248}
   m_Layer: 12
   m_Name: Environment_Wall_003_Big
   m_TagString: Wall
@@ -128,6 +129,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &620451763886978248
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4748719279227446634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6706727063147278375, guid: 4cec1103242d17b40a1df3a96bb5aae1, type: 3}
 --- !u!1 &5541143876001533535
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2516814381858116288
 Transform:
   m_ObjectHideFlags: 0
@@ -188,7 +203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4398184322062831804
 Transform:
   m_ObjectHideFlags: 0

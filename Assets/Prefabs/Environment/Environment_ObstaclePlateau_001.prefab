@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8806215816997965690}
-  - component: {fileID: 6375600867758027268}
+  - component: {fileID: 5063274191951651032}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Obstacle
@@ -31,8 +31,8 @@ Transform:
   m_Father: {fileID: 7437324279933376668}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6375600867758027268
-BoxCollider:
+--- !u!136 &5063274191951651032
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -41,9 +41,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7.0147743, y: 40.591095, z: 6.7382126}
-  m_Center: {x: 0.24814034, y: -12.2011795, z: -0.6107216}
+  m_Radius: 4
+  m_Height: 42
+  m_Direction: 1
+  m_Center: {x: 0.8, y: -12, z: -0.5}
 --- !u!1 &7817544903593902630
 GameObject:
   m_ObjectHideFlags: 0
