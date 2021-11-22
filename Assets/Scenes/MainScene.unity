@@ -8616,11 +8616,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 283790449373991016, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2770337271923422600, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3147395577327125904, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
@@ -8628,7 +8628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3298160371531821607, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6245532373591246293, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Name
@@ -8680,7 +8680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7554890679727866117, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
@@ -29737,6 +29737,18 @@ PrefabInstance:
     - target: {fileID: 6846290501652208740, guid: 650a25c0900483c4c9abc2063d445a23, type: 3}
       propertyPath: m_Name
       value: UserInterfaces
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875186023118262606, guid: 650a25c0900483c4c9abc2063d445a23, type: 3}
+      propertyPath: m_MasterVolume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875186023118262606, guid: 650a25c0900483c4c9abc2063d445a23, type: 3}
+      propertyPath: m_MusicVolume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875186023118262606, guid: 650a25c0900483c4c9abc2063d445a23, type: 3}
+      propertyPath: m_SFXVolume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 650a25c0900483c4c9abc2063d445a23, type: 3}
