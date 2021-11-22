@@ -11,6 +11,7 @@ public class PlayerCollision : MonoBehaviour
     Vector3 m_ReflectionDirection;
     private LayerMask m_WallLayer;
 
+    public float m_WallBounceForce = 50f;
 
     void Start()
     {
@@ -19,29 +20,36 @@ public class PlayerCollision : MonoBehaviour
         m_WallLayer = LayerMask.NameToLayer("Wall");
     }
 
-    /// <summary>
-    ///  Handle collisions while the player collider continues to intersect with other collider
-    /// </summary>
-    /// <param name="collision"></param>
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if(collision.gameObject.layer == m_WallLayer)
+        if (other.gameObject.layer == m_WallLayer)
         {
-            Vector3 impactDirection = collision.GetContact(0).point - transform.position;
+            Vector3 playerVelocity = playerController.playerMovement.m_CurrentVel;
 
-            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
-
-            //Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
-            //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
-            //m_ReflectionDirection = Vector3.Reflect(impactDirection, collision.GetContact(0).normal);
-
-            Vector3 surfaceNormal = collision.GetContact(0).normal;
-            Vector3 myDirection = playerController.playerMovement.m_CurrentVel.normalized;
+            Vector3 surfaceNormal = other.GetContact(0).normal;
+            Vector3 myDirection = playerVelocity.normalized;
 
             Vector3 temp = Vector3.Cross(surfaceNormal, myDirection);
             myDirection = Vector3.Cross(temp, surfaceNormal);
 
-            playerController.playerMovement.m_RigidBody.AddForce(myDirection.normalized * 100f, ForceMode.Acceleration);
+           // Vector3 newDirection = myDirection + surfaceNormal;
+           
+            playerController.playerMovement.m_RigidBody.AddForce(myDirection.normalized * playerVelocity.magnitude, ForceMode.Impulse);
+
+        }
+
+        if (other.collider.tag == "Wall")
+        {
+            Debug.Log("Collided with: " + other.collider.tag);
+            if (m_SoundManager)
+                SoundManager.Instance.PlayCollisionSound(1);
+        }
+
+        if (other.collider.tag == "Obstacle")
+        {
+            Debug.Log("Collided with: " + other.collider.tag);
+            if (m_SoundManager)
+                SoundManager.Instance.PlayCollisionSound(0);
         }
     }
 
@@ -78,25 +86,6 @@ public class PlayerCollision : MonoBehaviour
 		{
             UIController.Instance.GameUI.TakeTime();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-
-        if (other.collider.tag == "Wall")
-        {
-            Debug.Log("Collided with: " + other.collider.tag);
-            if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(1);
-        }
-
-
-        if (other.collider.tag == "Obstacle")
-        {
-            Debug.Log("Collided with: " + other.collider.tag);
-            if(m_SoundManager)
-                SoundManager.Instance.PlayCollisionSound(0);
         }
     }
 

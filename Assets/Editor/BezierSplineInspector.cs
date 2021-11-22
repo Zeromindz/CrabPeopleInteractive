@@ -42,6 +42,15 @@ public class BezierSplineInspector : Editor
 			spline.AddCurve();
 			EditorUtility.SetDirty(spline);
 		}
+
+		if (GUILayout.Button("GenerateWalls"))
+		{
+			Debug.Log("Hello World");
+
+			spline = target as BezierSpline;
+			// spline.BuildWalls();
+
+		}
 	}
 
 	private void DrawSelectedPointInspector()
