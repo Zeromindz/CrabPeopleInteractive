@@ -34,10 +34,12 @@ public class SoundManager : MonoBehaviour
 	[SerializeField] private AudioClip[] m_CollisionClips = new AudioClip[10];          // The collision sounds
 	[SerializeField] private AudioClip[] m_GhostPickupClips = new AudioClip[10];        // The sounds for ghost pickup
 	[SerializeField] private AudioClip[] m_BGMClips = new AudioClip[10];				// The back ground music clips
-	[SerializeField] private AudioClip[] m_UIClips = new AudioClip[10];					// The menu selection sounds
-	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];				// The boost sound clips
+	[SerializeField] private AudioClip[] m_UIClips = new AudioClip[10];                 // The menu selection sounds
+	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];              // The boost sound clips
+	[SerializeField] private AudioClip[] m_WaterSplashClips = new AudioClip[10];        // The Water splashing sound clips
+	[SerializeField] private AudioClip[] m_WaterChurning = new AudioClip[10];           // The water churning sound clips
 
-	[SerializeField,Range(0,1)] private float BoostFadeInOutTime;						// How fast the boost sound fades in and out
+	[SerializeField,Range(0,100)] private float BoostFadeInOutTime;						// How fast the boost sound fades in and out
 
 	[Header("Sources")]
 	[SerializeField] private GameObject m_SoundSourceObject = null;						// The gameobject holding alltheaudio sources								
@@ -93,6 +95,7 @@ public class SoundManager : MonoBehaviour
 
 		//m_BoostSource.volume = 0.0f;
 		PlayBoost(0);
+		BoostFadeOut();
 	}
 	#endregion
 

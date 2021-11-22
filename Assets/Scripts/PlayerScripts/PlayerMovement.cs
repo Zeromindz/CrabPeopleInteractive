@@ -195,14 +195,14 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Boost();
                     m_TrickPerformed = false;
-                    if(m_SoundManager)
-                        m_SoundManager.BoostFadeIn();
+                    //if(m_SoundManager)
+                    //    m_SoundManager.BoostFadeIn();
                 }
                 else
                 {
 
-                    if (m_SoundManager)
-                        m_SoundManager.BoostFadeOut();
+                    //if (m_SoundManager)
+                    //    m_SoundManager.BoostFadeOut();
                 }
 
                 m_PlayerController.VFXController.Sparkle();
@@ -491,6 +491,12 @@ public class PlayerMovement : MonoBehaviour
         if(m_Boosting == true)
         {
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
+            SoundManager.Instance.BoostFadeIn();
+        }
+
+        else
+        {
+            SoundManager.Instance.BoostFadeOut();
         }
     }
 
