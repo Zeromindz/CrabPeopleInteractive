@@ -46,8 +46,8 @@ public class MiniMap : MonoBehaviour
 		m_MiniMapUI.sizeDelta = rectSizeDelta;
 
 		Vector3 newMiniMapPos = Vector3.zero;
-		newMiniMapPos.x = ((0.5f * m_MapSize) + 10) * -1;
-		newMiniMapPos.y = ((0.5f * m_MapSize) + 10) * -1;
+		newMiniMapPos.x = ((0.5f * m_MapSize) + 250) * -1;
+		newMiniMapPos.y = ((0.5f * m_MapSize) + 250) * -1;
 
 		RectTransform rt = m_MiniMapUI.GetComponent<RectTransform>();
 		rt.position = newMiniMapPos;
