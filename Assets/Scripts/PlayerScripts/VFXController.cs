@@ -6,14 +6,24 @@ public class VFXController : MonoBehaviour
 {
     internal PlayerController m_PlayerController;
 
+    public float m_TrickGlowDuration = 0.5f; 
+    public float m_GlowSmooth = 2f;
+
+    [Header("Materials")]
+    [SerializeField] private Material m_GondolaMat;
+    
+    [Space(10)]
     [Header("Particles")]
     [SerializeField] private ParticleSystem[] m_RocketTrails;
-    [SerializeField] private ParticleSystem m_GroundedTrail;
+    [SerializeField] private ParticleSystem[] m_GroundedFX;
     [SerializeField] private ParticleSystem m_Sparkle;
 
     void Start()
     {
         m_PlayerController = GetComponent<PlayerController>();
+        m_GondolaMat = GetComponentInChildren<MeshRenderer>().material;
+
+        
     }
 
     // Update is called once per frame
@@ -36,14 +46,34 @@ public class VFXController : MonoBehaviour
         if (m_PlayerController.playerMovement.m_Grounded)
         {
             groundEmissionRate = 10;
-            var groundEmission = m_GroundedTrail.emission;
-            groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
         }
 
-        ////Sparkle testing
-        //if (m_PlayerController.playerInput.SpacePressed() > 0)
-        //{
-        //    m_Sparkle.Play();
-        //}
+        foreach (var fx in m_GroundedFX)
+        {
+            var groundEmission = fx.emission;
+            groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+        }
+        
+        
+
+        TrickGlow();
+    }
+
+    void TrickGlow()
+    {
+        if (m_PlayerController.playerMovement.m_TrickPerformed)
+        {
+            //m_GlowSmooth += Time.deltaTime;
+            m_GondolaMat.SetFloat("Vector1_78B50D9D", Mathf.Lerp(m_GondolaMat.GetFloat("Vector1_78B50D9D"), 1, Time.deltaTime * m_GlowSmooth));
+        }
+        else
+        {
+            m_GondolaMat.SetFloat("Vector1_78B50D9D", 0f);
+        }
+    }
+
+    public void Sparkle()
+    {
+        m_Sparkle.Play();
     }
 }
