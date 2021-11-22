@@ -22,12 +22,15 @@ public class PlayerCollision : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            //Vector3 impactDirection = collision.transform.position - transform.position;
-            //
-            //Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
-            //
-            ////Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
+            Vector3 impactDirection = collision.transform.position - transform.position;
+            
+            Vector3 reflectionForce = -impactDirection * collision.impulse.magnitude;
+            
+            //Vector3 upwardsForce = Vector3.Dot(collision.impulse, transform.up) * transform.up;
             //playerController.playerMovement.m_RigidBody.AddForce(reflectionForce, ForceMode.Impulse);
+
+            Vector3 reflectionDirection = Vector3.Reflect(impactDirection, collision.GetContact(0).normal);
+            playerController.playerMovement.m_RigidBody.AddForce(reflectionDirection, ForceMode.Impulse);
         }
     }
 
