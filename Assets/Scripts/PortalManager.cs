@@ -153,20 +153,12 @@ public class PortalManager : MonoBehaviour
 
     void TeleportPlayer(Transform _portalEntrance, Transform _portalExit)
     {
-        
         // Get the vector from the portal entrance to the player
         Vector3 portalToPlayer = m_Player.transform.position - _portalEntrance.position;
 
         // Store the cameras current offset from the player. This is to help with a seamless teleport
         Vector3 playerCamOffset = m_PlayerCamera.position - m_Player.transform.position;
         // Store the cameras current rotation from the player.
-
-        //Quaternion playerCamRotation = Quaternion.Inverse(m_Player.transform.rotation);
-        m_RotationVector = m_PlayerCamera.eulerAngles.y;
-
-        float desiredAngle = m_RotationVector;
-
-        Quaternion currentRotation = Quaternion.Euler(0f, desiredAngle, 0f);
 
         // dot product checking if the player entered the portal from the right side
         float dotProduct = Vector3.Dot(_portalEntrance.up, portalToPlayer);
@@ -196,7 +188,6 @@ public class PortalManager : MonoBehaviour
             // Create and offset with the already calculated player position offset from the portal,
             // rotated around the y by the rot difference 
             Vector3 posOffset = Quaternion.Euler(0f, rotDifference, 0f) * portalToPlayer;
-
             
             // Set player's position to the exit's position + offset
             m_Player.transform.position = _portalExit.position + posOffset;
@@ -206,11 +197,11 @@ public class PortalManager : MonoBehaviour
             Vector3 currentVel = rb.velocity;
             rb.velocity = _portalExit.forward * currentVel.magnitude;
 
-            
             // Set camera position and rotation using the player's position + the camera offset calulated earlier
             m_PlayerCamera.transform.position = m_Player.transform.position + playerCamOffset;
 
-            m_PlayerCamera.transform.rotation = currentRotation;
+            //m_PlayerCamera.transform.rotation = currentRotation;
+            m_PlayerCamera.transform.Rotate(Vector3.up, rotDifference);
 
             m_PlayerOverlapping = false;
 

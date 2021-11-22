@@ -29,11 +29,9 @@ public class SoundManager : MonoBehaviour
 	public float m_FinalSFXVolume = 1.0f;												// The calculated SFX volume
 
 	[Header("Sounds")]
-	[SerializeField] private AudioClip m_GameMusic = null;                              // The game music
-	[SerializeField] private AudioClip m_MenuMusic = null;                              // The menu music
 	[SerializeField] private AudioClip[] m_CollisionClips = new AudioClip[10];          // The collision sounds
 	[SerializeField] private AudioClip[] m_GhostPickupClips = new AudioClip[10];        // The sounds for ghost pickup
-	[SerializeField] private AudioClip[] m_BGMClips = new AudioClip[10];				// The back ground music clips
+	[SerializeField] private AudioClip[] m_MusicClips = new AudioClip[10];				// The back ground music clips
 	[SerializeField] private AudioClip[] m_UIClips = new AudioClip[10];                 // The menu selection sounds
 	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];              // The boost sound clips
 	[SerializeField] private AudioClip[] m_WaterSplashClips = new AudioClip[10];        // The Water splashing sound clips
@@ -45,7 +43,7 @@ public class SoundManager : MonoBehaviour
 	[SerializeField] private GameObject m_SoundSourceObject = null;						// The gameobject holding alltheaudio sources								
 	private AudioSource m_CollisionSource = null;										// The collision audio source component
 	private AudioSource m_GhostPickupSource = null;										// The Ghost pickup audio source component
-	private AudioSource m_BGMSource = null;												// The back ground music audio source component
+	private AudioSource m_MusicSource = null;												// The back ground music audio source component
 	private AudioSource m_BoostSource = null;											// The boost audio source component
 	private AudioSource m_UISource = null;												// The UI sounds audio source component
 
@@ -82,7 +80,7 @@ public class SoundManager : MonoBehaviour
 		AudioSource[] SourceArray = m_SoundSourceObject.GetComponentsInChildren<AudioSource>(false);
 		m_CollisionSource = SourceArray[0];
 		m_GhostPickupSource = SourceArray[1];
-		m_BGMSource = SourceArray[2];
+		m_MusicSource = SourceArray[2];
 		m_BoostSource = SourceArray[3];
 		m_UISource = SourceArray[4];
 
@@ -91,34 +89,13 @@ public class SoundManager : MonoBehaviour
 		m_SFXVolumeSources.Add(m_BoostSource);
 		m_SFXVolumeSources.Add(m_CollisionSource);
 
-		m_MusicVolumeSources.Add(m_BGMSource);
+		m_MusicVolumeSources.Add(m_MusicSource);
 
 		//m_BoostSource.volume = 0.0f;
-		PlayBoost(0);
-		BoostFadeOut();
 	}
 	#endregion
 
 	#region Functions
-
-	/// <summary>
-	/// Called at the start of the game.
-	/// Plays the music for the game
-	/// </summary>
-	public void PlayGameMusic()
-	{
-	//	m_GameMusic.Play();
-	}
-
-	/// <summary>
-	/// Called in the menu.
-	/// Plays the menu sound/music
-	/// </summary>
-	public void PlayMenuMusic()
-	{
-		//m_MenuMusic.volume = m_MusicVolume;
-	//	m_MenuMusic.Play();
-	}
 
 	/// <summary>
 	/// Called when something in the menu has been selected.
@@ -182,16 +159,16 @@ public class SoundManager : MonoBehaviour
 	}
 	#endregion
 
-	#region Background Music
+	#region Music
 	/// <summary>
 	/// Called when the game starts
 	/// Plays the backround music at the index
 	/// </summary>
 	/// <param name="index">An index referring to a background music sound from a array</param>
-	public void PlayBGM(int index)
+	public void PlayMusic(int index)
 	{
-		m_BGMSource.clip = m_BGMClips[index];
-		m_BGMSource.Play();
+		m_MusicSource.clip = m_MusicClips[index];
+		m_MusicSource.Play();
 		Debug.Log("SoundManager play BGM: " + index);
 	}
 
@@ -199,11 +176,11 @@ public class SoundManager : MonoBehaviour
 	/// Called when the game starts
 	/// Plays a random background music
 	/// </summary>
-	public void PlayRandomBGM()
+	public void PlayRandomMusic()
 	{ 
-		int rand = Random.Range(0, m_BGMClips.Length);
-		m_BGMSource.clip = m_BGMClips[rand];
-		m_BGMSource.Play();
+		int rand = Random.Range(0, m_MusicClips.Length);
+		m_MusicSource.clip = m_MusicClips[rand];
+		m_MusicSource.Play();
 		Debug.Log("SoundManager play BGM: Random " + rand);
 	}
 
@@ -213,7 +190,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public void StopBGM()
 	{
-		m_BGMSource.Stop();
+		m_MusicSource.Stop();
 	}
 	#endregion
 
@@ -226,10 +203,21 @@ public class SoundManager : MonoBehaviour
 	public void PlayBoost(int index)
 	{
 		m_BoostSource.clip = m_BoostClips[index];
-		m_BoostSource.loop = true;
-		m_BoostSource.volume = 0.0f;
 		m_BoostSource.Play();
 		Debug.Log("SoundManager Starting boost: " + index);
+	}
+
+	/// <summary>
+	/// Called when the player boosts
+	/// Plays a random boosting sound at an index on an array
+	/// </summary>
+	
+	public void PlayRandomBoost()
+	{
+		int rand = Random.Range(0, m_BoostClips.Length);
+		m_BoostSource.clip = m_BoostClips[rand];
+		m_BoostSource.Play();
+		Debug.Log("SoundManager Starting boost: " + rand);
 	}
 
 	/// <summary>
