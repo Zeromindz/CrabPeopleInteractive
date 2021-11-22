@@ -124,7 +124,8 @@ public class GameManager : MonoBehaviour
         m_Player.transform.position = m_StartPos.position;
         m_Player.transform.rotation = m_StartPos.rotation;
         PlayerMovement.Instance.ResetMovement();
-        
+        PlayerController.Instance.passengerManager.ResetPassengers();
+
         m_UIController.GameUI.ResetTime();
 	}
 }

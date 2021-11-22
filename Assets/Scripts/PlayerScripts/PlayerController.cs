@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     internal PlayerCollision playerCollision;
     internal InputManager playerInput;
     internal TrickManager trickManager;
+    internal VFXController VFXController;
     internal PassengerManager passengerManager;
 
     
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCollision = GetComponent<PlayerCollision>();
         trickManager = GetComponent<TrickManager>();
-
+        VFXController = GetComponent<VFXController>();
         currentState = PlayerState.Idle;
     }
 }
