@@ -8359,11 +8359,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 283790449373991016, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 0.99
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2770337271923422600, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 0.99
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3147395577327125904, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
@@ -8371,7 +8371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3298160371531821607, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 0.99
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6245532373591246293, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Name
@@ -8423,7 +8423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7554890679727866117, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 0.99
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
@@ -14946,18 +14946,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7440812477443482932, guid: f36dac6a92a6b254cb4072d5dca6b0f0, type: 3}
-      propertyPath: m_Pools.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7440812477443482932, guid: f36dac6a92a6b254cb4072d5dca6b0f0, type: 3}
-      propertyPath: m_Pools.Array.data[0].tag
-      value: Passenger
-      objectReference: {fileID: 0}
-    - target: {fileID: 7440812477443482932, guid: f36dac6a92a6b254cb4072d5dca6b0f0, type: 3}
-      propertyPath: m_Pools.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 2643042033506399723, guid: 8d55219ed0e272e45b952d0c2fe7aeb9, type: 3}
     - target: {fileID: 7440812477443482933, guid: f36dac6a92a6b254cb4072d5dca6b0f0, type: 3}
       propertyPath: m_Name
       value: PoolManager
@@ -22617,37 +22605,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 746128451177520039, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 39
-      objectReference: {fileID: 0}
-    - target: {fileID: 1173118964844841039, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1173118964844841039, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4629130818476053248, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_TrickHeightCheck
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629130818476053248, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_InAirTorque
+      propertyPath: m_MaxSpeed
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4629130818476053248, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
       propertyPath: m_SteeringTorque
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629130818476053248, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_FallGravity
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629130818476053248, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
-      propertyPath: m_MaxSpeed
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4629130818476053258, guid: 25ea814e334e14d42806da5ed91801f2, type: 3}
       propertyPath: m_LocalPosition.x

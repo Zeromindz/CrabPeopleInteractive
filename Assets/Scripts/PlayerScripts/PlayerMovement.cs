@@ -299,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
     // Controls turning
     public void Steer()
     {
-
         if (m_Grounded)
         {
             m_RigidBody.AddRelativeTorque(transform.up * (m_MovementInput.x * m_SteeringTorque), ForceMode.Acceleration);
