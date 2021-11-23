@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 5859547081700396630}
   - component: {fileID: 5859547081700396629}
   - component: {fileID: 5859547081700396628}
-  - component: {fileID: 5859547081700396627}
   m_Layer: 0
   m_Name: Waterfall_CapsuleShader
   m_TagString: Untagged
@@ -244,20 +243,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5859547081700396627
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5859547081700396626}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5859547081709961494
 GameObject:
   m_ObjectHideFlags: 0
@@ -19567,7 +19552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5859547082692450078}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 457.0555, y: 144.36845, z: -61.401337}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1356314677591058273}
