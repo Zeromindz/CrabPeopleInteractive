@@ -13,6 +13,9 @@ public class ItemPickup : MonoBehaviour
     /// </summary>
     public void OnPickup()
     {
+        PlayerController.Instance.VFXController.PlayPuffEffect(transform.position);
         gameObject.SetActive(false);
     }
+
+    
 }

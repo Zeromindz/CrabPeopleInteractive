@@ -24,17 +24,18 @@ public class PlayerCollision : MonoBehaviour
     {
         if (other.gameObject.layer == m_WallLayer)
         {
-            Vector3 playerVelocity = playerController.playerMovement.m_CurrentVel;
-
-            Vector3 surfaceNormal = other.GetContact(0).normal;
-            Vector3 myDirection = playerVelocity.normalized;
-
-            Vector3 temp = Vector3.Cross(surfaceNormal, myDirection);
-            myDirection = Vector3.Cross(temp, surfaceNormal);
-
-           // Vector3 newDirection = myDirection + surfaceNormal;
+            //Vector3 playerVelocity = playerController.playerMovement.m_CurrentVel;
+            //
+            //Vector3 surfaceNormal = other.GetContact(0).normal;
+            //Vector3 myDirection = playerVelocity.normalized;
+            //
+            //Vector3 temp = Vector3.Cross(surfaceNormal, myDirection);
+            //myDirection = Vector3.Cross(temp, surfaceNormal);
+            //
+            //Vector3 newDirection = myDirection + surfaceNormal;
+            //
+            //playerController.playerMovement.m_RigidBody.AddForce(myDirection.normalized * playerVelocity.magnitude, ForceMode.Impulse);
            
-            playerController.playerMovement.m_RigidBody.AddForce(myDirection.normalized * playerVelocity.magnitude, ForceMode.Impulse);
 
         }
 

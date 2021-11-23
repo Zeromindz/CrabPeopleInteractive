@@ -29,11 +29,11 @@ public class PassengerManager : MonoBehaviour
         GameObject grabPoint = objectToSpawn.transform.Find("Grab Point").gameObject;
         m_AttachPoints.Add(grabPoint);
 
-        GameObject hand = objectToSpawn.transform.Find("GFX/Root/Arm_L/Hand_L").gameObject;
+        GameObject hand = objectToSpawn.transform.Find("GFX/Ghost_With_Rig 1/Root/Arm_L/Arm_L_end").gameObject;
         hand.transform.position = m_AttachPoints[attachPointIndex].transform.position;
         hand.transform.SetParent(m_AttachPoints[attachPointIndex].transform);
         
-        m_AttachPoints.RemoveAt(attachPointIndex);
+        //m_AttachPoints.RemoveAt(attachPointIndex);
 
     }
 

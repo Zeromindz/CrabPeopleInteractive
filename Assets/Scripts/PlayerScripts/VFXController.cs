@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class VFXController : MonoBehaviour
 {
+    private PoolManager m_PoolManager;
+
     internal PlayerController m_PlayerController;
 
     public float m_TrickGlowDuration = 0.5f; 
@@ -18,8 +20,15 @@ public class VFXController : MonoBehaviour
     [SerializeField] private ParticleSystem[] m_GroundedFX;
     [SerializeField] private ParticleSystem m_Sparkle;
 
+    [Space(10)]
+    [Header("Pickups")]
+    public ParticleSystem m_GhostPuff;
+    
+
     void Start()
     {
+        m_PoolManager = PoolManager.m_Instance;
+
         m_PlayerController = GetComponent<PlayerController>();
         m_GondolaMat = GetComponentInChildren<MeshRenderer>().material;
 
@@ -77,5 +86,23 @@ public class VFXController : MonoBehaviour
     public void Sparkle()
     {
         m_Sparkle.Play();
+    }
+
+    public void PlayPuffEffect(Vector3 _targetPos)
+    {
+
+        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("GhostPuff", _targetPos, Quaternion.identity);
+        ParticleSystem ps = objectToSpawn.GetComponent<ParticleSystem>();
+        ps.Play();
+
+        StartCoroutine(DisableObject(objectToSpawn, ps.main.duration));
+
+    }
+
+    IEnumerator DisableObject(GameObject _object, float _duration)
+    {
+        yield return new WaitForSeconds(_duration);
+
+        _object.SetActive(false);
     }
 }

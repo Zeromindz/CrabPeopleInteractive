@@ -120,14 +120,10 @@ public class PortalManager : MonoBehaviour
         }
 
         m_PortalCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        m_PortalMaterial.mainTexture = m_PortalCamera.targetTexture;
+        m_PortalMaterial.SetTexture("_End_Texture", m_PortalCamera.targetTexture);
+        //m_PortalMaterial.SetVector("Vector1_8529E3E2",);
 
         m_State = PortalStates.STARTSPAWNED;
-    }
-
-    void SetGatePortalTexture()
-    {
-
     }
 
     void MovePortalCamera(Transform _portalEntrance, Transform _portalExit)
@@ -191,7 +187,7 @@ public class PortalManager : MonoBehaviour
             
             // Set player's position to the exit's position + offset
             m_Player.transform.position = _portalExit.position + posOffset;
-
+            m_Player.GetComponent<PlayerController>().playerMovement.m_BullShitLevelBoatBool = true;
             //Rotate the player's velocity to the exit portals forward direction
             Rigidbody rb = m_Player.GetComponent<Rigidbody>();
             Vector3 currentVel = rb.velocity;
