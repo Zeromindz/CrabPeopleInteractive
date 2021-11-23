@@ -71,11 +71,10 @@ public class LeaderBoardElement : MonoBehaviour
     /// <param name="nameText">The string to be the name text</param>
     /// <param name="scoreText">The string to be set as the score text</param>
     /// <param name="ghostText">The string to be set as the ghost buttons text</param>
-    public void SetElementValues(string nameText, string scoreText, string ghostText)
+    public void SetElementValues(string nameText, string scoreText)
     {
         SetNameText(nameText);
         SetScoreText(scoreText);
-        SetButtonText(ghostText);
     }
 
     /// <summary>
@@ -178,12 +177,12 @@ public class LeaderboardUI : MonoBehaviour
 
             if (value < m_TotalElements)
             {
-                m_Element[value].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
+                m_Element[value].SetElementValues("Name: " + value, "Score: " + value);
             }
 
             else
             {
-                m_Element[value].SetElementValues("N/A", "N/A", "N/A");
+                m_Element[value].SetElementValues("N/A", "N/A");
             }
 
             m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
@@ -276,7 +275,7 @@ public class LeaderboardUI : MonoBehaviour
                 }
 
                 LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_TopIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore), "");
+                m_Element[m_TopIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
                 Move(-1);
 
             }
@@ -299,7 +298,7 @@ public class LeaderboardUI : MonoBehaviour
                 {
                     Debug.Log("11");
                 }
-                m_Element[m_TopIndex].SetElementValues("Name: " + value, "Score: " + value, "");
+                m_Element[m_TopIndex].SetElementValues("Name: " + value, "Score: " + value);
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
@@ -319,7 +318,7 @@ public class LeaderboardUI : MonoBehaviour
 
                 m_CountingIndex++;
                 LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_BottomIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore), "");
+                m_Element[m_BottomIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
                 Move(1);
             }
         }
@@ -337,7 +336,7 @@ public class LeaderboardUI : MonoBehaviour
             if (i < m_ElementsPerPage)
             {
                 LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(i);
-                m_Element[i].SetElementValues(save.playerName, "" + save.playerScore, "");
+                m_Element[i].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
             }
         }
 
