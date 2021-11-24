@@ -4616,7 +4616,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 385919139583801469}
         m_TargetAssemblyTypeName: SoundUI, Assembly-CSharp
-        m_MethodName: SetMainVolume
+        m_MethodName: SetMasterVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5548,8 +5548,8 @@ MonoBehaviour:
   m_MasterVolume: 1
   m_MusicVolume: 1
   m_SFXVolume: 1
-  m_MasterVolumeSlider: {fileID: 0}
-  m_MasterVolumeInput: {fileID: 0}
+  m_MasterVolumeSlider: {fileID: 3968692095698036786}
+  m_MasterVolumeInput: {fileID: 3968692096847829324}
   m_MusicVolumeSlider: {fileID: 3968692095539765591}
   m_MusicVolumeInput: {fileID: 3968692096344567859}
   m_SFXVolumeSlider: {fileID: 3968692096411037046}
@@ -12539,7 +12539,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 385919139583801469}
         m_TargetAssemblyTypeName: SoundUI, Assembly-CSharp
-        m_MethodName: SetMainVolume
+        m_MethodName: SetMasterVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
