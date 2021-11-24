@@ -51,12 +51,16 @@ public class VFXController : MonoBehaviour
             rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
         }
 
-        int groundEmissionRate = 0;
-        if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 5f)
+        float groundEmissionRate = 0;
+        if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
         {
+            groundEmissionRate = m_PlayerController.playerMovement.m_CurrentVel.magnitude;
+
             foreach (var fx in m_GroundedFX)
             {
-                fx.Play();
+                //fx.Play();
+                var groundEmission = fx.emission;
+                groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
             }
         }
         else

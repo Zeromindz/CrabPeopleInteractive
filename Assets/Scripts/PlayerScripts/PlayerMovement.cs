@@ -284,9 +284,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Clamp Speed
-        if (m_CurrentSpeed > m_MaxSpeed)
+        if (m_CurrentSpeed >= m_MaxSpeed)
         {
-            m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxSpeed;
+            m_RigidBody.velocity = Vector3.ClampMagnitude(m_RigidBody.velocity, m_MaxSpeed - 1);
         }
 
         // Slow velocity when theres no forward input and not in the air
@@ -334,8 +334,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_RigidBody.AddTorque(transform.up * (m_MovementInput.x * m_InAirTurnMultiplier), ForceMode.Acceleration);
-            m_RigidBody.AddForce(transform.forward * 10f, ForceMode.Acceleration);
+            m_RigidBody.AddTorque(Vector3.up * (m_MovementInput.x * m_InAirTurnMultiplier), ForceMode.Acceleration);
         }
     }
 
