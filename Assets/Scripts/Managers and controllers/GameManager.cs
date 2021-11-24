@@ -107,7 +107,6 @@ public class GameManager : MonoBehaviour
 		}
 
         m_State = GameState.InRun;
-		SoundManager.Instance.PlayBGM(0);
         m_UIController.GameUI.TimerCounting(true);
     
 	}

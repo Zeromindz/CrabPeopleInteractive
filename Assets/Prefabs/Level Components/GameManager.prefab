@@ -48,11 +48,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3358fd3a8f41f4abf2e4cd9e096435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Canvas: {fileID: 0}
   m_BoatSpeed: 0
   m_CurrentTrickRotation: 0
   m_Passengers: 0
   m_GhostPickups:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -118,23 +143,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc5630e944af5440b621ff419e8c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MainVolume: 1
+  m_MasterVolume: 1
   m_MusicVolume: 1
   m_SFXVolume: 1
-  m_GameMusic: {fileID: 0}
-  m_MenuMusic: {fileID: 0}
+  m_FinalMusicVolume: 1
+  m_FinalSFXVolume: 1
   m_CollisionClips:
-  - {fileID: 8300000, guid: 3602155b805262c48803aa66d636c3f6, type: 3}
-  - {fileID: 8300000, guid: 8203d613ddbfd6144b8d5608c55d3124, type: 3}
+  - {fileID: 8300000, guid: 2770201fd63b00e4e8b28e5329b2edc3, type: 3}
+  - {fileID: 8300000, guid: 65d679f169af75a4c8a0ac43952c0360, type: 3}
+  - {fileID: 8300000, guid: f450c85d8352e754c846862070b72557, type: 3}
   m_GhostPickupClips:
   - {fileID: 8300000, guid: c2de743aaf836c4499bcfca861883f88, type: 3}
-  m_BGMClips:
-  - {fileID: 8300000, guid: 7ab086e3a6086da4fabddfd53fa6ff53, type: 3}
+  m_MusicClips:
+  - {fileID: 8300000, guid: b6a63519653914b4d8b2491b1d869698, type: 3}
+  - {fileID: 8300000, guid: 0d926bb4f4fc4fb40b886840bf412aaf, type: 3}
   m_UIClips:
   - {fileID: 8300000, guid: 2f7bf083e8a60194592a75f5ebeccb23, type: 3}
   - {fileID: 8300000, guid: 32e6993caac86d44cb9a2d26e383af1b, type: 3}
   m_BoostClips:
-  - {fileID: 8300000, guid: 8618b16fef3ef3d42a1b9477482e6e9a, type: 3}
+  - {fileID: 8300000, guid: c4e1b59c7022d424685a052fb631f94b, type: 3}
+  - {fileID: 8300000, guid: 6a9669275b86f964abc4f64868045952, type: 3}
+  - {fileID: 8300000, guid: 462e98bda888ca94aba5558a60813d6b, type: 3}
+  m_WaterSplashClips:
+  - {fileID: 8300000, guid: a791988b04249214291adb5bfc36a9a0, type: 3}
+  - {fileID: 8300000, guid: 471c8f9d14ff6b64d98b009a40e83f8a, type: 3}
+  m_WaterChurningClips:
+  - {fileID: 8300000, guid: 315a9b700f567d340a4fe2ce23a1c40f, type: 3}
+  - {fileID: 8300000, guid: 8c2066c6dc21e1746b6838f4c08243b5, type: 3}
+  - {fileID: 8300000, guid: 880b2f00bcf6d394eac8b1e7b770e75f, type: 3}
+  - {fileID: 8300000, guid: 6be62b82e1e89b242be227e6d83040ff, type: 3}
+  - {fileID: 8300000, guid: c2eb2564750c0704085947fc0fe019e9, type: 3}
+  - {fileID: 8300000, guid: 4e07ed9193c00e14ab68ae8438425ce3, type: 3}
+  - {fileID: 8300000, guid: 28ea4f9d8a3bd79419f591cfc2413198, type: 3}
+  m_BoatScrapingClips:
+  - {fileID: 8300000, guid: d0c7e69e9718c9748a1607a8d75dee91, type: 3}
+  - {fileID: 8300000, guid: 542f79724b43e66499e92d418ba30251, type: 3}
+  - {fileID: 8300000, guid: 2aabd8145f8b88443b982a95b83e5916, type: 3}
+  - {fileID: 8300000, guid: b829c3fdfc464b44aa9f0bcbfcbb6fa8, type: 3}
+  - {fileID: 8300000, guid: 8a0ae51c7679b1844af484b10796e893, type: 3}
   BoostFadeInOutTime: 0.983
   m_SoundSourceObject: {fileID: 0}
 --- !u!114 &3010770541729388967

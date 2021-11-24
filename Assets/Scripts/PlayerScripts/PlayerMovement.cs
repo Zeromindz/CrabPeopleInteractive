@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -204,6 +204,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Boost();
                     m_TrickPerformed = false;
+                   // SoundManager.Instance.PlaySplashSound();
                     //if(m_SoundManager)
                     //    m_SoundManager.BoostFadeIn();
                 }
@@ -350,8 +351,21 @@ public class PlayerMovement : MonoBehaviour
         // Check if player is grounded
         m_Grounded = Physics.Raycast(groundRay, out groundHit, m_GroundCheckDist, m_HoverLayers);
 
+        // Sounds terrain related sound
+        if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
+        {
+            SoundManager.Instance.TerrainSoundSetPause(false);
+        }
+
+		else
+        {
+            SoundManager.Instance.TerrainSoundSetPause(true);
+        }
+
         if (m_Grounded)
         {
+            SoundManager.Instance.ChangeTerrainSound(groundHit);
+
             // Store height from ground
             float height = groundHit.distance;
             // Get the normal direction of the ground
@@ -506,12 +520,7 @@ public class PlayerMovement : MonoBehaviour
             float newMax = m_MaxSpeed + m_BoostSpeedIncrease;
             m_MaxSpeed = newMax;
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
-            SoundManager.Instance.BoostFadeIn();
-        }
-        else
-        {
-            m_MaxSpeed -= m_BoostSpeedIncrease;
-            SoundManager.Instance.BoostFadeOut();
+            SoundManager.Instance.PlayRandomBoost();
         }
     }
 
@@ -532,13 +541,11 @@ public class PlayerMovement : MonoBehaviour
         if (value > 0)
         {
             m_IsShiftPressed = true;
-            //SoundManager.Instance.BoostFadeIn();
         }
 
         else
         {
             m_IsShiftPressed = false;
-            //SoundManager.Instance.BoostFadeOut();
         }
     }
 

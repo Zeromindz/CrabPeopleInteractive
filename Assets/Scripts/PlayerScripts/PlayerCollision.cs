@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,7 +67,7 @@ public class PlayerCollision : MonoBehaviour
             other.GetComponentInParent<ItemPickup>().OnPickup();
             playerController.AddPassenger();
             if(m_SoundManager)
-                SoundManager.Instance.PlayGhostPickupSound(0);
+                SoundManager.Instance.PlayRandomGhostPickupSound();
         }
         
         // Hit starting checkpoint
