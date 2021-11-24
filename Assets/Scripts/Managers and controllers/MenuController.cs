@@ -90,6 +90,7 @@ public class MenuController : MonoBehaviour
 		if (m_UIStack.Count >= 2)
 		{
 			m_UIStack.Pop();
+			OnExitPreviousState();
 			MenuStackItem menu = m_UIStack.Peek();
 			m_State = menu.State;
 			UpdateState();
@@ -97,6 +98,7 @@ public class MenuController : MonoBehaviour
 
 		else
 		{
+			OnExitPreviousState();
 			MenuStackItem menu = m_UIStack.Peek();
 			m_State = menu.State;
 			UpdateState();
@@ -109,6 +111,7 @@ public class MenuController : MonoBehaviour
 	public void PauseGame()
 	{
 		Debug.Log("Pausing Game");
+		OnExitPreviousState();
 		m_State = MenuState.GAMEPAUSED;
 		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_GamePausedUI, MenuState.GAMEPAUSED));
@@ -121,6 +124,7 @@ public class MenuController : MonoBehaviour
 	public void UnPauseGame()
 	{
 		Debug.Log("Un-Pausing Game");
+		OnExitPreviousState();
 		m_State = MenuState.GAME;
 		LoadGame();
 	}
@@ -131,11 +135,13 @@ public class MenuController : MonoBehaviour
 	public void LoadMenu()
 	{
 		Debug.Log("Loading Menu");
+		OnExitPreviousState();
 		m_State = MenuState.MAINMENU;
 		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
 		SoundManager.Instance.PlayMusic(1);
+		SoundManager.Instance.StartTerrainSounds();
 		Time.timeScale = 0;
 	}
 
@@ -145,6 +151,7 @@ public class MenuController : MonoBehaviour
 	public void LoadGame()
 	{
 		Debug.Log("Loading: Game");
+		OnExitPreviousState();
 		m_State = MenuState.GAME;
 		UpdateState();
 		m_UIStack.Clear();
@@ -158,9 +165,11 @@ public class MenuController : MonoBehaviour
 	public void LoadSettings()
 	{
 		Debug.Log("Loading: Settings");
+		OnExitPreviousState();
 		m_State = MenuState.SETTINGS;
 		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
+		UIController.Instance.SettingsUI.LoadSettings();
 	}
 
 
@@ -170,6 +179,7 @@ public class MenuController : MonoBehaviour
 	public void LoadEndScreen()
 	{
 		Debug.Log("Loading: EndScreen");
+		OnExitPreviousState();
 		m_State = MenuState.ENDSCREEN;
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
@@ -177,6 +187,7 @@ public class MenuController : MonoBehaviour
 		Time.timeScale = 0;
 		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
+		SoundManager.Instance.StopTerrainSounds();
 		SoundManager.Instance.PlayMusic(1);
 	}
 
@@ -186,6 +197,7 @@ public class MenuController : MonoBehaviour
 	public void LoadLearderboard()
 	{
 		Debug.Log("Loading: Leaderboard");
+		OnExitPreviousState();
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
 		UpdateState();
@@ -259,6 +271,14 @@ public class MenuController : MonoBehaviour
 		{
 			m_LeaderboardUI.SetActive(true);
 			m_CurrentUI = m_LeaderboardUI;
+		}
+	}
+
+	private void OnExitPreviousState()
+	{
+		if(m_State == MenuState.SETTINGS)
+		{
+			UIController.Instance.SettingsUI.SaveSettings();
 		}
 	}
 	#endregion
