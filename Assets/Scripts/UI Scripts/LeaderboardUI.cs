@@ -144,7 +144,7 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private Canvas m_Canvas;                               // The canvas which the buttons will be childs of 
     [SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
     [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
-    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition;     // The left most X position of the first label
+    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0;     // The left most X position of the first label
 
     private int m_TotalElements;                                            // The total amount of rows saved
     private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard

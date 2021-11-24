@@ -42,28 +42,35 @@ public class GameUI : MonoBehaviour
         string maxSpeedText = "" + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
         m_MaxSpeedUI.text = maxSpeedText;
 
-        // Timer display
-        int centseconds = (int)(m_Time * 100);
-        int wholeSeconds = (centseconds / 100);
-        int leftover = (centseconds % 100);
+        #region Seconds and Centiseconds
+        //      // Timer display
+        //      int centseconds = (int)(m_Time * 100);
+        //      int wholeSeconds = (centseconds / 100);
+        //      int leftover = (centseconds % 100);
 
-        if (m_Time > 0)
-		{
-            string time = "" + wholeSeconds + (leftover < 10 ? ".0" : ".") + leftover;
-            m_TimeUI.text = time;
-		}
-		else
-		{
-            string time = "" + wholeSeconds + ((-1 * leftover) < 10 ? ".0" : ".") + (-1* leftover);
-            m_TimeUI.text = time;
-        }
+        //      if (m_Time > 0)
+        //{
+        //          string time = "" + wholeSeconds + (leftover < 10 ? ".0" : ".") + leftover;
+        //          m_TimeUI.text = time;
+        //}
+        //else
+        //{
+        //          string time = "" + wholeSeconds + ((-1 * leftover) < 10 ? ".0" : ".") + (-1* leftover);
+        //          m_TimeUI.text = time;
+        //      }
+        #endregion
+      
+        int minutes = (int)(m_Time / 60);
+        int seconds = (int)(m_Time - (minutes * 60));
+        string timeString = "" + minutes + ":" + seconds;
+        m_TimeUI.text = timeString;
     }
-    
-    /// <summary>
-    /// Called when the timer is counting,
-    /// Adds deltatime to the time
-    /// </summary>
-    public void UpdateTime()
+
+	/// <summary>
+	/// Called when the timer is counting,
+	/// Adds deltatime to the time
+	/// </summary>
+	public void UpdateTime()
     {
         m_Time += Time.deltaTime;
     }
