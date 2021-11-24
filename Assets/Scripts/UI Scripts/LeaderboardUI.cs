@@ -139,6 +139,8 @@ public class LeaderBoardElement : MonoBehaviour
 /// </summary>
 public class LeaderboardUI : MonoBehaviour
 {
+    public LeaderBoard m_leaderBoard = null;
+
     [SerializeField] private GameObject m_ButtonPrefab;                     // The prefab for the ghost button
     [SerializeField] private GameObject m_LabelPrefab;                      // The prefab for the label prefab
     [SerializeField] private Canvas m_Canvas;                               // The canvas which the buttons will be childs of 
@@ -150,7 +152,7 @@ public class LeaderboardUI : MonoBehaviour
     private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard
     private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
     private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
-    private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range              
+    private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
 
     /// <summary>
     /// Called when script is loaded
@@ -159,6 +161,11 @@ public class LeaderboardUI : MonoBehaviour
     private void Awake()
     {
         m_Element = new LeaderBoardElement[m_ElementsPerPage];
+        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        if(m_leaderBoard == null)
+		{
+            m_leaderBoard = new LeaderBoard(null);
+		}
     }
 
     /// <summary>
