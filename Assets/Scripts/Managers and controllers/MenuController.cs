@@ -141,6 +141,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
 		SoundManager.Instance.PlayMusic(1);
+		SoundManager.Instance.StartTerrainSounds();
 		Time.timeScale = 0;
 	}
 
@@ -186,6 +187,7 @@ public class MenuController : MonoBehaviour
 		Time.timeScale = 0;
 		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
+		SoundManager.Instance.StopTerrainSounds();
 		SoundManager.Instance.PlayMusic(1);
 	}
 

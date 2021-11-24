@@ -113,6 +113,7 @@ public class SoundManager : MonoBehaviour
 		m_CurrentTerrainClipIndex = Random.Range(0, m_ChosenTerrainClips.Length - 1);
 		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
 		StartCoroutine(PlayTerrainSound());
+		
 	}
 
 	#region Functions
@@ -349,6 +350,29 @@ public class SoundManager : MonoBehaviour
 		m_TerrainNoiseSource.Play();
 		StartCoroutine(PlayTerrainSound());
 	}
+
+	public void StartTerrainSounds()
+	{
+		StartCoroutine(PlayTerrainSound());
+	}
+
+	public void StopTerrainSounds()
+	{
+		StopCoroutine(PlayTerrainSound());
+	}
+
+	public void TerrainSoundSetPause(bool pause)
+	{
+		if (pause)
+		{
+			m_TerrainNoiseSource.volume = 0;
+		}
+		else
+		{
+			m_TerrainNoiseSource.volume = 1;
+		}
+	}
+
 	#endregion
 
 	/// <summary>

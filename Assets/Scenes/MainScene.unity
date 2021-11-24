@@ -5703,7 +5703,7 @@ GameObject:
   - component: {fileID: 382965089}
   m_Layer: 10
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8633,11 +8633,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 283790449373991016, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.34
       objectReference: {fileID: 0}
     - target: {fileID: 2770337271923422600, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.34
       objectReference: {fileID: 0}
     - target: {fileID: 3147395577327125904, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
@@ -8645,7 +8645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3298160371531821607, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.34
       objectReference: {fileID: 0}
     - target: {fileID: 6245532373591246293, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Name
@@ -8697,7 +8697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7554890679727866117, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f57fb91f183f47244b7902a2e9320751, type: 3}
@@ -21121,6 +21121,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
       propertyPath: m_SoundSourceObject
       value: 
       objectReference: {fileID: 1818313051}
@@ -21192,6 +21196,26 @@ PrefabInstance:
       propertyPath: m_WaterChurningClips.Array.data[6]
       value: 
       objectReference: {fileID: 8300000, guid: 28ea4f9d8a3bd79419f591cfc2413198, type: 3}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d0c7e69e9718c9748a1607a8d75dee91, type: 3}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 542f79724b43e66499e92d418ba30251, type: 3}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2aabd8145f8b88443b982a95b83e5916, type: 3}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: b829c3fdfc464b44aa9f0bcbfcbb6fa8, type: 3}
+    - target: {fileID: 7234643233102593861, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_BoatScrapingClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a0ae51c7679b1844af484b10796e893, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
 --- !u!1001 &1567518971
