@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911984122}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 947.7, y: 240, z: -222}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2546642326442763941}
@@ -159,8 +159,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024165435}
-  m_LocalRotation: {x: -0, y: -0.00000046193594, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 171, z: 136}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 703, y: -624.81, z: -4101.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2546642326442763941}
@@ -215,12 +215,13 @@ MonoBehaviour:
   m_PortalPrefab: {fileID: 7685300827308483357, guid: c91972a2537e214468a8fc697a438d66, type: 3}
   m_PortalCamera: {fileID: 1894043485}
   m_PlayerCamera: {fileID: 0}
-  m_PortalMaterial: {fileID: 2100000, guid: 43e057c32ea97b54594f344d4d065393, type: 2}
+  m_PortalMaterial: {fileID: 2100000, guid: d9aa7d24e4d37d3478a9ddad8acf36d2, type: 2}
   m_StartPortalExit: {fileID: 2024165436}
   m_GatePortalEntrance: {fileID: 0}
   m_GatePortalExit: {fileID: 911984123}
   m_SpawnDist: 50
   m_SpawnHeight: 30
+  m_DissolveDuration: 0.5
   m_PPressed: 0
   m_PlayerOverlapping: 0
   m_LayerMask:

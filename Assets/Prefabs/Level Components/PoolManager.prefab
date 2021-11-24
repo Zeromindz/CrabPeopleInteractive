@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Pools:
-  - tag: Ghost
-    prefab: {fileID: 7815379108581030511, guid: 42b84ce81064f814ebab619e1dc6c52c, type: 3}
-    size: 200
   - tag: Passenger
-    prefab: {fileID: 2643042033506399723, guid: 8d55219ed0e272e45b952d0c2fe7aeb9, type: 3}
+    prefab: {fileID: 8506315970193554471, guid: dd868ea9a19ad18429741ec4824e5729, type: 3}
     size: 150
+  - tag: GhostPuff
+    prefab: {fileID: 5350384722433665508, guid: c162ab1fa6468f34da28f512ff219b58, type: 3}
+    size: 10
