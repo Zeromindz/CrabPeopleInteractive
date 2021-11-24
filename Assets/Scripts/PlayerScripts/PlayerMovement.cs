@@ -345,8 +345,21 @@ public class PlayerMovement : MonoBehaviour
         // Check if player is grounded
         m_Grounded = Physics.Raycast(groundRay, out groundHit, m_GroundCheckDist, m_HoverLayers);
 
+        // Sounds terrain related sound
+        if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
+        {
+            SoundManager.Instance.TerrainSoundSetPause(false);
+        }
+
+		else
+        {
+            SoundManager.Instance.TerrainSoundSetPause(true);
+        }
+
         if (m_Grounded)
         {
+            SoundManager.Instance.ChangeTerrainSound(groundHit);
+
             // Store height from ground
             float height = groundHit.distance;
             // Get the normal direction of the ground

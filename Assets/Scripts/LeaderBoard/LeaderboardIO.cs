@@ -31,6 +31,7 @@ public class LeaderboardIO : MonoBehaviour
 			Destroy(this.gameObject);
 		else
 			m_Instance = this;
+		CreateDirectory();
 	}
 
 	/// <summary>
@@ -40,7 +41,7 @@ public class LeaderboardIO : MonoBehaviour
 	/// <param name="amount">The amount of Leaderboard rows</param>
 	private void SaveRowAmount(int amount)
 	{
-		string path = Application.dataPath + "/Leaderboard/RowAmount.dat";
+		string path = Application.streamingAssetsPath + "/LeaderBoard/RowAmount.dat";
 		//if (!File.Exists(path)) { }
 		BinaryFormatter formatter = new BinaryFormatter();
 		FileStream stream = new FileStream(path, FileMode.Create);
@@ -59,7 +60,7 @@ public class LeaderboardIO : MonoBehaviour
 	/// <returns>The class holding an int of row amounts</returns>
 	public RowAmount LoadRowAmount()
 	{
-		string path = Application.dataPath + "/LeaderBoard/RowAmount.dat";
+		string path = Application.streamingAssetsPath + "/LeaderBoard/RowAmount.dat";
 		if (File.Exists(path))
 		{
 			BinaryFormatter formatter = new BinaryFormatter();
@@ -102,7 +103,7 @@ public class LeaderboardIO : MonoBehaviour
 		BinaryFormatter formatter = new BinaryFormatter();
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat"; saves to users Personal files
 	
-		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
+		string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoardRow" + rows.rowAmount + ".dat";
 		Debug.Log("" + path);
 		FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -129,7 +130,7 @@ public class LeaderboardIO : MonoBehaviour
 			index = 0;
 		}
 		//string path = Application.persistentDataPath + "LeaderBoardRow" + rows.rowAmount + ".dat";
-		string path = Application.dataPath + "/LeaderBoard/LeaderBoardRow" + index + ".dat";
+		string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoardRow" + index + ".dat";
 
 		if (File.Exists(path))
 		{
@@ -156,5 +157,13 @@ public class LeaderboardIO : MonoBehaviour
 	public void ClearRows()
 	{
 		SaveRowAmount(0);
+	}
+	
+	private void CreateDirectory()
+	{
+		if(!Directory.Exists(Application.streamingAssetsPath + "/LeaderBoard"))
+		{
+			Directory.CreateDirectory(Application.streamingAssetsPath + "/LeaderBoard");
+		}
 	}
 }
