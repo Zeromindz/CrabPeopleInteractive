@@ -63,21 +63,35 @@ public class GhostPlayer : MonoBehaviour
     /// <returns>A true or false based on if the replay exists</returns>
     public bool LoadGhost(int index)
     {
-        LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
-        if(save != null)
-		{
-            List<GhostData> ghost = new List<GhostData>();
-
-            for (int i = 0; i < save.replayPath.Length; i++)
-            {
-                ghost.Add(save.replayPath[i]);
-            }
-            path = ghost;
-            m_Nametag.text = save.playerName;
-            name = save.playerName;
-            score = save.playerScore;
+        LeaderboardData data = UIController.Instance.LeaderboardUI.m_leaderBoard.datas[index];
+        if (data != null)
+        {
+            name = data.playerName;
+            m_Nametag.text = name;
+            score = data.playerScore;
+            List<GhostData> ghostPath = new List<GhostData>();
+            for (int i = 0; i < data.replayPath.Length; i++)
+			{
+				ghostPath.Add(data.replayPath[i]);
+			}
+			path = ghostPath;
             return true;
-		}
+        }
+        //      LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
+  //      if(save != null)
+		//{
+  //          List<GhostData> ghost = new List<GhostData>();
+
+  //          for (int i = 0; i < save.replayPath.Length; i++)
+  //          {
+  //              ghost.Add(save.replayPath[i]);
+  //          }
+  //          path = ghost;
+  //          m_Nametag.text = save.playerName;
+  //          name = save.playerName;
+  //          score = save.playerScore;
+  //          return true;
+		//}
         return false;
         //old loading and saving
        //path = GhostSave.Instance.LoadGhost();

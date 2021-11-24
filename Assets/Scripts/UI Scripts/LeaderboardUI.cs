@@ -174,6 +174,27 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     void Start()
     {
+        //for (int i = 0; i < m_Element.Length; i++)
+        //{
+        //    int value = i;
+
+        //    if (value < m_TotalElements)
+        //    {
+        //        m_Element[value].SetElementValues("Name: " + value, "Score: " + value);
+        //    }
+
+        //    else
+        //    {
+        //        m_Element[value].SetElementValues("N/A", "N/A");
+        //    }
+        //}
+        CreateRows();
+        ResetIndices();
+        Load();
+    }
+
+    private void CreateRows()
+    {
         for (int i = 0; i < m_Element.Length; i++)
         {
             int value = i;
@@ -182,25 +203,18 @@ public class LeaderboardUI : MonoBehaviour
             m_Element[value].SetY(m_TopYPosition - (i * m_Element[i].GetHeight()));
             m_Element[value].SetX(m_leftmostXPosition);
 
-            if (value < m_TotalElements)
-            {
-                m_Element[value].SetElementValues("Name: " + value, "Score: " + value);
-            }
-
-            else
-            {
-                m_Element[value].SetElementValues("N/A", "N/A");
-            }
-
             m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
         }
+    }
 
+    private void ResetIndices()
+	{
         m_TopIndex = 0;
         m_TopMostIndex = m_TopIndex;
         m_BottomIndex = m_ElementsPerPage - 1;
         m_BottomMostIndex = m_BottomIndex;
         m_CountingIndex = m_TopIndex;
-        LoadElementAmount();
+        m_TotalElements = m_leaderBoard.datas.Count;
     }
 
     /// <summary>
@@ -215,22 +229,26 @@ public class LeaderboardUI : MonoBehaviour
 
     private void LoadGhost(int index)
     {
-        GameManager.Instance.m_ChosenGhostIndex = index;
-        GameManager.Instance.m_ChoseGhost = true;
-        GameManager.Instance.ResetGame();
-        UIController.Instance.MenuController.LoadGame();
+        Debug.Log("Pressed button at index; " + index);
+        if(index <= m_TotalElements - 1)
+		{
+            GameManager.Instance.m_ChosenGhostIndex = index;    
+            GameManager.Instance.m_ChoseGhost = true;
+            GameManager.Instance.ResetGame();
+            UIController.Instance.MenuController.LoadGame();
+		}
     }
 
-    private void LoadElementAmount()
-    {
-        m_TotalElements = LeaderboardIO.Instance.LoadRowAmount().rowAmount;
-    }
+	//private void LoadElementAmount()
+	//{
+	//    m_TotalElements = LeaderboardIO.Instance.LoadRowAmount().rowAmount;
+	//}
 
-    /// <summary>
-    /// Called when wrapping
-    /// moves all rows on the Y direction
-    /// </summary>
-    /// <param name="direction"></param>
+	/// <summary>
+	/// Called when wrapping
+	/// moves all rows on the Y direction
+	/// </summary>
+	/// <param name="direction"></param>
 	public void Move(float direction)
     {
         float yMovement = direction * m_Element[0].GetHeight();
@@ -281,8 +299,7 @@ public class LeaderboardUI : MonoBehaviour
                     m_CountingIndex--;
                 }
 
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_TopIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
+                m_Element[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
                 Move(-1);
 
             }
@@ -301,11 +318,8 @@ public class LeaderboardUI : MonoBehaviour
                 m_Element[m_TopIndex].SetX(m_leftmostXPosition);
 
                 int value = m_CountingIndex + m_ElementsPerPage;
-                if (value == 11)
-                {
-                    Debug.Log("11");
-                }
-                m_Element[m_TopIndex].SetElementValues("Name: " + value, "Score: " + value);
+
+                m_Element[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
@@ -324,8 +338,7 @@ public class LeaderboardUI : MonoBehaviour
                 }
 
                 m_CountingIndex++;
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_BottomIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
+                m_Element[m_BottomIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
                 Move(1);
             }
         }
@@ -337,17 +350,25 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     public void Load()
     {
-        RowAmount rows = LeaderboardIO.Instance.LoadRowAmount();
-        for (int i = 0; i < rows.rowAmount; i++)
+        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        for (int i = 0; i < m_ElementsPerPage; i++)
         {
             if (i < m_ElementsPerPage)
-            {
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(i);
-                m_Element[i].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
+            {  
+                if(m_TotalElements > i)
+				{
+                    m_Element[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
+				}
+
+                else if(i > m_TotalElements - 1 && i < m_ElementsPerPage)
+				{
+                    m_Element[i].SetElementValues("...", "...");
+                }
+
             }
         }
 
-        LoadElementAmount();
+        //LoadElementAmount();
     }
 
     public void ClearLeaderboard()

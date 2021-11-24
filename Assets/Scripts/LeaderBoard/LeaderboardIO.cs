@@ -187,7 +187,7 @@ public class LeaderboardIO : MonoBehaviour
 
 			LeaderBoard leaderBoard = formatter.Deserialize(stream) as LeaderBoard;
 
-			Debug.Log("Loading LeaderBoard");
+			Debug.Log("Loading LeaderBoard" + path);
 			stream.Close();
 			return leaderBoard;
 		}

@@ -29,7 +29,7 @@ public class LeaderboardData
 [System.Serializable]
 public class LeaderBoard
 {
-	List<LeaderboardData> datas = null;
+	public List<LeaderboardData> datas = null;
 
 	public LeaderBoard (List<LeaderboardData> dataList)
 	{
