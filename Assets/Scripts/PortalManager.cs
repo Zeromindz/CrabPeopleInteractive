@@ -94,6 +94,8 @@ public class PortalManager : MonoBehaviour
             TeleportPlayer(m_GatePortalEntrance, m_GatePortalExit);
             m_State = PortalStates.VOID;
         }
+
+        Debug.Log("Portal State: " + m_State);
     }
 
     IEnumerator LerpDissolve(float _endValue, float _duration)
@@ -129,7 +131,7 @@ public class PortalManager : MonoBehaviour
         float portalHeight = m_PortalPrefab.GetComponentInChildren<BoxCollider>().size.y;
 
         // Set portal position to raycast hit point + portal collider halfheight, so it's on the ground nicely
-        spawnPos = hit.point + (Vector3.up * (portalHeight / 2));
+        spawnPos = hit.point + (Vector3.up * (portalHeight / 2 - 15f));
 
         m_SpawnedPortal = Instantiate(m_PortalPrefab, spawnPos, Quaternion.LookRotation(-moveDir, Vector3.up));
 
