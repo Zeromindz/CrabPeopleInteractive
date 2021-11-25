@@ -12,11 +12,14 @@ public class VFXController : MonoBehaviour
     public float m_GlowSmooth = 2f;
 
     private Material m_GondolaMat;
-    
-    [SerializeField] private ParticleSystem m_SpeedLines;
+
     [Space(10)]
     [Header("Particles")]
-    [SerializeField] private ParticleSystem[] m_RocketTrails;
+    public int m_MinIdleRocketEmissionRate = 25;
+    public int m_MaxIdleRocketEmissionRate = 50;
+    [SerializeField] private ParticleSystem[] m_IdleRocketTrails;
+    public int m_BoostRocketEmissionRate = 50;
+    [SerializeField] private ParticleSystem[] m_BoostRocketTrails;
     [SerializeField] private ParticleSystem[] m_GroundedFX;
     [SerializeField] private ParticleSystem m_Sparkle;
 
@@ -39,28 +42,41 @@ public class VFXController : MonoBehaviour
     void Update()
     {
         // Set vfx emissions
-        int rocketEmissionRate = 0;
-        if (m_PlayerController.playerMovement.m_Boosting)
+        int idleRocketEmissionRate = m_MinIdleRocketEmissionRate;
+        if (m_PlayerController.playerMovement.m_CurrentVel.magnitude > 50f)
         {
-            rocketEmissionRate = 10;
+            idleRocketEmissionRate = m_MaxIdleRocketEmissionRate + (int)m_PlayerController.playerMovement.m_CurrentVel.magnitude;
 
         }
-        foreach (var trails in m_RocketTrails)
+        foreach (var trails in m_IdleRocketTrails)
         {
             var rocketEmission = trails.emission;
-            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(rocketEmissionRate);
+            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(idleRocketEmissionRate);
         }
 
-        float groundEmissionRate = 0;
+        // Set vfx emissions
+        int boostRocketEmissionRate = 0;
+        if (m_PlayerController.playerMovement.m_Boosting)
+        {
+            boostRocketEmissionRate = m_BoostRocketEmissionRate;
+
+        }
+        foreach (var trails in m_BoostRocketTrails)
+        {
+            var rocketEmission = trails.emission;
+            rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(boostRocketEmissionRate);
+        }
+
+        int groundEmissionRate = 0;
         if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
         {
-            groundEmissionRate = m_PlayerController.playerMovement.m_CurrentVel.magnitude;
+            groundEmissionRate = (int)m_PlayerController.playerMovement.m_CurrentVel.magnitude;
 
             foreach (var fx in m_GroundedFX)
             {
-                //fx.Play();
-                var groundEmission = fx.emission;
-                groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
+                fx.Play();
+                //var groundEmission = fx.emission;
+                //groundEmission.rateOverTime = new ParticleSystem.MinMaxCurve(groundEmissionRate);
             }
         }
         else
