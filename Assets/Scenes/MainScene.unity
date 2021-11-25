@@ -2145,6 +2145,10 @@ PrefabInstance:
       propertyPath: m_MiniMapUI
       value: 
       objectReference: {fileID: 743120148}
+    - target: {fileID: 4425319318797440840, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
+      propertyPath: m_MiniMapImageUI
+      value: 
+      objectReference: {fileID: 1592449840}
     - target: {fileID: 4425319318797440841, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -169.2
@@ -10939,6 +10943,10 @@ PrefabInstance:
     - target: {fileID: 3617357047307440703, guid: 51da96a789f40564c82fc6684e6d3949, type: 3}
       propertyPath: m_Name
       value: UserInterfaces
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968692096638392584, guid: 51da96a789f40564c82fc6684e6d3949, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4426651047235259948, guid: 51da96a789f40564c82fc6684e6d3949, type: 3}
       propertyPath: m_ElementsPerPage
@@ -21468,6 +21476,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5380965559906533328, guid: 547b26997a26d5145b4b334065d66499, type: 3}
   m_PrefabInstance: {fileID: 1881585702}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1592449840 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5453327037434176385, guid: 51da96a789f40564c82fc6684e6d3949, type: 3}
+  m_PrefabInstance: {fileID: 824168940}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1596445368
 PrefabInstance:
