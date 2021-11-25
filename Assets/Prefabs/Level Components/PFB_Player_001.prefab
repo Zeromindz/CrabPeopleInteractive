@@ -10248,7 +10248,7 @@ MonoBehaviour:
   m_InAirTurnMultiplier: 3
   m_SidewaysDriftAmount: 15
   m_ShipBody: {fileID: 4629130820421721205}
-  m_Scythe: {fileID: 9044398736636065610}
+  m_Scythe: {fileID: 5276336650896589301}
   m_ShipRollAngle: 20
   m_ShipRollSpeed: 5
   m_ScytheTiltAngle: 25
@@ -11260,6 +11260,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
+--- !u!4 &9038731589483447948 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4109319815893626384, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
+  m_PrefabInstance: {fileID: 4933476669841434780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5709009832908476098 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 814378397507233374, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
+  m_PrefabInstance: {fileID: 4933476669841434780}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &9038731590275971583 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4109319815092719971, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
@@ -11270,19 +11280,9 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4109319815428994745, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
   m_PrefabInstance: {fileID: 4933476669841434780}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &5709009832908476098 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 814378397507233374, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
-  m_PrefabInstance: {fileID: 4933476669841434780}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &9038731588238676375 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4109319817062971659, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
-  m_PrefabInstance: {fileID: 4933476669841434780}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9038731589483447948 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4109319815893626384, guid: 6abdabd88f108414096177cbfdebf502, type: 3}
   m_PrefabInstance: {fileID: 4933476669841434780}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6261860282250960930
@@ -11340,14 +11340,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4975015739363508326, guid: 9145ef9a5f70e4b4da1173e88c6f5422, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 97ac56d31678ade4dba28b18b8ba04a4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9145ef9a5f70e4b4da1173e88c6f5422, type: 3}
---- !u!4 &9044398736636065610 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3126254625470879592, guid: 9145ef9a5f70e4b4da1173e88c6f5422, type: 3}
-  m_PrefabInstance: {fileID: 6261860282250960930}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9044398736636065610 stripped
+--- !u!4 &5276336650896589301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2296774810361061847, guid: 9145ef9a5f70e4b4da1173e88c6f5422, type: 3}
   m_PrefabInstance: {fileID: 6261860282250960930}
@@ -11366,6 +11365,10 @@ PrefabInstance:
     - target: {fileID: 876789245025071950, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 876789245025071950, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1784245102073850210, guid: 30953d4e3240cd4438f46ebaf71f76cb, type: 3}
       propertyPath: InitialModule.maxNumParticles
