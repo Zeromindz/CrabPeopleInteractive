@@ -12,6 +12,7 @@ public class MiniMap : MonoBehaviour
 	[SerializeField] private Transform m_GhostBlip = null;
 
 	[SerializeField] private RectTransform m_MiniMapUI = null;
+	[SerializeField] private RectTransform m_MiniMapImageUI = null;
 
 	private Camera m_MiniMapCam = null;
 
@@ -46,11 +47,13 @@ public class MiniMap : MonoBehaviour
 		m_MiniMapUI.sizeDelta = rectSizeDelta;
 
 		Vector3 newMiniMapPos = Vector3.zero;
-		newMiniMapPos.x = ((0.5f * m_MapSize) + 250) * -1;
-		newMiniMapPos.y = ((0.5f * m_MapSize) + 250) * -1;
-
-		RectTransform rt = m_MiniMapUI.GetComponent<RectTransform>();
-		rt.position = newMiniMapPos;
+		newMiniMapPos.x = -(0.5f * m_MapSize);
+		newMiniMapPos.y = -(0.5f * m_MapSize);
+		
+		m_MiniMapUI.anchoredPosition = newMiniMapPos;
+		m_MiniMapImageUI.anchoredPosition = newMiniMapPos; 
+		
+		
 	}
 
 	public void FixedUpdate()
@@ -70,10 +73,17 @@ public class MiniMap : MonoBehaviour
 			rectSizeDelta.y = m_MapSize;
 			m_MiniMapUI.sizeDelta = rectSizeDelta;
 
+			Vector2 imageRectSizeDelta = Vector2.zero;
+			imageRectSizeDelta.x = m_MapSize * 2;
+			imageRectSizeDelta.y = m_MapSize * 2;
+			m_MiniMapImageUI.sizeDelta = imageRectSizeDelta;
+
 			Vector3 newMiniMapPos = Vector3.zero;
-			newMiniMapPos.x = -((0.5f * m_MapSize) + 10);
-			newMiniMapPos.y = -((0.5f * m_MapSize) + 10);
+			newMiniMapPos.x = -(0.5f * m_MapSize);
+			newMiniMapPos.y = -(0.5f * m_MapSize);
+
 			m_MiniMapUI.anchoredPosition = newMiniMapPos;
+			m_MiniMapImageUI.anchoredPosition = newMiniMapPos;
 		}
 
 		// Changes Camera Position

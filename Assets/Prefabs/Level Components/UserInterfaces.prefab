@@ -5508,6 +5508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68f29ced57b8ad40b30cdfd9408433a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_leaderBoard:
+    datas: []
   m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
   m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
   m_Canvas: {fileID: 3968692096346895472}
@@ -10565,7 +10567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3968692096638392585
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16515,7 +16517,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 765, y: 335}
-  m_SizeDelta: {x: 400, y: 400}
+  m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5835973108471135395
 CanvasRenderer:
@@ -16545,7 +16547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e98df1484aebeeb4cac239a5a523abc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69b348c07f8507e49ab7f4aa36379102, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
