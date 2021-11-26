@@ -52,8 +52,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         else
             m_Instance = this;
-
-
     }
 
     void Start()
@@ -65,7 +63,6 @@ public class GameManager : MonoBehaviour
         if(m_UIController != null)
         {
             m_UIController.MenuController.LoadMenu();
-
         }
     }
 

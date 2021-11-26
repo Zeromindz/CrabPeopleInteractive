@@ -146,7 +146,8 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private Canvas m_Canvas;                               // The canvas which the buttons will be childs of 
     [SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
     [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
-    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0;     // The left most X position of the first label
+    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0; // The left most X position of the first label
+    [SerializeField] private ToggleGroup m_ToggleGroup = null;
 
     private int m_TotalElements;                                            // The total amount of rows saved
     private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard
@@ -162,10 +163,10 @@ public class LeaderboardUI : MonoBehaviour
     {
         m_Element = new LeaderBoardElement[m_ElementsPerPage];
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
-        if(m_leaderBoard == null)
-		{
+        if (m_leaderBoard == null)
+        {
             m_leaderBoard = new LeaderBoard(null);
-		}
+        }
     }
 
     /// <summary>
@@ -203,7 +204,9 @@ public class LeaderboardUI : MonoBehaviour
             m_Element[value].SetY(m_TopYPosition - (i * m_Element[i].GetHeight()));
             m_Element[value].SetX(m_leftmostXPosition);
 
-            m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+            m_Element[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Element[value].GhostButton.GetComponent<Toggle>()); });
+            m_ToggleGroup.RegisterToggle(m_Element[value].GhostButton.GetComponent<Toggle>());
+            //m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
         }
     }
 
@@ -281,7 +284,8 @@ public class LeaderboardUI : MonoBehaviour
                 int value = m_CountingIndex - 1;
                 //  m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
                 m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
-                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+                m_Element[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener( delegate { ToggleChange(value, m_Element[m_BottomIndex].GhostButton.GetComponent<Toggle>()); });
+               //m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
                 // The original top row index is now at the bottom, resets to top 
                 if (m_BottomIndex == m_TopMostIndex)
@@ -321,7 +325,9 @@ public class LeaderboardUI : MonoBehaviour
 
                 m_Element[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
                 m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
-                m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+                m_Element[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Element[m_TopIndex].GhostButton.GetComponent<Toggle>()); });
+
+                //m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
                 // The original bottom row is now at the top, resets to bottom
                 if (m_TopIndex == m_BottomMostIndex)
@@ -351,6 +357,7 @@ public class LeaderboardUI : MonoBehaviour
     public void Load()
     {
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        m_TotalElements = m_leaderBoard.datas.Count;
         for (int i = 0; i < m_ElementsPerPage; i++)
         {
             if (i < m_ElementsPerPage)
@@ -358,13 +365,17 @@ public class LeaderboardUI : MonoBehaviour
                 if(m_TotalElements > i)
 				{
                     m_Element[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
-				}
+                    m_Element[i].GhostButton.GetComponent<Toggle>().interactable = true;
+                    m_Element[i].GhostButton.GetComponent<Toggle>().group = m_ToggleGroup;
+                    m_Element[i].GhostButton.GetComponent<Toggle>().isOn = false;
+
+                }
 
                 else if(i > m_TotalElements - 1 && i < m_ElementsPerPage)
 				{
                     m_Element[i].SetElementValues("...", "...");
+                    m_Element[i].GhostButton.GetComponent<Toggle>().interactable = false;
                 }
-
             }
         }
 
@@ -394,5 +405,19 @@ public class LeaderboardUI : MonoBehaviour
         int seconds = (int)(score - (minutes * 60));
         string scoreString = "" + minutes + ":" + seconds;
         return scoreString;
+    }
+
+    public void ToggleChange(int index, Toggle toggle)
+	{
+		if (toggle.isOn)
+		{
+            GameManager.Instance.m_ChosenGhostIndex = index;
+            GameManager.Instance.m_ChoseGhost = true;
+            Debug.Log("Chosen ghost Index: " + index);
+		}
+		else
+		{
+            GameManager.Instance.m_ChoseGhost = false;
+		}
     }
 }

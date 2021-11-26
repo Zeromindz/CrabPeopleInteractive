@@ -3298,6 +3298,7 @@ GameObject:
   - component: {fileID: 3968692095465237347}
   - component: {fileID: 3968692095465237277}
   - component: {fileID: 3968692095465237276}
+  - component: {fileID: 2323755971052768649}
   m_Layer: 5
   m_Name: Leaderboard UI
   m_TagString: Untagged
@@ -3362,6 +3363,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2323755971052768649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095465237346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
 --- !u!1 &3968692095491200195
 GameObject:
   m_ObjectHideFlags: 0
@@ -5510,12 +5524,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_leaderBoard:
     datas: []
-  m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
+  m_ButtonPrefab: {fileID: 2805591798692157475, guid: 9621e946b0837924891c218012daee62, type: 3}
   m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
   m_Canvas: {fileID: 3968692096346895472}
-  m_ElementsPerPage: 6
+  m_ElementsPerPage: 2
   m_TopYPosition: 300
   m_leftmostXPosition: -300
+  m_ToggleGroup: {fileID: 2323755971052768649}
 --- !u!114 &2608819040516289337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14675,7 +14690,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &3968692097149516790
 GameObject:
   m_ObjectHideFlags: 0

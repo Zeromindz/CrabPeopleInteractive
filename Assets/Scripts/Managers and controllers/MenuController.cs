@@ -78,6 +78,7 @@ public class MenuController : MonoBehaviour
 	{
 		m_CurrentUI = m_MenuUI;
 		m_UIStack = new Stack<MenuStackItem>();
+		
 	}
 	#endregion
 
@@ -113,9 +114,9 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Pausing Game");
 		OnExitPreviousState();
 		m_State = MenuState.GAMEPAUSED;
-		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_GamePausedUI, MenuState.GAMEPAUSED));
 		Time.timeScale = 0;
+		UpdateState();
 	}
 
 	/// <summary>
@@ -137,12 +138,11 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Loading Menu");
 		OnExitPreviousState();
 		m_State = MenuState.MAINMENU;
-		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
 		SoundManager.Instance.PlayMusic(1);
 		SoundManager.Instance.StartTerrainSounds();
-		Time.timeScale = 0;
+		UpdateState();
 	}
 
 	/// <summary>
@@ -154,10 +154,10 @@ public class MenuController : MonoBehaviour
 		PortalManager.m_Instance.SpawnPortalFromMenu();
 		OnExitPreviousState();
 		m_State = MenuState.GAME;
-		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
 		SoundManager.Instance.PlayMusic(0);
+		UpdateState();
 	}
 
 	/// <summary>
@@ -168,9 +168,9 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Loading: Settings");
 		OnExitPreviousState();
 		m_State = MenuState.SETTINGS;
-		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
 		UIController.Instance.SettingsUI.LoadSettings();
+		UpdateState();
 	}
 
 
@@ -184,12 +184,12 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.ENDSCREEN;
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
-		UpdateState();
 		Time.timeScale = 0;
 		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
 		SoundManager.Instance.StopTerrainSounds();
 		SoundManager.Instance.PlayMusic(1);
+		UpdateState();
 	}
 
 	/// <summary>
@@ -201,8 +201,8 @@ public class MenuController : MonoBehaviour
 		OnExitPreviousState();
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
-		UpdateState();
 		UIController.Instance.LeaderboardUI.Reload();
+		UpdateState();
 	}
 
 
@@ -226,6 +226,7 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.MAINMENU)
 		{
+			Time.timeScale = 1;
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();

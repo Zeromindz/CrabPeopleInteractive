@@ -95,7 +95,7 @@ public class PortalManager : MonoBehaviour
             m_State = PortalStates.VOID;
         }
 
-        Debug.Log("Portal State: " + m_State);
+        //Debug.Log("Portal State: " + m_State);
     }
 
     IEnumerator LerpDissolve(float _endValue, float _duration)
