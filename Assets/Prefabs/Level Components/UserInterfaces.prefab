@@ -310,6 +310,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1081445881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1874,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692095248223401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,6 +2849,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692095424621360
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,6 +3031,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692095439020848
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,6 +4461,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692095696064912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5450,7 +5470,8 @@ GameObject:
   - component: {fileID: 7152041320472221952}
   - component: {fileID: 701652100}
   - component: {fileID: 701652101}
-  - component: {fileID: 3569575978048210476}
+  - component: {fileID: 1659872641}
+  - component: {fileID: 1659872642}
   m_Layer: 5
   m_Name: UserInterfaces
   m_TagString: Untagged
@@ -5624,7 +5645,7 @@ MonoBehaviour:
   m_ErrorMessage: {fileID: 1175452728842806016}
   m_InputField: {fileID: 3968692096924355466}
   m_SaveScoreButton: {fileID: 1091236486}
---- !u!114 &3569575978048210476
+--- !u!114 &1659872641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5633,11 +5654,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 3968692095897777495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733322be487d3e345b174de09310d4b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DefaultColour: {r: 0.43529412, g: 0.21568628, b: 0.09019608, a: 1}
-  m_SwitchToColour: {r: 0.41509432, g: 0, b: 0, a: 1}
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+--- !u!114 &1659872642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968692095897777495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &3968692095917594958
 GameObject:
   m_ObjectHideFlags: 0
@@ -5891,6 +5940,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692095954678214
 GameObject:
   m_ObjectHideFlags: 0
@@ -8923,6 +8976,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096394580062
 GameObject:
   m_ObjectHideFlags: 0
@@ -10597,7 +10654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3968692096638392585
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11797,6 +11854,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096817199554
 GameObject:
   m_ObjectHideFlags: 0
@@ -11975,6 +12036,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096818249162
 GameObject:
   m_ObjectHideFlags: 0
@@ -13097,6 +13162,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096891095878
 GameObject:
   m_ObjectHideFlags: 0
@@ -13275,6 +13344,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096921650817
 GameObject:
   m_ObjectHideFlags: 0
@@ -13453,6 +13526,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096924355464
 GameObject:
   m_ObjectHideFlags: 0
@@ -14052,6 +14129,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692096968838215
 GameObject:
   m_ObjectHideFlags: 0
@@ -15074,18 +15155,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 1
-        - m_Target: {fileID: 3569575978048210476}
-          m_TargetAssemblyTypeName: UIInteractions, Assembly-CSharp
-          m_MethodName: UIHoverEnter
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
           m_CallState: 2
   - eventID: 4
     callback:
@@ -15106,19 +15175,7 @@ MonoBehaviour:
   - eventID: 1
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3569575978048210476}
-          m_TargetAssemblyTypeName: UIInteractions, Assembly-CSharp
-          m_MethodName: UIHoverExit
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
+        m_Calls: []
 --- !u!1 &3968692097207104127
 GameObject:
   m_ObjectHideFlags: 0
@@ -15431,6 +15488,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &3968692097274565365
 GameObject:
   m_ObjectHideFlags: 0

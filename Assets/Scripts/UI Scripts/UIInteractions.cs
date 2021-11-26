@@ -5,36 +5,30 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIInteractions : MonoBehaviour
+public class UIInteractions : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField] private Color m_DefaultColour;
 	[SerializeField] private Color m_SwitchToColour;
 	[SerializeField] private int m_DefaultSize = 30;
 	[SerializeField] private int m_SelectedSize = 50;
 
-	public void UIHoverEnter(BaseEventData data)
+	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if(data != null)
-		{
-			GameObject obj = data.selectedObject.gameObject;
-			Debug.Log(obj.name);
-			TMP_Text text = obj.GetComponentInChildren<TMP_Text>();
-			text.color = m_SwitchToColour;
-			text.fontSize = m_SelectedSize;
-		}
-		//GameObject obj = data.selectedObject;
-		//TMP_Text text = data.selectedObject.GetComponentInChildren<TMP_Text>();
-		//text.color = m_SwitchToColour;
+		GameObject obj = this.gameObject;
+		Debug.Log(obj.name);
+		TMP_Text text = obj.GetComponentInChildren<TMP_Text>();
+		text.color = m_SwitchToColour;
+		text.fontSize = m_SelectedSize;
+		throw new System.NotImplementedException();
 	}
-	public void UIHoverExit(BaseEventData data)
+
+	public void OnPointerExit(PointerEventData eventData)
 	{
-		if (data != null)
-		{
-			GameObject obj = data.selectedObject.gameObject;
-			Debug.Log(obj.name);
-			TMP_Text text = obj.GetComponentInChildren<TMP_Text>();
-			text.color = m_DefaultColour;
-			text.fontSize = m_DefaultSize;
-		}
+		GameObject obj = this.gameObject;
+		Debug.Log(obj.name);
+		TMP_Text text = obj.GetComponentInChildren<TMP_Text>();
+		text.color = m_DefaultColour;
+		text.fontSize = m_DefaultSize;
+		throw new System.NotImplementedException();
 	}
 }
