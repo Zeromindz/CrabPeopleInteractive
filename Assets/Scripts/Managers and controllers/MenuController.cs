@@ -99,10 +99,10 @@ public class MenuController : MonoBehaviour
 
 		else
 		{
-			OnExitPreviousState();
-			MenuStackItem menu = m_UIStack.Peek();
-			m_State = menu.State;
-			UpdateState();
+			//OnExitPreviousState();
+			//MenuStackItem menu = m_UIStack.Peek();
+			//m_State = menu.State;
+			//UpdateState();
 		}
 	}
 
@@ -248,6 +248,7 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.GAMEPAUSED)
 		{
+			Time.timeScale = 0;
 			m_GamePausedUI.SetActive(true);
 			m_CurrentUI = m_GamePausedUI;
 			if (GhostPlayer.Instance.IsPlaying())
@@ -281,6 +282,14 @@ public class MenuController : MonoBehaviour
 		if(m_State == MenuState.SETTINGS)
 		{
 			UIController.Instance.SettingsUI.SaveSettings();
+		}
+
+		else if(m_State == MenuState.GAMEPAUSED)
+		{
+			if (GhostRecorder.Instance.recording)
+			{
+				GhostRecorder.Instance.StartRecording();
+			}
 		}
 	}
 	#endregion

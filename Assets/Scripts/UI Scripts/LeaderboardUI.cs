@@ -217,7 +217,14 @@ public class LeaderboardUI : MonoBehaviour
         m_BottomIndex = m_ElementsPerPage - 1;
         m_BottomMostIndex = m_BottomIndex;
         m_CountingIndex = m_TopIndex;
-        m_TotalElements = m_leaderBoard.datas.Count;
+        if(m_leaderBoard != null)
+		{
+            m_TotalElements = m_leaderBoard.datas.Count;
+		}
+        else
+		{
+            m_TotalElements = 0;
+		}
     }
 
     /// <summary>
@@ -357,7 +364,15 @@ public class LeaderboardUI : MonoBehaviour
     public void Load()
     {
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
-        m_TotalElements = m_leaderBoard.datas.Count;
+        if(m_leaderBoard != null)
+		{
+            m_TotalElements = m_leaderBoard.datas.Count;
+		}
+		else
+		{
+            m_TotalElements = 0;
+		}
+
         for (int i = 0; i < m_ElementsPerPage; i++)
         {
             if (i < m_ElementsPerPage)

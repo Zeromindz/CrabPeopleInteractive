@@ -9,7 +9,8 @@ public class GhostRecorder : MonoBehaviour
     private float timer;                                    // Makes sure it records at the desired frequency
     private float timevalue;                                // The delta time between each path position
     private bool isRecording = false;                       // The recording state
-    private List<GhostData> path = new List<GhostData>();   // The list path 
+    public bool recording = false;
+    public List<GhostData> path = new List<GhostData>();   // The list path 
     private static GhostRecorder m_Instance;                // Current Private instance
     public static GhostRecorder Instance                    // Current public instance
     {
@@ -74,6 +75,7 @@ public class GhostRecorder : MonoBehaviour
     public void StartRecording()
     {
         isRecording = true;
+        recording = true;
     }
 
     /// <summary>
@@ -83,6 +85,7 @@ public class GhostRecorder : MonoBehaviour
     public void StopRecording()
     {
         isRecording = false;
+
     }
 
     /// <summary>
@@ -112,4 +115,9 @@ public class GhostRecorder : MonoBehaviour
     {
         return isRecording;
     }
+
+    public void SetRecording(bool value)
+	{
+        recording = value;
+	}
 }

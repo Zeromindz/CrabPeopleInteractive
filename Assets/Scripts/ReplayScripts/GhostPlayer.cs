@@ -13,6 +13,7 @@ public class GhostPlayer : MonoBehaviour
     public float score = 0;                                 // The score of the replay ghost
     public bool isReplaying;                                // If the replay ghost is replaying
     [SerializeField] TMP_Text m_Nametag = null;             // The namtag of the ghost   
+    [SerializeField] GameObject m_crown = null;
 
     private List<GhostData> path = new List<GhostData>();   // The path of the replay ghost
     private bool isPlaying = false;                         // If the replay ghost is playing
@@ -73,6 +74,15 @@ public class GhostPlayer : MonoBehaviour
             for (int i = 0; i < data.replayPath.Length; i++)
 			{
 				ghostPath.Add(data.replayPath[i]);
+			}
+
+            if (index == 0)
+			{
+                m_crown.SetActive(true);
+			}
+			else
+			{
+                m_crown.SetActive(false);
 			}
 			path = ghostPath;
             return true;
