@@ -88,7 +88,7 @@ public class LeaderBoardElement : MonoBehaviour
         NameLabel.transform.localPosition += offset;
         offset.x += NameLabel.GetComponent<RectTransform>().rect.width;
         ScoreLabel.transform.localPosition += offset;
-        offset.x += ScoreLabel.GetComponent<RectTransform>().rect.width;
+        offset.x += 2 * (ScoreLabel.GetComponent<RectTransform>().rect.width / 3);
         GhostButton.transform.localPosition += offset;
     }
 
