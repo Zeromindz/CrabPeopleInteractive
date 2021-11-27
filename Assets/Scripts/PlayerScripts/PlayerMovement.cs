@@ -219,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
                     //    m_SoundManager.BoostFadeOut();
                 }
 
-                m_PlayerController.VFXController.Sparkle();
+                m_PlayerController.VFXController.PlaySplashEffect();
             }
             else
             {
@@ -286,13 +286,16 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             //m_RigidBody.AddForce(forward * (m_MovementInput.y * inputMultiplier) * m_AccelerationForce, ForceMode.Acceleration);
-
-            Vector3 currentVelocity = m_RigidBody.velocity; // get the current velocity
-            Vector3 newVelocity = m_RigidBody.transform.forward * currentVelocity.magnitude; // calculate some new velocity you want your object to go at.
-            newVelocity -= currentVelocity;
-            newVelocity.y = 0; //remove Y
-            currentVelocity += newVelocity * Time.fixedDeltaTime;
-            m_RigidBody.velocity = currentVelocity;
+            if(m_MovementInput.magnitude > 0.1f)
+            {
+                Vector3 currentVelocity = m_RigidBody.velocity; // get the current velocity
+                Vector3 newVelocity = m_RigidBody.transform.forward * currentVelocity.magnitude; // calculate some new velocity you want your object to go at.
+                newVelocity -= currentVelocity;
+                newVelocity.y = 0; //remove Y
+                currentVelocity += newVelocity * Time.fixedDeltaTime;
+                m_RigidBody.velocity = currentVelocity;
+            }
+            
 
         }
 
