@@ -171,9 +171,10 @@ public class GameManager : MonoBehaviour
                 return loaded;
 			}
 
-            else
+			else
 			{
-                m_ReplayGhosts.Add(obj);
+				m_ReplayGhosts.Add(obj);
+                MiniMap.Instance.AddGhost(obj.transform);
 			}
 		}
         return loaded;
@@ -213,6 +214,7 @@ public class GameManager : MonoBehaviour
 
 	public void DestroyGhost()
 	{
+        MiniMap.Instance.RemoveGhosts();
         for (int i = 0; i < m_ChosenGhostIndices.Count; i++)
         {
             Destroy(m_ReplayGhosts[i]);

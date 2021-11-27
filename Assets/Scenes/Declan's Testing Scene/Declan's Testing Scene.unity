@@ -4230,6 +4230,14 @@ PrefabInstance:
       propertyPath: m_MiniMapImageUI
       value: 
       objectReference: {fileID: 693539019}
+    - target: {fileID: 4425319318797440840, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
+      propertyPath: m_PlayerBlip
+      value: 
+      objectReference: {fileID: 583968822}
+    - target: {fileID: 4425319318797440840, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
+      propertyPath: m_ReplayGhostPrefab
+      value: 
+      objectReference: {fileID: 7134823097142055682, guid: eeda79ad2d25a60499f4c4042f5267a8, type: 3}
     - target: {fileID: 4425319318797440841, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -169.2
@@ -4280,6 +4288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
+--- !u!1 &583968822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4425319319063240106, guid: 6b92a5d76cd0c7141b8c78910a11512f, type: 3}
+  m_PrefabInstance: {fileID: 583968821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &585657650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2011688175742141743, guid: a66da13e9c7cf4340ae804e281dadb2a, type: 3}
