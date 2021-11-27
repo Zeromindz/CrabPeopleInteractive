@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
-    enum PortalStates
+    public enum PortalStates
     {
         VOID,
         STARTSPAWNED,
@@ -45,6 +45,8 @@ public class PortalManager : MonoBehaviour
     public LayerMask m_LayerMask;
 
     private PortalStates m_State;
+    public int GetState() { return (int)m_State; }
+    
 
     void Start()
     {
@@ -248,7 +250,17 @@ public class PortalManager : MonoBehaviour
         }
     }
 
+    public void SpawnPortalFromMenu()
+	{
+        if(m_State == PortalStates.VOID)
+		{
+            SpawnPortal();
 
+            m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
+
+            StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
+		}
+    }
     
 }
 

@@ -959,7 +959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Return to Game
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f4437dc11e65bf4895ae56aa56790b4, type: 2}
   m_sharedMaterial: {fileID: 2403027063632898880, guid: 1f4437dc11e65bf4895ae56aa56790b4, type: 2}
@@ -5508,6 +5508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68f29ced57b8ad40b30cdfd9408433a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_leaderBoard:
+    datas: []
   m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
   m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
   m_Canvas: {fileID: 3968692096346895472}
@@ -16512,9 +16514,9 @@ RectTransform:
   m_Father: {fileID: 3968692097284065159}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 765, y: 335}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -100, y: -100}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5835973108471135395
@@ -16545,7 +16547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e98df1484aebeeb4cac239a5a523abc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69b348c07f8507e49ab7f4aa36379102, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16932,7 +16934,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -126, y: -142}
+  m_AnchoredPosition: {x: -100, y: -100}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2945469825877448652

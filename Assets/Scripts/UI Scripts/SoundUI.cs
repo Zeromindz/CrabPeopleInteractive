@@ -49,7 +49,6 @@ public class SoundUI : MonoBehaviour
 
 	#region Unity Functions
 	
-
 	/// <summary>
 	/// Called on first frame.
 	/// Initializes everything and sets defaults

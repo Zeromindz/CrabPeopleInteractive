@@ -151,6 +151,7 @@ public class MenuController : MonoBehaviour
 	public void LoadGame()
 	{
 		Debug.Log("Loading: Game");
+		PortalManager.m_Instance.SpawnPortalFromMenu();
 		OnExitPreviousState();
 		m_State = MenuState.GAME;
 		UpdateState();
@@ -201,7 +202,7 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
 		UpdateState();
-		UIController.Instance.LeaderboardUI.Load();
+		UIController.Instance.LeaderboardUI.Reload();
 	}
 
 

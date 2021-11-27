@@ -14,6 +14,7 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private Transform m_Camera = null;
     private UIController m_UIController = null;
 
     [Header("Player Stats")]
@@ -134,6 +135,8 @@ public class GameManager : MonoBehaviour
 
         m_Player.transform.position = m_StartPos.position;
         m_Player.transform.rotation = m_StartPos.rotation;
+        m_Camera.transform.position = m_StartPos.position;
+        m_Camera.transform.rotation = m_StartPos.rotation;
         PlayerMovement.Instance.ResetMovement();
         PlayerController.Instance.passengerManager.ResetPassengers();
 
