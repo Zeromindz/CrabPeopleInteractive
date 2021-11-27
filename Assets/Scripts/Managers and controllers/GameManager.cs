@@ -26,9 +26,13 @@ public class GameManager : MonoBehaviour
     public Transform m_StartPos;
     public GameObject m_Player;
 
+    [SerializeField] GameObject m_ReplayGhostPrefab = null;
+    public List<int> m_ChosenGhostIndices;
+    private List<GameObject> m_ReplayGhosts = null;
+    private bool IsPlaying = false;
+
     public float m_TimeLimit = 50.0f;
     private float m_CurrentTime = 0f;
-    public int m_ChosenGhostIndex = 0;
     public bool m_ChoseGhost = false;
     public float GetCurrentTime() { return m_CurrentTime; }
     private GameState m_State = GameState.NotInRun;
@@ -52,6 +56,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         else
             m_Instance = this;
+        m_ReplayGhosts = new List<GameObject>();
     }
 
     void Start()
@@ -59,6 +64,8 @@ public class GameManager : MonoBehaviour
       ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         m_CurrentTime = m_TimeLimit;
         m_UIController = UIController.Instance;
+
+        m_ChosenGhostIndices = new List<int>();
 
         if(m_UIController != null)
         {
@@ -68,6 +75,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (m_State == GameState.InRun)
+		{
+            if (m_ReplayGhosts[1] == null)
+			{
+
+			}
+		}
         // Time limit
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
@@ -92,9 +106,9 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     { 
         Debug.Log("Start point hit");
-        if (m_ChoseGhost && GhostPlayer.Instance.LoadGhost(m_ChosenGhostIndex))
-        { 
-            GhostPlayer.Instance.ResetAndPlay();   
+        if (InstantiateReplays())
+        {
+            ResetAndPlayReplays();  
 
             GhostRecorder.Instance.StartRecording();
         }
@@ -106,7 +120,6 @@ public class GameManager : MonoBehaviour
 
         m_State = GameState.InRun;
         m_UIController.GameUI.TimerCounting(true);
-    
 	}
 
     public void EndGame()
@@ -115,7 +128,7 @@ public class GameManager : MonoBehaviour
         m_State = GameState.NotInRun;
         // GhostRecorder.Instance.SaveRecording();
         GhostRecorder.Instance.StopRecording();
-        GhostPlayer.Instance.Stop();
+        StopReplays();
         m_UIController.MenuController.LoadEndScreen();
         m_UIController.GameUI.TimerCounting(false);
         SoundManager.Instance.StopBGM();
@@ -138,5 +151,68 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.passengerManager.ResetPassengers();
 
         m_UIController.GameUI.ResetTime();
+	}
+
+    public bool InstantiateReplays()
+ 	{
+        bool loaded = true; 
+
+        for(int i = 0; i < m_ChosenGhostIndices.Count; i++)
+		{
+            GameObject obj = Instantiate(m_ReplayGhostPrefab) as GameObject;
+            loaded = obj.GetComponent<GhostPlayer>().LoadGhost(m_ChosenGhostIndices[i]);
+            m_ReplayGhosts.Add(obj);
+			if (!loaded)
+			{
+                return loaded;
+			}
+		}
+        return loaded;
+	}
+
+    public void PlayReplays()
+	{
+        for(int i = 0; i < m_ReplayGhosts.Count; i++)
+		{
+            m_ReplayGhosts[i].GetComponent<GhostPlayer>().Play();
+		}
+        IsPlaying = true;
+	}
+
+    public void StopReplays()
+	{
+        for (int i = 0; i < m_ReplayGhosts.Count; i++)
+        {
+            m_ReplayGhosts[i].GetComponent<GhostPlayer>().Stop();
+        }
+        IsPlaying = false;
+    }
+
+	public void ResetAndPlayReplays()
+	{
+        for (int i = 0; i < m_ReplayGhosts.Count; i++)
+        {
+            m_ReplayGhosts[i].GetComponent<GhostPlayer>().ResetAndPlay();
+        }
+        IsPlaying = true;
+    }
+
+    public bool GetIsPlaying()
+	{
+        return IsPlaying;
+	}
+
+	public void DestroyGhost()
+	{
+        for (int i = 0; i < m_ChosenGhostIndices.Count; i++)
+        {
+            Destroy(m_ReplayGhosts[i]);
+        }
+        m_ChosenGhostIndices.Clear();
+    }
+
+    public Transform GetCamera()
+	{
+        return m_Camera;
 	}
 }

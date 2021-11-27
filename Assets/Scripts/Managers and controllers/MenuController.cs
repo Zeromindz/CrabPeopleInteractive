@@ -238,9 +238,9 @@ public class MenuController : MonoBehaviour
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
 			Time.timeScale = 1;
-			if (GhostPlayer.Instance.IsPlaying())
+			if (GameManager.Instance.GetIsPlaying())
 			{
-				GhostPlayer.Instance.Play();
+				GameManager.Instance.PlayReplays();
 				GhostRecorder.Instance.StartRecording();
 			}
 			
@@ -251,9 +251,9 @@ public class MenuController : MonoBehaviour
 			Time.timeScale = 0;
 			m_GamePausedUI.SetActive(true);
 			m_CurrentUI = m_GamePausedUI;
-			if (GhostPlayer.Instance.IsPlaying())
+			if (GameManager.Instance.GetIsPlaying())
 			{
-				GhostPlayer.Instance.Stop();
+				GameManager.Instance.StopReplays();
 			}
 			GhostRecorder.Instance.StopRecording();
 		}
@@ -290,6 +290,11 @@ public class MenuController : MonoBehaviour
 			{
 				GhostRecorder.Instance.StartRecording();
 			}
+		}
+
+		else if(m_State == MenuState.LEADERBOARD)
+		{
+			GameManager.Instance.m_ChosenGhostIndices = UIController.Instance.LeaderboardUI.m_ChosenIndices;
 		}
 	}
 	#endregion

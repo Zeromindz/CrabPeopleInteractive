@@ -8,7 +8,7 @@ public class MiniMap : MonoBehaviour
 	[SerializeField] private Transform m_player = null;
 	[SerializeField] private Transform m_PlayerBlip = null;
 
-	[SerializeField] private Transform m_Ghost = null;
+	//[SerializeField] private Transform m_Ghost = null;
 	[SerializeField] private Transform m_GhostBlip = null;
 
 	[SerializeField] private RectTransform m_MiniMapUI = null;
@@ -96,13 +96,13 @@ public class MiniMap : MonoBehaviour
 		newBlipPos.y = m_PlayerBlip.position.y;
 		m_PlayerBlip.position = newBlipPos;
 
-		// Changes Ghost Blip Position
-		Vector3 newGhostBlipPos = m_Ghost.position;
-		newGhostBlipPos.y = m_GhostBlip.position.y;
-		m_GhostBlip.position = newGhostBlipPos;
+		//// Changes Ghost Blip Position
+		//Vector3 newGhostBlipPos = m_Ghost.position;
+		//newGhostBlipPos.y = m_GhostBlip.position.y;
+		//m_GhostBlip.position = newGhostBlipPos;
 
 		m_PlayerBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_player.eulerAngles.y);
-		m_GhostBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_Ghost.eulerAngles.y);
+		//m_GhostBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_Ghost.eulerAngles.y);
 
 		if (m_RotateWithPlayer)
 		{

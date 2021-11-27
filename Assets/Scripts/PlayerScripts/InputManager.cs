@@ -40,13 +40,13 @@ public class InputManager : MonoBehaviour
         m_UIController = UIController.Instance;
 	}
 
-	private void Awake()
+    private void Awake()
     {
         playerController = GetComponent<PlayerController>();
 
         Debug.Log("HI");
         playerInput = new PlayerInputActions();
-       // playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
+        // playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.performed += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.canceled += ctx => OnMovementInput(ctx);
 
@@ -68,9 +68,8 @@ public class InputManager : MonoBehaviour
 
         //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
         playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
-       // playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
+        // playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
-        playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
     }
 
     private void OnEscapePressed(InputAction.CallbackContext ctx)
@@ -111,28 +110,29 @@ public class InputManager : MonoBehaviour
         PlayerMovement.Instance.Movement(movementInput);
     }
 
-    private void OnRecordReplay(InputAction.CallbackContext ctx)
-    {
-        recordGhost = ctx.ReadValue<float>();
-        //Debug.Log(recordGhost);
-        GhostPlayer.Instance.LoadGhost(0);
-        GhostPlayer.Instance.Play();
-    }
+    // Initally for testng replays
+    //private void OnRecordReplay(InputAction.CallbackContext ctx)
+    //{
+    //    recordGhost = ctx.ReadValue<float>();
+    //    //Debug.Log(recordGhost);
+    //    GhostPlayer.Instance.LoadGhost(0);
+    //    GhostPlayer.Instance.Play();
+    //}
 
-    private void OnSpawnPortal(InputAction.CallbackContext ctx)
-    {
-        pPressed = ctx.ReadValue<float>();
-        //Debug.Log($"P Pressed {pPressed} ");
-        if(pPressed > 0)
-        {
-            PortalManager.m_Instance.m_PPressed = true;
-        }
-        else
-        {
-            PortalManager.m_Instance.m_PPressed = false;
-        }
+    //private void OnSpawnPortal(InputAction.CallbackContext ctx)
+    //{
+    //    pPressed = ctx.ReadValue<float>();
+    //    //Debug.Log($"P Pressed {pPressed} ");
+    //    if(pPressed > 0)
+    //    {
+    //        PortalManager.m_Instance.m_PPressed = true;
+    //    }
+    //    else
+    //    {
+    //        PortalManager.m_Instance.m_PPressed = false;
+    //    }
 
-    }
+    //}
 
     private void LeaderboardNav(InputAction.CallbackContext ctx)
 	{

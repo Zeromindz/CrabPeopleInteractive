@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_AccelerationMultiplierMin = 1f;
     [SerializeField] internal float m_AccelerationMultiplierMax = 10.0f;
 
-    private float m_DefaultMaxSpeed;
+    private float m_DefaultMaxSpeed = 120;
 
     internal Vector3 m_CurrentVel;
     
@@ -120,9 +120,9 @@ public class PlayerMovement : MonoBehaviour
         m_CameraController = CameraController.Instance;
 
         m_PlayerController = GetComponent<PlayerController>();
-        m_RigidBody = GetComponent<Rigidbody>();
         m_GroundedCenterOfMass = gameObject.transform.Find("CoM").transform.localPosition;
         m_InAirCenterOfMass = gameObject.transform.Find("InAirCoM").transform.localPosition;
+        m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
 
         SaveDefaults();
@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetMovement()
     {
+        m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.velocity = Vector3.zero;
         m_RigidBody.angularVelocity = Vector3.zero;
 

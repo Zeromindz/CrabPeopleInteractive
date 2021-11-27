@@ -147,14 +147,13 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
     [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
     [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0; // The left most X position of the first label
-    [SerializeField] private ToggleGroup m_ToggleGroup = null;
 
     private int m_TotalElements;                                            // The total amount of rows saved
     private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard
     private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
     private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
     private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
-
+    public List<int> m_ChosenIndices;
     /// <summary>
     /// Called when script is loaded
     /// Caches needed information
@@ -167,6 +166,7 @@ public class LeaderboardUI : MonoBehaviour
         {
             m_leaderBoard = new LeaderBoard(null);
         }
+        m_ChosenIndices = new List<int>();
     }
 
     /// <summary>
@@ -205,7 +205,6 @@ public class LeaderboardUI : MonoBehaviour
             m_Element[value].SetX(m_leftmostXPosition);
 
             m_Element[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Element[value].GhostButton.GetComponent<Toggle>()); });
-            m_ToggleGroup.RegisterToggle(m_Element[value].GhostButton.GetComponent<Toggle>());
             //m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
         }
     }
@@ -231,23 +230,23 @@ public class LeaderboardUI : MonoBehaviour
     /// Function that runs on the button being pressed 
     /// </summary>
     /// <param name="index"></param>
-	private void OnbuttonPress(int index)
-    {
-        Debug.Log("Button " + index + " Pressed!");
-        LoadGhost(index);
-    }
+	//private void OnbuttonPress(int index)
+ //   {
+ //       Debug.Log("Button " + index + " Pressed!");
+ //       LoadGhost(index);
+ //   }
 
     private void LoadGhost(int index)
     {
         Debug.Log("Pressed button at index; " + index);
-        if(index <= m_TotalElements - 1)
-		{
-            GameManager.Instance.m_ChosenGhostIndex = index;    
-            GameManager.Instance.m_ChoseGhost = true;
-            GameManager.Instance.ResetGame();
-            UIController.Instance.MenuController.LoadGame();
-		}
-    }
+		//      if(index <= m_TotalElements - 1)
+		//{
+		//          GameManager.Instance.m_ChosenGhostIndex = index;    
+		//          GameManager.Instance.m_ChoseGhost = true;
+		//          GameManager.Instance.ResetGame();
+		//          UIController.Instance.MenuController.LoadGame();
+		//}
+	}
 
 	//private void LoadElementAmount()
 	//{
@@ -381,9 +380,7 @@ public class LeaderboardUI : MonoBehaviour
 				{
                     m_Element[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
                     m_Element[i].GhostButton.GetComponent<Toggle>().interactable = true;
-                    m_Element[i].GhostButton.GetComponent<Toggle>().group = m_ToggleGroup;
                     m_Element[i].GhostButton.GetComponent<Toggle>().isOn = false;
-
                 }
 
                 else if(i > m_TotalElements - 1 && i < m_ElementsPerPage)
@@ -426,13 +423,14 @@ public class LeaderboardUI : MonoBehaviour
 	{
 		if (toggle.isOn)
 		{
-            GameManager.Instance.m_ChosenGhostIndex = index;
-            GameManager.Instance.m_ChoseGhost = true;
-            Debug.Log("Chosen ghost Index: " + index);
+            m_ChosenIndices.Add(index);
+            Debug.Log("Added ghost at index: " + index);
 		}
 		else
 		{
-            GameManager.Instance.m_ChoseGhost = false;
-		}
+            m_ChosenIndices.Remove(index);
+            Debug.Log("Removed ghost at index: " + index);
+
+        }
     }
 }

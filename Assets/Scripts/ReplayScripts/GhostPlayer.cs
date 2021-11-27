@@ -21,23 +21,12 @@ public class GhostPlayer : MonoBehaviour
     private int index1;                                     // The current position
     private int index2;                                     // The next position
 
-    private static GhostPlayer m_Instance;                  // Current Private instance
-    public static GhostPlayer Instance                      // Current public instance
-    {
-        get { return m_Instance; }
-    }
-
     /// <summary>
     /// Called on script loading
     /// Sets deault variables
     /// </summary>
     private void Awake()
     {
-        // Initialize Singleton
-        if (m_Instance != null && m_Instance != this)
-            Destroy(this.gameObject);
-        else
-            m_Instance = this;
         timeValue = 0;
     }
     

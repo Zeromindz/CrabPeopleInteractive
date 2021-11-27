@@ -72,6 +72,7 @@ public class LeaderboardIO : MonoBehaviour
 			stream.Close();
 			return rowAmount;
 		}
+
 		else
 		{
 			Debug.Log("Row Amount save file not found! creating file...");
@@ -191,6 +192,7 @@ public class LeaderboardIO : MonoBehaviour
 			stream.Close();
 			return leaderBoard;
 		}
+
 		else
 		{
 			Debug.Log("LeaderBoard doesn't exist at: " + path);
