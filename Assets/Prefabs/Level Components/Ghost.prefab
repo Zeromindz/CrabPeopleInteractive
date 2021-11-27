@@ -259,7 +259,6 @@ GameObject:
   - component: {fileID: 4629130818476053258}
   - component: {fileID: 4629130818476053253}
   - component: {fileID: 3565906328876472258}
-  - component: {fileID: 4744119313499763788}
   m_Layer: 8
   m_Name: Ghost
   m_TagString: Untagged
@@ -318,18 +317,6 @@ MonoBehaviour:
   isReplaying: 0
   m_Nametag: {fileID: 757565215}
   m_crown: {fileID: 5210995732296257271}
---- !u!114 &4744119313499763788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629130818476053259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a81c98ebe7b6d6d45b55cf4d7dc80399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4629130819067776747
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
       propertyPath: m_LocalPosition.z
@@ -441,6 +428,18 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 584ce866d8277984a8294e0df06bda49, type: 3}
       propertyPath: m_Name

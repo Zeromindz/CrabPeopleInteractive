@@ -6,13 +6,11 @@ using UnityEngine.UI;
 public class MiniMap : MonoBehaviour
 {
 	[SerializeField] private Transform m_player = null;
-	[SerializeField] private Transform m_PlayerBlip = null;
-
-	//[SerializeField] private Transform m_Ghost = null;
-	[SerializeField] private Transform m_GhostBlip = null;
 
 	[SerializeField] private RectTransform m_MiniMapUI = null;
 	[SerializeField] private RectTransform m_MiniMapImageUI = null;
+
+	[SerializeField] private GameObject m_ReplayGhostIcons = null;
 
 	private Camera m_MiniMapCam = null;
 
@@ -37,9 +35,6 @@ public class MiniMap : MonoBehaviour
 		blipScale.x = m_BlipSize;
 		blipScale.y = m_BlipSize;
 		m_PlayerBlip.localScale = blipScale;
-		m_GhostBlip.localScale = blipScale;
-
-		m_GhostBlip.gameObject.SetActive(m_ShowGhost);
 
 		Vector2 rectSizeDelta = Vector2.zero;
 		rectSizeDelta.x = m_MapSize;
@@ -52,8 +47,6 @@ public class MiniMap : MonoBehaviour
 		
 		m_MiniMapUI.anchoredPosition = newMiniMapPos;
 		m_MiniMapImageUI.anchoredPosition = newMiniMapPos; 
-		
-		
 	}
 
 	public void FixedUpdate()
@@ -91,18 +84,18 @@ public class MiniMap : MonoBehaviour
 		newPos.y = transform.position.y;
 		transform.position = newPos;
 
-		// Changes Player Blip Position
+		Changes Player Blip Position
 		Vector3 newBlipPos = m_player.position;
 		newBlipPos.y = m_PlayerBlip.position.y;
 		m_PlayerBlip.position = newBlipPos;
 
-		//// Changes Ghost Blip Position
-		//Vector3 newGhostBlipPos = m_Ghost.position;
-		//newGhostBlipPos.y = m_GhostBlip.position.y;
-		//m_GhostBlip.position = newGhostBlipPos;
+		// Changes Ghost Blip Position
+		Vector3 newGhostBlipPos = m_Ghost.position;
+		newGhostBlipPos.y = m_GhostBlip.position.y;
+		m_GhostBlip.position = newGhostBlipPos;
 
 		m_PlayerBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_player.eulerAngles.y);
-		//m_GhostBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_Ghost.eulerAngles.y);
+		m_GhostBlip.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_Ghost.eulerAngles.y);
 
 		if (m_RotateWithPlayer)
 		{

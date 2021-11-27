@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject m_ReplayGhostPrefab = null;
     public List<int> m_ChosenGhostIndices;
-    private List<GameObject> m_ReplayGhosts = null;
+    public List<GameObject> m_ReplayGhosts = null;
     private bool IsPlaying = false;
 
     public float m_TimeLimit = 50.0f;
@@ -159,12 +159,21 @@ public class GameManager : MonoBehaviour
 
         for(int i = 0; i < m_ChosenGhostIndices.Count; i++)
 		{
-            GameObject obj = Instantiate(m_ReplayGhostPrefab) as GameObject;
+            GameObject obj = Instantiate(m_ReplayGhostPrefab, m_Player.transform.position, m_Player.transform.rotation) as GameObject;
             loaded = obj.GetComponent<GhostPlayer>().LoadGhost(m_ChosenGhostIndices[i]);
-            m_ReplayGhosts.Add(obj);
+            if(obj != null)
+			{
+                Debug.Log(loaded + "" + i);
+			}
+
 			if (!loaded)
 			{
                 return loaded;
+			}
+
+            else
+			{
+                m_ReplayGhosts.Add(obj);
 			}
 		}
         return loaded;
