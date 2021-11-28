@@ -346,7 +346,7 @@ public class SoundManager : MonoBehaviour
 
 		m_CurrentTerrainClipIndex = newClipIndex;
 		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
-		Debug.Log("Playing WaterChurn: " + m_CurrentTerrainClipIndex);
+		//Debug.Log("Playing WaterChurn: " + m_CurrentTerrainClipIndex);
 		m_TerrainNoiseSource.Play();
 		StartCoroutine(PlayTerrainSound());
 	}

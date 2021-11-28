@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
-    enum PortalStates
+    public enum PortalStates
     {
         VOID,
         STARTSPAWNED,
@@ -45,6 +45,8 @@ public class PortalManager : MonoBehaviour
     public LayerMask m_LayerMask;
 
     private PortalStates m_State;
+    public int GetState() { return (int)m_State; }
+    
 
     void Start()
     {
@@ -94,6 +96,8 @@ public class PortalManager : MonoBehaviour
             TeleportPlayer(m_GatePortalEntrance, m_GatePortalExit);
             m_State = PortalStates.VOID;
         }
+
+        Debug.Log("Portal State: " + m_State);
     }
 
     IEnumerator LerpDissolve(float _endValue, float _duration)
@@ -129,7 +133,7 @@ public class PortalManager : MonoBehaviour
         float portalHeight = m_PortalPrefab.GetComponentInChildren<BoxCollider>().size.y;
 
         // Set portal position to raycast hit point + portal collider halfheight, so it's on the ground nicely
-        spawnPos = hit.point + (Vector3.up * (portalHeight / 2));
+        spawnPos = hit.point + (Vector3.up * (portalHeight / 2 - 15f));
 
         m_SpawnedPortal = Instantiate(m_PortalPrefab, spawnPos, Quaternion.LookRotation(-moveDir, Vector3.up));
 
@@ -246,7 +250,17 @@ public class PortalManager : MonoBehaviour
         }
     }
 
+    public void SpawnPortalFromMenu()
+	{
+        if(m_State == PortalStates.VOID)
+		{
+            SpawnPortal();
 
+            m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
+
+            StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
+		}
+    }
     
 }
 

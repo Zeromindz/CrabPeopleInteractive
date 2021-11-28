@@ -5551,6 +5551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68f29ced57b8ad40b30cdfd9408433a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_leaderBoard:
+    datas: []
   m_ButtonPrefab: {fileID: 8353732121411424658, guid: 3cc2f9bb512ba2545bf285b45416d40b, type: 3}
   m_LabelPrefab: {fileID: 6110584179090790674, guid: fdf09bf76c9592042938fcd12eca104e, type: 3}
   m_Canvas: {fileID: 3968692096346895472}
@@ -15777,10 +15779,10 @@ RectTransform:
   m_Father: {fileID: 3968692097284065159}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -699, y: -249.00002}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -100, y: -100}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5600099729861810141
 CanvasRenderer:
