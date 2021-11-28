@@ -21,7 +21,7 @@ public class VFXController : MonoBehaviour
     public int m_BoostRocketEmissionRate = 50;
     [SerializeField] private ParticleSystem[] m_BoostRocketTrails;
     [SerializeField] private ParticleSystem[] m_GroundedFX;
-    [SerializeField] private ParticleSystem[] m_SplashFX;
+    [SerializeField] private ParticleSystem m_Sparkle;
 
     [Space(10)]
     [Header("Pickups")]
@@ -67,10 +67,10 @@ public class VFXController : MonoBehaviour
             rocketEmission.rateOverTime = new ParticleSystem.MinMaxCurve(boostRocketEmissionRate);
         }
 
-        //int groundEmissionRate = 0;
+        int groundEmissionRate = 0;
         if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
         {
-            //groundEmissionRate = (int)m_PlayerController.playerMovement.m_CurrentVel.magnitude;
+            groundEmissionRate = (int)m_PlayerController.playerMovement.m_CurrentVel.magnitude;
 
             foreach (var fx in m_GroundedFX)
             {
@@ -103,12 +103,9 @@ public class VFXController : MonoBehaviour
         }
     }
 
-    public void PlaySplashEffect()
+    public void Sparkle()
     {
-        foreach (var particles in m_GroundedFX)
-        {
-            particles.Play();
-        }
+        m_Sparkle.Play();
     }
 
     public void PlayPuffEffect(Vector3 _targetPos)

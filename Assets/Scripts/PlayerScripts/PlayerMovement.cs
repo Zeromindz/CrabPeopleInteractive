@@ -163,16 +163,12 @@ public class PlayerMovement : MonoBehaviour
         }
         m_WasGrounded = m_Grounded;
 
-        //====================================================================================/
-        // Tricks removed due to the passage of time
-        //_________________________________________________________________________________/
-        
-        //if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
-        //{
-        //    StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
-        //    AirRoll(m_MovementInput.x);
-        //    m_TrickPerformed = true;
-        //}
+        if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
+        {
+            StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
+            AirRoll(m_MovementInput.x);
+            m_TrickPerformed = true;
+        }
 
         m_CurrentVel = m_RigidBody.velocity;
         m_CurrentSpeed = Vector3.Dot(m_CurrentVel, transform.forward);
@@ -220,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
                     //    m_SoundManager.BoostFadeOut();
                 }
 
-                m_PlayerController.VFXController.PlaySplashEffect();
+                m_PlayerController.VFXController.Sparkle();
             }
             else
             {
@@ -287,17 +283,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             //m_RigidBody.AddForce(forward * (m_MovementInput.y * inputMultiplier) * m_AccelerationForce, ForceMode.Acceleration);
-            if(m_MovementInput.magnitude > 0.1f)
-            {
-                Vector3 currentVelocity = m_RigidBody.velocity; // get the current velocity
-                Vector3 newVelocity = m_RigidBody.transform.forward * currentVelocity.magnitude; // calculate some new velocity you want your object to go at.
-                newVelocity -= currentVelocity;
-                newVelocity.y = 0; //remove Y
-                currentVelocity += newVelocity * Time.fixedDeltaTime;
-                m_RigidBody.velocity = currentVelocity;
-            }
-            
-
         }
 
         // Clamp Speed
@@ -352,12 +337,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             m_RigidBody.AddTorque(Vector3.up * (m_MovementInput.x * m_InAirTurnMultiplier), ForceMode.Acceleration);
-
-
-            
-
-            //Vector3 currentVel = Quaternion.AngleAxis(m_RigidBody.rotation.y, Vector3.up) * m_RigidBody.velocity;
-            //m_RigidBody.velocity = currentVel;
         }
     }
 

@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_FollowSpeed = 30.0f; // Movement smoothing Time
     [SerializeField] private float m_RotationSpeed = 10.0f; // Look smoothing Time
     [SerializeField] private float m_MinCameraDist = 3.0f;
-
     private float rotationVector;
     private Vector3 m_DesiredPosition;
     [Range(0f, 1f)]
@@ -91,7 +90,7 @@ public class CameraController : MonoBehaviour
         // Set the camera's position
         transform.position = m_DesiredPosition;
 
-        //Look at target
+        //Look at camera
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
 
         // Store the targets speed in m/s, ignoring the y component of the velocity
@@ -111,7 +110,10 @@ public class CameraController : MonoBehaviour
         CheckForGround();
     }
 
-    void CheckForWall()
+
+
+
+        void CheckForWall()
     {
         // Camera collision
 

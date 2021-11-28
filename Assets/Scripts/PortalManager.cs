@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
-    public enum PortalStates
+    enum PortalStates
     {
         VOID,
         STARTSPAWNED,
@@ -45,8 +45,6 @@ public class PortalManager : MonoBehaviour
     public LayerMask m_LayerMask;
 
     private PortalStates m_State;
-    public int GetState() { return (int)m_State; }
-    
 
     void Start()
     {
