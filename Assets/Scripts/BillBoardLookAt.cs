@@ -5,7 +5,7 @@ using TMPro;
 
 public class BillBoardLookAt : MonoBehaviour
 {
-    [SerializeField] Camera m_Camera = null;            // The camer which the billboard will rotate to face (Player Camera)
+    public Transform m_Camera = null;            // The camer which the billboard will rotate to face (Player Camera)
     [SerializeField] RectTransform m_nameTag = null;    // The rect transform of the nametag label
 
     Vector2 originalSize = Vector2.zero;                // The cached original size for the nametag
@@ -15,7 +15,8 @@ public class BillBoardLookAt : MonoBehaviour
     /// </summary>
 	private void Awake()
 	{
-        originalSize = m_nameTag.sizeDelta;	
+        originalSize = m_nameTag.sizeDelta;
+        m_Camera = GameManager.Instance.GetCamera();
 	}
 
 	/// <summary>
@@ -25,6 +26,7 @@ public class BillBoardLookAt : MonoBehaviour
     {      
         // Making the billboard rotate to look at the camera
         transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward, m_Camera.transform.rotation * Vector3.up);
+	
 
         // storing position variables
         Vector2 camPos = m_Camera.transform.position;

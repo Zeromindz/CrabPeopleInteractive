@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
         else
             m_Instance = this;
+        passengerManager = GetComponent<PassengerManager>();
     }
 
     void Start()
     {
         Initialization();
-        passengerManager = GetComponent<PassengerManager>();
     }
 
     private void Update()
@@ -66,9 +66,8 @@ public class PlayerController : MonoBehaviour
 
     public void AddPassenger() 
     { 
-        m_Passengers++; 
-        playerMovement.m_MaxSpeed *= 1.1f;
-        //playerMovement.m_HorsePower *= 1.01f;
+        m_Passengers++;
+        playerMovement.IncreaseMaxSpeed();
 
         passengerManager.SpawnPassenger();
     }

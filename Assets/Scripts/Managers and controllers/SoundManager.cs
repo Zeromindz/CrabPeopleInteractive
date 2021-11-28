@@ -21,35 +21,40 @@ public class SoundManager : MonoBehaviour
 {
 	#region Variables/Properties
 	[Header("Current volumes")]
-	public float m_MasterVolume = 1.0f;													// Current volume for Master
-	public float m_MusicVolume = 1.0f;												    // Current volume for the Music
-	public float m_SFXVolume = 1.0f;													// Current volume for the SFX
+	public float m_MasterVolume = 1.0f;                                                 // Current volume for Master
+	public float m_MusicVolume = 1.0f;                                                  // Current volume for the Music
+	public float m_SFXVolume = 1.0f;                                                    // Current volume for the SFX
 
-	public float m_FinalMusicVolume = 1.0f;												// The calculated music volume
-	public float m_FinalSFXVolume = 1.0f;												// The calculated SFX volume
+	public float m_FinalMusicVolume = 1.0f;                                             // The calculated music volume
+	public float m_FinalSFXVolume = 1.0f;                                               // The calculated SFX volume
 
 	[Header("Sounds")]
 	[SerializeField] private AudioClip[] m_CollisionClips = new AudioClip[10];          // The collision sounds
 	[SerializeField] private AudioClip[] m_GhostPickupClips = new AudioClip[10];        // The sounds for ghost pickup
-	[SerializeField] private AudioClip[] m_MusicClips = new AudioClip[10];				// The back ground music clips
+	[SerializeField] private AudioClip[] m_MusicClips = new AudioClip[10];              // The back ground music clips
 	[SerializeField] private AudioClip[] m_UIClips = new AudioClip[10];                 // The menu selection sounds
 	[SerializeField] private AudioClip[] m_BoostClips = new AudioClip[10];              // The boost sound clips
 	[SerializeField] private AudioClip[] m_WaterSplashClips = new AudioClip[10];        // The Water splashing sound clips
-	[SerializeField] private AudioClip[] m_WaterChurning = new AudioClip[10];           // The water churning sound clips
+	[SerializeField] private AudioClip[] m_WaterChurningClips = new AudioClip[10];      // The water churning sound clips
+	[SerializeField] private AudioClip[] m_BoatScrapingClips = new AudioClip[10];       // The boat scraping sound clips
 
-	[SerializeField,Range(0,100)] private float BoostFadeInOutTime;						// How fast the boost sound fades in and out
+	[SerializeField, Range(0, 100)] private float BoostFadeInOutTime;                       // How fast the boost sound fades in and out
 
 	[Header("Sources")]
-	[SerializeField] private GameObject m_SoundSourceObject = null;						// The gameobject holding alltheaudio sources								
-	private AudioSource m_CollisionSource = null;										// The collision audio source component
-	private AudioSource m_GhostPickupSource = null;										// The Ghost pickup audio source component
-	private AudioSource m_MusicSource = null;												// The back ground music audio source component
-	private AudioSource m_BoostSource = null;											// The boost audio source component
-	private AudioSource m_UISource = null;												// The UI sounds audio source component
+	[SerializeField] private GameObject m_SoundSourceObject = null;                     // The gameobject holding alltheaudio sources								
+	private AudioSource m_CollisionSource = null;                                       // The collision audio source component
+	private AudioSource m_GhostPickupSource = null;                                     // The Ghost pickup audio source component
+	private AudioSource m_MusicSource = null;                                               // The back ground music audio source component
+	private AudioSource m_BoostSource = null;                                           // The boost audio source component
+	private AudioSource m_UISource = null;                                              // The UI sounds audio source component
+	private AudioSource m_TerrainNoiseSource = null;                                    // The terrain related sound audio source component
 
-	private List<AudioSource> m_MusicVolumeSources = null;								// A list of aud
+	private List<AudioSource> m_MusicVolumeSources = null;                              // A list of 
 	private List<AudioSource> m_SFXVolumeSources = null;
 
+	private AudioClip[] m_ChosenTerrainClips = null;
+	private AudioClip m_CurrentTerrainClip = null;
+	private int m_CurrentTerrainClipIndex;
 	#endregion
 
 	#region Singleton
@@ -79,10 +84,17 @@ public class SoundManager : MonoBehaviour
 
 		AudioSource[] SourceArray = m_SoundSourceObject.GetComponentsInChildren<AudioSource>(false);
 		m_CollisionSource = SourceArray[0];
+
 		m_GhostPickupSource = SourceArray[1];
+
 		m_MusicSource = SourceArray[2];
+		m_MusicSource.loop = true;
+
 		m_BoostSource = SourceArray[3];
+
 		m_UISource = SourceArray[4];
+
+		m_TerrainNoiseSource = SourceArray[5];
 
 		m_SFXVolumeSources.Add(m_UISource);
 		m_SFXVolumeSources.Add(m_GhostPickupSource);
@@ -94,6 +106,15 @@ public class SoundManager : MonoBehaviour
 		//m_BoostSource.volume = 0.0f;
 	}
 	#endregion
+
+	private void Start()
+	{
+		m_ChosenTerrainClips = m_WaterChurningClips;
+		m_CurrentTerrainClipIndex = Random.Range(0, m_ChosenTerrainClips.Length - 1);
+		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
+		StartCoroutine(PlayTerrainSound());
+		
+	}
 
 	#region Functions
 
@@ -289,7 +310,71 @@ public class SoundManager : MonoBehaviour
 	}
 
 	#endregion
-	
+
+	#region Terrain sounds
+
+	public void ChangeTerrainSound(RaycastHit groundHit)
+	{
+		if(groundHit.collider.gameObject.tag == "Water")
+		{
+			if(m_ChosenTerrainClips != m_WaterChurningClips)
+			{
+				m_ChosenTerrainClips = m_WaterChurningClips;
+			}
+		}
+
+		else if (groundHit.collider.gameObject.tag == "Ramp")
+		{
+			if (m_ChosenTerrainClips != m_BoatScrapingClips)
+			{
+				m_ChosenTerrainClips = m_BoatScrapingClips;
+			}
+		}
+	}
+
+
+	IEnumerator PlayTerrainSound()
+	{
+		m_TerrainNoiseSource.Play();
+		yield return new WaitForSeconds(m_TerrainNoiseSource.clip.length);
+
+		int newClipIndex = m_CurrentTerrainClipIndex;
+		while (newClipIndex == m_CurrentTerrainClipIndex)
+		{
+			newClipIndex = Random.Range(0, m_ChosenTerrainClips.Length - 1);
+		}
+
+		m_CurrentTerrainClipIndex = newClipIndex;
+		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
+		//Debug.Log("Playing WaterChurn: " + m_CurrentTerrainClipIndex);
+		m_TerrainNoiseSource.Play();
+		StartCoroutine(PlayTerrainSound());
+	}
+
+	public void StartTerrainSounds()
+	{
+		StartCoroutine(PlayTerrainSound());
+	}
+
+	public void StopTerrainSounds()
+	{
+		StopCoroutine(PlayTerrainSound());
+	}
+
+	public void TerrainSoundSetPause(bool pause)
+	{
+		if (pause)
+		{
+			m_TerrainNoiseSource.volume = 0;
+		}
+		else
+		{
+			m_TerrainNoiseSource.volume = 1;
+		}
+	}
+
+	#endregion
+
 	/// <summary>
 	/// Called whenever the user edits a volume value
 	/// Sets the vollume for the Audio sources

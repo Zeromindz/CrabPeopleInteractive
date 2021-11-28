@@ -19,22 +19,32 @@ public class PassengerManager : MonoBehaviour
 
     public void SpawnPassenger()
     {
-        int attachPointIndex = Random.Range(0, m_AttachPoints.Count);
-
-        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", m_AttachPoints[attachPointIndex].transform.position, Quaternion.identity);
-        m_PassengerObjects.Add(objectToSpawn);
-        objectToSpawn.GetComponentInChildren<SpringJoint>().connectedBody = m_AttachPoints[attachPointIndex].GetComponent<Rigidbody>();
-
-        //GameObject grabPoint = objectToSpawn.transform.GetChild(1).gameObject;
+        // Choose a random index to select attach point from list
+        int attachPointIndex = Random.Range(0, m_AttachPoints.Count - 1);
+        var selectedAttachPoint = m_AttachPoints[attachPointIndex];
+        // Spawn passenger at the attach point with a random rotation
+        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", selectedAttachPoint.transform.position, Quaternion.Euler(Random.insideUnitSphere));
+        
+        // Set the passenger's connected rigidbody to be the selected attach point
+        objectToSpawn.GetComponentInChildren<SpringJoint>().connectedBody = selectedAttachPoint.GetComponent<Rigidbody>();
+        //GameObject hand = objectToSpawn.GetComponent<PassengerGrabPoint>().m_HandL;
+        GameObject hand = objectToSpawn.transform.Find("GFX/Ghost_With_Rig 1/Root/Arm_L/Arm_L_end").gameObject;
+        hand.transform.position = selectedAttachPoint.transform.position;
+        
+        // Remove the attach point from the list to avoid double attaches
+        //m_AttachPoints.RemoveAt(attachPointIndex);
+        // Cache the grab point on the passenger game object
         GameObject grabPoint = objectToSpawn.transform.Find("Grab Point").gameObject;
+        
         m_AttachPoints.Add(grabPoint);
 
-        GameObject hand = objectToSpawn.transform.Find("GFX/Root/Arm_L/Hand_L").gameObject;
-        hand.transform.position = m_AttachPoints[attachPointIndex].transform.position;
-        hand.transform.SetParent(m_AttachPoints[attachPointIndex].transform);
-        
-        m_AttachPoints.RemoveAt(attachPointIndex);
 
+        // Unused
+        //hand.transform.SetParent(selectedAttachPoint.transform);
+
+
+        // Add object to passenger list (for resetting)
+        m_PassengerObjects.Add(objectToSpawn);
     }
 
     public void ResetPassengers()

@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
-    enum PortalStates
-    { 
+    public enum PortalStates
+    {
         VOID,
         STARTSPAWNED,
         ENDSPAWNED
@@ -19,18 +20,20 @@ public class PortalManager : MonoBehaviour
     private InputManager playerInput;
 
     [Header("Game Objects")]
-    private GameObject m_Player;
-    public GameObject m_PortalPrefab;
-    public Camera m_PortalCamera;
-    public Transform m_PlayerCamera;
-    public Material m_PortalMaterial;
+    private GameObject m_Player = null;
+    public GameObject m_PortalPrefab = null;
+    public Camera m_PortalCamera = null;
+    public Transform m_PlayerCamera = null;
+    public Material m_PortalMaterial = null;
     private Transform m_StartPortalEntrance;
-    [SerializeField] private Transform m_StartPortalExit;
-    [SerializeField] private Transform m_GatePortalEntrance;
-    [SerializeField] private Transform m_GatePortalExit;
+    [SerializeField] private Transform m_StartPortalExit = null;
+    [SerializeField] private Transform m_GatePortalEntrance = null;
+    [SerializeField] private Transform m_GatePortalExit = null;
     [Space(10)]
     public float m_SpawnDist = 30.0f;
     public float m_SpawnHeight = 30.0f;
+    public float m_DissolveDuration = 5.0f;
+    private float m_DissolveAmount = 1f;
     public bool m_PPressed;
     public bool m_PlayerOverlapping = false;
 
@@ -42,6 +45,8 @@ public class PortalManager : MonoBehaviour
     public LayerMask m_LayerMask;
 
     private PortalStates m_State;
+    public int GetState() { return (int)m_State; }
+    
 
     void Start()
     {
@@ -60,10 +65,15 @@ public class PortalManager : MonoBehaviour
         {
             SpawnPortal();
             m_PPressed = false;
+
+            m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
+            
+            StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
         }
 
+        
         // If the portal has been spawned, mirror main camera movement with portal camera
-        if(m_State == PortalStates.STARTSPAWNED)
+        if (m_State == PortalStates.STARTSPAWNED)
         {
             MovePortalCamera(m_StartPortalEntrance, m_StartPortalExit);
         }
@@ -86,6 +96,22 @@ public class PortalManager : MonoBehaviour
             TeleportPlayer(m_GatePortalEntrance, m_GatePortalExit);
             m_State = PortalStates.VOID;
         }
+
+        //Debug.Log("Portal State: " + m_State);
+    }
+
+    IEnumerator LerpDissolve(float _endValue, float _duration)
+    {
+        float time = 0;
+        float startValue = m_PortalMaterial.GetFloat("_Step_Cutoff");
+
+        while (time < _duration)
+        {
+            m_PortalMaterial.SetFloat("_Step_Cutoff", Mathf.Lerp(startValue, _endValue, time / _duration));
+            time += Time.deltaTime;
+            yield return null;
+        }
+        m_PortalMaterial.SetFloat("_Step_Cutoff", 0f);
     }
 
     void SpawnPortal()
@@ -107,10 +133,11 @@ public class PortalManager : MonoBehaviour
         float portalHeight = m_PortalPrefab.GetComponentInChildren<BoxCollider>().size.y;
 
         // Set portal position to raycast hit point + portal collider halfheight, so it's on the ground nicely
-        spawnPos = hit.point + (Vector3.up * (portalHeight / 2));
+        spawnPos = hit.point + (Vector3.up * (portalHeight / 2 - 15f));
 
         m_SpawnedPortal = Instantiate(m_PortalPrefab, spawnPos, Quaternion.LookRotation(-moveDir, Vector3.up));
 
+        // For debugging
         m_StartPortalEntrance = m_SpawnedPortal.transform;
 
         // Set up portal texture
@@ -120,14 +147,9 @@ public class PortalManager : MonoBehaviour
         }
 
         m_PortalCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        m_PortalMaterial.mainTexture = m_PortalCamera.targetTexture;
+        m_PortalMaterial.SetTexture("_End_Texture", m_PortalCamera.targetTexture);
 
         m_State = PortalStates.STARTSPAWNED;
-    }
-
-    void SetGatePortalTexture()
-    {
-
     }
 
     void MovePortalCamera(Transform _portalEntrance, Transform _portalExit)
@@ -142,7 +164,7 @@ public class PortalManager : MonoBehaviour
         Vector3 localPos = _portalEntrance.InverseTransformPoint(m_PortalCamera.transform.position);
         // Calculate local rotation of the camera to portal rotation
         Quaternion localRot = Quaternion.Inverse(_portalEntrance.rotation) * m_PortalCamera.transform.rotation;
-        
+
         // Set cam2's position and rotation to the local offsets from the exit
         m_PortalCamera.transform.position = _portalExit.TransformPoint(localPos);
         m_PortalCamera.transform.rotation = _portalExit.rotation * localRot;
@@ -162,7 +184,7 @@ public class PortalManager : MonoBehaviour
 
         // dot product checking if the player entered the portal from the right side
         float dotProduct = Vector3.Dot(_portalEntrance.up, portalToPlayer);
-        
+
         if (dotProduct < 0f)
         {
             // Find the difference in rotation between the entrance and exit and invert it
@@ -175,7 +197,7 @@ public class PortalManager : MonoBehaviour
             // Check the dot product of the portal entrance
             float dot = Vector3.Dot(_portalEntrance.forward, Vector3.left);
 
-            if(dot > 0f)
+            if (dot > 0f)
             {
                 rotDifference *= -1f;
             }
@@ -188,10 +210,10 @@ public class PortalManager : MonoBehaviour
             // Create and offset with the already calculated player position offset from the portal,
             // rotated around the y by the rot difference 
             Vector3 posOffset = Quaternion.Euler(0f, rotDifference, 0f) * portalToPlayer;
-            
+
             // Set player's position to the exit's position + offset
             m_Player.transform.position = _portalExit.position + posOffset;
-
+            m_Player.GetComponent<PlayerController>().playerMovement.m_BullShitLevelBoatBool = true;
             //Rotate the player's velocity to the exit portals forward direction
             Rigidbody rb = m_Player.GetComponent<Rigidbody>();
             Vector3 currentVel = rb.velocity;
@@ -205,7 +227,7 @@ public class PortalManager : MonoBehaviour
 
             m_PlayerOverlapping = false;
 
-            if(m_State == PortalStates.STARTSPAWNED)
+            if (m_State == PortalStates.STARTSPAWNED)
             {
                 Destroy(m_SpawnedPortal);
             }
@@ -219,7 +241,7 @@ public class PortalManager : MonoBehaviour
         Gizmos.DrawWireCube(m_StartPortalExit.position, Vector3.one * 3.0f);
         Gizmos.DrawLine(m_StartPortalExit.position, m_StartPortalExit.position + m_StartPortalExit.transform.forward * 100.0f);
 
-        if(m_StartPortalEntrance)
+        if (m_StartPortalEntrance)
         {
             Gizmos.color = Color.blue;
 
@@ -227,4 +249,21 @@ public class PortalManager : MonoBehaviour
             Gizmos.DrawLine(m_StartPortalEntrance.position, m_StartPortalEntrance.position + m_StartPortalEntrance.transform.forward * 100.0f);
         }
     }
+
+    public void SpawnPortalFromMenu()
+	{
+        if(m_State == PortalStates.VOID)
+		{
+            SpawnPortal();
+
+            m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
+
+            StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
+		}
+    }
+    
 }
+
+
+
+

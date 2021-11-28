@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2831779807166027647}
   - component: {fileID: 6453399959061504877}
   m_Layer: 0
-  m_Name: GhostPuffParticleSystem
+  m_Name: PS_GhostPuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1361,7 +1361,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0.595076, b: 0.8773585, a: 0}
+        key0: {r: 0.759434, g: 0.92267525, b: 1, a: 0}
         key1: {r: 0.35404056, g: 0.48964354, b: 0.49056602, a: 0.3137255}
         key2: {r: 0, g: 0, b: 0, a: 0.3137255}
         key3: {r: 0, g: 0, b: 0, a: 0}

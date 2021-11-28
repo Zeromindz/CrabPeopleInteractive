@@ -17,12 +17,13 @@ public class SettingsUI : MonoBehaviour
 	[SerializeField] private GameObject m_GeneralButton = null;			// The button that brings up the general settings
 
 	[Header("Keybind Settings")]
-	[SerializeField] private GameObject m_KeybindButton = null;			// The button that brings up the keybind settings
+	[SerializeField] private GameObject m_KeybindButton = null;         // The button that brings up the keybind settings
 
 	[Header("Screen Resolutions")]
-	private bool m_FullScreen = false;									// If the game is fullscreen or not
+	private bool m_FullScreen = true;									// If the game is fullscreen or not
 	private int m_DropDownValue;										// The current index shown by the drop down box
-	private Resolution[] m_Resolutions = null;							// Array of resoluutions
+	private Resolution[] m_Resolutions = null;                          // Array of resoluutions
+	private bool IsSaved = false;
 
 	/// <summary>
 	/// Called before first frame
@@ -44,6 +45,7 @@ public class SettingsUI : MonoBehaviour
 		m_DropDownValue  = 0;
 		drop.AddOptions(options);
 		SetGeneralUI();
+		LoadSettings();
 	}
 	/// <summary>
 	/// Called when the fullscreen tickbox is pressed.
@@ -51,6 +53,7 @@ public class SettingsUI : MonoBehaviour
 	/// </summary>
 	public void ToggleFullScreen()
 	{
+		IsSaved = false;
 		if (m_FullScreen)
 		{
 			m_FullScreen = false;
@@ -69,6 +72,7 @@ public class SettingsUI : MonoBehaviour
 	/// <param name="value"> The index of the chosen drop down box  </param>
 	public void SetDropDownValue(int value)
 	{
+		IsSaved = false;
 		m_DropDownValue = value;
 	}
 
@@ -81,6 +85,7 @@ public class SettingsUI : MonoBehaviour
 		Resolution size = m_Resolutions[m_DropDownValue];
 		Screen.SetResolution(size.width, size.height, m_FullScreen, size.refreshRate);
 		Debug.Log("Screen set: " + size.width + " X " + size.height + ", Fullscreen: " + m_FullScreen + ", Refresh rate " + size.refreshRate);
+		IsSaved = true;
 	}
 
 	/// <summary>
@@ -101,5 +106,44 @@ public class SettingsUI : MonoBehaviour
 	{
 		m_KeybindSettings.SetActive(true);
 		m_GeneralSettings.SetActive(false);
+	}
+
+	public void LoadSettings()
+	{
+		m_DropDownValue = PlayerPrefs.GetInt("DropDownIndex");
+		m_ResultionDropDown.GetComponent<TMP_Dropdown>().value = m_DropDownValue;
+		int value = PlayerPrefs.GetInt("Fullscreen");
+		if (value == 1)
+		{
+			m_FullScreen = true;
+		}
+
+		else
+		{
+			m_FullScreen = false;
+		}
+		SetScreenSize();
+		UIController.Instance.SoundUI.LoadSoundSettings();
+	}
+
+	public void SaveSettings()
+	{
+		if (IsSaved)
+		{
+			PlayerPrefs.SetInt("DropDownIndex", m_DropDownValue);
+			int value;
+			if (m_FullScreen)
+			{
+				value = 1;
+			}
+			else
+			{
+				value = 0;
+			}
+			PlayerPrefs.SetInt("Fullscreen", value);
+			PlayerPrefs.Save();
+		}
+
+		UIController.Instance.SoundUI.SaveSoundSettings();
 	}
 }

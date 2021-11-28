@@ -49,7 +49,6 @@ public class SoundUI : MonoBehaviour
 
 	#region Unity Functions
 	
-
 	/// <summary>
 	/// Called on first frame.
 	/// Initializes everything and sets defaults
@@ -93,7 +92,6 @@ public class SoundUI : MonoBehaviour
 		m_MasterVolume = volume;
 		UpdateInputValue(m_Master, m_MasterVolume);
 		SoundManager.Instance.SetVolume(m_MasterVolume, VolumeType.Master);
-
 	}
 
 	/// <summary>
@@ -250,5 +248,30 @@ public class SoundUI : MonoBehaviour
 			text.text = "" + num;
 		}
 	}
-    #endregion
+	#endregion
+
+	public void LoadSoundSettings()
+	{
+		m_MasterVolume = PlayerPrefs.GetFloat("MasterVolume");
+		m_MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+		m_SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
+
+		// Sets the Slider and InputFields to their saved values
+		UpdateInputValue(m_Master, m_MasterVolume);
+		UpdateSliderValue(m_Master, m_MasterVolume);
+
+		UpdateInputValue(m_Music, m_MusicVolume);
+		UpdateSliderValue(m_Music, m_MusicVolume);
+
+		UpdateInputValue(m_SFX, m_SFXVolume);
+		UpdateSliderValue(m_SFX, m_SFXVolume);
+	}
+
+	public void SaveSoundSettings()
+	{
+		PlayerPrefs.SetFloat("MasterVolume", m_MasterVolume);
+		PlayerPrefs.SetFloat("MusicVolume", m_MusicVolume);
+		PlayerPrefs.SetFloat("SFXVolume", m_SFXVolume);
+		PlayerPrefs.Save();
+	}
 }
