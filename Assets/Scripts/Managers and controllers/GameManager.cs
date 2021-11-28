@@ -75,13 +75,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (m_State == GameState.InRun)
-		{
-            if (m_ReplayGhosts[1] == null)
-			{
-
-			}
-		}
         // Time limit
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
