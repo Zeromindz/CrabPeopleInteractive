@@ -13,6 +13,7 @@ public class GhostPlayer : MonoBehaviour
     public float score = 0;                                 // The score of the replay ghost
     public bool isReplaying;                                // If the replay ghost is replaying
     [SerializeField] TMP_Text m_Nametag = null;             // The namtag of the ghost   
+    [SerializeField] GameObject m_crown = null;
 
     private List<GhostData> path = new List<GhostData>();   // The path of the replay ghost
     private bool isPlaying = false;                         // If the replay ghost is playing
@@ -20,23 +21,12 @@ public class GhostPlayer : MonoBehaviour
     private int index1;                                     // The current position
     private int index2;                                     // The next position
 
-    private static GhostPlayer m_Instance;                  // Current Private instance
-    public static GhostPlayer Instance                      // Current public instance
-    {
-        get { return m_Instance; }
-    }
-
     /// <summary>
     /// Called on script loading
     /// Sets deault variables
     /// </summary>
     private void Awake()
     {
-        // Initialize Singleton
-        if (m_Instance != null && m_Instance != this)
-            Destroy(this.gameObject);
-        else
-            m_Instance = this;
         timeValue = 0;
     }
     
@@ -63,25 +53,33 @@ public class GhostPlayer : MonoBehaviour
     /// <returns>A true or false based on if the replay exists</returns>
     public bool LoadGhost(int index)
     {
-        LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
-        if(save != null)
-		{
-            List<GhostData> ghost = new List<GhostData>();
+        LeaderboardData data = UIController.Instance.LeaderboardUI.m_leaderBoard.datas[index];
+        if (data != null)
+        {
+            name = data.playerName;
+            m_Nametag.text = name;
+            score = data.playerScore;
+            List<GhostData> ghostPath = new List<GhostData>();
+            for (int i = 0; i < data.replayPath.Length; i++)
+			{
+				ghostPath.Add(data.replayPath[i]);
+			}
 
-            for (int i = 0; i < save.replayPath.Length; i++)
-            {
-                ghost.Add(save.replayPath[i]);
+            if (index == 0)
+			{
+                GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
+			}
+
+			else if (index == UIController.Instance.LeaderboardUI.m_leaderBoard.datas.Count-1)
+			{
+                GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
             }
-            path = ghost;
-            m_Nametag.text = save.playerName;
-            name = save.playerName;
-            score = save.playerScore;
+
+			path = ghostPath;
             return true;
-		}
+        }
+
         return false;
-        //old loading and saving
-       //path = GhostSave.Instance.LoadGhost();
-        
     }
 
     /// <summary>

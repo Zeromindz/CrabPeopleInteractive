@@ -83,6 +83,11 @@ public class GameUI : MonoBehaviour
     {
         m_Time = 0.0f;
     }
+    public void StopAndResetTime()
+    {
+        m_Counting = false;
+        m_Time = 0.0f;
+    }
 
     /// <summary>
     /// Called whenever a checkpoint is hit,

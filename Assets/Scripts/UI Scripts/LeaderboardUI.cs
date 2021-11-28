@@ -88,7 +88,7 @@ public class LeaderBoardElement : MonoBehaviour
         NameLabel.transform.localPosition += offset;
         offset.x += NameLabel.GetComponent<RectTransform>().rect.width;
         ScoreLabel.transform.localPosition += offset;
-        offset.x += ScoreLabel.GetComponent<RectTransform>().rect.width;
+        offset.x += 2 * (ScoreLabel.GetComponent<RectTransform>().rect.width / 3);
         GhostButton.transform.localPosition += offset;
     }
 
@@ -139,18 +139,22 @@ public class LeaderBoardElement : MonoBehaviour
 /// </summary>
 public class LeaderboardUI : MonoBehaviour
 {
+    public LeaderBoard m_leaderBoard = null;
+
     [SerializeField] private GameObject m_ButtonPrefab;                     // The prefab for the ghost button
     [SerializeField] private GameObject m_LabelPrefab;                      // The prefab for the label prefab
     [SerializeField] private Canvas m_Canvas;                               // The canvas which the buttons will be childs of 
     [SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
     [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
-    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0;     // The left most X position of the first label
+    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0; // The left most X position of the first label
 
     private int m_TotalElements;                                            // The total amount of rows saved
-    private LeaderBoardElement[] m_Element = null;                          // The rows in the leaderboard
+    private LeaderBoardElement[] m_Elements = null;                          // The rows in the leaderboard
     private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
     private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
-    private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range              
+    private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
+    public List<int> m_ChosenIndices;
+    private bool buttonChanged = true;
 
     /// <summary>
     /// Called when script is loaded
@@ -158,7 +162,13 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        m_Element = new LeaderBoardElement[m_ElementsPerPage];
+        m_Elements = new LeaderBoardElement[m_ElementsPerPage];
+        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        if (m_leaderBoard == null)
+        {
+            m_leaderBoard = new LeaderBoard(null);
+        }
+        m_ChosenIndices = new List<int>();
     }
 
     /// <summary>
@@ -167,71 +177,83 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        for (int i = 0; i < m_Element.Length; i++)
+        CreateRows();
+        ResetIndices();
+        Load();
+    }
+
+    private void CreateRows()
+    {
+        for (int i = 0; i < m_ElementsPerPage; i++)
         {
             int value = i;
-            m_Element[value] = new LeaderBoardElement(m_LabelPrefab, m_LabelPrefab, m_ButtonPrefab);
-            m_Element[value].InstantiateElement(m_Canvas);
-            m_Element[value].SetY(m_TopYPosition - (i * m_Element[i].GetHeight()));
-            m_Element[value].SetX(m_leftmostXPosition);
+            m_Elements[value] = new LeaderBoardElement(m_LabelPrefab, m_LabelPrefab, m_ButtonPrefab);
+            m_Elements[value].InstantiateElement(m_Canvas);
+            m_Elements[value].SetY(m_TopYPosition - (i * m_Elements[value].GetHeight()));
+            m_Elements[value].SetX(m_leftmostXPosition);
 
-            if (value < m_TotalElements)
-            {
-                m_Element[value].SetElementValues("Name: " + value, "Score: " + value);
-            }
-
-            else
-            {
-                m_Element[value].SetElementValues("N/A", "N/A");
-            }
-
-            m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+            m_Elements[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Elements[value].GhostButton.GetComponent<Toggle>()); });
+            //m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
         }
+    }
 
+    private void ResetIndices()
+	{
         m_TopIndex = 0;
         m_TopMostIndex = m_TopIndex;
         m_BottomIndex = m_ElementsPerPage - 1;
         m_BottomMostIndex = m_BottomIndex;
         m_CountingIndex = m_TopIndex;
-        LoadElementAmount();
+        if(m_leaderBoard != null)
+		{
+            m_TotalElements = m_leaderBoard.datas.Count;
+		}
+        else
+		{
+            m_TotalElements = 0;
+		}
     }
 
     /// <summary>
     /// Function that runs on the button being pressed 
     /// </summary>
     /// <param name="index"></param>
-	private void OnbuttonPress(int index)
-    {
-        Debug.Log("Button " + index + " Pressed!");
-        LoadGhost(index);
-    }
+	//private void OnbuttonPress(int index)
+ //   {
+ //       Debug.Log("Button " + index + " Pressed!");
+ //       LoadGhost(index);
+ //   }
 
     private void LoadGhost(int index)
     {
-        GameManager.Instance.m_ChosenGhostIndex = index;
-        GameManager.Instance.m_ChoseGhost = true;
-        GameManager.Instance.ResetGame();
-        UIController.Instance.MenuController.LoadGame();
-    }
+        Debug.Log("Pressed button at index; " + index);
+		//      if(index <= m_TotalElements - 1)
+		//{
+		//          GameManager.Instance.m_ChosenGhostIndex = index;    
+		//          GameManager.Instance.m_ChoseGhost = true;
+		//          GameManager.Instance.ResetGame();
+		//          UIController.Instance.MenuController.LoadGame();
+		//}
+	}
 
-    private void LoadElementAmount()
-    {
-        m_TotalElements = LeaderboardIO.Instance.LoadRowAmount().rowAmount;
-    }
+	//private void LoadElementAmount()
+	//{
+	//    m_TotalElements = LeaderboardIO.Instance.LoadRowAmount().rowAmount;
+	//}
 
-    /// <summary>
-    /// Called when wrapping
-    /// moves all rows on the Y direction
-    /// </summary>
-    /// <param name="direction"></param>
+	/// <summary>
+	/// Called when wrapping
+	/// moves all rows on the Y direction
+	/// </summary>
+	/// <param name="direction"></param>
 	public void Move(float direction)
     {
-        float yMovement = direction * m_Element[0].GetHeight();
+        float yMovement = direction * m_Elements[0].GetHeight();
         Debug.Log("Move: " + yMovement);
 
-        for (int i = 0; i < m_Element.Length; i++)
+        for (int i = 0; i < m_Elements.Length; i++)
         {
-            m_Element[i].MoveYDir(yMovement);
+            m_Elements[i].MoveYDir(yMovement);
         }
     }
 
@@ -251,12 +273,34 @@ public class LeaderboardUI : MonoBehaviour
             }
             else
             {
-                m_Element[m_BottomIndex].SetY(m_Element[m_TopIndex].GetYPos() + m_Element[m_TopIndex].GetHeight());
-                m_Element[m_BottomIndex].SetX(m_leftmostXPosition);
                 int value = m_CountingIndex - 1;
+                m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
+
+                buttonChanged = false;
+                bool toggledOn = false;
+				// Toggling the tickbox on or off depending on if already chosen
+				for (int i = 0; i < m_ChosenIndices.Count; i++)
+				{
+                    if(!toggledOn)
+					{
+					    if (value == m_ChosenIndices[i])
+					    {
+						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = true;
+                            toggledOn = true;
+					    }
+					    else
+					    {
+						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = false;
+					    }
+					}
+				}
+                buttonChanged = true;
+
+                m_Elements[m_BottomIndex].SetY(m_Elements[m_TopIndex].GetYPos() + m_Elements[m_TopIndex].GetHeight());
+                m_Elements[m_BottomIndex].SetX(m_leftmostXPosition);
                 //  m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
-                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
-                m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+                m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener( delegate { ToggleChange(value, m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>()); });
+                //m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
                 // The original top row index is now at the bottom, resets to top 
                 if (m_BottomIndex == m_TopMostIndex)
@@ -274,15 +318,15 @@ public class LeaderboardUI : MonoBehaviour
                     m_CountingIndex--;
                 }
 
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_TopIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
-                Move(-1);
+                m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
 
+				Move(-1);
             }
         }
 
         else
         {
+            int value = m_CountingIndex + m_ElementsPerPage;
             // Does nothing if the index is out of range
             if ((m_CountingIndex + m_ElementsPerPage + 1) > m_TotalElements)
             {
@@ -290,17 +334,35 @@ public class LeaderboardUI : MonoBehaviour
             }
             else
             {
-                m_Element[m_TopIndex].SetY(m_Element[m_BottomIndex].GetYPos() - m_Element[m_BottomIndex].GetHeight());
-                m_Element[m_TopIndex].SetX(m_leftmostXPosition);
+                m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
+                // Toggling the tickbox on or off depending on if already chosen
+                buttonChanged = false;
+                bool toggledOn = false;
+				for (int i = 0; i < m_ChosenIndices.Count; i++)
+				{
+					if (!toggledOn)
+					{
+					    if (value == m_ChosenIndices[i])
+					    {
+						    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = true;
+                            toggledOn = true;
+					    }
+					    else
+					    {
+						    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = false;
+					    }
+					}
+				}
+                buttonChanged = true;
+                m_Elements[m_TopIndex].SetY(m_Elements[m_BottomIndex].GetYPos() - m_Elements[m_BottomIndex].GetHeight());
+                m_Elements[m_TopIndex].SetX(m_leftmostXPosition);
 
-                int value = m_CountingIndex + m_ElementsPerPage;
-                if (value == 11)
-                {
-                    Debug.Log("11");
-                }
-                m_Element[m_TopIndex].SetElementValues("Name: " + value, "Score: " + value);
-                m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.RemoveAllListeners();
-                m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+
+                m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
+                m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>()); });
+
+                //m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+
 
                 // The original bottom row is now at the top, resets to bottom
                 if (m_TopIndex == m_BottomMostIndex)
@@ -317,9 +379,9 @@ public class LeaderboardUI : MonoBehaviour
                 }
 
                 m_CountingIndex++;
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(value);
-                m_Element[m_BottomIndex].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
-                Move(1);
+                m_Elements[m_BottomIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
+
+				Move(1);
             }
         }
     }
@@ -330,17 +392,36 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     public void Load()
     {
-        RowAmount rows = LeaderboardIO.Instance.LoadRowAmount();
-        for (int i = 0; i < rows.rowAmount; i++)
+        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        if(m_leaderBoard != null)
+		{
+            m_TotalElements = m_leaderBoard.datas.Count;
+		}
+		else
+		{
+            m_TotalElements = 0;
+		}
+
+        for (int i = 0; i < m_ElementsPerPage; i++)
         {
             if (i < m_ElementsPerPage)
-            {
-                LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(i);
-                m_Element[i].SetElementValues(save.playerName, "" + ScoreToString(save.playerScore));
+            {  
+                if(m_TotalElements > i)
+				{
+                    m_Elements[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
+                    m_Elements[i].GhostButton.GetComponent<Toggle>().interactable = true;
+                    m_Elements[i].GhostButton.GetComponent<Toggle>().isOn = false;
+                }
+
+                else if(i > m_TotalElements - 1 && i < m_ElementsPerPage)
+				{
+                    m_Elements[i].SetElementValues("...", "...");
+                    m_Elements[i].GhostButton.GetComponent<Toggle>().interactable = false;
+                }
             }
         }
 
-        LoadElementAmount();
+        //LoadElementAmount();
     }
 
     public void ClearLeaderboard()
@@ -366,5 +447,22 @@ public class LeaderboardUI : MonoBehaviour
         int seconds = (int)(score - (minutes * 60));
         string scoreString = "" + minutes + ":" + seconds;
         return scoreString;
+    }
+
+    public void ToggleChange(int index, Toggle toggle)
+	{
+        if(buttonChanged)
+		{
+		    if (toggle.isOn)
+		    {
+                m_ChosenIndices.Add(index);
+                Debug.Log("Added ghost at index: " + index);
+		    }
+		    else
+		    {
+                m_ChosenIndices.Remove(index);
+                Debug.Log("Removed ghost at index: " + index);
+            }
+		}
     }
 }

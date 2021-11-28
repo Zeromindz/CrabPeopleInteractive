@@ -55,7 +55,9 @@ public class EndScreenUI : MonoBehaviour
         // Makes sure the player filled the input field
         if(m_InputField.text.Length == 3)
 		{
-            LeaderboardIO.Instance.SaveLeaderBoardRow(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
+            LeaderboardData data = new LeaderboardData(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
+            UIController.Instance.LeaderboardUI.m_leaderBoard.Add(data);
+            LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.m_leaderBoard);
             GhostRecorder.Instance.ResetData();
             m_SaveScoreButton.SetActive(false);
             m_ErrorMessage.text = "Score saved!";

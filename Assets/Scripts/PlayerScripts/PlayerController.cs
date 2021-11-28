@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour
             Destroy(this.gameObject);
         else
             m_Instance = this;
+        passengerManager = GetComponent<PassengerManager>();
     }
 
     void Start()
     {
         Initialization();
-        passengerManager = GetComponent<PassengerManager>();
     }
 
     private void Update()

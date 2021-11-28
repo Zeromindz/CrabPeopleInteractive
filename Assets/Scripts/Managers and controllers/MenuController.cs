@@ -78,6 +78,7 @@ public class MenuController : MonoBehaviour
 	{
 		m_CurrentUI = m_MenuUI;
 		m_UIStack = new Stack<MenuStackItem>();
+		
 	}
 	#endregion
 
@@ -98,10 +99,10 @@ public class MenuController : MonoBehaviour
 
 		else
 		{
-			OnExitPreviousState();
-			MenuStackItem menu = m_UIStack.Peek();
-			m_State = menu.State;
-			UpdateState();
+			//OnExitPreviousState();
+			//MenuStackItem menu = m_UIStack.Peek();
+			//m_State = menu.State;
+			//UpdateState();
 		}
 	}
 
@@ -113,9 +114,9 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Pausing Game");
 		OnExitPreviousState();
 		m_State = MenuState.GAMEPAUSED;
-		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_GamePausedUI, MenuState.GAMEPAUSED));
 		Time.timeScale = 0;
+		UpdateState();
 	}
 
 	/// <summary>
@@ -137,12 +138,11 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Loading Menu");
 		OnExitPreviousState();
 		m_State = MenuState.MAINMENU;
-		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
 		SoundManager.Instance.PlayMusic(1);
 		SoundManager.Instance.StartTerrainSounds();
-		Time.timeScale = 0;
+		UpdateState();
 	}
 
 	/// <summary>
@@ -151,12 +151,13 @@ public class MenuController : MonoBehaviour
 	public void LoadGame()
 	{
 		Debug.Log("Loading: Game");
+		PortalManager.m_Instance.SpawnPortalFromMenu();
 		OnExitPreviousState();
 		m_State = MenuState.GAME;
-		UpdateState();
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
 		SoundManager.Instance.PlayMusic(0);
+		UpdateState();
 	}
 
 	/// <summary>
@@ -167,9 +168,9 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Loading: Settings");
 		OnExitPreviousState();
 		m_State = MenuState.SETTINGS;
-		UpdateState();
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
 		UIController.Instance.SettingsUI.LoadSettings();
+		UpdateState();
 	}
 
 
@@ -183,12 +184,12 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.ENDSCREEN;
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_EndScreenUI, MenuState.ENDSCREEN));
-		UpdateState();
 		Time.timeScale = 0;
 		UIController.Instance.EndScreenUI.Reset();
 		UIController.Instance.EndScreenUI.SetScore();
 		SoundManager.Instance.StopTerrainSounds();
 		SoundManager.Instance.PlayMusic(1);
+		UpdateState();
 	}
 
 	/// <summary>
@@ -198,10 +199,11 @@ public class MenuController : MonoBehaviour
 	{
 		Debug.Log("Loading: Leaderboard");
 		OnExitPreviousState();
+		UIController.Instance.LeaderboardUI.m_ChosenIndices.Clear();
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
+		UIController.Instance.LeaderboardUI.Reload();
 		UpdateState();
-		UIController.Instance.LeaderboardUI.Load();
 	}
 
 
@@ -225,10 +227,11 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.MAINMENU)
 		{
+			Time.timeScale = 1;
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();
-			GameManager.Instance.ResetGame();
+			GameManager.Instance.SetMenu();
 		}
 
 		if (m_State == MenuState.GAME)
@@ -236,9 +239,9 @@ public class MenuController : MonoBehaviour
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
 			Time.timeScale = 1;
-			if (GhostPlayer.Instance.IsPlaying())
+			if (GameManager.Instance.GetIsPlaying())
 			{
-				GhostPlayer.Instance.Play();
+				GameManager.Instance.PlayReplays();
 				GhostRecorder.Instance.StartRecording();
 			}
 			
@@ -246,11 +249,12 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.GAMEPAUSED)
 		{
+			Time.timeScale = 0;
 			m_GamePausedUI.SetActive(true);
 			m_CurrentUI = m_GamePausedUI;
-			if (GhostPlayer.Instance.IsPlaying())
+			if (GameManager.Instance.GetIsPlaying())
 			{
-				GhostPlayer.Instance.Stop();
+				GameManager.Instance.StopReplays();
 			}
 			GhostRecorder.Instance.StopRecording();
 		}
@@ -280,9 +284,27 @@ public class MenuController : MonoBehaviour
 		{
 			UIController.Instance.SettingsUI.SaveSettings();
 		}
+
+		else if(m_State == MenuState.GAMEPAUSED)
+		{
+			if (GhostRecorder.Instance.recording)
+			{
+				GhostRecorder.Instance.StartRecording();
+			}
+			GameManager.Instance.PlayReplays();
+		}
+
+		else if(m_State == MenuState.LEADERBOARD)
+		{
+			GameManager.Instance.m_ChosenGhostIndices = UIController.Instance.LeaderboardUI.m_ChosenIndices;
+		}
 	}
 	#endregion
 
+	public void ResetGame()
+	{
+		GameManager.Instance.ResetGame();
+	}
 	#region Extras
 	/// <summary>
 	/// Cause Jayden wanted to be apart
