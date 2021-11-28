@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public float m_CurrentTrickRotation;
     public int m_Passengers;
     public List<GameObject> m_GhostPickups;
+    public Transform m_MenuPos;
     public Transform m_StartPos;
     public GameObject m_Player;
 
@@ -146,10 +147,31 @@ public class GameManager : MonoBehaviour
         PlayerMovement.Instance.ResetMovement();
         PlayerController.Instance.passengerManager.ResetPassengers();
 
-        m_UIController.GameUI.ResetTime();
+        m_UIController.GameUI.StopAndResetTime();
+        
         m_FloatingObj.Clear();
+        DestroyGhost();
 	}
    
+    public void SetMenu()
+	{
+        for (int i = 0; i < m_GhostPickups.Count; i++)
+        {
+            m_GhostPickups[i].SetActive(true);
+        }
+
+        m_Player.transform.position = m_MenuPos.position;
+        m_Player.transform.rotation = m_MenuPos.rotation;
+        m_Camera.transform.position = m_MenuPos.position;
+        m_Camera.transform.rotation = m_MenuPos.rotation;
+        PlayerMovement.Instance.ResetMovement();
+        PlayerController.Instance.passengerManager.ResetPassengers();
+
+        m_UIController.GameUI.ResetTime();
+        m_FloatingObj.Clear();
+        m_ReplayWithFloatingObj.Clear();
+        DestroyGhost();
+    }
 
     public bool InstantiateReplays()
  	{

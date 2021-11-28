@@ -9788,6 +9788,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294092050}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1301290243 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2024165436, guid: 39ab826e27f5c5a4083041d7efe040ec, type: 3}
+  m_PrefabInstance: {fileID: 277801432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1303483868 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: eca7f466da628204480d5cbbdfc5f3ca, type: 3}
@@ -12100,6 +12105,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8941907235718919834, guid: ae0732b02f9eaa54c94c85b90d84ea91, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e2c32e7ca0941c54790667bcc826c5f9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae0732b02f9eaa54c94c85b90d84ea91, type: 3}
 --- !u!1 &1765844108
@@ -14436,7 +14445,7 @@ PrefabInstance:
     - target: {fileID: 5255520189579624725, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
       propertyPath: m_StartPos
       value: 
-      objectReference: {fileID: 945786185}
+      objectReference: {fileID: 1301290243}
     - target: {fileID: 5255520189579624725, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
       propertyPath: m_Player
       value: 
@@ -14461,6 +14470,10 @@ PrefabInstance:
       propertyPath: m_CrownPrefab
       value: 
       objectReference: {fileID: 735630321164667674, guid: ca31ea5af06b448458ddc520186ac015, type: 3}
+    - target: {fileID: 5255520189579624725, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
+      propertyPath: m_MenuPos
+      value: 
+      objectReference: {fileID: 945786185}
     - target: {fileID: 5255520189579624734, guid: 6fa282181ae986f45ae352c3c2cc135a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 550

@@ -1819,7 +1819,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2608819040516289337}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: LoadGame
+        m_MethodName: ResetGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5557,7 +5557,7 @@ MonoBehaviour:
   m_ElementsPerPage: 6
   m_TopYPosition: 300
   m_leftmostXPosition: -300
-  m_ToggleGroup: {fileID: 2323755971052768649}
+  m_ChosenIndices: 
 --- !u!114 &2608819040516289337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12897,7 +12897,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

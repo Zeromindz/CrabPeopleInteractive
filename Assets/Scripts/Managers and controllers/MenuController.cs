@@ -231,7 +231,7 @@ public class MenuController : MonoBehaviour
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();
-			GameManager.Instance.ResetGame();
+			GameManager.Instance.SetMenu();
 		}
 
 		if (m_State == MenuState.GAME)
@@ -291,6 +291,7 @@ public class MenuController : MonoBehaviour
 			{
 				GhostRecorder.Instance.StartRecording();
 			}
+			GameManager.Instance.PlayReplays();
 		}
 
 		else if(m_State == MenuState.LEADERBOARD)
@@ -300,6 +301,10 @@ public class MenuController : MonoBehaviour
 	}
 	#endregion
 
+	public void ResetGame()
+	{
+		GameManager.Instance.ResetGame();
+	}
 	#region Extras
 	/// <summary>
 	/// Cause Jayden wanted to be apart
