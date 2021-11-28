@@ -67,34 +67,19 @@ public class GhostPlayer : MonoBehaviour
 
             if (index == 0)
 			{
-                m_crown.SetActive(true);
+                GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
 			}
-			else
+
+			else if (index == UIController.Instance.LeaderboardUI.m_leaderBoard.datas.Count-1)
 			{
-                m_crown.SetActive(false);
-			}
+                GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
+            }
+
 			path = ghostPath;
             return true;
         }
-        //      LeaderboardData save = LeaderboardIO.Instance.LoadLeaderBoardData(index);
-  //      if(save != null)
-		//{
-  //          List<GhostData> ghost = new List<GhostData>();
 
-  //          for (int i = 0; i < save.replayPath.Length; i++)
-  //          {
-  //              ghost.Add(save.replayPath[i]);
-  //          }
-  //          path = ghost;
-  //          m_Nametag.text = save.playerName;
-  //          name = save.playerName;
-  //          score = save.playerScore;
-  //          return true;
-		//}
         return false;
-        //old loading and saving
-       //path = GhostSave.Instance.LoadGhost();
-        
     }
 
     /// <summary>

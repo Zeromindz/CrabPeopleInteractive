@@ -199,6 +199,7 @@ public class MenuController : MonoBehaviour
 	{
 		Debug.Log("Loading: Leaderboard");
 		OnExitPreviousState();
+		UIController.Instance.LeaderboardUI.m_ChosenIndices.Clear();
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
 		UIController.Instance.LeaderboardUI.Reload();

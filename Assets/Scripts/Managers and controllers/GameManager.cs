@@ -12,6 +12,12 @@ public enum GameState
     NotInRun
 }
 
+public enum FloatingObj
+{
+    Crown,
+    Duck
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform m_Camera = null;
@@ -29,6 +35,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject m_ReplayGhostPrefab = null;
     public List<int> m_ChosenGhostIndices;
     public List<GameObject> m_ReplayGhosts = null;
+    [SerializeField] private GameObject m_CrownPrefab;
+    [SerializeField] private GameObject m_DuckPrefab;
+
+    private List<GameObject> m_FloatingObj = null;
+    private List<GameObject> m_ReplayWithFloatingObj = null;
+
     private bool IsPlaying = false;
 
     public float m_TimeLimit = 50.0f;
@@ -57,6 +69,8 @@ public class GameManager : MonoBehaviour
         else
             m_Instance = this;
         m_ReplayGhosts = new List<GameObject>();
+        m_FloatingObj = new List<GameObject>();
+        m_ReplayWithFloatingObj = new List<GameObject>();
     }
 
     void Start()
@@ -75,25 +89,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Time limit
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    m_CurrentTime = m_TimeLimit;
-        //}
+        for (int i = 0; i < m_FloatingObj.Count; i++)
+		{
+            Vector3 pos;
+            pos = m_ReplayGhosts[i].transform.position;
+            pos.y += 10;
 
-        //if(m_CurrentTime > 0)
-        //{
-        //    m_CurrentTime -= Time.deltaTime;
-        //}
-        //else 
-        //{
-        //    Debug.Log("Times up");
-        //}
-
-      //  m_BoatSpeed = m_Player.playerMovement.GetSpeed();
-        //m_CurrentTrickRotation = m_Player.trickManager.currentRotation;
-      //  m_Passengers = m_Player.GetPassengers();
-        
+            m_FloatingObj[i].transform.position = pos;
+		}
     }
 
     public void StartGame()
@@ -144,7 +147,9 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.passengerManager.ResetPassengers();
 
         m_UIController.GameUI.ResetTime();
+        m_FloatingObj.Clear();
 	}
+   
 
     public bool InstantiateReplays()
  	{
@@ -154,10 +159,6 @@ public class GameManager : MonoBehaviour
 		{
             GameObject obj = Instantiate(m_ReplayGhostPrefab, m_Player.transform.position, m_Player.transform.rotation) as GameObject;
             loaded = obj.GetComponent<GhostPlayer>().LoadGhost(m_ChosenGhostIndices[i]);
-            if(obj != null)
-			{
-                Debug.Log(loaded + "" + i);
-			}
 
 			if (!loaded)
 			{
@@ -218,5 +219,26 @@ public class GameManager : MonoBehaviour
     public Transform GetCamera()
 	{
         return m_Camera;
+	}
+
+    public void AddFloatingObj(FloatingObj obj, GameObject replayObject)
+	{
+        GameObject gameObject;
+        switch (obj)
+		{
+            case FloatingObj.Crown:
+
+                gameObject = Instantiate(m_CrownPrefab);
+                m_FloatingObj.Add(gameObject);
+                m_ReplayWithFloatingObj.Add(replayObject);
+                break;
+
+            case FloatingObj.Duck:
+
+                gameObject = Instantiate(m_DuckPrefab);
+                m_FloatingObj.Add(gameObject);
+                m_ReplayWithFloatingObj.Add(replayObject);
+                break;
+        }
 	}
 }

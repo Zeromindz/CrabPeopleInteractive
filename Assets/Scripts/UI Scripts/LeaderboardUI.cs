@@ -154,6 +154,7 @@ public class LeaderboardUI : MonoBehaviour
     private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
     private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
     public List<int> m_ChosenIndices;
+    private bool buttonChanged = true;
 
     /// <summary>
     /// Called when script is loaded
@@ -272,11 +273,32 @@ public class LeaderboardUI : MonoBehaviour
             }
             else
             {
+                int value = m_CountingIndex - 1;
+                m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
+
+                buttonChanged = false;
+                bool toggledOn = false;
+				// Toggling the tickbox on or off depending on if already chosen
+				for (int i = 0; i < m_ChosenIndices.Count; i++)
+				{
+                    if(!toggledOn)
+					{
+					    if (value == m_ChosenIndices[i])
+					    {
+						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = true;
+                            toggledOn = true;
+					    }
+					    else
+					    {
+						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = false;
+					    }
+					}
+				}
+                buttonChanged = true;
+
                 m_Elements[m_BottomIndex].SetY(m_Elements[m_TopIndex].GetYPos() + m_Elements[m_TopIndex].GetHeight());
                 m_Elements[m_BottomIndex].SetX(m_leftmostXPosition);
-                int value = m_CountingIndex - 1;
                 //  m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
-                m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
                 m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener( delegate { ToggleChange(value, m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>()); });
                 //m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
 
@@ -298,25 +320,13 @@ public class LeaderboardUI : MonoBehaviour
 
                 m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
 
-                // Toggling the tickbox on or off depending on if already chosen
-     //           for(int i = 0; i < m_ChosenIndices.Count; i++)
-			  //  {
-     //               if(value == m_ChosenIndices[i])
-					//{
-     //                   m_Element[m_TopIndex].GetComponent<Toggle>().isOn = true;
-					//}
-					//else
-					//{
-     //                   m_Element[m_TopIndex].GetComponent<Toggle>().isOn = false;
-     //               }
-			  //  }
-                Move(-1);
-
+				Move(-1);
             }
         }
 
         else
         {
+            int value = m_CountingIndex + m_ElementsPerPage;
             // Does nothing if the index is out of range
             if ((m_CountingIndex + m_ElementsPerPage + 1) > m_TotalElements)
             {
@@ -324,13 +334,31 @@ public class LeaderboardUI : MonoBehaviour
             }
             else
             {
+                m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
+                // Toggling the tickbox on or off depending on if already chosen
+                buttonChanged = false;
+                bool toggledOn = false;
+				for (int i = 0; i < m_ChosenIndices.Count; i++)
+				{
+					if (!toggledOn)
+					{
+					    if (value == m_ChosenIndices[i])
+					    {
+						    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = true;
+                            toggledOn = true;
+					    }
+					    else
+					    {
+						    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = false;
+					    }
+					}
+				}
+                buttonChanged = true;
                 m_Elements[m_TopIndex].SetY(m_Elements[m_BottomIndex].GetYPos() - m_Elements[m_BottomIndex].GetHeight());
                 m_Elements[m_TopIndex].SetX(m_leftmostXPosition);
 
-                int value = m_CountingIndex + m_ElementsPerPage;
 
                 m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
-                m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
                 m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>()); });
 
                 //m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
@@ -353,19 +381,7 @@ public class LeaderboardUI : MonoBehaviour
                 m_CountingIndex++;
                 m_Elements[m_BottomIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
 
-                // Toggling the tickbox on or off depending on if already chosen
-                //for (int i = 0; i < m_ChosenIndices.Count; i++)
-                //{
-                //    if (value == m_ChosenIndices[i])
-                //    {
-                //        m_Element[m_BottomIndex].GetComponent<Toggle>().isOn = true;
-                //    }
-                //    else
-                //    {
-                //        m_Element[m_BottomIndex].GetComponent<Toggle>().isOn = false;
-                //    }
-                //}
-                Move(1);
+				Move(1);
             }
         }
     }
@@ -435,16 +451,18 @@ public class LeaderboardUI : MonoBehaviour
 
     public void ToggleChange(int index, Toggle toggle)
 	{
-		if (toggle.isOn)
+        if(buttonChanged)
 		{
-            m_ChosenIndices.Add(index);
-            Debug.Log("Added ghost at index: " + index);
+		    if (toggle.isOn)
+		    {
+                m_ChosenIndices.Add(index);
+                Debug.Log("Added ghost at index: " + index);
+		    }
+		    else
+		    {
+                m_ChosenIndices.Remove(index);
+                Debug.Log("Removed ghost at index: " + index);
+            }
 		}
-		else
-		{
-            m_ChosenIndices.Remove(index);
-            Debug.Log("Removed ghost at index: " + index);
-
-        }
     }
 }
