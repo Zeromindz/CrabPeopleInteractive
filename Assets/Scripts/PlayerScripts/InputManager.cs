@@ -44,7 +44,7 @@ public class InputManager : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
 
-        Debug.Log("HI");
+        //Debug.Log("HI");
         playerInput = new PlayerInputActions();
         // playerInput.Player.Movement.started += ctx => OnMovementInput(ctx);
         playerInput.Player.Movement.performed += ctx => OnMovementInput(ctx);
