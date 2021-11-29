@@ -139,7 +139,10 @@ public class SoundUI : MonoBehaviour
 		}
 		m_MusicVolume = volume;
 		UpdateInputValue(m_Music, m_MusicVolume);
-		SoundManager.Instance.SetVolume(m_MusicVolume, VolumeType.Music);
+		if(SoundManager.Instance)
+		{
+			SoundManager.Instance.SetVolume(m_MusicVolume, VolumeType.Music);
+		}
 	}
 
 	/// <summary>

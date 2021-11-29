@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     [Header("Camera Settings")]
     private Camera m_Cam;                               // Reference to the camera component to give access to the fieldOfView property 
     [SerializeField] private Transform m_Target;        // Target object transform
-    private PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
+    public PlayerController m_Player;                  // Player controller so we can more easily get the current velocity 
 
     bool m_PositiveForwardVel = false;
 
@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         m_Cam = gameObject.GetComponent<Camera>();
-        m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+       // m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         if (!m_Target)
         {
@@ -94,6 +94,9 @@ public class CameraController : MonoBehaviour
         //Look at target
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
 
+        Debug.Log("Player: " + m_Player);
+        Debug.Log("Player Movement: " + m_Player.playerMovement);
+        Debug.Log("Target: " + m_Target);
         // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
 

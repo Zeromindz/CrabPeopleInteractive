@@ -20,7 +20,7 @@ public class PortalManager : MonoBehaviour
     private InputManager playerInput;
 
     [Header("Game Objects")]
-    private GameObject m_Player = null;
+    public PlayerController m_Player;
     public GameObject m_PortalPrefab = null;
     public Camera m_PortalCamera = null;
     public Transform m_PlayerCamera = null;
@@ -50,8 +50,8 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-        m_Player = GameObject.FindGameObjectWithTag("Player");
-        playerInput = m_Player.gameObject.GetComponent<InputManager>();
+        //m_Player = GameObject.FindGameObjectWithTag("Player");
+        //playerInput = m_Player.gameObject.GetComponent<InputManager>();
 
         m_State = PortalStates.VOID;
     }
@@ -117,7 +117,7 @@ public class PortalManager : MonoBehaviour
     void SpawnPortal()
     {
         // Get player's move direction
-        Vector3 moveDir = m_Player.transform.forward;
+        Vector3 moveDir = m_Player.gameObject.transform.forward;
 
         // Find postion to spawn portal
         Vector3 spawnPos = m_Player.transform.position + (moveDir * m_SpawnDist);
@@ -213,7 +213,7 @@ public class PortalManager : MonoBehaviour
 
             // Set player's position to the exit's position + offset
             m_Player.transform.position = _portalExit.position + posOffset;
-            m_Player.GetComponent<PlayerController>().playerMovement.m_BullShitLevelBoatBool = true;
+            m_Player.playerMovement.m_BullShitLevelBoatBool = true;
             //Rotate the player's velocity to the exit portals forward direction
             Rigidbody rb = m_Player.GetComponent<Rigidbody>();
             Vector3 currentVel = rb.velocity;
