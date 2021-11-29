@@ -166,7 +166,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 7125423230460108183, guid: 18f17c033ca881741b2b367ea4596334, type: 3}
+  m_Mesh: {fileID: 7125423230460108183, guid: be8efd69265240d428ab1cb872744d53, type: 3}
   m_Bones:
   - {fileID: 1467176647469668546}
   - {fileID: 7085549171584138889}
@@ -350,7 +350,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 5762518809767048604, guid: 18f17c033ca881741b2b367ea4596334, type: 3}
+  m_Mesh: {fileID: 5762518809767048604, guid: be8efd69265240d428ab1cb872744d53, type: 3}
   m_Bones:
   - {fileID: 1467176647469668546}
   - {fileID: 7085549171584138889}
@@ -373,6 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8263320702296877560}
+  - component: {fileID: 2830366146786176809}
   m_Layer: 0
   m_Name: Ghost_With_Rig 1
   m_TagString: Untagged
@@ -396,3 +397,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2830366146786176809
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783961875524694850}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0a57dd76b414ddf429de0b7473441f01, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
