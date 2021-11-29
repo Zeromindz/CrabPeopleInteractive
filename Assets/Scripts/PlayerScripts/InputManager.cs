@@ -67,8 +67,11 @@ public class InputManager : MonoBehaviour
         playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
         //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
-        playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
         // playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
+
+        // DEBUG
+        playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
 
     }
 
@@ -119,34 +122,34 @@ public class InputManager : MonoBehaviour
     //    GhostPlayer.Instance.Play();
     //}
 
-    //private void OnSpawnPortal(InputAction.CallbackContext ctx)
-    //{
-    //    pPressed = ctx.ReadValue<float>();
-    //    //Debug.Log($"P Pressed {pPressed} ");
-    //    if(pPressed > 0)
-    //    {
-    //        PortalManager.m_Instance.m_PPressed = true;
-    //    }
-    //    else
-    //    {
-    //        PortalManager.m_Instance.m_PPressed = false;
-    //    }
-
-    //}
-
-    private void LeaderboardNav(InputAction.CallbackContext ctx)
-	{
-        float i = ctx.ReadValue<float>();
-        //Debug.Log(i);
-        if(m_UIController.LeaderboardUI != null)
+    private void OnSpawnPortal(InputAction.CallbackContext ctx)
+    {
+        pPressed = ctx.ReadValue<float>();
+        //Debug.Log($"P Pressed {pPressed} ");
+        if(pPressed > 0)
         {
-            m_UIController.LeaderboardUI.WrapElements(i);
+            PortalManager.m_Instance.m_PPressed = true;
         }
         else
         {
-            return;
+            PortalManager.m_Instance.m_PPressed = false;
         }
+
     }
+
+ //   private void LeaderboardNav(InputAction.CallbackContext ctx)
+	//{
+ //       float i = ctx.ReadValue<float>();
+ //       //Debug.Log(i);
+ //       if(m_UIController.LeaderboardUI != null)
+ //       {
+ //           m_UIController.LeaderboardUI.WrapElements(i);
+ //       }
+ //       else
+ //       {
+ //           return;
+ //       }
+ //   }
 
     private void OnEnable()
     {

@@ -73,13 +73,19 @@ public class PlayerCollision : MonoBehaviour
         // Hit starting checkpoint
         if(other.tag == "Start")
 		{
-            GameManager.Instance.StartGame();
+            if (GameManager.Instance)
+            {
+                GameManager.Instance.StartGame();
+            }
 		}
 
         // Hit end checkpoint
         if (other.tag == "End")
         {
-            GameManager.Instance.EndGame();
+            if(GameManager.Instance)
+            {
+                GameManager.Instance.EndGame();
+            }
         }
 
         // Hit intermediary checkpoint

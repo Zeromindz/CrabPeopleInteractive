@@ -34,7 +34,7 @@ public class FollowGround : MonoBehaviour
         // Updates the floating grounds position based on the players position
         transform.position = new Vector3(m_Player.transform.position.x, m_CurrentPos.y, m_Player.transform.position.z);
 
-        if (m_PortalManager.GetState() == 0)
+        if (m_PortalManager.GetState() != 2)
         {
             if (m_PlatformHidden)
             {

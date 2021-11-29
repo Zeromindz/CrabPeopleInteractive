@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5255520189579624734}
   - component: {fileID: 5255520189579624725}
-  - component: {fileID: 1029329714}
-  - component: {fileID: 1029329715}
   - component: {fileID: 7234643233102593861}
   - component: {fileID: 3010770541729388967}
   - component: {fileID: 451097137}
+  - component: {fileID: 16639063}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,89 +47,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3358fd3a8f41f4abf2e4cd9e096435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
   m_BoatSpeed: 0
   m_CurrentTrickRotation: 0
   m_Passengers: 0
-  m_GhostPickups:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_GhostPickups: []
+  m_MenuPos: {fileID: 0}
   m_StartPos: {fileID: 0}
   m_Player: {fileID: 0}
+  m_ReplayGhostPrefab: {fileID: 4629130818476053259, guid: 70ed376f0d25b5f4dbad6c6595f76ca0, type: 3}
+  m_ChosenGhostIndices: 
+  m_ReplayGhosts: []
+  m_CrownPrefab: {fileID: 735630321164667674, guid: ca31ea5af06b448458ddc520186ac015, type: 3}
+  m_DuckPrefab: {fileID: 4559295098122656739, guid: 62b2d77e336d5044b938466769bbddb1, type: 3}
   m_TimeLimit: 50
-  m_ChosenGhostIndex: 0
   m_ChoseGhost: 0
---- !u!114 &1029329714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
---- !u!114 &1029329715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255520189579624735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!114 &7234643233102593861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,13 +84,28 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 65d679f169af75a4c8a0ac43952c0360, type: 3}
   - {fileID: 8300000, guid: f450c85d8352e754c846862070b72557, type: 3}
   m_GhostPickupClips:
-  - {fileID: 8300000, guid: c2de743aaf836c4499bcfca861883f88, type: 3}
+  - {fileID: 8300000, guid: 6e0af18be7aaa5644a75011315f964b9, type: 3}
+  - {fileID: 8300000, guid: 1041080f744564c4dab5776851f9d666, type: 3}
+  - {fileID: 8300000, guid: 17ffe7e5b98c1994185f468f73afc721, type: 3}
+  - {fileID: 8300000, guid: 586235e727fcab04fa8443603e03cf66, type: 3}
+  - {fileID: 8300000, guid: ae9ffc53fe271e94b81743ea7de900c3, type: 3}
   m_MusicClips:
   - {fileID: 8300000, guid: b6a63519653914b4d8b2491b1d869698, type: 3}
   - {fileID: 8300000, guid: 0d926bb4f4fc4fb40b886840bf412aaf, type: 3}
   m_UIClips:
-  - {fileID: 8300000, guid: 2f7bf083e8a60194592a75f5ebeccb23, type: 3}
-  - {fileID: 8300000, guid: 32e6993caac86d44cb9a2d26e383af1b, type: 3}
+  - {fileID: 8300000, guid: 8043c73554cb077449b4bab8f732b628, type: 3}
+  - {fileID: 8300000, guid: 89410ca6a514c974998eaf10e3c5364f, type: 3}
+  - {fileID: 8300000, guid: a9b5db4e5df09c844a975bbfad98b508, type: 3}
+  - {fileID: 8300000, guid: 84bdc9d6e5c0ff94e986446cb51ac2dc, type: 3}
+  - {fileID: 8300000, guid: 6e5e9576c71ce56448938fa9d1e10a3d, type: 3}
+  - {fileID: 8300000, guid: bf635027a3080354b834f6a9e97d0c75, type: 3}
+  - {fileID: 8300000, guid: d90293fae3f05dd4089db55b58da21ca, type: 3}
+  - {fileID: 8300000, guid: 9989a12ab98061249a834856000dc57f, type: 3}
+  - {fileID: 8300000, guid: ef8a0fa53106cd143bd167a5e0d78334, type: 3}
+  - {fileID: 8300000, guid: 3906a462a131bd148a1e0fabd40d8948, type: 3}
+  - {fileID: 8300000, guid: 810184130544db146a8cd13572989a90, type: 3}
+  - {fileID: 8300000, guid: 467c580262d60324ca79cab1d98159e0, type: 3}
+  - {fileID: 8300000, guid: 809df792db88a7f459d6411977496ee7, type: 3}
   m_BoostClips:
   - {fileID: 8300000, guid: c4e1b59c7022d424685a052fb631f94b, type: 3}
   - {fileID: 8300000, guid: 6a9669275b86f964abc4f64868045952, type: 3}
@@ -205,5 +151,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2082d18a6e2959d418c55135645e7400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &16639063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255520189579624735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81c98ebe7b6d6d45b55cf4d7dc80399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
