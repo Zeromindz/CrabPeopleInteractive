@@ -221,6 +221,7 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 m_PlayerController.VFXController.PlaySplashEffect();
+                SoundManager.Instance.PlayRandomSplashSound();
             }
             else
             {
@@ -388,8 +389,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_Grounded)
         {
-            if (SoundManager.Instance)
-                SoundManager.Instance.ChangeTerrainSound(groundHit);
 
             // Store height from ground
             float height = groundHit.distance;

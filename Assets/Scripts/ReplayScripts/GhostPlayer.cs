@@ -65,7 +65,7 @@ public class GhostPlayer : MonoBehaviour
 				ghostPath.Add(data.replayPath[i]);
 			}
 
-            if (index == 0)
+           if (index == 0)
 			{
                 GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
 			}

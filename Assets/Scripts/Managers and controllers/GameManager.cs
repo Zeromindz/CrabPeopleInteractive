@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Transform m_MenuPos;
     public Transform m_StartPos;
     public GameObject m_Player;
+    [SerializeField] private Transform m_Skybox = null;
 
     [SerializeField] GameObject m_ReplayGhostPrefab = null;
     public List<int> m_ChosenGhostIndices;
@@ -98,6 +99,10 @@ public class GameManager : MonoBehaviour
 
             m_FloatingObj[i].transform.position = pos;
 		}
+
+        Vector3 newPos = m_Player.transform.position;
+        newPos.y -= 2400;
+        m_Skybox.position = newPos;
     }
 
     public void StartGame()
@@ -190,7 +195,7 @@ public class GameManager : MonoBehaviour
 			else
 			{
 				m_ReplayGhosts.Add(obj);
-                MiniMap.Instance.AddGhost(obj.transform);
+                //MiniMap.Instance.AddGhost(obj.transform);
 			}
 		}
         return loaded;
@@ -230,7 +235,7 @@ public class GameManager : MonoBehaviour
 
 	public void DestroyGhost()
 	{
-        MiniMap.Instance.RemoveGhosts();
+        //MiniMap.Instance.RemoveGhosts();
         for (int i = 0; i < m_ChosenGhostIndices.Count; i++)
         {
             Destroy(m_ReplayGhosts[i]);

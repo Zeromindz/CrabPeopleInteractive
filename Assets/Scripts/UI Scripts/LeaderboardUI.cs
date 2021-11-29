@@ -146,15 +146,16 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private GameObject m_ScrollviewContent = null;
     //[SerializeField] private Canvas m_Canvas = null;                               // The canvas which the buttons will be childs of 
     //[SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
-    [SerializeField, Range(-530, 530)] private int m_TopYPosition;          // The top most Y position of the first label
-    [SerializeField, Range(-810, 810)] private int m_leftmostXPosition = 0; // The left most X position of the first label
+   /* [SerializeField, Range(-530, 530)]*/ private int m_TopYPosition;          // The top most Y position of the first label
+    /*[SerializeField, Range(-810, 810)]*/ private int m_leftmostXPosition = 0; // The left most X position of the first label
 
-    private int m_TotalElements;                                            // The total amount of rows saved
+    private int m_TotalElements = 0;                                            // The total amount of rows saved
     private LeaderBoardElement[] m_Elements = null;                          // The rows in the leaderboard
     //private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
     //private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
     //private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
     public List<int> m_ChosenIndices;
+    bool LeaderboardExists;
     //private bool buttonChanged = true;
 
     /// <summary>
@@ -163,13 +164,6 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
-        m_Elements = new LeaderBoardElement[m_leaderBoard.datas.Count];
-        if (m_leaderBoard == null)
-        {
-            m_leaderBoard = new LeaderBoard(null);
-        }
-        m_ChosenIndices = new List<int>();
     }
 
     /// <summary>
@@ -398,8 +392,11 @@ public class LeaderboardUI : MonoBehaviour
     public void Load()
     {
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        m_ChosenIndices = new List<int>();
+      
         if(m_leaderBoard != null)
 		{
+            m_Elements = new LeaderBoardElement[m_leaderBoard.datas.Count];
             m_TotalElements = m_leaderBoard.datas.Count;
 		}
 		else
@@ -442,7 +439,11 @@ public class LeaderboardUI : MonoBehaviour
 
     public void Reload()
     {
-        Load();
+        if(m_leaderBoard != null)
+		{
+            Load();
+		}
+
 
         //m_TopIndex = 0;
         //m_TopMostIndex = m_TopIndex;
