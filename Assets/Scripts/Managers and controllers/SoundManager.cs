@@ -108,14 +108,15 @@ public class SoundManager : MonoBehaviour
 		m_MusicVolumeSources.Add(m_MusicSource);
 
 		//m_BoostSource.volume = 0.0f;
-	}
-	#endregion
-
-	private void Start()
-	{
 		m_ChosenTerrainClips = m_WaterChurningClips;
 		m_CurrentTerrainClipIndex = Random.Range(0, m_ChosenTerrainClips.Length - 1);
 		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
+	}
+	#endregion
+
+	 
+	private void Start()
+	{
 		StartCoroutine(PlayTerrainSound());
 	}
 
@@ -301,10 +302,10 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public void PlayUIHoverSound()
 	{
-		m_UISource.clip = m_UIClips[0];
-		float range = Random.Range(1, 301);
-		range = range / 100;
-		m_UISource.pitch = range;
+		m_UISource.clip = m_UIClips[Random.Range(0,7)];
+		//float range = Random.Range(1, 301);
+		//range = range / 100;
+		//m_UISource.pitch = range;
 		m_UISource.Play();
 		//Debug.Log("SoundManager play UI Hover");
 	}
@@ -315,10 +316,10 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public void PlayUISelectSound()
 	{
-		m_UISource.clip = m_UIClips[1];
-		float range = Random.Range(1, 301);
-		range = range / 100;
-		m_UISource.pitch = range; 
+		m_UISource.clip = m_UIClips[Random.Range(7, 12)];
+		//float range = Random.Range(1, 301);
+		//range = range / 100;
+		//m_UISource.pitch = range; 
 		m_UISource.Play();
 		//Debug.Log("SoundManager play UI Select");
 	}
