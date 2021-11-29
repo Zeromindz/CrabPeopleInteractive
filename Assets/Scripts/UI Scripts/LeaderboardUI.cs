@@ -288,6 +288,7 @@ public class LeaderboardUI : MonoBehaviour
 						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = true;
                             toggledOn = true;
 					    }
+
 					    else
 					    {
 						    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = false;
@@ -326,7 +327,6 @@ public class LeaderboardUI : MonoBehaviour
 
         else
         {
-            int value = m_CountingIndex + m_ElementsPerPage;
             // Does nothing if the index is out of range
             if ((m_CountingIndex + m_ElementsPerPage + 1) > m_TotalElements)
             {
@@ -334,6 +334,7 @@ public class LeaderboardUI : MonoBehaviour
             }
             else
             {
+                int value = m_CountingIndex + m_ElementsPerPage;
                 m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
                 // Toggling the tickbox on or off depending on if already chosen
                 buttonChanged = false;
@@ -456,11 +457,13 @@ public class LeaderboardUI : MonoBehaviour
 		    if (toggle.isOn)
 		    {
                 m_ChosenIndices.Add(index);
+                //toggle.isOn = true;
                 Debug.Log("Added ghost at index: " + index);
 		    }
 		    else
 		    {
                 m_ChosenIndices.Remove(index);
+                //toggle.isOn = false;
                 Debug.Log("Removed ghost at index: " + index);
             }
 		}
