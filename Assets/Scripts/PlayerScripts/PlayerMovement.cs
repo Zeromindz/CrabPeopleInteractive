@@ -167,12 +167,12 @@ public class PlayerMovement : MonoBehaviour
         // Tricks removed due to the passage of time
         //_________________________________________________________________________________/
         
-        //if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
-        //{
-        //    StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
-        //    AirRoll(m_MovementInput.x);
-        //    m_TrickPerformed = true;
-        //}
+        if(m_IsSpacePressed && !m_InputDisabled && !m_Grounded)
+        {
+            StartCoroutine(SetUpTrickConditions(m_TrickConditionDuration));
+            AirRoll(m_MovementInput.x);
+            m_TrickPerformed = true;
+        }
 
         m_CurrentVel = m_RigidBody.velocity;
         m_CurrentSpeed = Vector3.Dot(m_CurrentVel, transform.forward);
