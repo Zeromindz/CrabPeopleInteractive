@@ -67,7 +67,7 @@ public class InputManager : MonoBehaviour
         playerInput.Player.RecordReplay.canceled += ctx => OnSpacePressed(ctx);
 
         //playerInput.Player.Leaderboard.started += ctx => LeaderboardNav(ctx);
-        playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
+        //playerInput.Player.Leaderboard.performed += ctx => LeaderboardNav(ctx);
         // playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
     }
@@ -134,19 +134,19 @@ public class InputManager : MonoBehaviour
 
     //}
 
-    private void LeaderboardNav(InputAction.CallbackContext ctx)
-	{
-        float i = ctx.ReadValue<float>();
-        //Debug.Log(i);
-        if(m_UIController.LeaderboardUI != null)
-        {
-            m_UIController.LeaderboardUI.WrapElements(i);
-        }
-        else
-        {
-            return;
-        }
-    }
+ //   private void LeaderboardNav(InputAction.CallbackContext ctx)
+	//{
+ //       float i = ctx.ReadValue<float>();
+ //       //Debug.Log(i);
+ //       if(m_UIController.LeaderboardUI != null)
+ //       {
+ //           m_UIController.LeaderboardUI.WrapElements(i);
+ //       }
+ //       else
+ //       {
+ //           return;
+ //       }
+ //   }
 
     private void OnEnable()
     {
