@@ -21,10 +21,13 @@ public class GameUI : MonoBehaviour
     /// </summary>
     void Update()
     {
-        UpdateUI();
-        if (m_Counting)
+        if(UIController.Instance.MenuController.m_State == MenuState.GAME)
         {
-            UpdateTime();
+            UpdateUI();
+            if (m_Counting)
+            {
+                UpdateTime();
+            }
         }
     }
 
