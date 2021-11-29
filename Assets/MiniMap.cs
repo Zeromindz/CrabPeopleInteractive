@@ -21,8 +21,8 @@ public class MiniMap : MonoBehaviour
 	[SerializeField] bool m_RealtimeMapChanging = false;
 	[SerializeField] bool m_RotateWithPlayer = true;
 	[SerializeField] bool m_ShowGhost = false;
-	[SerializeField,Range(50, 150)] int m_Zoom = 100;
-	[SerializeField, Range(4, 8)] int m_BlipSize = 4;
+	[SerializeField,Range(50, 500)] int m_Zoom = 100;
+	[SerializeField, Range(4, 25)] int m_BlipSize = 4;
 	[SerializeField,Range(200, 400)] int m_MapSize = 200;
 
 	private Quaternion m_DefaultIconRotation;
@@ -105,7 +105,7 @@ public class MiniMap : MonoBehaviour
 
 		// Changes Camera Position
 		Vector3 newPos = m_player.position;
-		newPos.y = transform.position.y;
+		newPos.y = m_player.transform.position.y + 300;
 		transform.position = newPos;
 
 		//Changes Player Blip Position

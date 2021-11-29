@@ -94,9 +94,9 @@ public class CameraController : MonoBehaviour
         //Look at target
         transform.LookAt(m_Target.position + (Vector3.up * m_CamAngle));
 
-        Debug.Log("Player: " + m_Player);
-        Debug.Log("Player Movement: " + m_Player.playerMovement);
-        Debug.Log("Target: " + m_Target);
+        //Debug.Log("Player: " + m_Player);
+        //Debug.Log("Player Movement: " + m_Player.playerMovement);
+        //Debug.Log("Target: " + m_Target);
         // Store the targets speed in m/s, ignoring the y component of the velocity
         m_TargetSpeed = Vector3.Dot(m_Player.playerMovement.m_CurrentVel, m_Target.forward);
 

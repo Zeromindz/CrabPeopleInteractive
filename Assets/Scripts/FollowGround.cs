@@ -33,6 +33,7 @@ public class FollowGround : MonoBehaviour
     {
         // Updates the floating grounds position based on the players position
         transform.position = new Vector3(m_Player.transform.position.x, m_CurrentPos.y, m_Player.transform.position.z);
+        transform.rotation = Quaternion.Euler(0, m_Player.transform.eulerAngles.y + -45, 0);
 
         if (m_PortalManager.GetState() != 2)
         {

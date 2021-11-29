@@ -48,6 +48,7 @@ public class SoundManager : MonoBehaviour
 	private AudioSource m_BoostSource = null;                                           // The boost audio source component
 	private AudioSource m_UISource = null;                                              // The UI sounds audio source component
 	private AudioSource m_TerrainNoiseSource = null;                                    // The terrain related sound audio source component
+	private AudioSource m_SplashSoundsSource = null;
 
 	private List<AudioSource> m_MusicVolumeSources = null;                              // A list of 
 	private List<AudioSource> m_SFXVolumeSources = null;
@@ -96,10 +97,13 @@ public class SoundManager : MonoBehaviour
 
 		m_TerrainNoiseSource = SourceArray[5];
 
+		m_SplashSoundsSource = SourceArray[6];
+
 		m_SFXVolumeSources.Add(m_UISource);
 		m_SFXVolumeSources.Add(m_GhostPickupSource);
 		m_SFXVolumeSources.Add(m_BoostSource);
 		m_SFXVolumeSources.Add(m_CollisionSource);
+		m_SFXVolumeSources.Add(m_SplashSoundsSource);
 
 		m_MusicVolumeSources.Add(m_MusicSource);
 
@@ -113,7 +117,6 @@ public class SoundManager : MonoBehaviour
 		m_CurrentTerrainClipIndex = Random.Range(0, m_ChosenTerrainClips.Length - 1);
 		m_TerrainNoiseSource.clip = m_ChosenTerrainClips[m_CurrentTerrainClipIndex];
 		StartCoroutine(PlayTerrainSound());
-		
 	}
 
 	#region Functions
@@ -279,6 +282,17 @@ public class SoundManager : MonoBehaviour
 	}
 	#endregion
 
+	#region Splash Sounds
+
+	public void PlayRandomSplashSound()
+	{
+		int rand = Random.Range(0, m_WaterSplashClips.Length);
+		m_SplashSoundsSource.clip = m_WaterSplashClips[rand];
+		m_SplashSoundsSource.Play();
+		Debug.Log("SoundManager Playing splash: " + rand);
+	}
+
+	#endregion
 	#region UI Sounds
 
 	/// <summary>
