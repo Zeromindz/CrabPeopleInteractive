@@ -71,7 +71,7 @@ public class InputManager : MonoBehaviour
         // playerInput.Player.Leaderboard.canceled += ctx => LeaderboardNav(ctx);
 
         // DEBUG
-        //playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
+        playerInput.Player.Temp.started += ctx => OnSpawnPortal(ctx);
 
     }
 
