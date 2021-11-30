@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 		}
 
         Vector3 newPos = m_Player.transform.position;
-        newPos.y -= 2400;
+        newPos.y -= 600;
         m_Skybox.position = newPos;
     }
 
