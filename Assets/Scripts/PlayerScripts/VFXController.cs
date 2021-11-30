@@ -105,7 +105,7 @@ public class VFXController : MonoBehaviour
 
     public void PlaySplashEffect()
     {
-        foreach (var particles in m_GroundedFX)
+        foreach (var particles in m_SplashFX)
         {
             particles.Play();
         }
