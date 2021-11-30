@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_River_1BaseLayer
+  m_Name: SpawnPlatformWater
   m_Shader: {fileID: -6465566751694194690, guid: 25fec5f7bf780854db42a48101e6ab21, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -73,13 +73,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_EBFD8A66: {r: 0.5294118, g: 0, b: 0.5254902, a: 0}
-    - _BaseColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+    - Color_EBFD8A66: {r: 0.7735849, g: 0.15690638, b: 0.15690638, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &2885093045986519057
+--- !u!114 &7602395470343415787
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
