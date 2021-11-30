@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
 		}
 
         m_Player.transform.position = m_StartPos.position;
-        m_Player.transform.rotation = m_StartPos.rotation;
+        m_Player.transform.rotation = Quaternion.Euler(Vector3.zero);
         m_Player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         m_Camera.transform.position = m_StartPos.position;
         m_Camera.transform.rotation = m_StartPos.rotation;
@@ -154,9 +154,11 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.passengerManager.ResetPassengers();
 
         m_UIController.GameUI.StopAndResetTime();
-        
+        m_UIController.GameUI.ResetGameUI();
         m_FloatingObj.Clear();
-        DestroyGhost();
+        m_UIController.MenuController.ReturnToPreviousUI();
+        SoundManager.Instance.PlayMusic(0);
+        PortalManager.m_Instance.SetState(PortalManager.PortalStates.ENDSPAWNED);
 	}
    
     public void SetMenu()

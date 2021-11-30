@@ -46,7 +46,8 @@ public class PortalManager : MonoBehaviour
 
     private PortalStates m_State;
     public int GetState() { return (int)m_State; }
-    
+    public void SetState(PortalStates _state) { m_State = _state; }
+
 
     void Start()
     {

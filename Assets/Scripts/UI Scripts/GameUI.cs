@@ -137,4 +137,13 @@ public class GameUI : MonoBehaviour
 	{
         m_Counting = state;
 	}
+
+    public void ResetGameUI()
+	{
+        m_TimeUI.text = "Time";
+		m_MaxSpeedUI.text = "Max";
+        m_CurrentSpeedText.text = "Current";
+        m_Counting = false;
+        m_Time = 0.0f;
+	}
 }

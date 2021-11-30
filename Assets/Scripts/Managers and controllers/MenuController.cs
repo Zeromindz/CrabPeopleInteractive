@@ -160,6 +160,16 @@ public class MenuController : MonoBehaviour
 		UpdateState();
 	}
 
+	public void LoadGameFromMenu()
+	{
+		Debug.Log("Re-Loading: Game");
+		m_State = MenuState.GAME;
+		m_UIStack.Clear();
+		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
+		UpdateState();
+		ResetGame();
+	}
+
 	/// <summary>
 	/// Loads the settings UI
 	/// </summary>
