@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_CurrentSpeedText = null;     // The label displaying the current speed of the vehicle
     [SerializeField] private TextMeshProUGUI m_MaxSpeedUI = null;           // The label displaying the max speed of the vehicle
     [SerializeField] private float m_CheckpointPointTimeValue;              // The value in time that will be negated 
+    [SerializeField] private TextMeshProUGUI m_Hint = null;
 
     private bool m_Counting = false;                                        // A bool which value determing if the timer is counting
     private float m_Time;                                                   // The value of the timer
@@ -145,5 +146,29 @@ public class GameUI : MonoBehaviour
         m_CurrentSpeedText.text = "Current";
         m_Counting = false;
         m_Time = 0.0f;
+	}
+
+    public void HintSetActive(bool v)
+	{
+        m_Hint.gameObject.SetActive(v);
+	}
+   
+    IEnumerator ShowTrickControls()
+	{
+        m_Hint.gameObject.SetActive(true);
+        Time.timeScale = 0.25f;
+        yield return new WaitForSeconds(2);
+		if (PlayerMovement.Instance.m_TrickPerformed)
+		{
+            StopCoroutine(ShowTrickControls());
+		}
+
+        m_Hint.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void ShowTrickTip()
+	{
+        StartCoroutine(ShowTrickControls());
 	}
 }

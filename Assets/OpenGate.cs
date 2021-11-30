@@ -5,6 +5,10 @@ using UnityEngine;
 public class OpenGate : MonoBehaviour
 {
     public Animator m_Animator;
+    public ParticleSystem[] m_EndGateFireSmall;
+    public ParticleSystem[] m_EndGateFireBig;
+    public ParticleSystem m_Lanterns;
+
     private bool _opened = false;
 
     // Start is called before the first frame update
@@ -31,5 +35,14 @@ public class OpenGate : MonoBehaviour
     {
         m_Animator.Play("Open");
         m_Animator.speed = 1;
+        for (int i = 0; i < m_EndGateFireSmall.Length; i++)
+		{
+            m_EndGateFireSmall[i].gameObject.SetActive(false);
+		}
+        for (int i = 0; i < m_EndGateFireBig.Length; i++)
+        {
+            m_EndGateFireBig[i].gameObject.SetActive(true);
+        }
+        m_Lanterns.gameObject.SetActive(true);
     }
 }

@@ -76,6 +76,7 @@ public class PlayerCollision : MonoBehaviour
             if (GameManager.Instance)
             {
                 GameManager.Instance.StartGame();
+                UIController.Instance.GameUI.ShowTrickTip();
             }
 		}
 
