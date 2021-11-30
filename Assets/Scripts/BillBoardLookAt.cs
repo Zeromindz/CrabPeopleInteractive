@@ -17,12 +17,13 @@ public class BillBoardLookAt : MonoBehaviour
 	{
         originalSize = m_nameTag.sizeDelta;
         m_Camera = GameManager.Instance.GetCamera();
-	}
+    }
 
-	/// <summary>
+
+    /// <summary>
     /// Called each frame
     /// </summary>
-	void Update()
+    void Update()
     {      
         // Making the billboard rotate to look at the camera
         transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.forward, m_Camera.transform.rotation * Vector3.up);

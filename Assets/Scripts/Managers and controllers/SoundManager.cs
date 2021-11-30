@@ -350,6 +350,7 @@ public class SoundManager : MonoBehaviour
 
 	IEnumerator PlayTerrainSound()
 	{
+		
 		m_TerrainNoiseSource.Play();
 		yield return new WaitForSeconds(m_TerrainNoiseSource.clip.length);
 
@@ -364,6 +365,8 @@ public class SoundManager : MonoBehaviour
 		//Debug.Log("Playing WaterChurn: " + m_CurrentTerrainClipIndex);
 		m_TerrainNoiseSource.Play();
 		StartCoroutine(PlayTerrainSound());
+		
+		
 	}
 
 	public void StartTerrainSounds()
