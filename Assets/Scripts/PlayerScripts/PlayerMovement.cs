@@ -377,12 +377,14 @@ public class PlayerMovement : MonoBehaviour
         // Sounds terrain related sound
         if (m_PlayerController.playerMovement.m_Grounded && m_PlayerController.playerMovement.m_CurrentVel.magnitude > 25f)
         {
-            SoundManager.Instance.TerrainSoundSetPause(false);
+            if(SoundManager.Instance)
+                SoundManager.Instance.TerrainSoundSetPause(false);
         }
 
 		else
         {
-            SoundManager.Instance.TerrainSoundSetPause(true);
+            if (SoundManager.Instance)
+                SoundManager.Instance.TerrainSoundSetPause(true);
         }
 
         if (m_Grounded)
@@ -539,8 +541,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(m_Boosting == true)
         {
-            float newMax = m_MaxSpeed + m_BoostSpeedIncrease;
-            m_MaxSpeed = newMax;
+            
             m_RigidBody.AddForce(forward * m_BoostForce, ForceMode.Acceleration);
             SoundManager.Instance.PlayRandomBoost();
         }
@@ -549,6 +550,8 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Boosting(float _duration)
     {
         m_Boosting = true;
+        float newMax = m_MaxSpeed + m_BoostSpeedIncrease;
+        m_MaxSpeed = newMax;
         yield return new WaitForSeconds(_duration);
         m_Boosting = false;
     }
