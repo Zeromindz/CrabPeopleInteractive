@@ -45,4 +45,17 @@ public class OpenGate : MonoBehaviour
         }
         m_Lanterns.gameObject.SetActive(true);
     }
+
+    public void Reset()
+    {
+        for (int i = 0; i < m_EndGateFireSmall.Length; i++)
+        {
+            m_EndGateFireSmall[i].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < m_EndGateFireBig.Length; i++)
+        {
+            m_EndGateFireBig[i].gameObject.SetActive(false);
+        }
+        m_Lanterns.gameObject.SetActive(false);
+    }
 }

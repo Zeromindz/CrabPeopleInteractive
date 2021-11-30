@@ -156,15 +156,15 @@ public class GameUI : MonoBehaviour
     IEnumerator ShowTrickControls()
 	{
         m_Hint.gameObject.SetActive(true);
-        Time.timeScale = 0.25f;
+        //Time.timeScale = 0.5f;
         yield return new WaitForSeconds(2);
-		if (PlayerMovement.Instance.m_TrickPerformed)
-		{
-            StopCoroutine(ShowTrickControls());
-		}
+		//if (PlayerMovement.Instance.m_TrickPerformed)
+		//{
+        //   StopCoroutine(ShowTrickControls());
+		//}
 
         m_Hint.gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
 
     public void ShowTrickTip()
