@@ -23,20 +23,23 @@ public class PassengerManager : MonoBehaviour
         int attachPointIndex = Random.Range(0, m_AttachPoints.Count - 1);
         var selectedAttachPoint = m_AttachPoints[attachPointIndex];
         // Spawn passenger at the attach point with a random rotation
-        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", selectedAttachPoint.transform.position, Quaternion.Euler(Random.insideUnitSphere));
+        GameObject objectToSpawn = m_PoolManager.SpawnFromPool("Passenger", selectedAttachPoint.transform.position, Quaternion.Euler(new Vector3(Random.insideUnitSphere.x, Random.insideUnitSphere.y, Random.insideUnitSphere.z)));
+        objectToSpawn.transform.SetParent(selectedAttachPoint.transform);
         
         // Set the passenger's connected rigidbody to be the selected attach point
-        objectToSpawn.GetComponentInChildren<SpringJoint>().connectedBody = selectedAttachPoint.GetComponent<Rigidbody>();
-        //GameObject hand = objectToSpawn.GetComponent<PassengerGrabPoint>().m_HandL;
-        GameObject hand = objectToSpawn.transform.Find("GFX/Ghost_With_Rig 1/Root/Arm_L/Arm_L_end").gameObject;
-        hand.transform.position = selectedAttachPoint.transform.position;
-        
+        //objectToSpawn.GetComponentInChildren<SpringJoint>().connectedBody = selectedAttachPoint.GetComponent<Rigidbody>();
+        //GameObject hand = objectToSpawn.transform.Find("GFX/Ghost_With_Rig 1/Root/Arm_L/Arm_L_end").gameObject;
+        //hand.transform.position = selectedAttachPoint.transform.position;
+        GameObject grabPoint = objectToSpawn.transform.Find("Grab Point").gameObject;
+
+        m_AttachPoints.Add(grabPoint);
+        m_PassengerObjects.Add(objectToSpawn);
+
         // Remove the attach point from the list to avoid double attaches
         //m_AttachPoints.RemoveAt(attachPointIndex);
         // Cache the grab point on the passenger game object
-        GameObject grabPoint = objectToSpawn.transform.Find("Grab Point").gameObject;
+        // Cache the grab point on the passenger game object
         
-        m_AttachPoints.Add(grabPoint);
 
 
         // Unused
@@ -44,7 +47,6 @@ public class PassengerManager : MonoBehaviour
 
 
         // Add object to passenger list (for resetting)
-        m_PassengerObjects.Add(objectToSpawn);
     }
 
     public void ResetPassengers()

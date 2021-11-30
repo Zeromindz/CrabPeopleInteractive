@@ -550,9 +550,12 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Boosting(float _duration)
     {
         m_Boosting = true;
+        float lastMax = m_MaxSpeed;
         float newMax = m_MaxSpeed + m_BoostSpeedIncrease;
         m_MaxSpeed = newMax;
         yield return new WaitForSeconds(_duration);
+
+        m_MaxSpeed = lastMax;
         m_Boosting = false;
     }
 
