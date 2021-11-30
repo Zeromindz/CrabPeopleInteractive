@@ -61,7 +61,7 @@ public class PlayerCollision : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Hit pick-up object
-        if (other.tag == "Pickup")
+       if (other.tag == "Pickup")
         {
             Debug.Log("Pickup hit!");
             other.GetComponentInParent<ItemPickup>().OnPickup();
@@ -94,6 +94,8 @@ public class PlayerCollision : MonoBehaviour
             UIController.Instance.GameUI.TakeTime();
           //  other.gameObject.GetComponent<ItemPickup>().OnPickup();
         }
+
+
     }
 
     private void OnDrawGizmos()

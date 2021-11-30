@@ -125,6 +125,8 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
 
+        m_RigidBody.velocity = Vector3.zero;
+
         SaveDefaults();
 
     }
@@ -550,9 +552,12 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Boosting(float _duration)
     {
         m_Boosting = true;
+        float lastMax = m_MaxSpeed;
         float newMax = m_MaxSpeed + m_BoostSpeedIncrease;
         m_MaxSpeed = newMax;
         yield return new WaitForSeconds(_duration);
+
+        m_MaxSpeed = lastMax;
         m_Boosting = false;
     }
 

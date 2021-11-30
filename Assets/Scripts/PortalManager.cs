@@ -61,15 +61,15 @@ public class PortalManager : MonoBehaviour
     {
         // Portal spawn set to button (P) for testing,
         // will eventually be bound to the start option of the main menu
-        if (m_PPressed && m_State == PortalStates.VOID)
-        {
-            SpawnPortal();
-            m_PPressed = false;
-
-            m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
-            
-            StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
-        }
+        //if (m_State == PortalStates.VOID)
+        //{
+        //    SpawnPortal();
+        //    m_PPressed = false;
+        //
+        //    m_PortalMaterial.SetFloat("_Step_Cutoff", m_DissolveAmount);
+        //    
+        //    StartCoroutine(LerpDissolve(0f, m_DissolveDuration));
+        //}
 
         
         // If the portal has been spawned, mirror main camera movement with portal camera

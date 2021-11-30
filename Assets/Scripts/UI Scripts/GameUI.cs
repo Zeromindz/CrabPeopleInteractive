@@ -38,7 +38,18 @@ public class GameUI : MonoBehaviour
     void UpdateUI()
     {
         // Current speed display
-        string currentSpeedText = "" + Mathf.Floor(PlayerMovement.Instance.GetSpeeds().x);
+        int value = (int)Mathf.Ceil(PlayerMovement.Instance.GetSpeeds().x);
+        string currentSpeedText;
+        if (value > PlayerMovement.Instance.m_MaxSpeed - 2.0f)
+        {
+            value = (int)PlayerMovement.Instance.m_MaxSpeed;
+            currentSpeedText = "" + Mathf.Abs(value);
+        }
+        else
+        {
+            value = Mathf.Abs((int)Mathf.Ceil(PlayerMovement.Instance.GetSpeeds().x));
+            currentSpeedText = "" + value;
+        }
         m_CurrentSpeedText.text = currentSpeedText;
         
         // Max speed display
