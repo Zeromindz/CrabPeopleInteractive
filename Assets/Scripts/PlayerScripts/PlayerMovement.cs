@@ -125,6 +125,8 @@ public class PlayerMovement : MonoBehaviour
         m_RigidBody = GetComponent<Rigidbody>();
         m_RigidBody.centerOfMass = m_GroundedCenterOfMass;
 
+        m_RigidBody.velocity = Vector3.zero;
+
         SaveDefaults();
 
     }

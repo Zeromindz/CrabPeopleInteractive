@@ -43,8 +43,16 @@ public class EndScreenUI : MonoBehaviour
     /// </summary>
     public void SetScore()
 	{
-        m_ScoreText.text = "" + UIController.Instance.GameUI.GetTime();
+        m_ScoreText.text = "" + ScoreToString(UIController.Instance.GameUI.GetTime());
 	}
+
+    private string ScoreToString(float score)
+    {
+        int minutes = (int)(score / 60);
+        int seconds = (int)(score - (minutes * 60));
+        string scoreString = "" + minutes + ":" + seconds;
+        return scoreString;
+    }
 
     /// <summary>
     /// Called when the "Save Score" button is pressed
