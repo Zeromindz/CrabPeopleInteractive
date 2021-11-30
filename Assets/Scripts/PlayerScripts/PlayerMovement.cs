@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_AccelerationMultiplierMin = 1f;
     [SerializeField] internal float m_AccelerationMultiplierMax = 10.0f;
 
-    private float m_DefaultMaxSpeed = 120;
+    [SerializeField] private float m_DefaultMaxSpeed = 120;
 
     internal Vector3 m_CurrentVel;
     
