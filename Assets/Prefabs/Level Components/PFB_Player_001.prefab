@@ -10233,7 +10233,7 @@ MonoBehaviour:
   m_BullShitLevelBoatBool: 0
   m_MaxSpeedIncrease: 10
   m_CurrentSpeed: 0
-  m_AccelerationForce: 60
+  m_AccelerationForce: 50
   m_BoostForce: 30
   m_BoostSpeedIncrease: 10
   m_MaxSpeed: 120
@@ -10264,7 +10264,7 @@ MonoBehaviour:
   m_HoverForce: 150
   m_HoverHeight: 4
   m_HoverGravity: 20
-  m_FallGravity: 50
+  m_FallGravity: 80
   m_LevelingForce: 1.5
   m_HoverPoints:
   - {fileID: 4629130820131787541}
@@ -10944,6 +10944,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5276336650896589301}
     m_Modifications:
+    - target: {fileID: 456986535460554059, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e51290ccb17b3ec4f87925332d82cf79, type: 2}
     - target: {fileID: 5192962324621260920, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.044
@@ -10962,28 +10966,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: -0.11155665
+      value: -0.11155653
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.8861457
+      value: -0.8861456
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: 0.42894888
+      value: 0.42894864
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.52922016
+      value: 0.52922
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 1.0462078
+      value: 1.0462077
       objectReference: {fileID: 0}
     - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.6840458
+      value: 0.68404543
       objectReference: {fileID: 0}
+    - target: {fileID: 5736357520381791133, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7be186330b5ae40498788b71fd6be163, type: 2}
     - target: {fileID: 5944694983152755050, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
       propertyPath: m_Name
       value: Ghost_Mesh-updated
@@ -11044,6 +11052,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 8501338567901502266, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 98d55513da19504419f57306519d4f79, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bddc1a0a2c6f1041a0d6397f5857351, type: 3}
 --- !u!1001 &4078436235836265359
