@@ -31,11 +31,11 @@ public class LeaderBoardElement : MonoBehaviour
     /// Instantiates all of the object for the row
     /// </summary>
     /// <param name="canvas">The canvas the obects will be childs of </param>
-    public void InstantiateElement(Transform canvas)
+    public void SetParent(Transform canvas)
     {
-        NameLabel = Instantiate(NameLabel, canvas.transform, false);
-        ScoreLabel = Instantiate(ScoreLabel, canvas.transform, false);
-        GhostButton = Instantiate(GhostButton, canvas.transform, false);
+        NameLabel.transform.parent = canvas.transform;
+        ScoreLabel.transform.parent = canvas.transform;
+        GhostButton.transform.parent = canvas.transform;
     }
 
     /// <summary>
@@ -132,6 +132,12 @@ public class LeaderBoardElement : MonoBehaviour
     {
         return NameLabel.transform.localPosition.y;
     }
+    public void Delete()
+    {
+        Destroy(NameLabel);
+        Destroy(ScoreLabel);
+        Destroy(GhostButton);
+    }
 }
 
 /// <summary>
@@ -185,7 +191,7 @@ public class LeaderboardUI : MonoBehaviour
             GameObject tickBox1 = Instantiate(m_ButtonPrefab);
             element.SetElements(label1, label2, tickBox1);
             m_Elements[value] = element;
-            m_Elements[value].InstantiateElement(m_ScrollviewContent.transform);
+            m_Elements[value].SetParent(m_ScrollviewContent.transform);
             m_Elements[value].SetY(m_TopYPosition - (i * m_Elements[value].GetHeight()));
             m_Elements[value].SetX(m_leftmostXPosition);
 
@@ -393,9 +399,17 @@ public class LeaderboardUI : MonoBehaviour
     {
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
         m_ChosenIndices = new List<int>();
-      
-        if(m_leaderBoard != null)
-		{
+
+        if (m_Elements != null)
+        {
+            for (int i = 0; i < m_Elements.Length; i++)
+            {
+                m_Elements[i].Delete();
+            }
+        }
+        if (m_leaderBoard != null)
+        {
+
             m_Elements = new LeaderBoardElement[m_leaderBoard.datas.Count];
             m_TotalElements = m_leaderBoard.datas.Count;
 		}
@@ -403,7 +417,6 @@ public class LeaderboardUI : MonoBehaviour
 		{
             m_TotalElements = 0;
 		}
-
         CreateRows();
         for (int i = 0; i < m_TotalElements; i++)
         {
@@ -423,6 +436,7 @@ public class LeaderboardUI : MonoBehaviour
     //            }
             }
         }
+
 
         //LoadElementAmount();
     }

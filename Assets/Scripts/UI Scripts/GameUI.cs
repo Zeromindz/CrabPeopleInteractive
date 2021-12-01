@@ -44,18 +44,18 @@ public class GameUI : MonoBehaviour
         if (value > PlayerMovement.Instance.m_MaxSpeed - 2.0f)
         {
             value = (int)PlayerMovement.Instance.m_MaxSpeed;
-            currentSpeedText = "" + Mathf.Abs(value);
+            currentSpeedText = "" + Mathf.Abs(value) + " km/h";
         }
         else
         {
             value = Mathf.Abs((int)Mathf.Ceil(PlayerMovement.Instance.GetSpeeds().x));
-            currentSpeedText = "" + value;
+            currentSpeedText = "" + value + " km/h";
         }
         m_CurrentSpeedText.text = currentSpeedText;
         
         // Max speed display
         string maxSpeedText = "" + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
-        m_MaxSpeedUI.text = maxSpeedText;
+        m_MaxSpeedUI.text = maxSpeedText + " km/h" ;
 
 		#region Seconds and Centiseconds
 		// Timer display
@@ -156,15 +156,15 @@ public class GameUI : MonoBehaviour
     IEnumerator ShowTrickControls()
 	{
         m_Hint.gameObject.SetActive(true);
-        Time.timeScale = 0.25f;
+        //Time.timeScale = 0.5f;
         yield return new WaitForSeconds(2);
-		if (PlayerMovement.Instance.m_TrickPerformed)
-		{
-            StopCoroutine(ShowTrickControls());
-		}
+		//if (PlayerMovement.Instance.m_TrickPerformed)
+		//{
+        //   StopCoroutine(ShowTrickControls());
+		//}
 
         m_Hint.gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
 
     public void ShowTrickTip()

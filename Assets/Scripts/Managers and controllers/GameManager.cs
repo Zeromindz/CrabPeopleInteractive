@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Transform m_MenuPos;
     public Transform m_StartPos;
     public GameObject m_Player;
+    public OpenGate m_GatesOfHell = null;
     [SerializeField] private Transform m_Skybox = null;
 
     [SerializeField] GameObject m_ReplayGhostPrefab = null;
@@ -159,6 +160,7 @@ public class GameManager : MonoBehaviour
         m_UIController.MenuController.ReturnToPreviousUI();
         SoundManager.Instance.PlayMusic(0);
         PortalManager.m_Instance.SetState(PortalManager.PortalStates.ENDSPAWNED);
+        m_GatesOfHell.Reset();
 	}
    
     public void SetMenu()

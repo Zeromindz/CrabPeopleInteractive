@@ -140,6 +140,7 @@ public class MenuController : MonoBehaviour
 		m_State = MenuState.MAINMENU;
 		m_UIStack.Clear();
 		m_UIStack.Push(new MenuStackItem(m_MenuUI, MenuState.MAINMENU));
+		PortalManager.m_Instance.SetState(PortalManager.PortalStates.VOID);
 		SoundManager.Instance.PlayMusic(1);
 		SoundManager.Instance.StartTerrainSounds();
 		UpdateState();
