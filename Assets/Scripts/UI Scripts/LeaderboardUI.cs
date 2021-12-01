@@ -195,205 +195,14 @@ public class LeaderboardUI : MonoBehaviour
             m_Elements[value].SetY(m_TopYPosition - (i * m_Elements[value].GetHeight()));
             m_Elements[value].SetX(m_leftmostXPosition);
 
-            m_Elements[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Elements[value].GhostButton.GetComponent<Toggle>()); });
+            m_Elements[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { AddToReplayList(value, m_Elements[value].GhostButton.GetComponent<Toggle>()); });
             //m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
         }
     }
-    #region oldStuff
-    //   private void ResetIndices()
-    //{
-    //       m_TopIndex = 0;
-    //       m_TopMostIndex = m_TopIndex;
-    //       m_BottomIndex = m_ElementsPerPage - 1;
-    //       m_BottomMostIndex = m_BottomIndex;
-    //       m_CountingIndex = m_TopIndex;
-    //       if(m_leaderBoard != null)
-    //	{
-    //           m_TotalElements = m_leaderBoard.datas.Count;
-    //	}
-    //       else
-    //	{
-    //           m_TotalElements = 0;
-    //	}
-    //   }
-
-    //   /// <summary>
-    //   /// Function that runs on the button being pressed 
-    //   /// </summary>
-    //   /// <param name="index"></param>
-    ////private void OnbuttonPress(int index)
-    ////   {
-    ////       Debug.Log("Button " + index + " Pressed!");
-    ////       LoadGhost(index);
-    ////   }
-
-    //   private void LoadGhost(int index)
-    //   {
-    //       Debug.Log("Pressed button at index; " + index);
-    //	//      if(index <= m_TotalElements - 1)
-    //	//{
-    //	//          GameManager.Instance.m_ChosenGhostIndex = index;    
-    //	//          GameManager.Instance.m_ChoseGhost = true;
-    //	//          GameManager.Instance.ResetGame();
-    //	//          UIController.Instance.MenuController.LoadGame();
-    //	//}
-    //}
-
-    ////private void LoadElementAmount()
-    ////{
-    ////    m_TotalElements = LeaderboardIO.Instance.LoadRowAmount().rowAmount;
-    ////}
-
-    ///// <summary>
-    ///// Called when wrapping
-    ///// moves all rows on the Y direction
-    ///// </summary>
-    ///// <param name="direction"></param>
-    //public void Move(float direction)
-    //   {
-    //       float yMovement = direction * m_Elements[0].GetHeight();
-    //       Debug.Log("Move: " + yMovement);
-
-    //       for (int i = 0; i < m_Elements.Length; i++)
-    //       {
-    //           m_Elements[i].MoveYDir(yMovement);
-    //       }
-    //   }
-
-    //   /// <summary>
-    //   /// Called when the leaderboard navigation button is pressed,
-    //   /// Wraps the elements  desending on the value
-    //   /// </summary>
-    //   /// <param name="yValue">The value that determins the direction of the wrap</param>
-    //public void WrapElements(float yValue)
-    //   {
-    //       if (yValue > 0)
-    //       {
-    //           // Does nothing if the index is out of range
-    //           if (m_CountingIndex - 1 < 0)
-    //           {
-
-    //           }
-    //           else
-    //           {
-    //               int value = m_CountingIndex - 1;
-    //               m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
-
-    //               buttonChanged = false;
-    //               bool toggledOn = false;
-    //			// Toggling the tickbox on or off depending on if already chosen
-    //			for (int i = 0; i < m_ChosenIndices.Count; i++)
-    //			{
-    //                   if(!toggledOn)
-    //				{
-    //				    if (value == m_ChosenIndices[i])
-    //				    {
-    //					    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = true;
-    //                           toggledOn = true;
-    //				    }
-
-    //				    else
-    //				    {
-    //					    m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().isOn = false;
-    //				    }
-    //				}
-    //			}
-    //               buttonChanged = true;
-
-    //               m_Elements[m_BottomIndex].SetY(m_Elements[m_TopIndex].GetYPos() + m_Elements[m_TopIndex].GetHeight());
-    //               m_Elements[m_BottomIndex].SetX(m_leftmostXPosition);
-    //               //  m_Element[m_BottomIndex].SetElementValues("Name: " + value, "Score: " + value, "Button: " + value);
-    //               m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener( delegate { ToggleChange(value, m_Elements[m_BottomIndex].GhostButton.GetComponent<Toggle>()); });
-    //               //m_Element[m_BottomIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
-
-    //               // The original top row index is now at the bottom, resets to top 
-    //               if (m_BottomIndex == m_TopMostIndex)
-    //               {
-    //                   m_BottomIndex = m_BottomMostIndex;
-    //                   m_TopIndex = m_TopMostIndex;
-    //                   m_CountingIndex--;
-    //               }
-
-    //               // Scrolls down indecies by one
-    //               else
-    //               {
-    //                   m_TopIndex = m_BottomIndex;
-    //                   m_BottomIndex = m_BottomIndex - 1;
-    //                   m_CountingIndex--;
-    //               }
-
-    //               m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
-
-    //			Move(-1);
-    //           }
-    //       }
-
-    //       else
-    //       {
-    //           // Does nothing if the index is out of range
-    //           if ((m_CountingIndex + m_ElementsPerPage + 1) > m_TotalElements)
-    //           {
-
-    //           }
-    //           else
-    //           {
-    //               int value = m_CountingIndex + m_ElementsPerPage;
-    //               m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
-    //               // Toggling the tickbox on or off depending on if already chosen
-    //               buttonChanged = false;
-    //               bool toggledOn = false;
-    //			for (int i = 0; i < m_ChosenIndices.Count; i++)
-    //			{
-    //				if (!toggledOn)
-    //				{
-    //				    if (value == m_ChosenIndices[i])
-    //				    {
-    //					    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = true;
-    //                           toggledOn = true;
-    //				    }
-    //				    else
-    //				    {
-    //					    m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().isOn = false;
-    //				    }
-    //				}
-    //			}
-    //               buttonChanged = true;
-    //               m_Elements[m_TopIndex].SetY(m_Elements[m_BottomIndex].GetYPos() - m_Elements[m_BottomIndex].GetHeight());
-    //               m_Elements[m_TopIndex].SetX(m_leftmostXPosition);
-
-
-    //               m_Elements[m_TopIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
-    //               m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { ToggleChange(value, m_Elements[m_TopIndex].GhostButton.GetComponent<Toggle>()); });
-
-    //               //m_Element[m_TopIndex].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
-
-
-    //               // The original bottom row is now at the top, resets to bottom
-    //               if (m_TopIndex == m_BottomMostIndex)
-    //               {
-    //                   m_TopIndex = m_TopMostIndex;
-    //                   m_BottomIndex = m_BottomMostIndex;
-    //               }
-
-    //               // Scrolls up indecies by one
-    //               else
-    //               {
-    //                   m_BottomIndex = m_TopIndex;
-    //                   m_TopIndex = m_TopIndex + 1;
-    //               }
-
-    //               m_CountingIndex++;
-    //               m_Elements[m_BottomIndex].SetElementValues(m_leaderBoard.datas[value].playerName, ScoreToString(m_leaderBoard.datas[value].playerScore));
-
-    //			Move(1);
-    //           }
-    //       }
-    //   }
-    #endregion
-
+    
     /// <summary>
     /// Called when the leaderboard is first created,
-    /// Loads the first page of elements
+    /// Loads all the entire leaderboard
     /// </summary>
     public void Load()
     {
@@ -405,6 +214,7 @@ public class LeaderboardUI : MonoBehaviour
             for (int i = 0; i < m_Elements.Length; i++)
             {
                 m_Elements[i].Delete();
+                m_Elements[i] = null;
             }
         }
         if (m_leaderBoard != null)
@@ -425,47 +235,17 @@ public class LeaderboardUI : MonoBehaviour
                 if(m_TotalElements > i)
 				{
                     m_Elements[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
-                    //m_Elements[i].GhostButton.GetComponent<Toggle>().interactable = true;
-                    //m_Elements[i].GhostButton.GetComponent<Toggle>().isOn = false;
                 }
-
-    //            else if(i > m_TotalElements - 1 && i < m_ElementsPerPage)
-				//{
-    //                m_Elements[i].SetElementValues("...", "...");
-    //                m_Elements[i].GhostButton.GetComponent<Toggle>().interactable = false;
-    //            }
             }
         }
-
-
-        //LoadElementAmount();
-    }
-    public void Unload()
-    {
-     //   m_Elements = new L
     }
 
-    //public void ClearLeaderboard()
-    //{
-    //    LeaderboardIO.Instance.ClearRows();
-    //    Reload();
-    //}
-
-    public void Reload()
-    {
-        if(m_leaderBoard != null)
-		{
-            Load();
-		}
-
-
-        //m_TopIndex = 0;
-        //m_TopMostIndex = m_TopIndex;
-        //m_BottomIndex = m_ElementsPerPage - 1;
-        //m_BottomMostIndex = m_BottomIndex;
-        //m_CountingIndex = m_TopIndex;
-    }
-
+    /// <summary>
+    /// Called when the players saved score needs to be formatted.
+    /// Formats the players score and converts to string
+    /// </summary>
+    /// <param name="score">The players score as a float</param>
+    /// <returns></returns>
     private string ScoreToString(float score)
     {
         int minutes = (int)(score / 60);
@@ -474,22 +254,25 @@ public class LeaderboardUI : MonoBehaviour
         return scoreString;
     }
 
-    public void ToggleChange(int index, Toggle toggle)
+    /// <summary>
+    /// Called when toggle box is pressed.
+    /// Adds the index of the toggle box to a list of replays that will be played for the next run.
+    /// </summary>
+    /// <param name="index">Index of the togglebox</param>
+    /// <param name="toggle">The toggle component of the togglebox</param>
+    public void AddToReplayList(int index, Toggle toggle)
 	{
-  //      if(buttonChanged)
-		//{
-		    if (toggle.isOn)
-		    {
-                m_ChosenIndices.Add(index);
-                //toggle.isOn = true;
-                Debug.Log("Added ghost at index: " + index);
-		    }
-		    else
-		    {
-                m_ChosenIndices.Remove(index);
-                //toggle.isOn = false;
-                Debug.Log("Removed ghost at index: " + index);
-            }
-		//}
+        if (toggle.isOn)
+        {
+            m_ChosenIndices.Add(index);
+            //toggle.isOn = true;
+            Debug.Log("Added ghost at index: " + index);
+        }
+        else
+        {
+            m_ChosenIndices.Remove(index);
+            //toggle.isOn = false;
+            Debug.Log("Removed ghost at index: " + index);
+        }
     }
 }

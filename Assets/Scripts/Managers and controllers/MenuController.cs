@@ -213,7 +213,7 @@ public class MenuController : MonoBehaviour
 		UIController.Instance.LeaderboardUI.m_ChosenIndices.Clear();
 		m_State = MenuState.LEADERBOARD;
 		m_UIStack.Push(new MenuStackItem(m_LeaderboardUI, MenuState.LEADERBOARD));
-		UIController.Instance.LeaderboardUI.Reload();
+		UIController.Instance.LeaderboardUI.Load();
 		UpdateState();
 	}
 
