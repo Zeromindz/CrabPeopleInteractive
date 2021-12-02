@@ -123,7 +123,8 @@ public class GameManager : MonoBehaviour
 
         m_State = GameState.InRun;
         m_UIController.GameUI.TimerCounting(true);
-	}
+        m_UIController.GameUI.ShowDefalt = false;
+    }
 
     public void EndGame()
     {
@@ -136,7 +137,8 @@ public class GameManager : MonoBehaviour
         m_UIController.GameUI.TimerCounting(false);
         SoundManager.Instance.StopBGM();
         SoundManager.Instance.BoostFadeToStop();
-        m_ChoseGhost = false;        
+        m_ChoseGhost = false;
+        m_UIController.GameUI.ShowDefalt = true;
     }
 
     public void ResetGame()

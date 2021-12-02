@@ -64,8 +64,8 @@ public class EndScreenUI : MonoBehaviour
         if(m_InputField.text.Length == 3)
 		{
             LeaderboardData data = new LeaderboardData(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
-            UIController.Instance.LeaderboardUI.m_leaderBoard.Add(data);
-            LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.m_leaderBoard);
+            UIController.Instance.LeaderboardUI.GetLeaderboard().Add(data);
+            LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.GetLeaderboard());
             GhostRecorder.Instance.ResetData();
             m_SaveScoreButton.SetActive(false);
             m_ErrorMessage.text = "Score saved!";

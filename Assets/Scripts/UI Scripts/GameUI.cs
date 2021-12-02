@@ -16,13 +16,14 @@ public class GameUI : MonoBehaviour
 
     private bool m_Counting = false;                                        // A bool which value determing if the timer is counting
     private float m_Time;                                                   // The value of the timer
+    public bool ShowDefalt { get; set; } = true;                            // If the values should be updated or be defaulted
 
     /// <summary>
     /// Called every frame
     /// </summary>
     void Update()
     {
-        if(UIController.Instance.MenuController.m_State == MenuState.GAME)
+        if(UIController.Instance.MenuController.m_State == MenuState.GAME && ShowDefalt == false)
         {
             if (m_Counting)
             {
@@ -44,48 +45,46 @@ public class GameUI : MonoBehaviour
         if (value > PlayerMovement.Instance.m_MaxSpeed - 2.0f)
         {
             value = (int)PlayerMovement.Instance.m_MaxSpeed;
-            currentSpeedText = "" + Mathf.Abs(value) + " km/h";
+            currentSpeedText = "" + Mathf.Abs(value) + " <size=70%>km/h";
         }
         else
         {
             value = Mathf.Abs((int)Mathf.Ceil(PlayerMovement.Instance.GetSpeeds().x));
-            currentSpeedText = "" + value + " km/h";
+            currentSpeedText = "" + value + " <size=70%>km/h";
         }
         m_CurrentSpeedText.text = currentSpeedText;
         
         // Max speed display
         string maxSpeedText = "" + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
-        m_MaxSpeedUI.text = maxSpeedText + " km/h" ;
+        m_MaxSpeedUI.text = maxSpeedText + " <size=70%>km/h";
 
 		#region Seconds and Centiseconds
-		// Timer display
+		 //Timer display
 		int minutes = (int)(m_Time / 60);
 		int milliseconds = (int)(m_Time * 100);
-		int wholeSeconds = (milliseconds / 100);
+		int wholeSeconds = (milliseconds / 100) - minutes * 60;
 		int leftover = (milliseconds % 100);
 
         string time = "";
 
         if (minutes > 0)
 		{
-            time += minutes;
+            time += minutes + ":";
 		}
 
 		if (m_Time > 0)
 		{
-			time += wholeSeconds + (leftover < 10 ? ".0" : ".") + leftover;
+			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ":0" : ":") + leftover;
 			m_TimeUI.text = time;
 		}
 		else
 		{
-			time += wholeSeconds + ((-1 * leftover) < 10 ? ".0" : ".") + (-1 * leftover);
+			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ":0" : ":") + (-1 * leftover);
 			m_TimeUI.text = time;
 		}
-		#endregion
+        #endregion
 
-        int seconds = (int)(m_Time - (minutes * 60));
-        string timeString = "" + minutes + ":" + seconds;
-        m_TimeUI.text = timeString;
+
     }
 
 	/// <summary>
@@ -105,6 +104,8 @@ public class GameUI : MonoBehaviour
     {
         m_Time = 0.0f;
     }
+
+
     public void StopAndResetTime()
     {
         m_Counting = false;
@@ -156,15 +157,15 @@ public class GameUI : MonoBehaviour
     IEnumerator ShowTrickControls()
 	{
         m_Hint.gameObject.SetActive(true);
-        //Time.timeScale = 0.5f;
         yield return new WaitForSeconds(2);
-		//if (PlayerMovement.Instance.m_TrickPerformed)
-		//{
-        //   StopCoroutine(ShowTrickControls());
-		//}
-
         m_Hint.gameObject.SetActive(false);
-        //Time.timeScale = 1f;
+    }
+
+    public void SetActive(bool v)
+	{
+        m_TimeUI.transform.parent.gameObject.SetActive(v);
+        m_MaxSpeedUI.transform.parent.gameObject.SetActive(v);
+        m_CurrentSpeedText.transform.parent.gameObject.SetActive(v); 
     }
 
     public void ShowTrickTip()

@@ -33,9 +33,9 @@ public class LeaderBoardElement : MonoBehaviour
     /// <param name="canvas">The canvas the obects will be childs of </param>
     public void SetParent(Transform canvas)
     {
-        NameLabel.transform.parent = canvas.transform;
-        ScoreLabel.transform.parent = canvas.transform;
-        GhostButton.transform.parent = canvas.transform;
+        NameLabel.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
+        ScoreLabel.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
+        GhostButton.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
     }
 
     /// <summary>
@@ -54,15 +54,6 @@ public class LeaderBoardElement : MonoBehaviour
     public void SetScoreText(string text)
     {
         ScoreLabel.GetComponentInChildren<TextMeshProUGUI>().text = text;
-    }
-
-    /// <summary>
-    /// Sets the value of the ghost buttons text
-    /// </summary>
-    /// <param name="text">The string to be set as the ghost buttons text</param>
-    public void SetButtonText(string text)
-    {
-        GhostButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
     }
 
     /// <summary>
@@ -98,9 +89,9 @@ public class LeaderBoardElement : MonoBehaviour
     /// <param name="yPos">The Y position that the objects are to be set to</param>
     public void SetY(float yPos)
     {
-        NameLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
-        ScoreLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
-        GhostButton.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
+        NameLabel.transform.position = new Vector3(0.0f, yPos, 0.0f);
+        ScoreLabel.transform.position = new Vector3(0.0f, yPos, 0.0f);
+        GhostButton.transform.position = new Vector3(0.0f, yPos, 0.0f);
     }
 
     /// <summary>
@@ -113,25 +104,9 @@ public class LeaderBoardElement : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the objects on the Y position
+    /// Called when the leaderboard is loaded.
+    /// Destroys previous rows
     /// </summary>
-    /// <param name="yDirection"> The direction in the Y position to be moved</param>
-    public void MoveYDir(float yDirection)
-    {
-        Vector3 direction = new Vector3(0.0f, yDirection, 0.0f);
-        NameLabel.transform.localPosition += direction;
-        ScoreLabel.transform.localPosition += direction;
-        GhostButton.transform.localPosition += direction;
-    }
-
-    /// <summary>
-    /// Gets the Y position of the name label 
-    /// </summary>
-    /// <returns>The Y position of the name label</returns>
-    public float GetYPos()
-    {
-        return NameLabel.transform.localPosition.y;
-    }
     public void Delete()
     {
         Destroy(NameLabel);
@@ -145,41 +120,23 @@ public class LeaderBoardElement : MonoBehaviour
 /// </summary>
 public class LeaderboardUI : MonoBehaviour
 {
-    public LeaderBoard m_leaderBoard = null;
 
-    [SerializeField] private GameObject m_ButtonPrefab = null;                     // The prefab for the ghost button
-    [SerializeField] private GameObject m_LabelPrefab = null;                      // The prefab for the label prefab
-    [SerializeField] private GameObject m_ScrollviewContent = null;
-    //[SerializeField] private Canvas m_Canvas = null;                               // The canvas which the buttons will be childs of 
-    //[SerializeField, Range(0, 10)] private int m_ElementsPerPage;           // The amount of rows in the leaderboard
-   /* [SerializeField, Range(-530, 530)]*/ private int m_TopYPosition;          // The top most Y position of the first label
-    /*[SerializeField, Range(-810, 810)]*/ private int m_leftmostXPosition = 0; // The left most X position of the first label
+    [SerializeField] private GameObject m_ButtonPrefab = null;              // The prefab for the ghost button
+    [SerializeField] private GameObject m_LabelPrefab = null;               // The prefab for the label prefab
+    [SerializeField] private GameObject m_ScrollviewContent = null;         // The content object of the scrollview which the leaderboard rows are peranted to
+  
+    private int m_TopYPosition;                                             // The top most Y position of the first label
+    private int m_leftmostXPosition = 0;                                    // The left most X position of the first label
 
-    private int m_TotalElements = 0;                                            // The total amount of rows saved
-    private LeaderBoardElement[] m_Elements = null;                          // The rows in the leaderboard
-    //private int m_TopIndex, m_BottomIndex;                                  // The top and bottom index the current index at the top and bottom possition 
-    //private int m_TopMostIndex, m_BottomMostIndex;                          // The top index (0) and the bottom most index (m_ElementsPerPage - 1)
-    //private int m_CountingIndex;                                            // The index of the top row not being wrapped within the row range
-    public List<int> m_ChosenIndices;
-    bool LeaderboardExists;
-    //private bool buttonChanged = true;
+    private LeaderBoard m_leaderBoard = null;                                // A class containing the saved data for the leaderboard
+    private int m_TotalElements = 0;                                        // The total amount of rows saved
+    private LeaderBoardElement[] m_Elements = null;                         // The rows in the leaderboard
+   
+    public List<int> m_ChosenIndices;                                       // The chosen replay ghost indecies to be spawned onthe next run
 
     /// <summary>
-    /// Called when script is loaded
-    /// Caches needed information
+    /// 
     /// </summary>
-    private void Awake()
-    {
-    }
-
-    /// <summary>
-    /// Called before the first update is called
-    /// Creates all the rows and sets all the values
-    /// </summary>
-    void Start()
-    {
-    }
-
     private void CreateRows()
     {
         for (int i = 0; i < m_TotalElements; i++)
@@ -194,14 +151,13 @@ public class LeaderboardUI : MonoBehaviour
             m_Elements[value].SetParent(m_ScrollviewContent.transform);
             m_Elements[value].SetY(m_TopYPosition - (i * m_Elements[value].GetHeight()));
             m_Elements[value].SetX(m_leftmostXPosition);
-
             m_Elements[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { AddToReplayList(value, m_Elements[value].GhostButton.GetComponent<Toggle>()); });
-            //m_Element[value].GhostButton.GetComponent<Button>().onClick.AddListener(() => { OnbuttonPress(value); });
+            m_Elements[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
         }
     }
     
     /// <summary>
-    /// Called when the leaderboard is first created,
+    /// Called when the "leaderboard" button is pressed,
     /// Loads all the entire leaderboard
     /// </summary>
     public void Load()
@@ -219,25 +175,10 @@ public class LeaderboardUI : MonoBehaviour
         }
         if (m_leaderBoard != null)
         {
-
             m_Elements = new LeaderBoardElement[m_leaderBoard.datas.Count];
             m_TotalElements = m_leaderBoard.datas.Count;
+            CreateRows();
 		}
-		else
-		{
-            m_TotalElements = 0;
-		}
-        CreateRows();
-        for (int i = 0; i < m_TotalElements; i++)
-        {
-            if (i < m_TotalElements)
-            {  
-                if(m_TotalElements > i)
-				{
-                    m_Elements[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
-                }
-            }
-        }
     }
 
     /// <summary>
@@ -248,10 +189,27 @@ public class LeaderboardUI : MonoBehaviour
     /// <returns></returns>
     private string ScoreToString(float score)
     {
+        string time = "";      
         int minutes = (int)(score / 60);
-        int seconds = (int)(score - (minutes * 60));
-        string scoreString = "" + minutes + ":" + seconds;
-        return scoreString;
+        int milliseconds = (int)(score * 100);
+        int wholeSeconds = (milliseconds / 100) - minutes * 60;
+        int leftover = (milliseconds % 100);
+
+        if (minutes > 0)
+        {
+            time += minutes + ":";
+        }
+
+        if (score > 0)
+        {
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ":0" : ":") + leftover;            
+        }
+
+        else
+        {
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ":0" : ":") + (-1 * leftover);
+        }
+        return time;
     }
 
     /// <summary>
@@ -260,7 +218,7 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the togglebox</param>
     /// <param name="toggle">The toggle component of the togglebox</param>
-    public void AddToReplayList(int index, Toggle toggle)
+    private void AddToReplayList(int index, Toggle toggle)
 	{
         if (toggle.isOn)
         {
@@ -275,4 +233,13 @@ public class LeaderboardUI : MonoBehaviour
             Debug.Log("Removed ghost at index: " + index);
         }
     }
+
+    /// <summary>
+    /// Called when the current leaderboard needs to be used.
+    /// </summary>
+    /// <returns>The current Leaderboard</returns>
+    public LeaderBoard GetLeaderboard()
+	{
+        return m_leaderBoard;
+	}
 }

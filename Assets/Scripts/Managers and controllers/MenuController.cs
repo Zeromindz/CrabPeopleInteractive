@@ -96,14 +96,6 @@ public class MenuController : MonoBehaviour
 			m_State = menu.State;
 			UpdateState();
 		}
-
-		else
-		{
-			//OnExitPreviousState();
-			//MenuStackItem menu = m_UIStack.Peek();
-			//m_State = menu.State;
-			//UpdateState();
-		}
 	}
 
 	/// <summary>
@@ -143,6 +135,7 @@ public class MenuController : MonoBehaviour
 		PortalManager.m_Instance.SetState(PortalManager.PortalStates.VOID);
 		SoundManager.Instance.PlayMusic(1);
 		SoundManager.Instance.StartTerrainSounds();
+		UIController.Instance.GameUI.SetActive(false);
 		UpdateState();
 	}
 
@@ -169,6 +162,7 @@ public class MenuController : MonoBehaviour
 		m_UIStack.Push(new MenuStackItem(m_GameUI, MenuState.GAME));
 		UpdateState();
 		ResetGame();
+		UIController.Instance.GameUI.SetActive(false);
 	}
 
 	/// <summary>
@@ -243,6 +237,7 @@ public class MenuController : MonoBehaviour
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();
 			GameManager.Instance.SetMenu();
+			UIController.Instance.GameUI.SetActive(false);
 		}
 
 		if (m_State == MenuState.GAME)
@@ -255,7 +250,7 @@ public class MenuController : MonoBehaviour
 				GameManager.Instance.PlayReplays();
 				GhostRecorder.Instance.StartRecording();
 			}
-			
+			UIController.Instance.GameUI.ResetGameUI();
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)

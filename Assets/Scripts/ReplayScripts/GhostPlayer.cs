@@ -53,7 +53,7 @@ public class GhostPlayer : MonoBehaviour
     /// <returns>A true or false based on if the replay exists</returns>
     public bool LoadGhost(int index)
     {
-        LeaderboardData data = UIController.Instance.LeaderboardUI.m_leaderBoard.datas[index];
+        LeaderboardData data = UIController.Instance.LeaderboardUI.GetLeaderboard().datas[index];
         if (data != null)
         {
             name = data.playerName;
@@ -67,10 +67,10 @@ public class GhostPlayer : MonoBehaviour
 
            if (index == 0)
 			{
-                GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
+                GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
 			}
 
-			else if (index == UIController.Instance.LeaderboardUI.m_leaderBoard.datas.Count-1)
+			else if (index == UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count-1)
 			{
                 GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
             }

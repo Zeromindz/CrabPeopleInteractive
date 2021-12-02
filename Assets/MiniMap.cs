@@ -105,7 +105,7 @@ public class MiniMap : MonoBehaviour
 
 		// Changes Camera Position
 		Vector3 newPos = m_player.position;
-		newPos.y = m_player.transform.position.y + 300;
+		newPos.y = m_player.transform.position.y + 200;
 		transform.position = newPos;
 
 		//Changes Player Blip Position

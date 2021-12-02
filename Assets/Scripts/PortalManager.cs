@@ -233,6 +233,8 @@ public class PortalManager : MonoBehaviour
                 Destroy(m_SpawnedPortal);
             }
         }
+
+        UIController.Instance.GameUI.SetActive(true);
     }
 
     private void OnDrawGizmos()
