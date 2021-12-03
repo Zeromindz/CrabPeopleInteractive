@@ -34,7 +34,7 @@ public class GhostPlayer : MonoBehaviour
     /// Called every frame
     /// If replaying continues to replay
     /// </summary>
-    private void Update()
+    private void LateUpdate()
     {
         if (isReplaying)
         {
@@ -65,14 +65,17 @@ public class GhostPlayer : MonoBehaviour
 				ghostPath.Add(data.replayPath[i]);
 			}
 
-           if (index == 0)
+            if (index == 0)
 			{
-                GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
+                GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
 			}
 
-			else if (index == UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count-1)
+			else if (UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count-1 > 0)
 			{
-                GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
+                if(index == UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count - 1)
+				{
+                   GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
+				}
             }
 
 			path = ghostPath;

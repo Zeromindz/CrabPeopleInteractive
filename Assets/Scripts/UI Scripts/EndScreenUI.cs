@@ -46,12 +46,36 @@ public class EndScreenUI : MonoBehaviour
         m_ScoreText.text = "" + ScoreToString(UIController.Instance.GameUI.GetTime());
 	}
 
+
+    /// <summary>
+    /// Called when the players saved score needs to be formatted.
+    /// Formats the players score and converts to string
+    /// </summary>
+    /// <param name="score">The players score as a float</param>
+    /// <returns></returns>
     private string ScoreToString(float score)
     {
+        string time = "";
         int minutes = (int)(score / 60);
-        int seconds = (int)(score - (minutes * 60));
-        string scoreString = "" + minutes + ":" + seconds;
-        return scoreString;
+        int milliseconds = (int)(score * 100);
+        int wholeSeconds = (milliseconds / 100) - minutes * 60;
+        int leftover = (milliseconds % 100);
+
+        if (minutes > 0)
+        {
+            time += minutes + ":";
+        }
+
+        if (score > 0)
+        {
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ".<size=80%>0" : ".<size=80%>") + leftover;
+        }
+
+        else
+        {
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ".<size=80%>0" : ".<size=80%>") + (-1 * leftover);
+        }
+        return time;
     }
 
     /// <summary>
@@ -64,8 +88,18 @@ public class EndScreenUI : MonoBehaviour
         if(m_InputField.text.Length == 3)
 		{
             LeaderboardData data = new LeaderboardData(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
-            UIController.Instance.LeaderboardUI.GetLeaderboard().Add(data);
-            LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.GetLeaderboard());
+            if(UIController.Instance.LeaderboardUI.GetLeaderboard() == null)
+			{
+                List<LeaderboardData> dataList = new List<LeaderboardData>();
+                dataList.Add(data);
+                LeaderBoard newLeaderboard = new LeaderBoard(dataList);
+                LeaderboardIO.Instance.SaveLeaderBoard(newLeaderboard);
+			}
+			else
+			{
+                UIController.Instance.LeaderboardUI.GetLeaderboard().Add(data);
+                LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.GetLeaderboard());
+			}
             GhostRecorder.Instance.ResetData();
             m_SaveScoreButton.SetActive(false);
             m_ErrorMessage.text = "Score saved!";

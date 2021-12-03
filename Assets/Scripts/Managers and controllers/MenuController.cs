@@ -194,6 +194,7 @@ public class MenuController : MonoBehaviour
 		UIController.Instance.EndScreenUI.SetScore();
 		SoundManager.Instance.StopTerrainSounds();
 		SoundManager.Instance.PlayMusic(1);
+		GameManager.Instance.m_ChosenGhostIndices.Clear();
 		UpdateState();
 	}
 

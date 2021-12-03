@@ -173,7 +173,9 @@ public class GameManager : MonoBehaviour
         m_UIController.MenuController.ReturnToPreviousUI();
         SoundManager.Instance.PlayMusic(0);
         PortalManager.m_Instance.SetState(PortalManager.PortalStates.ENDSPAWNED);
+        UIController.Instance.GameUI.ShowDefalt = true;
         m_GatesOfHell.Reset();
+        DestroyGhost();
 	}
    
     public void SetMenu()
@@ -254,11 +256,15 @@ public class GameManager : MonoBehaviour
 	public void DestroyGhost()
 	{
         //MiniMap.Instance.RemoveGhosts();
-        for (int i = 0; i < m_ChosenGhostIndices.Count; i++)
+
+        for (int i = 0; i < m_FloatingObj.Count; i++)
         {
-            Destroy(m_ReplayGhosts[i]);
+            Destroy(m_FloatingObj[i]);
         }
-        m_ChosenGhostIndices.Clear();
+        for (int i = 0; i < m_ReplayWithFloatingObj.Count; i++)
+        {
+            Destroy(m_ReplayWithFloatingObj[i]);
+        }
     }
 
     public Transform GetCamera()
