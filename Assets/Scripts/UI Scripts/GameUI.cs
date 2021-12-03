@@ -58,7 +58,6 @@ public class GameUI : MonoBehaviour
         string maxSpeedText = "" + Mathf.Round(PlayerMovement.Instance.GetSpeeds().y);
         m_MaxSpeedUI.text = maxSpeedText + " <size=70%>km/h";
 
-		#region Seconds and Centiseconds
 		 //Timer display
 		int minutes = (int)(m_Time / 60);
 		int milliseconds = (int)(m_Time * 100);
@@ -74,17 +73,14 @@ public class GameUI : MonoBehaviour
 
 		if (m_Time > 0)
 		{
-			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ":0" : ":") + leftover;
+			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ".<size=80%>0" : ".<size=80%>") + leftover;
 			m_TimeUI.text = time;
 		}
 		else
 		{
-			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ":0" : ":") + (-1 * leftover);
+			time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ".<size=80%>0" : ".<size=80%>") + (-1 * leftover);
 			m_TimeUI.text = time;
 		}
-        #endregion
-
-
     }
 
 	/// <summary>

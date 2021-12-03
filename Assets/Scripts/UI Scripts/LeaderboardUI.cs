@@ -7,7 +7,7 @@ using TMPro;
 /// <summary>
 /// A class for containing information on a row of the leaderboard
 /// </summary>
-public class LeaderBoardElement : MonoBehaviour
+public class LeaderBoardElement
 {
     public GameObject GhostButton;      // The ghost button object
     public GameObject NameLabel;        // The name label object
@@ -36,6 +36,13 @@ public class LeaderBoardElement : MonoBehaviour
         NameLabel.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
         ScoreLabel.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
         GhostButton.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>().transform);
+    }
+
+    public void SetScale()
+	{
+        NameLabel.GetComponent<RectTransform>().localScale = Vector3.one;
+        ScoreLabel.GetComponent<RectTransform>().localScale = Vector3.one;
+        GhostButton.GetComponent<RectTransform>().localScale = Vector3.one;
     }
 
     /// <summary>
@@ -89,9 +96,9 @@ public class LeaderBoardElement : MonoBehaviour
     /// <param name="yPos">The Y position that the objects are to be set to</param>
     public void SetY(float yPos)
     {
-        NameLabel.transform.position = new Vector3(0.0f, yPos, 0.0f);
-        ScoreLabel.transform.position = new Vector3(0.0f, yPos, 0.0f);
-        GhostButton.transform.position = new Vector3(0.0f, yPos, 0.0f);
+        NameLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
+        ScoreLabel.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
+        GhostButton.transform.localPosition = new Vector3(0.0f, yPos, 0.0f);
     }
 
     /// <summary>
@@ -107,12 +114,12 @@ public class LeaderBoardElement : MonoBehaviour
     /// Called when the leaderboard is loaded.
     /// Destroys previous rows
     /// </summary>
-    public void Delete()
-    {
-        Destroy(NameLabel);
-        Destroy(ScoreLabel);
-        Destroy(GhostButton);
-    }
+    //public void Delete()
+    //{
+    //    Destroy(NameLabel);
+    //    Destroy(ScoreLabel);
+    //    Destroy(GhostButton);
+    //}
 }
 
 /// <summary>
@@ -124,18 +131,16 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private GameObject m_ButtonPrefab = null;              // The prefab for the ghost button
     [SerializeField] private GameObject m_LabelPrefab = null;               // The prefab for the label prefab
     [SerializeField] private GameObject m_ScrollviewContent = null;         // The content object of the scrollview which the leaderboard rows are peranted to
-  
-    private int m_TopYPosition;                                             // The top most Y position of the first label
-    private int m_leftmostXPosition = 0;                                    // The left most X position of the first label
 
     private LeaderBoard m_leaderBoard = null;                                // A class containing the saved data for the leaderboard
     private int m_TotalElements = 0;                                        // The total amount of rows saved
     private LeaderBoardElement[] m_Elements = null;                         // The rows in the leaderboard
    
-    public List<int> m_ChosenIndices;                                       // The chosen replay ghost indecies to be spawned onthe next run
+    public List<int> m_ChosenIndices;                                       // The chosen replay ghost indecies to be spawned on the next run
 
     /// <summary>
-    /// 
+    /// Called when loading the leaderboard,
+    /// Instantiates and positions all of the rows
     /// </summary>
     private void CreateRows()
     {
@@ -149,10 +154,11 @@ public class LeaderboardUI : MonoBehaviour
             element.SetElements(label1, label2, tickBox1);
             m_Elements[value] = element;
             m_Elements[value].SetParent(m_ScrollviewContent.transform);
-            m_Elements[value].SetY(m_TopYPosition - (i * m_Elements[value].GetHeight()));
-            m_Elements[value].SetX(m_leftmostXPosition);
+            m_Elements[value].SetY(0 - (i * m_Elements[value].GetHeight()));
+            m_Elements[value].SetX(0);
             m_Elements[value].GhostButton.GetComponent<Toggle>().onValueChanged.AddListener(delegate { AddToReplayList(value, m_Elements[value].GhostButton.GetComponent<Toggle>()); });
-            m_Elements[i].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
+            m_Elements[value].SetElementValues(m_leaderBoard.datas[i].playerName, "" + ScoreToString(m_leaderBoard.datas[i].playerScore));
+            m_Elements[value].SetScale();
         }
     }
     
@@ -165,14 +171,19 @@ public class LeaderboardUI : MonoBehaviour
         m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
         m_ChosenIndices = new List<int>();
 
+        // Destroys current leaderboard
         if (m_Elements != null)
         {
             for (int i = 0; i < m_Elements.Length; i++)
             {
-                m_Elements[i].Delete();
+                Destroy(m_Elements[i].NameLabel.gameObject);
+                Destroy(m_Elements[i].ScoreLabel.gameObject);
+                Destroy(m_Elements[i].GhostButton.gameObject);
                 m_Elements[i] = null;
             }
         }
+
+        // Resets values
         if (m_leaderBoard != null)
         {
             m_Elements = new LeaderBoardElement[m_leaderBoard.datas.Count];
@@ -202,12 +213,12 @@ public class LeaderboardUI : MonoBehaviour
 
         if (score > 0)
         {
-            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ":0" : ":") + leftover;            
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + (leftover < 10 ? ".<size=80%>0" : ".<size=80%>") + leftover;
         }
 
         else
         {
-            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ":0" : ":") + (-1 * leftover);
+            time += (wholeSeconds < 10 ? "0" : "") + wholeSeconds + ((-1 * leftover) < 10 ? ".<size=80%>0" : ".<size=80%>") + (-1 * leftover);
         }
         return time;
     }

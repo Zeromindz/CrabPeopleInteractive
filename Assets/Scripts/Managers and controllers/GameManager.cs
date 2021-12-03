@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject> m_FloatingObj = null;
     private List<GameObject> m_ReplayWithFloatingObj = null;
 
+    private Transform m_SkyboxStartPos = null;
+    private bool m_SkyboxFollow = false;
     private bool IsPlaying = false;
 
     public float m_TimeLimit = 50.0f;
@@ -78,7 +80,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-      ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        ///  m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        m_SkyboxStartPos = m_Skybox;
         m_CurrentTime = m_TimeLimit;
         m_UIController = UIController.Instance;
 
@@ -101,9 +104,17 @@ public class GameManager : MonoBehaviour
             m_FloatingObj[i].transform.position = pos;
 		}
 
-        Vector3 newPos = m_Player.transform.position;
-        newPos.y -= 600;
-        m_Skybox.position = newPos;
+        if(PortalManager.m_Instance.playerTeleported)
+        { 
+            Vector3 newPos = m_Player.transform.position;
+            newPos.y -= 600;
+            m_Skybox.position = newPos;
+        }
+		else
+		{
+            m_Skybox = m_SkyboxStartPos;
+		}
+        
     }
 
     public void StartGame()

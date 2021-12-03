@@ -34,19 +34,18 @@ public class PortalManager : MonoBehaviour
     public float m_SpawnHeight = 30.0f;
     public float m_DissolveDuration = 5.0f;
     private float m_DissolveAmount = 1f;
-    public bool m_PPressed;
     public bool m_PlayerOverlapping = false;
 
     private GameObject m_SpawnedPortal;
 
-    float m_RotationVector;
-    float m_CurrentAngle;
-
     public LayerMask m_LayerMask;
 
-    private PortalStates m_State;
+    public PortalStates m_State;
     public int GetState() { return (int)m_State; }
     public void SetState(PortalStates _state) { m_State = _state; }
+
+    private bool portalSpawned = false;
+    public bool playerTeleported = false;
 
 
     void Start()
@@ -96,8 +95,15 @@ public class PortalManager : MonoBehaviour
         {
             TeleportPlayer(m_GatePortalEntrance, m_GatePortalExit);
             m_State = PortalStates.VOID;
+            playerTeleported = false;
         }
 
+        // The portal state is in void but the portal still exists
+        if (m_State == PortalStates.VOID && m_SpawnedPortal != null)
+		{
+            Destroy(m_SpawnedPortal);
+            playerTeleported = false;
+		}
         //Debug.Log("Portal State: " + m_State);
     }
 
@@ -151,6 +157,7 @@ public class PortalManager : MonoBehaviour
         m_PortalMaterial.SetTexture("_End_Texture", m_PortalCamera.targetTexture);
 
         m_State = PortalStates.STARTSPAWNED;
+        portalSpawned = true;
     }
 
     void MovePortalCamera(Transform _portalEntrance, Transform _portalExit)
@@ -234,6 +241,7 @@ public class PortalManager : MonoBehaviour
             }
         }
 
+        playerTeleported = true;
         UIController.Instance.GameUI.SetActive(true);
     }
 
