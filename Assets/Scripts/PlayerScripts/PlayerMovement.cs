@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] internal float m_FallGravity = 30f;               //The gravity applied to the ship while it is in the air
     [SerializeField] internal float m_LevelingForce = 0.1f;             // Force applied to hover points to keep the boat level
     [SerializeField] private GameObject[] m_HoverPoints;
+    public bool m_MoveForward;
 
     public LayerMask m_HoverLayers;
     private Vector3 m_GroundedCenterOfMass;
@@ -150,6 +151,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_InputDisabled)
             m_MovementInput = Vector2.zero;
+        else if (m_MoveForward)
+		{
+            m_MovementInput = new Vector2(0, 1);
+            m_RigidBody.angularVelocity = Vector3.zero;
+        }
+            
         else
             m_MovementInput = m_Movement;
 

@@ -44,6 +44,8 @@ public class SettingsUI : MonoBehaviour
 
 		m_DropDownValue  = 0;
 		drop.AddOptions(options);
+		Resolution size = m_Resolutions[m_Resolutions.Length - 1];
+		Screen.SetResolution(size.width, size.height, m_FullScreen, size.refreshRate);
 		SetGeneralUI();
 		LoadSettings();
 	}

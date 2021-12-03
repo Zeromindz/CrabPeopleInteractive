@@ -243,6 +243,7 @@ public class PortalManager : MonoBehaviour
 
         playerTeleported = true;
         UIController.Instance.GameUI.SetActive(true);
+        PlayerMovement.Instance.m_MoveForward = false;
     }
 
     private void OnDrawGizmos()

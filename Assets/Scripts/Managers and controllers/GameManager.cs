@@ -118,7 +118,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame()
-    { 
+    {
+        DestroyGhost();
         Debug.Log("Start point hit");
         if (InstantiateReplays())
         {
@@ -175,7 +176,6 @@ public class GameManager : MonoBehaviour
         PortalManager.m_Instance.SetState(PortalManager.PortalStates.ENDSPAWNED);
         UIController.Instance.GameUI.ShowDefalt = true;
         m_GatesOfHell.Reset();
-        DestroyGhost();
 	}
    
     public void SetMenu()
@@ -195,7 +195,6 @@ public class GameManager : MonoBehaviour
         m_UIController.GameUI.ResetTime();
         m_FloatingObj.Clear();
         m_ReplayWithFloatingObj.Clear();
-        DestroyGhost();
     }
 
     public bool InstantiateReplays()

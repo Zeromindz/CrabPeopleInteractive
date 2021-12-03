@@ -136,6 +136,7 @@ public class MenuController : MonoBehaviour
 		SoundManager.Instance.PlayMusic(1);
 		SoundManager.Instance.StartTerrainSounds();
 		UIController.Instance.GameUI.SetActive(false);
+		UIController.Instance.GameUI.ResetGameUI();
 		UpdateState();
 	}
 
@@ -145,6 +146,7 @@ public class MenuController : MonoBehaviour
 	public void LoadGame()
 	{
 		Debug.Log("Loading: Game");
+		PlayerMovement.Instance.m_MoveForward = true;
 		PortalManager.m_Instance.SpawnPortalFromMenu();
 		OnExitPreviousState();
 		m_State = MenuState.GAME;
@@ -233,6 +235,8 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.MAINMENU)
 		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			Time.timeScale = 1;
 			m_MenuUI.SetActive(true);
 			m_CurrentUI = m_MenuUI;
@@ -243,6 +247,8 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.GAME)
 		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 			m_GameUI.SetActive(true);
 			m_CurrentUI = m_GameUI;
 			Time.timeScale = 1;
@@ -251,11 +257,15 @@ public class MenuController : MonoBehaviour
 				GameManager.Instance.PlayReplays();
 				GhostRecorder.Instance.StartRecording();
 			}
-			UIController.Instance.GameUI.ResetGameUI();
+
+			
+			//UIController.Instance.GameUI.ResetGameUI();
 		}
 
 		if (m_State == MenuState.GAMEPAUSED)
 		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			Time.timeScale = 0;
 			m_GamePausedUI.SetActive(true);
 			m_CurrentUI = m_GamePausedUI;
@@ -274,6 +284,8 @@ public class MenuController : MonoBehaviour
 
 		if (m_State == MenuState.ENDSCREEN)
 		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			m_EndScreenUI.SetActive(true);
 			m_CurrentUI = m_EndScreenUI;
 		}
