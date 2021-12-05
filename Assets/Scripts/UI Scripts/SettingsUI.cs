@@ -20,7 +20,7 @@ public class SettingsUI : MonoBehaviour
 	[SerializeField] private GameObject m_KeybindButton = null;         // The button that brings up the keybind settings
 
 	[Header("Screen Resolutions")]
-	private bool m_FullScreen = true;									// If the game is fullscreen or not
+	private bool m_FullScreen = false;									// If the game is fullscreen or not
 	private int m_DropDownValue;										// The current index shown by the drop down box
 	private Resolution[] m_Resolutions = null;                          // Array of resoluutions
 	private bool IsSaved = false;

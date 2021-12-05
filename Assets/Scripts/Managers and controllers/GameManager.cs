@@ -95,24 +95,31 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < m_FloatingObj.Count; i++)
+        if(m_State == GameState.InRun)
 		{
-            Vector3 pos;
-            pos = m_ReplayGhosts[i].transform.position;
-            pos.y += 10;
+            for (int i = 0; i < m_FloatingObj.Count; i++)
+		    {
+                Vector3 pos;
+                pos = m_ReplayWithFloatingObj[i].transform.position;
+                pos.y += 10;
 
-            m_FloatingObj[i].transform.position = pos;
+                m_FloatingObj[i].transform.position = pos;
+		    }
 		}
 
-        if(PortalManager.m_Instance.playerTeleported)
-        { 
-            Vector3 newPos = m_Player.transform.position;
-            newPos.y -= 600;
-            m_Skybox.position = newPos;
-        }
-		else
+        if (m_State == GameState.NotInRun)
 		{
             m_Skybox = m_SkyboxStartPos;
+		}
+        //if(PortalManager.m_Instance.playerTeleported)
+        //{ 
+        //
+        //}
+		else
+		{
+               Vector3 newPos = m_Player.transform.position;
+              newPos.y -= 600;
+              m_Skybox.position = newPos;
 		}
         
     }
@@ -170,12 +177,13 @@ public class GameManager : MonoBehaviour
 
         m_UIController.GameUI.StopAndResetTime();
         m_UIController.GameUI.ResetGameUI();
-        m_FloatingObj.Clear();
         m_UIController.MenuController.ReturnToPreviousUI();
         SoundManager.Instance.PlayMusic(0);
         PortalManager.m_Instance.SetState(PortalManager.PortalStates.ENDSPAWNED);
         UIController.Instance.GameUI.ShowDefalt = true;
         m_GatesOfHell.Reset();
+        DestroyGhost();
+        m_State = GameState.NotInRun;
 	}
    
     public void SetMenu()
@@ -193,7 +201,6 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.passengerManager.ResetPassengers();
 
         m_UIController.GameUI.ResetTime();
-        m_FloatingObj.Clear();
         m_ReplayWithFloatingObj.Clear();
     }
 
@@ -213,8 +220,21 @@ public class GameManager : MonoBehaviour
 
 			else
 			{
-				m_ReplayGhosts.Add(obj);
-                //MiniMap.Instance.AddGhost(obj.transform);
+                if (m_ChosenGhostIndices[i] == 0)
+                {
+                    AddFloatingObj(FloatingObj.Crown, obj.gameObject);
+                }
+
+                else if (UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count - 1 > 0)
+                {
+                    if (m_ChosenGhostIndices[i] == UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count - 1)
+                    {
+                        AddFloatingObj(FloatingObj.Duck, obj.gameObject);
+                    }
+                }
+
+                m_ReplayGhosts.Add(obj);
+                MiniMap.Instance.AddGhost(obj.transform);
 			}
 		}
         return loaded;
@@ -255,15 +275,19 @@ public class GameManager : MonoBehaviour
 	public void DestroyGhost()
 	{
         //MiniMap.Instance.RemoveGhosts();
+        MiniMap.Instance.RemoveGhosts();
 
         for (int i = 0; i < m_FloatingObj.Count; i++)
         {
             Destroy(m_FloatingObj[i]);
         }
-        for (int i = 0; i < m_ReplayWithFloatingObj.Count; i++)
+        for (int i = 0; i < m_ReplayGhosts.Count; i++)
         {
-            Destroy(m_ReplayWithFloatingObj[i]);
+            Destroy(m_ReplayGhosts[i]);
         }
+        m_FloatingObj.Clear();
+        m_ReplayWithFloatingObj.Clear();
+        m_ReplayGhosts.Clear();
     }
 
     public Transform GetCamera()

@@ -65,19 +65,6 @@ public class GhostPlayer : MonoBehaviour
 				ghostPath.Add(data.replayPath[i]);
 			}
 
-            if (index == 0)
-			{
-                GameManager.Instance.AddFloatingObj(FloatingObj.Crown, this.gameObject);
-			}
-
-			else if (UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count-1 > 0)
-			{
-                if(index == UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count - 1)
-				{
-                   GameManager.Instance.AddFloatingObj(FloatingObj.Duck, this.gameObject);
-				}
-            }
-
 			path = ghostPath;
             return true;
         }

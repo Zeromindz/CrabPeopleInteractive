@@ -110,7 +110,7 @@ public class MiniMap : MonoBehaviour
 
 		//Changes Player Blip Position
 		Vector3 newBlipPos = m_player.position;
-		newBlipPos.y = m_PlayerBlip.transform.position.y;
+		newBlipPos.y = m_player.transform.position.y + 50;
 		m_PlayerBlip.transform.position = newBlipPos;
 
 		// Changes Ghost Blip Position
@@ -118,9 +118,9 @@ public class MiniMap : MonoBehaviour
 		for(int i = 0; i < m_ReplayGhostPoss.Count; i++)
 		{
 			Vector3 newGhostBlipPos = m_ReplayGhostPoss[i].position;
-			newGhostBlipPos.y = m_ReplayGhostPoss[i].position.y;
+			newGhostBlipPos.y = m_ReplayGhostPoss[i].position.y + 50;
 			m_ReplayGhostBlips[i].transform.position = newGhostBlipPos;
-			m_ReplayGhostBlips[i].transform.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_ReplayGhostBlips[i].transform.eulerAngles.y);
+			m_ReplayGhostBlips[i].transform.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_ReplayGhostPoss[i].transform.eulerAngles.y);
 		}
 
 		m_PlayerBlip.transform.rotation = Quaternion.Euler(m_DefaultIconRotation.eulerAngles.x, 0.0f, m_DefaultIconRotation.eulerAngles.z + m_player.eulerAngles.y);
@@ -142,7 +142,12 @@ public class MiniMap : MonoBehaviour
 
 	public void RemoveGhosts()
 	{
+		for(int i = 0; i < m_ReplayGhostBlips.Count; i++)
+		{
+			Destroy(m_ReplayGhostBlips[i]);
+		}
 		m_ReplayGhostPoss.Clear();
 		m_ReplayGhostBlips.Clear();
+
 	} 
 }

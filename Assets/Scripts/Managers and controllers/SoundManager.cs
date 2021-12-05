@@ -104,7 +104,7 @@ public class SoundManager : MonoBehaviour
 		m_SFXVolumeSources.Add(m_BoostSource);
 		m_SFXVolumeSources.Add(m_CollisionSource);
 		m_SFXVolumeSources.Add(m_SplashSoundsSource);
-
+		m_SFXVolumeSources.Add(m_TerrainNoiseSource);
 		m_MusicVolumeSources.Add(m_MusicSource);
 
 		//m_BoostSource.volume = 0.0f;
@@ -294,6 +294,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 	#endregion
+
 	#region UI Sounds
 
 	/// <summary>
@@ -350,7 +351,7 @@ public class SoundManager : MonoBehaviour
 
 	IEnumerator PlayTerrainSound()
 	{
-		
+
 		m_TerrainNoiseSource.Play();
 		yield return new WaitForSeconds(m_TerrainNoiseSource.clip.length);
 
@@ -365,8 +366,7 @@ public class SoundManager : MonoBehaviour
 		//Debug.Log("Playing WaterChurn: " + m_CurrentTerrainClipIndex);
 		m_TerrainNoiseSource.Play();
 		StartCoroutine(PlayTerrainSound());
-		
-		
+	
 	}
 
 	public void StartTerrainSounds()
@@ -387,7 +387,7 @@ public class SoundManager : MonoBehaviour
 		}
 		else
 		{
-			m_TerrainNoiseSource.volume = 1;
+			m_TerrainNoiseSource.volume = m_FinalSFXVolume;
 		}
 	}
 

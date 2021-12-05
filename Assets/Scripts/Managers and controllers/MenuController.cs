@@ -137,6 +137,7 @@ public class MenuController : MonoBehaviour
 		SoundManager.Instance.StartTerrainSounds();
 		UIController.Instance.GameUI.SetActive(false);
 		UIController.Instance.GameUI.ResetGameUI();
+		GameManager.Instance.State = GameState.NotInRun;
 		UpdateState();
 	}
 

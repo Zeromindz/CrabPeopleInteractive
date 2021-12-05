@@ -73,7 +73,7 @@ public class PlayerCollision : MonoBehaviour
         // Hit starting checkpoint
         if(other.tag == "Start")
 		{
-            if (GameManager.Instance)
+            if (GameManager.Instance.State == GameState.NotInRun)
             {
                 GameManager.Instance.StartGame();
                 UIController.Instance.GameUI.ShowTrickTip();
