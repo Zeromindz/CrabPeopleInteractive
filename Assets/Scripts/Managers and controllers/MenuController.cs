@@ -177,7 +177,7 @@ public class MenuController : MonoBehaviour
 		OnExitPreviousState();
 		m_State = MenuState.SETTINGS;
 		m_UIStack.Push(new MenuStackItem(m_SettingsUI, MenuState.SETTINGS));
-		UIController.Instance.SettingsUI.LoadSettings();
+		//UIController.Instance.SettingsUI.LoadSettings();
 		UpdateState();
 	}
 
@@ -302,7 +302,7 @@ public class MenuController : MonoBehaviour
 	{
 		if(m_State == MenuState.SETTINGS)
 		{
-			UIController.Instance.SettingsUI.SaveSettings();
+			//UIController.Instance.SettingsUI.SaveSettings();
 		}
 
 		else if(m_State == MenuState.GAMEPAUSED)

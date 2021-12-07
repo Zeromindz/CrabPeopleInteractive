@@ -59,7 +59,7 @@ public class SoundUI : MonoBehaviour
 		m_Master = new SliderInput(m_MasterVolumeSlider, m_MasterVolumeInput);
 		m_Music = new SliderInput(m_MusicVolumeSlider, m_MusicVolumeInput);
 		m_SFX = new SliderInput(m_SFXVolumeSlider, m_SFXVolumeInput);
-
+		LoadSoundSettings();
 		// Sets the Slider and InputFields to their defaults
 		UpdateInputValue(m_Master, m_MasterVolume);
 		UpdateSliderValue(m_Master, m_MasterVolume);
@@ -255,11 +255,15 @@ public class SoundUI : MonoBehaviour
 
 	public void LoadSoundSettings()
 	{
-		m_MasterVolume = PlayerPrefs.GetFloat("MasterVolume");
-		m_MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
-		m_SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
+		//m_MasterVolume = PlayerPrefs.GetFloat("MasterVolume");
+		//m_MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+		//m_SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
 
 		// Sets the Slider and InputFields to their saved values
+		m_MasterVolume = 0.5f;
+		m_MusicVolume = 0.2f;
+		m_SFXVolume = 0.2f;
+
 		UpdateInputValue(m_Master, m_MasterVolume);
 		UpdateSliderValue(m_Master, m_MasterVolume);
 
@@ -270,11 +274,11 @@ public class SoundUI : MonoBehaviour
 		UpdateSliderValue(m_SFX, m_SFXVolume);
 	}
 
-	public void SaveSoundSettings()
-	{
-		PlayerPrefs.SetFloat("MasterVolume", m_MasterVolume);
-		PlayerPrefs.SetFloat("MusicVolume", m_MusicVolume);
-		PlayerPrefs.SetFloat("SFXVolume", m_SFXVolume);
-		PlayerPrefs.Save();
-	}
+	//public void SaveSoundSettings()
+	//{
+	//	PlayerPrefs.SetFloat("MasterVolume", m_MasterVolume);
+	//	PlayerPrefs.SetFloat("MusicVolume", m_MusicVolume);
+	//	PlayerPrefs.SetFloat("SFXVolume", m_SFXVolume);
+	//	PlayerPrefs.Save();
+	//}
 }

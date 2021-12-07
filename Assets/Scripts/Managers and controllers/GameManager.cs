@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
 	public void DestroyGhost()
 	{
         //MiniMap.Instance.RemoveGhosts();
-        MiniMap.Instance.RemoveGhosts();
+        //MiniMap.Instance.RemoveGhosts();
 
         for (int i = 0; i < m_FloatingObj.Count; i++)
         {

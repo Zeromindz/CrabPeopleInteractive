@@ -23,7 +23,7 @@ public class SettingsUI : MonoBehaviour
 	private bool m_FullScreen = false;									// If the game is fullscreen or not
 	private int m_DropDownValue;										// The current index shown by the drop down box
 	private Resolution[] m_Resolutions = null;                          // Array of resoluutions
-	private bool IsSaved = false;
+	private bool IsSaved = true;
 
 	/// <summary>
 	/// Called before first frame
@@ -42,12 +42,13 @@ public class SettingsUI : MonoBehaviour
 			options.Add("" + m_Resolutions[i].width + " X " + m_Resolutions[i].height + " : " + m_Resolutions[i].refreshRate);
 		}
 
-		m_DropDownValue  = 0;
 		drop.AddOptions(options);
 		Resolution size = m_Resolutions[m_Resolutions.Length - 1];
+		m_DropDownValue  = m_Resolutions.Length - 1;
+		m_ResultionDropDown.GetComponent<TMP_Dropdown>().value = m_Resolutions.Length - 1;
 		Screen.SetResolution(size.width, size.height, m_FullScreen, size.refreshRate);
 		SetGeneralUI();
-		LoadSettings();
+		//LoadSettings();
 	}
 	/// <summary>
 	/// Called when the fullscreen tickbox is pressed.
@@ -110,42 +111,42 @@ public class SettingsUI : MonoBehaviour
 		m_GeneralSettings.SetActive(false);
 	}
 
-	public void LoadSettings()
-	{
-		m_DropDownValue = PlayerPrefs.GetInt("DropDownIndex");
-		m_ResultionDropDown.GetComponent<TMP_Dropdown>().value = m_DropDownValue;
-		int value = PlayerPrefs.GetInt("Fullscreen");
-		if (value == 1)
-		{
-			m_FullScreen = true;
-		}
+	//public void LoadSettings()
+	//{
+	//	m_DropDownValue = PlayerPrefs.GetInt("DropDownIndex");
+	//	m_ResultionDropDown.GetComponent<TMP_Dropdown>().value = m_DropDownValue;
+	//	int value = PlayerPrefs.GetInt("Fullscreen");
+	//	if (value == 1)
+	//	{
+	//		m_FullScreen = true;
+	//	}
 
-		else
-		{
-			m_FullScreen = false;
-		}
-		SetScreenSize();
-		UIController.Instance.SoundUI.LoadSoundSettings();
-	}
+	//	else
+	//	{
+	//		m_FullScreen = false;
+	//	}
+	//	SetScreenSize();
+	//	UIController.Instance.SoundUI.LoadSoundSettings();
+	//}
 
-	public void SaveSettings()
-	{
-		if (IsSaved)
-		{
-			PlayerPrefs.SetInt("DropDownIndex", m_DropDownValue);
-			int value;
-			if (m_FullScreen)
-			{
-				value = 1;
-			}
-			else
-			{
-				value = 0;
-			}
-			PlayerPrefs.SetInt("Fullscreen", value);
-			PlayerPrefs.Save();
-		}
+	//public void SaveSettings()
+	//{
+	//	if (IsSaved)
+	//	{
+	//		PlayerPrefs.SetInt("DropDownIndex", m_DropDownValue);
+	//		int value;
+	//		if (m_FullScreen)
+	//		{
+	//			value = 1;
+	//		}
+	//		else
+	//		{
+	//			value = 0;
+	//		}
+	//		PlayerPrefs.SetInt("Fullscreen", value);
+	//		PlayerPrefs.Save();
+	//	}
 
-		UIController.Instance.SoundUI.SaveSoundSettings();
-	}
+	//	UIController.Instance.SoundUI.SaveSoundSettings();
+	//}
 }
