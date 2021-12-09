@@ -102,7 +102,11 @@ public class GameManager : MonoBehaviour
                 Vector3 pos;
                 pos = m_ReplayWithFloatingObj[i].transform.position;
                 pos.y += 10;
-
+                Vector3 rot = m_ReplayWithFloatingObj[i].transform.eulerAngles;
+				rot.x = 0;
+                rot.y += 180;
+                rot.z = 0;
+				m_FloatingObj[i].transform.eulerAngles = rot;
                 m_FloatingObj[i].transform.position = pos;
 		    }
 		}
@@ -234,7 +238,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 m_ReplayGhosts.Add(obj);
-                MiniMap.Instance.AddGhost(obj.transform);
+                //MiniMap.Instance.AddGhost(obj.transform);
 			}
 		}
         return loaded;

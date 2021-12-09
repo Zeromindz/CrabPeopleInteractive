@@ -323,6 +323,7 @@ public class MenuController : MonoBehaviour
 
 	public void ResetGame()
 	{
+		UIController.Instance.GameUI.ResetGameUI();
 		GameManager.Instance.ResetGame();
 	}
 	#region Extras

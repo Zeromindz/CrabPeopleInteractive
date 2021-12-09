@@ -139,10 +139,19 @@ public class LeaderboardUI : MonoBehaviour
     public List<int> m_ChosenIndices;                                       // The chosen replay ghost indecies to be spawned on the next run
 
     /// <summary>
-    /// Called when loading the leaderboard,
-    /// Instantiates and positions all of the rows
+    /// Called on first frame
+    /// Loads the leaderboard
     /// </summary>
-    private void CreateRows()
+	public void Start()
+	{
+        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+    }
+
+	/// <summary>
+	/// Called when loading the leaderboard,
+	/// Instantiates and positions all of the rows
+	/// </summary>
+	private void CreateRows()
     {
         for (int i = 0; i < m_TotalElements; i++)
         {
