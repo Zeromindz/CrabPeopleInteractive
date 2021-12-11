@@ -66,6 +66,7 @@ public class SettingsUI : MonoBehaviour
 		{
 			m_FullScreen = true;
 		}
+		SetScreenSize();
 	}
 
 	/// <summary>
@@ -85,9 +86,8 @@ public class SettingsUI : MonoBehaviour
 	/// </summary>
 	public void SetScreenSize()
 	{
-		Resolution size = m_Resolutions[m_DropDownValue];
-		Screen.SetResolution(size.width, size.height, m_FullScreen, size.refreshRate);
-		Debug.Log("Screen set: " + size.width + " X " + size.height + ", Fullscreen: " + m_FullScreen + ", Refresh rate " + size.refreshRate);
+		//Resolution size = m_Resolutions[0];
+		Screen.fullScreen = m_FullScreen;
 		IsSaved = true;
 	}
 

@@ -18,8 +18,8 @@ public class GhostPlayer : MonoBehaviour
     private List<GhostData> path = new List<GhostData>();   // The path of the replay ghost
     private bool isPlaying = false;                         // If the replay ghost is playing
     private float timeValue;                                // The current time in the replay
-    private int index1;                                     // The current position
-    private int index2;                                     // The next position
+    public int index1;                                     // The current position
+    public int index2;                                     // The next position
 
     /// <summary>
     /// Called on script loading

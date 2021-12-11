@@ -243,6 +243,7 @@ public class MenuController : MonoBehaviour
 			m_CurrentUI = m_MenuUI;
 			GhostRecorder.Instance.ResetData();
 			GameManager.Instance.SetMenu();
+			GhostRecorder.Instance.ResetAndStopRecording();
 			UIController.Instance.GameUI.SetActive(false);
 		}
 
@@ -323,6 +324,7 @@ public class MenuController : MonoBehaviour
 
 	public void ResetGame()
 	{
+		GhostRecorder.Instance.ResetAndStopRecording();
 		UIController.Instance.GameUI.ResetGameUI();
 		GameManager.Instance.ResetGame();
 	}

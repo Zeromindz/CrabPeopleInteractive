@@ -144,7 +144,9 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
 	public void Start()
 	{
-        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
+        List<LeaderboardData> data = new List<LeaderboardData>();
+        m_leaderBoard = new LeaderBoard(data);
+        Load();
     }
 
 	/// <summary>
@@ -177,7 +179,6 @@ public class LeaderboardUI : MonoBehaviour
     /// </summary>
     public void Load()
     {
-        m_leaderBoard = LeaderboardIO.Instance.LoadLeaderBoard();
         m_ChosenIndices = new List<int>();
 
         // Destroys current leaderboard

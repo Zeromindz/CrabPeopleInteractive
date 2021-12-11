@@ -11,6 +11,7 @@ public class EndScreenUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_ScoreText = null;               // The label displaying the score text
     [SerializeField] private TMP_Text m_ErrorMessage = null;          // Th label for displaying an error message
+    [SerializeField] private TMP_Text m_Nametext = null;
     [SerializeField] private TMP_InputField m_InputField = null;        // The input field for the players name
     [SerializeField] private GameObject m_SaveScoreButton = null;       // The button for saving the score
 
@@ -21,8 +22,8 @@ public class EndScreenUI : MonoBehaviour
 	public void Reset()
 	{
         m_SaveScoreButton.SetActive(true);
-        m_InputField.text = "";
-        m_ErrorMessage.text = "";
+        //m_InputField.text = "";
+        //m_ErrorMessage.text = "";
 	}
 
     /// <summary>
@@ -44,6 +45,10 @@ public class EndScreenUI : MonoBehaviour
     public void SetScore()
 	{
         m_ScoreText.text = "" + ScoreToString(UIController.Instance.GameUI.GetTime());
+        if(UIController.Instance.LeaderboardUI.GetLeaderboard() != null)
+		{
+            m_Nametext.text = "Run" + (UIController.Instance.LeaderboardUI.GetLeaderboard().datas.Count + 1);
+		}
 	}
 
 
@@ -85,30 +90,12 @@ public class EndScreenUI : MonoBehaviour
     public void SaveScore()
 	{
         // Makes sure the player filled the input field
-        if(m_InputField.text.Length == 3)
-		{
-            LeaderboardData data = new LeaderboardData(m_InputField.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
-            if(UIController.Instance.LeaderboardUI.GetLeaderboard() == null)
-			{
-                List<LeaderboardData> dataList = new List<LeaderboardData>();
-                dataList.Add(data);
-                LeaderBoard newLeaderboard = new LeaderBoard(dataList);
-                LeaderboardIO.Instance.SaveLeaderBoard(newLeaderboard);
-			}
-			else
-			{
-                UIController.Instance.LeaderboardUI.GetLeaderboard().Add(data);
-                LeaderboardIO.Instance.SaveLeaderBoard(UIController.Instance.LeaderboardUI.GetLeaderboard());
-			}
+            LeaderboardData data = new LeaderboardData(m_Nametext.text, UIController.Instance.GameUI.GetTime(), GhostRecorder.Instance.GetPath());
+            UIController.Instance.LeaderboardUI.GetLeaderboard().Add(data);
             GhostRecorder.Instance.ResetData();
             m_SaveScoreButton.SetActive(false);
             m_ErrorMessage.text = "Score saved!";
-        }
 
-        else
-		{
-            DisplayError(0);
-		}
 	}
 
     /// <summary>

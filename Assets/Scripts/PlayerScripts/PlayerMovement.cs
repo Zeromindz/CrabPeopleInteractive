@@ -576,6 +576,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ShiftPressed(float value)
     {
+        GameManager.Instance.ResetAndPlayReplays();
         if (value > 0)
         {
             m_IsShiftPressed = true;

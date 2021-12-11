@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if(m_State == GameState.InRun)
-		{
+	{
             for (int i = 0; i < m_FloatingObj.Count; i++)
 		    {
                 Vector3 pos;
@@ -147,6 +147,10 @@ public class GameManager : MonoBehaviour
         m_State = GameState.InRun;
         m_UIController.GameUI.TimerCounting(true);
         m_UIController.GameUI.ShowDefalt = false;
+        if(m_ReplayGhosts.Count > 0)
+		{
+            ResetAndPlayReplays();
+		}
     }
 
     public void EndGame()
@@ -187,6 +191,7 @@ public class GameManager : MonoBehaviour
         UIController.Instance.GameUI.ShowDefalt = true;
         m_GatesOfHell.Reset();
         DestroyGhost();
+        GhostRecorder.Instance.ResetAndStopRecording();
         m_State = GameState.NotInRun;
 	}
    
@@ -206,6 +211,7 @@ public class GameManager : MonoBehaviour
 
         m_UIController.GameUI.ResetTime();
         m_ReplayWithFloatingObj.Clear();
+        
     }
 
     public bool InstantiateReplays()

@@ -31,47 +31,47 @@ public class LeaderboardIO : MonoBehaviour
 			Destroy(this.gameObject);
 		else
 			m_Instance = this;
-		CreateDirectory();
+		//CreateDirectory();
 	}
 
-	private void CreateDirectory()
-	{
-		if (!Directory.Exists(Application.streamingAssetsPath + "/LeaderBoard"))
-		{
-			Directory.CreateDirectory(Application.streamingAssetsPath + "/LeaderBoard");
-		}
-	}
+	//private void CreateDirectory()
+	//{
+	//	if (!Directory.Exists(Application.streamingAssetsPath + "/LeaderBoard"))
+	//	{
+	//		Directory.CreateDirectory(Application.streamingAssetsPath + "/LeaderBoard");
+	//	}
+	//}
 
-	public void SaveLeaderBoard(LeaderBoard leaderBoard)
-	{
-		string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoard.dat";
-		BinaryFormatter formatter = new BinaryFormatter();
-		FileStream stream = new FileStream(path, FileMode.Create);
+	//public void SaveLeaderBoard(LeaderBoard leaderBoard)
+	//{
+	//	string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoard.dat";
+	//	BinaryFormatter formatter = new BinaryFormatter();
+	//	FileStream stream = new FileStream(path, FileMode.Create);
 
-		formatter.Serialize(stream, leaderBoard);
-		stream.Close();
-	}
+	//	formatter.Serialize(stream, leaderBoard);
+	//	stream.Close();
+	//}
 
-	public LeaderBoard LoadLeaderBoard()
-	{
-		string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoard.dat";
-		if (File.Exists(path))
-		{
-			BinaryFormatter formatter = new BinaryFormatter();
-			FileStream stream = new FileStream(path, FileMode.Open);
+	//public LeaderBoard LoadLeaderBoard()
+	//{
+	//	string path = Application.streamingAssetsPath + "/LeaderBoard/LeaderBoard.dat";
+	//	if (File.Exists(path))
+	//	{
+	//		BinaryFormatter formatter = new BinaryFormatter();
+	//		FileStream stream = new FileStream(path, FileMode.Open);
 
-			LeaderBoard leaderBoard = formatter.Deserialize(stream) as LeaderBoard;
+	//		LeaderBoard leaderBoard = formatter.Deserialize(stream) as LeaderBoard;
 
-			Debug.Log("Loading LeaderBoard" + path);
-			stream.Close();
-			return leaderBoard;
-		}
+	//		Debug.Log("Loading LeaderBoard" + path);
+	//		stream.Close();
+	//		return leaderBoard;
+	//	}
 
-		else
-		{
-			Debug.Log("LeaderBoard doesn't exist at: " + path);
-			return null;
-		}
-	}
+	//	else
+	//	{
+	//		Debug.Log("LeaderBoard doesn't exist at: " + path);
+	//		return null;
+	//	}
+	//}
 }
 

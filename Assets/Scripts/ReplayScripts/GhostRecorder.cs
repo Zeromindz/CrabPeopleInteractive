@@ -66,6 +66,8 @@ public class GhostRecorder : MonoBehaviour
     public void ResetData()
     {
         path.Clear();
+        timer = 0;
+        timevalue = 0;
     }
 
     /// <summary>
@@ -88,6 +90,12 @@ public class GhostRecorder : MonoBehaviour
 
     }
 
+    public void ResetAndStopRecording()
+    {
+        StopRecording();
+        ResetData();
+
+    }
     /// <summary>
     /// Clled when saving the ghostspath -> GetPath function is referenced when saving now
     /// </summary>
